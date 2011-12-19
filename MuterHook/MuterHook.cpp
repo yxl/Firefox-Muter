@@ -2,6 +2,11 @@
 #include "ThTypes.h"
 #include "ApiHooks.h"
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif				/* __cplusplus */
+
 HINSTANCE g_hInstance = NULL;
 HANDLE g_hSyncMutex = 0;
 
@@ -55,3 +60,7 @@ BOOL APIENTRY DllMain (HINSTANCE hInst     /* Library instance handle. */ ,
     /* Returns TRUE on success, FALSE on failure */
     return TRUE;
 }
+
+#ifdef __cplusplus
+}
+#endif				/* __cplusplus */
