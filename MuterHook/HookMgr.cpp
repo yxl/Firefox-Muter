@@ -1,5 +1,7 @@
+#include "ThTypes.h"
 #include "HookMgr.h"
 #include "HookImportFunction.h"
+#include <tlhelp32.h>
 
 HookMgr::HookMgr(void)
 {
@@ -9,60 +11,127 @@ HookMgr::~HookMgr(void)
 {
 }
 
-BOOL HookMgr::InstallHook( LPCSTR szImportModule, LPCSTR szFunc, PROC pHookFunc, PROC* ppOrigFunc )
+void HookMgr::InstallHookForAllModules(LPCSTR szImportModule, LPCSTR szFunc, PROC pHookFunc)
 {
-  
-  HookItem* pItem = new HookItem(szImportModule, szFunc, pHookFunc);
-  BOOL bOK = HookAPI(pItem->szImportModule, pItem->szFunc, pItem->pHookFunc, &(pItem->pOrigFunc));
-  if (bOK)
-  {
-    *ppOrigFunc = pItem->pOrigFunc;
-  }
-  m_items.insert(pair<PROC, HookItem*>(pItem->pOrigFunc, pItem));
-  return TRUE;
+	HANDLE hSnapshot;
+	MODULEENTRY32 me = {sizeof(MODULEENTRY32)};
+
+	hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE,0);
+
+	BOOL bOk = Module32First(hSnapshot,&me);
+	while (bOk) 
+	{
+		// We don't hook functions in our own module
+		if (strcmp(me.szModule, DLL_NAME) != 0)
+		{
+			InstallHookForOneModule(me.hModule, szImportModule, szFunc, pHookFunc);
+		}
+		bOk = Module32Next(hSnapshot,&me);
+	}
 }
 
-BOOL HookMgr::UpdateAllHooksForNewModule(HMODULE hModule, DWORD dwFlags)
+void HookMgr::InstallHookForOneModule( HMODULE hModule, LPCSTR szImportModule, LPCSTR szFunc, PROC pHookFunc )
 {
-  if ((hModule != NULL) && ((dwFlags & LOAD_LIBRARY_AS_DATAFILE) == 0)) 
-  {
-    for (HookMap::iterator iter = m_items.begin(); iter != m_items.end(); iter++)
-    {
-      char szName[MAX_PATH];
-      if (GetModuleFileNameA(hModule, szName,MAX_PATH) == 0)
-        continue;
+	HookItem* pItem = new HookItem(hModule, szImportModule, szFunc, pHookFunc);
+	if (!HookImportFunction(hModule, szImportModule, szFunc, pHookFunc, &pItem->pOrigFunc))
+	{
+		delete pItem;
+		return;
+	}
 
-      HookItem* pItem = iter->second;
-      if (strcmp(szName, pItem->szImportModule) != 0)
-        continue;
-      PROC pOrigFunc = NULL;
-      HookImportFunction(hModule, pItem->szImportModule, pItem->szFunc, pItem->pHookFunc, &pItem->pOrigFunc);
-    }
-  }
-  return TRUE;
+	HookMap* pHookMap = NULL;
+	ModuleMap::iterator moduleIter = m_modules.find(hModule);
+	if (moduleIter == m_modules.end()) 
+	{
+		pHookMap = new HookMap();
+		m_modules.insert(pair<HMODULE, HookMap*>(hModule, pHookMap));
+	}
+	else
+	{
+		pHookMap = moduleIter->second;
+	}
+	pHookMap->insert(pair<PROC, HookItem*>(pItem->pOrigFunc, pItem));
+	m_originalFunctions.insert(pair<PROC, PROC>(pItem->pHookFunc, pItem->pOrigFunc));
 }
 
-BOOL HookMgr::ClearAllHooks()
+void HookMgr::ClearAllHooks()
 {
-  while(m_items.size() > 0)
-  {
-    HookMap::iterator iter = m_items.begin();
-    HookItem* pItem = iter->second;
-    if (pItem->pOrigFunc && !HookAPI(pItem->szImportModule, pItem->szFunc, pItem->pOrigFunc, NULL))
-    {
-      return FALSE;
-    }
-    delete pItem;
-  }
-  return TRUE;
+	//
+	// Uninstall the existing modules' hooks
+	//
+
+	HANDLE hSnapshot;
+	MODULEENTRY32 me = {sizeof(MODULEENTRY32)};
+
+	hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE,0);
+
+	BOOL bOk = Module32First(hSnapshot,&me);
+	while (bOk) 
+	{
+		// We don't hook functions in our own module
+		if (strcmp(me.szModule, DLL_NAME) != 0)
+		{
+			UnInstallAllHooksForOneModule(me.hModule);
+		}
+		bOk = Module32Next(hSnapshot,&me);
+	}
+
+	//
+	// Clear invalid modules' hooks
+	//
+
+	while (m_modules.size() > 0)
+	{
+		HookMap* pHookMap = m_modules.begin()->second;
+		while (pHookMap->size() > 0)
+		{
+			HookItem* pItem = pHookMap->begin()->second;
+			pHookMap->erase(pHookMap->begin());
+			delete pItem;
+		}
+		m_modules.erase(m_modules.begin());
+		delete pHookMap;
+	}
 }
 
-HookItem* HookMgr::FindHookByOrignalFunc( PROC paOrigFunc )
+void HookMgr::UnInstallAllHooksForOneModule( HMODULE hModule )
 {
-  HookMap::iterator iter = m_items.find(paOrigFunc);
-  if (iter != m_items.end()) 
-  {
-    return iter->second;
-  }
-  return NULL;
+	ModuleMap::iterator moduleIter = m_modules.find(hModule);
+	if (moduleIter == m_modules.end())
+		return;
+	HookMap* pHookMap = moduleIter->second;
+	while (pHookMap->size() > 0)
+	{
+		HookItem* pItem = pHookMap->begin()->second;
+		HookImportFunction(pItem->hModule, pItem->szImportModule, pItem->szFunc, pItem->pOrigFunc, NULL);
+		pHookMap->erase(pHookMap->begin());
+		delete pItem;
+	}
+	m_modules.erase(moduleIter);
+	delete pHookMap;
+}
+
+HookItem* HookMgr::FindHook(HMODULE hModule, PROC pOrigFunc)
+{
+	ModuleMap::iterator moduleIter = m_modules.find(hModule);
+	if (moduleIter != m_modules.end())
+	{
+		HookMap* pHookMap = moduleIter->second;
+		HookMap::iterator iter = pHookMap->find(pOrigFunc);
+		if (iter != pHookMap->end()) 
+		{
+			return iter->second;
+		}
+	}
+	return NULL;
+}
+
+PROC HookMgr::GetOriginalFunc( PROC pHook )
+{
+	map<PROC, PROC>::iterator iter = m_originalFunctions.find(pHook);
+	if (iter != m_originalFunctions.end())
+	{
+		return iter->second;
+	}
+	return NULL;
 }

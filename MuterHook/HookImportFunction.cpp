@@ -99,37 +99,3 @@ BOOL HookImportFunction(HMODULE hModule, LPCSTR szImportModule, LPCSTR szFunc, P
 	}
 	return FALSE;
 }
-
-BOOL HookAPI(LPCSTR szImportModule, LPCSTR szFunc, PROC pHookFunc, PROC* ppOrigFunc)
-{
-	HANDLE hSnapshot;
-	MODULEENTRY32 me = {sizeof(MODULEENTRY32)};
-	BOOL bOk;
-
-	if ((szImportModule == NULL) || (szFunc == NULL)) {
-		return FALSE;
-	}
-	
-	hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE,0);
-	
-	bOk = Module32First(hSnapshot,&me);
-  PROC pOrigFunc = NULL;
-	while (bOk) 
-  {
-    PROC tmp = NULL;
-		if (HookImportFunction(me.hModule, szImportModule, szFunc, pHookFunc, &tmp))
-    {
-      pOrigFunc = tmp;
-    }
-		bOk = Module32Next(hSnapshot,&me);
-	}
-  if (pOrigFunc != NULL)
-  {
-    * ppOrigFunc = pOrigFunc;
-	  return TRUE;
-  }
-  else
-  {
-    return FALSE;
-  }
-}
