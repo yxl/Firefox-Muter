@@ -1,0 +1,9 @@
+content	muter	chrome/content/
+skin    muter classic/1.0   chrome/skin/
+resource  muter modules/
+
+overlay	chrome://browser/content/browser.xul	chrome://muter/content/overlay.xul
+
+locale	muter	en-US	chrome/locale/en-US/
+locale	muter	zh-CN	chrome/locale/zh-CN/
+locale	muter	zh-TW	chrome/locale/zh-TW/

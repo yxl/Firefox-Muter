@@ -1,0 +1,40 @@
+﻿<?xml version="1.0"?>
+<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+<Description about="urn:mozilla:install-manifest">
+  
+  <em:id>muter@yxl.name</em:id>
+  <em:name>Muter</em:name>
+  <em:version>0.1</em:version>
+  <em:description>Let you to mute the Firefox browser.</em:description> 
+  <em:creator>Yuan Xulei</em:creator> 
+  <em:homepageURL></em:homepageURL>
+  <em:iconURL>chrome://muter/skin/icon.png</em:iconURL>
+  <em:unpack>true</em:unpack>
+  
+  <!-- Firefox -->
+  <em:targetApplication>
+    <Description>
+      <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+      <em:minVersion>6.0</em:minVersion>
+      <em:maxVersion>9.*</em:maxVersion>
+    </Description>
+  </em:targetApplication>
+
+  <em:localized>
+    <Description>
+      <em:locale>zh-CN</em:locale>
+      <em:name>静音</em:name>
+      <em:description>提供浏览器静音功能</em:description>
+    </Description>
+  </em:localized>
+  
+  <em:localized>
+    <Description>
+      <em:locale>zh-TW</em:locale>
+      <em:name>靜音</em:name>
+      <em:description>提供瀏覽器靜音功能</em:description>
+    </Description>
+  </em:localized>
+
+</Description>
+</RDF> 

@@ -1,0 +1,149 @@
+* { padding: 0; margin: 0; border: 0 none; }
+li { list-style: none; }
+a { text-decoration: none; }
+
+body{
+	font-size: 12px;
+	background: url('/static/special/baixue/images/bg.png') repeat-x #BADDA4;
+	color: #3287A3; 
+}
+div#container {
+	background: url('/static/special/baixue/images/banner.jpg') no-repeat top center;
+	min-height: 715px;
+	padding-top: 350px;
+}
+a#linktocommunity {
+	display: block;
+	position: absolute;
+	width: 100%;
+	height: 200px;
+	top: 0;
+}
+div#content{
+	width: 760px;
+	margin: 0 auto;
+	background: rgba(255,255,255,0.3);
+	-moz-border-radius: 5px;
+	padding: 5px 10px;
+}
+div#content-left {
+	width: 500px;
+	float: left;
+	margin-bottom: 20px;
+}
+
+#audioBox {
+	width: 300px;
+	margin: 0px 10px 10px;
+	position: relative;
+}
+#audioBox>div {
+	padding:5px;
+	background: url('/static/special/baixue/images/audio_bg.png') no-repeat;
+	width: 446px;
+	height: 62px;
+}
+#audioBox div a { float: left; margin-top: 10px; }
+#audioBox div a:first-child { margin-left: 27px; }
+#audioBox div a:last-child { margin-left: 255px; }
+#audioBox span { 
+	color: #FFFFFF;
+    font-size: 15px;
+    font-weight: bold;
+    left: 140px;
+    position: absolute;
+    top: 22px;
+	width: 240px;
+}
+
+#videoBox {
+	background: url('/static/special/baixue/images/video_bg.png') no-repeat;
+	width: 460px;
+	height: 359px;
+}
+#videoBox video {
+	margin: 54px 0 0 66px;
+}
+
+.cb{
+	border: 2px solid #CAECF6;
+	-moz-border-radius: 10px;
+	background: rgba(255,255,255,0.3);
+}
+
+#comments { width: 480px; }
+#comments ul {
+	margin: 10px 10px 0;
+	padding: 10px 20px;
+	height: 230px;
+	overflow: auto;
+	background: #fff;
+}
+#comments li { line-height: 1.8em; vertical-align: bottom; }
+.id { color: red; font-weight: bold;}
+.date { color: #4C7CC8; }
+.comment { width: 320px; }
+#comments p {
+	padding: 10px 10px;
+	background: #fff;
+	margin: 0 10px 10px; 
+}
+#comments p a { text-decoration: underline; color: #3287A3; }
+
+div#content-right {
+	width: 240px;
+	margin-left: 510px;
+	padding-top: 130px;
+	margin-bottom: 10px; 
+}
+div#profile{ padding: 10px; margin-bottom: 20px; }
+div#base_info {
+	background: url('/static/special/baixue/images/avatar.jpg') no-repeat top left;
+	padding-left: 65px;
+	min-height: 80px;
+}
+div#profile h3 { font-size: 16px; margin: 10px 0 5px; }
+div#profile p { font-size: 13px; line-height: 1.5em; }
+div#profile ul li { font-size: 13px; line-height: 1.5em; }
+div#profile #more_info { margin-top: 10px; }
+
+.button { 
+	background-color:#A8D6E5;
+	-moz-border-radius:5px 5px 5px 5px;
+	-moz-box-shadow:0 1px 2px rgba(0, 0, 0, 0.5);
+	border-bottom:1px solid rgba(0, 0, 0, 0.25);
+	display:block;
+	padding:3px 0;
+	width:200px;
+	font-size: 15px;
+	font-weight: bold;
+	text-align: center;
+	cursor: pointer;
+	margin: 10px 0; 
+	color: #3287A3;
+}
+.button:hover { -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.75); }
+
+div#content-bottom {
+	clear: both;
+	padding: 10px;
+	width: 700px;
+}
+div#content-bottom img { margin-left: 5px; }
+
+div#footer {
+	margin: 30px auto;
+	width: 760px;
+}
+div#footer p, div#footer a { color: #333; }
+
+p.dl {
+	margin-bottom: 30px;
+	margin-left: 30px;
+	font-size: 13px;
+	width: 400px;
+}
+p.dl a {
+	color: #3287A3;
+	text-decoration: underline;
+}

@@ -1,0 +1,14 @@
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+#muter-toolbar-palette-button {
+  width: 24px;
+  height: 24px;
+}
+
+#muter-toolbar-palette-button[mute="enabled"]  {
+  list-style-image: url("chrome://muter/skin/mute_enabled.png");
+}
+
+#muter-toolbar-palette-button[mute="disabled"]  {
+  list-style-image: url("chrome://muter/skin/mute_disabled.png");
+}
