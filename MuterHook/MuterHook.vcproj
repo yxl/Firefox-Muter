@@ -302,6 +302,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\dsound.h"
+				>
+			</File>
+			<File
 				RelativePath="HookImportFunction.h"
 				>
 			</File>
@@ -311,6 +315,10 @@
 			</File>
 			<File
 				RelativePath=".\MuterHook.h"
+				>
+			</File>
+			<File
+				RelativePath=".\mydsound.h"
 				>
 			</File>
 			<File

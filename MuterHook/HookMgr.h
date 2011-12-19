@@ -15,24 +15,25 @@ public:
   // Function to be hooked
   LPSTR szFunc;
   // Hook function
-  PROC paHookFunc;
+  PROC pHookFunc;
   // Original function
-  PROC paOrigFunc;
+  PROC pOrigFunc;
 
   HookItem()
   {
     szImportModule = NULL;
     szFunc = NULL;
-    paHookFunc = NULL;
-    paOrigFunc = NULL;
+    pHookFunc = NULL;
+    pOrigFunc = NULL;
+
   }
 
-  HookItem(LPCSTR szModule, LPCSTR szFunc, PROC paHookFunc, PROC paOrigFunc = NULL)
+  HookItem(LPCSTR szModule, LPCSTR szFunc, PROC pHookFunc, PROC pOrigFunc = NULL)
   {
     this->szImportModule = newAndCopyString(szModule);
     this->szFunc = newAndCopyString(szFunc);
-    this->paHookFunc = paHookFunc;
-    this->paOrigFunc = paOrigFunc;
+    this->pHookFunc = pHookFunc;
+    this->pOrigFunc = pOrigFunc;
   }
 
   ~HookItem()
@@ -72,6 +73,8 @@ public:
   ~HookMgr(void);
 
   BOOL InstallHook(LPCSTR szImportModule, LPCSTR szFunc, PROC paHookFunc, PROC* paOrigFunc);
+
+  BOOL UpdateAllHooksForNewModule(HMODULE hModule, DWORD dwFlags);
 
   BOOL ClearAllHooks();
 

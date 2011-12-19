@@ -16,6 +16,8 @@ DLLIMPORT void EnableMute(BOOL bEnabled);
 
 DLLIMPORT BOOL IsMuteEnabled();
 
+extern HINSTANCE g_hInstance;
+
 #ifdef __cplusplus
 }
 #endif				/* __cplusplus */

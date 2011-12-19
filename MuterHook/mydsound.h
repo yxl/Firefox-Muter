@@ -1,8 +1,7 @@
 #ifndef APIHOOK_MYDSOUND_H_
 #define APIHOOK_MYDSOUND_H_
-
-#include <dsound.h>
-
+#include "dsound.h"
+#include "ThTypes.h"
 
 // it's a wapper of IDirectSoundBuffer interface for mute some audio
 // played by dsound
@@ -71,7 +70,7 @@ class MyDirectSoundBuffer : public IDirectSoundBuffer {
   }
   STDMETHOD(Unlock)               (THIS_ __in_bcount(dwAudioBytes1) LPVOID pvAudioPtr1, DWORD dwAudioBytes1,
     __in_bcount_opt(dwAudioBytes2) LPVOID pvAudioPtr2, DWORD dwAudioBytes2) {
-      if (g_browser_mute) {
+      if (GlobalData && GlobalData->bMute) {
         if (pvAudioPtr1) {
           memset(pvAudioPtr1, 0, dwAudioBytes1);
         }
@@ -108,7 +107,6 @@ class MyDirectSound : public IDirectSound {
   STDMETHOD(CreateSoundBuffer)    (THIS_ __in LPCDSBUFFERDESC pcDSBufferDesc, __deref_out LPDIRECTSOUNDBUFFER *ppDSBuffer, __null LPUNKNOWN pUnkOuter) {
     HRESULT hr = direct_sound_->CreateSoundBuffer(pcDSBufferDesc, ppDSBuffer, pUnkOuter);
     if (SUCCEEDED(hr)) {
-      g_log.WriteLog("msg", "CreateSoundBuffer Success");
       MyDirectSoundBuffer* p = new MyDirectSoundBuffer;
       p->directsound_buffer_ = *ppDSBuffer;
       *ppDSBuffer = p;
@@ -157,7 +155,6 @@ class MyDirectSound8 : public IDirectSound8 {
   STDMETHOD(CreateSoundBuffer)    (THIS_ __in LPCDSBUFFERDESC pcDSBufferDesc, __deref_out LPDIRECTSOUNDBUFFER *ppDSBuffer, __null LPUNKNOWN pUnkOuter) {
     HRESULT hr = direct_sound_->CreateSoundBuffer(pcDSBufferDesc, ppDSBuffer, pUnkOuter);
     if (SUCCEEDED(hr)) {
-      g_log.WriteLog("msg", "CreateSoundBuffer Success");
       MyDirectSoundBuffer* p = new MyDirectSoundBuffer;
       p->directsound_buffer_ = *ppDSBuffer;
       *ppDSBuffer = p;

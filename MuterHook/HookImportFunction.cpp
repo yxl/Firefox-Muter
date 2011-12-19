@@ -47,7 +47,7 @@ static BOOL IsNT()
 	return (VER_PLATFORM_WIN32_NT == stOSVI.dwPlatformId);
 }
 
-static BOOL HookImportFunction(HMODULE hModule, LPCSTR szImportModule, LPCSTR szFunc, PROC paHookFuncs, PROC* paOrigFuncs)
+BOOL HookImportFunction(HMODULE hModule, LPCSTR szImportModule, LPCSTR szFunc, PROC pHookFunc, PROC* ppOrigFunc)
 {
 	PIMAGE_IMPORT_DESCRIPTOR pImportDesc;
 	PIMAGE_THUNK_DATA pOrigThunk;
@@ -77,7 +77,7 @@ static BOOL HookImportFunction(HMODULE hModule, LPCSTR szImportModule, LPCSTR sz
 			}
 			bDoHook = FALSE;
 			if ((szFunc[0] == pByName->Name[0]) && (_strcmpi(szFunc, (char*)pByName->Name) == 0)) {
-				if (paHookFuncs)
+				if (pHookFunc)
 					bDoHook = TRUE;
 			}
 			if (bDoHook) {
@@ -86,9 +86,9 @@ static BOOL HookImportFunction(HMODULE hModule, LPCSTR szImportModule, LPCSTR sz
 
 				VirtualQuery(pRealThunk, &mbi_thunk, sizeof(MEMORY_BASIC_INFORMATION));
 				VirtualProtect(mbi_thunk.BaseAddress, mbi_thunk.RegionSize, PAGE_READWRITE, &mbi_thunk.Protect);
-				if (paOrigFuncs)
-					*paOrigFuncs = (PROC)pRealThunk->u1.Function;
-				pRealThunk->u1.Function = (DWORD)paHookFuncs;
+				if (ppOrigFunc)
+					*ppOrigFunc = (PROC)pRealThunk->u1.Function;
+				pRealThunk->u1.Function = (DWORD)pHookFunc;
 
 				VirtualProtect(mbi_thunk.BaseAddress, mbi_thunk.RegionSize, mbi_thunk.Protect, &dwOldProtect);
 				return TRUE;
@@ -100,7 +100,7 @@ static BOOL HookImportFunction(HMODULE hModule, LPCSTR szImportModule, LPCSTR sz
 	return FALSE;
 }
 
-BOOL HookAPI(LPCSTR szImportModule, LPCSTR szFunc, PROC paHookFuncs, PROC* paOrigFuncs)
+BOOL HookAPI(LPCSTR szImportModule, LPCSTR szFunc, PROC pHookFunc, PROC* ppOrigFunc)
 {
 	HANDLE hSnapshot;
 	MODULEENTRY32 me = {sizeof(MODULEENTRY32)};
@@ -113,9 +113,23 @@ BOOL HookAPI(LPCSTR szImportModule, LPCSTR szFunc, PROC paHookFuncs, PROC* paOri
 	hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE,0);
 	
 	bOk = Module32First(hSnapshot,&me);
-	while (bOk) {
-		HookImportFunction(me.hModule, szImportModule, szFunc, paHookFuncs, paOrigFuncs);
+  PROC pOrigFunc = NULL;
+	while (bOk) 
+  {
+    PROC tmp = NULL;
+		if (HookImportFunction(me.hModule, szImportModule, szFunc, pHookFunc, &tmp))
+    {
+      pOrigFunc = tmp;
+    }
 		bOk = Module32Next(hSnapshot,&me);
 	}
-	return TRUE;
+  if (pOrigFunc != NULL)
+  {
+    * ppOrigFunc = pOrigFunc;
+	  return TRUE;
+  }
+  else
+  {
+    return FALSE;
+  }
 }
