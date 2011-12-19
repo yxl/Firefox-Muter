@@ -6,8 +6,10 @@
 
 using namespace std;
 
-struct HookItem 
+class HookItem 
 {
+public:
+
   // DLL file name
   LPSTR szImportModule;
   // Function to be hooked
@@ -17,7 +19,6 @@ struct HookItem
   // Original function
   PROC paOrigFunc;
 
-public:
   HookItem()
   {
     szImportModule = NULL;
@@ -25,7 +26,44 @@ public:
     paHookFunc = NULL;
     paOrigFunc = NULL;
   }
+
+  HookItem(LPCSTR szModule, LPCSTR szFunc, PROC paHookFunc, PROC paOrigFunc = NULL)
+  {
+    this->szImportModule = newAndCopyString(szModule);
+    this->szFunc = newAndCopyString(szFunc);
+    this->paHookFunc = paHookFunc;
+    this->paOrigFunc = paOrigFunc;
+  }
+
+  ~HookItem()
+  {
+    SafeDeleteString(szImportModule);
+    SafeDeleteString(szFunc);
+  }
+
+private:
+  static void SafeDeleteString(char* str)
+  {
+    if (str)
+    {
+      delete[] str;
+    }
+  }
+
+  static char* newAndCopyString(LPCTSTR str) 
+  {
+    char* pResult = NULL;
+    if (str != NULL)
+    {
+      int len = strlen(str);
+      pResult = new char[len + 1];
+      strcpy_s(pResult, len+1, str);
+    }
+    return pResult;
+  }
 };
+
+typedef map<PROC, HookItem*> HookMap;
 
 class HookMgr
 {
@@ -35,10 +73,12 @@ public:
 
   BOOL InstallHook(LPCSTR szImportModule, LPCSTR szFunc, PROC paHookFunc, PROC* paOrigFunc);
 
-  BOOL ClearAllHooks(); 
+  BOOL ClearAllHooks();
 
-  const HookItem* FindHookByOrignalFunc(PROC paOrigFunc);
+  int GetHookCount() const { m_items.size(); }
 
-private: 
-  map<PROC, const HookItem*> m_items;
+  HookItem* FindHookByOrignalFunc(PROC paOrigFunc);
+
+private:   
+  HookMap m_items;
 };

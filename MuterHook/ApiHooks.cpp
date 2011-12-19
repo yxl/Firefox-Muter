@@ -1,7 +1,11 @@
+#include <windows.h>
+
 #include "ThTypes.h"
 #include "ApiHooks.h"
 #include "HookImportFunction.h"
-#include <windows.h>
+#include "HookMgr.h"
+
+HookMgr g_hookMgr = HookMgr();
 
 //
 // Function pointers for basic hooks
@@ -80,27 +84,11 @@ void UnInstallBasicHooks()
 
 void InstallMuterHooks()
 {
-  BOOL bOK = FALSE;
-  if (waveOutWrite_next == NULL) 
-  {
-	  bOK = HookAPI("winmm.dll", "waveOutWrite", (PROC)waveOutWrite_hook, (PROC*)&waveOutWrite_next);
-  }
-  if (midiStreamOut_next == NULL)
-  {
-    bOK = HookAPI("winmm.dll", "midiStreamOut", (PROC)midiStreamOut_hook, (PROC*)&midiStreamOut_next);
-  }
+  g_hookMgr.InstallHook("winmm.dll", "waveOutWrite", (PROC)waveOutWrite_hook, (PROC*)&waveOutWrite_next);
+  g_hookMgr.InstallHook("winmm.dll", "midiStreamOut", (PROC)midiStreamOut_hook, (PROC*)&midiStreamOut_next);
 }
 
 void UnInstallMuterHooks()
 {
-  BOOL bOK = FALSE;
-	if (midiStreamOut_next)
-  {
-		bOK = HookAPI("winmm.dll", "midiStreamOut", (PROC)midiStreamOut_next, NULL);
-    if (bOK)
-    {
-    }
-  }
-	if (waveOutWrite_next)
-		HookAPI("winmm.dll", "waveOutWrite", (PROC)waveOutWrite_next, NULL);;
+  g_hookMgr.ClearAllHooks();
 }
