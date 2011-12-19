@@ -88,4 +88,5 @@ private:
 	ModuleMap m_modules;
 	map<PROC, PROC> m_originalFunctions;
 
+	CRITICAL_SECTION m_cs;
 };

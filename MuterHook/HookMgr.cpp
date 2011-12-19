@@ -5,6 +5,7 @@
 
 HookMgr::HookMgr(void)
 {
+	InitializeCriticalSection(&m_cs);
 }
 
 HookMgr::~HookMgr(void)
@@ -32,26 +33,32 @@ void HookMgr::InstallHookForAllModules(LPCSTR szImportModule, LPCSTR szFunc, PRO
 
 void HookMgr::InstallHookForOneModule( HMODULE hModule, LPCSTR szImportModule, LPCSTR szFunc, PROC pHookFunc )
 {
+	EnterCriticalSection(&m_cs);
+
 	HookItem* pItem = new HookItem(hModule, szImportModule, szFunc, pHookFunc);
 	if (!HookImportFunction(hModule, szImportModule, szFunc, pHookFunc, &pItem->pOrigFunc))
 	{
 		delete pItem;
-		return;
+	}
+	else 
+	{
+
+		HookMap* pHookMap = NULL;
+		ModuleMap::iterator moduleIter = m_modules.find(hModule);
+		if (moduleIter == m_modules.end()) 
+		{
+			pHookMap = new HookMap();
+			m_modules.insert(pair<HMODULE, HookMap*>(hModule, pHookMap));
+		}
+		else
+		{
+			pHookMap = moduleIter->second;
+		}
+		pHookMap->insert(pair<PROC, HookItem*>(pItem->pOrigFunc, pItem));
+		m_originalFunctions.insert(pair<PROC, PROC>(pItem->pHookFunc, pItem->pOrigFunc));
 	}
 
-	HookMap* pHookMap = NULL;
-	ModuleMap::iterator moduleIter = m_modules.find(hModule);
-	if (moduleIter == m_modules.end()) 
-	{
-		pHookMap = new HookMap();
-		m_modules.insert(pair<HMODULE, HookMap*>(hModule, pHookMap));
-	}
-	else
-	{
-		pHookMap = moduleIter->second;
-	}
-	pHookMap->insert(pair<PROC, HookItem*>(pItem->pOrigFunc, pItem));
-	m_originalFunctions.insert(pair<PROC, PROC>(pItem->pHookFunc, pItem->pOrigFunc));
+	LeaveCriticalSection(&m_cs);
 }
 
 void HookMgr::ClearAllHooks()
@@ -92,10 +99,14 @@ void HookMgr::ClearAllHooks()
 		m_modules.erase(m_modules.begin());
 		delete pHookMap;
 	}
+
+	LeaveCriticalSection(&m_cs);
 }
 
 void HookMgr::UnInstallAllHooksForOneModule( HMODULE hModule )
 {
+	EnterCriticalSection(&m_cs);
+
 	ModuleMap::iterator moduleIter = m_modules.find(hModule);
 	if (moduleIter == m_modules.end())
 		return;
@@ -113,6 +124,10 @@ void HookMgr::UnInstallAllHooksForOneModule( HMODULE hModule )
 
 HookItem* HookMgr::FindHook(HMODULE hModule, PROC pOrigFunc)
 {
+	EnterCriticalSection(&m_cs);
+
+	HookItem* pItem = NULL;
+
 	ModuleMap::iterator moduleIter = m_modules.find(hModule);
 	if (moduleIter != m_modules.end())
 	{
@@ -120,18 +135,28 @@ HookItem* HookMgr::FindHook(HMODULE hModule, PROC pOrigFunc)
 		HookMap::iterator iter = pHookMap->find(pOrigFunc);
 		if (iter != pHookMap->end()) 
 		{
-			return iter->second;
+			pItem = iter->second;
 		}
 	}
-	return NULL;
+
+	LeaveCriticalSection(&m_cs);
+
+	return pItem;
 }
 
 PROC HookMgr::GetOriginalFunc( PROC pHook )
 {
+	EnterCriticalSection(&m_cs);
+
+	PROC result = NULL;
+
 	map<PROC, PROC>::iterator iter = m_originalFunctions.find(pHook);
 	if (iter != m_originalFunctions.end())
 	{
-		return iter->second;
+		result =  iter->second;
 	}
-	return NULL;
+
+	LeaveCriticalSection(&m_cs);
+
+	return result;
 }
