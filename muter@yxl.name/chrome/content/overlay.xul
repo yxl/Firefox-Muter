@@ -8,7 +8,10 @@
 
   <script type="application/x-javascript" src="chrome://muter/content/overlay.js"/>
   <popupset id="mainPopupSet">
-    <panel id="muter-popup" mute="disabled" type="arrow" align="start">
+    <panel id="muter-popup-init" type="arrow" align="start">
+      <label id="muter-label-init" value="&muter-popup.init;"/>
+    </panel>
+    <panel id="muter-popup" mute="enabled" type="arrow" align="start">
       <hbox>
         <image/>
         <label id="muter-label-enabled" value="&muter-popup.enabled;"/>
