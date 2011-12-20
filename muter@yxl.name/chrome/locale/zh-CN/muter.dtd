@@ -1,4 +1,5 @@
 <!ENTITY muter-button.label "静音控制">
 <!ENTITY muter-button.tooltip "切换静音状态">
+<!ENTITY muter-popup.init "快速切换静音状态">
 <!ENTITY muter-popup.enabled "声音已禁用">
 <!ENTITY muter-popup.disabled "声音已启用">
