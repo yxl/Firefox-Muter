@@ -82,11 +82,14 @@ public:
 	void ClearAllHooks();
 
 	HookItem* FindHook(HMODULE hModule, PROC pOrigFunc);
-  PROC FindOriginalFunc(HMODULE hModule, PROC pHook);
+	
+	PROC FindOriginalFunc(HMODULE hModule, PROC pHook);
+	
+	BOOL IsModuleHooked(HMODULE hModule);
 private:   
 	void UnInstallAllHooksForOneModule(HMODULE hModule);
 	ModuleMap m_modulesByOriginalFunc;
-  ModuleMap m_modulesByHookFunc;
+	ModuleMap m_modulesByHookFunc;
 	map<PROC, PROC> m_originalFunctions;
 
 	CRITICAL_SECTION m_cs;

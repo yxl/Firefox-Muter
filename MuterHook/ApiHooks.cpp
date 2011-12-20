@@ -330,6 +330,11 @@ void UnInstallMuterHooks()
 
 void InstallHooksForNewModule(HMODULE hModule)
 {
+	if (g_hookMgr.IsModuleHooked(hModule))
+	{
+		return;
+	}
+
 	// Basic function hooks
 	g_hookMgr.InstallHookForOneModule(hModule, "Kernel32.dll", "GetProcAddress", (PROC)GetProcAddress_hook);
 	g_hookMgr.InstallHookForOneModule(hModule, "Kernel32.dll", "LoadLibraryA", (PROC)LoadLibraryA_hook);
