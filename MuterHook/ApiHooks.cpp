@@ -12,11 +12,22 @@ HookMgr g_hookMgr = HookMgr();
 
 void InstallHooksForNewModule(HMODULE hModule);
 
-HMODULE GetModule() 
+HMODULE WINAPI ModuleFromAddress(PVOID pv)
 {
-	MEMORY_BASIC_INFORMATION mbi;
-	return((VirtualQuery(InstallHooksForNewModule, &mbi, sizeof(mbi)) != 0) 
-		? (HMODULE) mbi.AllocationBase : NULL);
+  MEMORY_BASIC_INFORMATION mbi;
+  if(::VirtualQuery(pv, &mbi, sizeof(mbi)) != 0)
+  {
+    return (HMODULE)mbi.AllocationBase;
+  }
+  else
+  {
+    return NULL;
+  }
+}
+
+HMODULE GetThisModule() 
+{
+  return ModuleFromAddress(InstallHooksForNewModule);
 }
 
 //
@@ -43,7 +54,7 @@ HMODULE WINAPI LoadLibraryA_hook(PCSTR pszModulePath)
 	HMODULE hmod = ::LoadLibraryA(pszModulePath);
 	if (strstr(pszModulePath, DLL_NAME) != NULL)
 		return hmod;
-	if (hmod != GetModule())
+	if (hmod != GetThisModule())
 		InstallHooksForNewModule(hmod);
 	return(hmod);
 }
@@ -55,7 +66,7 @@ HMODULE WINAPI LoadLibraryW_hook(PCWSTR pszModulePath)
 	HMODULE hmod = ::LoadLibraryW(pszModulePath);
 	if (wcsstr(pszModulePath, DLL_NAME_WIDE) != NULL)
 		return hmod;
-	if (hmod != GetModule())
+	if (hmod != GetThisModule())
 		InstallHooksForNewModule(hmod);
 	return(hmod);
 }
@@ -67,7 +78,7 @@ HMODULE WINAPI LoadLibraryExA_hook(PCSTR pszModulePath,
 								   HANDLE hFile, DWORD dwFlags) 
 {
 	HMODULE hmod = ::LoadLibraryExA(pszModulePath, hFile, dwFlags);
-	if (hmod != GetModule() && (dwFlags & LOAD_LIBRARY_AS_DATAFILE) == 0)
+	if (hmod != GetThisModule() && (dwFlags & LOAD_LIBRARY_AS_DATAFILE) == 0)
 		InstallHooksForNewModule(hmod);
 	return(hmod);
 }
@@ -78,7 +89,7 @@ HMODULE WINAPI LoadLibraryExW_hook(PCWSTR pszModulePath,
 								   HANDLE hFile, DWORD dwFlags) 
 {
 	HMODULE hmod = ::LoadLibraryExW(pszModulePath, hFile, dwFlags);
-	if (hmod != GetModule() && (dwFlags & LOAD_LIBRARY_AS_DATAFILE) == 0)
+	if (hmod != GetThisModule() && (dwFlags & LOAD_LIBRARY_AS_DATAFILE) == 0)
 		InstallHooksForNewModule(hmod);
 	return(hmod);
 }
@@ -96,7 +107,7 @@ BOOL WINAPI InjectIntoProcess(HANDLE hprocess) {
 
 	if (!g_hInstance)
 	{
-		g_hInstance = GetModule();
+		g_hInstance = GetThisModule();
 	}
 	GetModuleFileName(g_hInstance, dllpath, MAX_PATH);
 	if (!WriteProcessMemory(hprocess, memory_pointer, dllpath, 
@@ -198,6 +209,11 @@ typedef MMRESULT (WINAPI *waveOutWrite_t)(HWAVEOUT hwo, LPWAVEHDR pwh, UINT cbwh
 
 MMRESULT WINAPI waveOutWrite_hook(HWAVEOUT hwo, LPWAVEHDR pwh, UINT cbwh) 
 {
+  DWORD dwCaller;
+  __asm push dword ptr [ebp+4]
+  __asm pop  dword ptr [dwCaller] 
+  HMODULE hModule = ModuleFromAddress((PVOID)dwCaller);
+
   if (GlobalData)
   {
     GlobalData->lLastSoundPlayingTimeInSeconds = (LONG)time(NULL);
@@ -207,7 +223,7 @@ MMRESULT WINAPI waveOutWrite_hook(HWAVEOUT hwo, LPWAVEHDR pwh, UINT cbwh)
 		memset(pwh->lpData, 0 , pwh->dwBufferLength);
 	}
 
-	waveOutWrite_t waveOutWrite_next = (waveOutWrite_t)g_hookMgr.GetOriginalFunc((PROC)waveOutWrite_hook);
+	waveOutWrite_t waveOutWrite_next = (waveOutWrite_t)g_hookMgr.FindOriginalFunc(hModule, (PROC)waveOutWrite_hook);
 	return waveOutWrite_next(hwo, pwh, cbwh);
 }
 
@@ -215,6 +231,12 @@ typedef BOOL (WINAPI *midiStreamOut_t)(HMIDISTRM hms, LPMIDIHDR pmh, UINT cbmh);
 
 MMRESULT WINAPI midiStreamOut_hook(HMIDISTRM hms, LPMIDIHDR pmh, UINT cbmh) 
 {
+
+  DWORD dwCaller;
+  __asm push dword ptr [ebp+4]
+  __asm pop  dword ptr [dwCaller] 
+  HMODULE hModule = ModuleFromAddress((PVOID)dwCaller);
+
   if (GlobalData)
   {
     GlobalData->lLastSoundPlayingTimeInSeconds = (LONG)time(NULL);
@@ -224,7 +246,7 @@ MMRESULT WINAPI midiStreamOut_hook(HMIDISTRM hms, LPMIDIHDR pmh, UINT cbmh)
 		memset(pmh->lpData, 0 , pmh->dwBufferLength);
 	}
 
-	midiStreamOut_t midiStreamOut_next = (midiStreamOut_t)g_hookMgr.GetOriginalFunc((PROC)midiStreamOut_hook);
+	midiStreamOut_t midiStreamOut_next = (midiStreamOut_t)g_hookMgr.FindOriginalFunc(hModule, (PROC)midiStreamOut_hook);
 	return midiStreamOut_next(hms, pmh, cbmh);
 }
 
@@ -237,7 +259,12 @@ HRESULT WINAPI DirectSoundCreate_hook(LPCGUID pcGuidDevice,
 									  LPDIRECTSOUND *ppDS, 
 									  LPUNKNOWN pUnkOuter) 
 {
-	DirectSoundCreate_t DirectSoundCreate_next = (DirectSoundCreate_t)g_hookMgr.GetOriginalFunc((PROC)DirectSoundCreate_hook);
+  DWORD dwCaller;
+  __asm push dword ptr [ebp+4]
+  __asm pop  dword ptr [dwCaller] 
+  HMODULE hModule = ModuleFromAddress((PVOID)dwCaller);
+
+	DirectSoundCreate_t DirectSoundCreate_next = (DirectSoundCreate_t)g_hookMgr.FindOriginalFunc(hModule, (PROC)DirectSoundCreate_hook);
 
 	HRESULT hr = DirectSoundCreate_next(pcGuidDevice, ppDS, pUnkOuter);
 
@@ -259,7 +286,12 @@ HRESULT WINAPI DirectSoundCreate8_hook(LPCGUID pcGuidDevice,
 									   LPDIRECTSOUND8 *ppDS, 
 									   LPUNKNOWN pUnkOuter) 
 {
-	DirectSoundCreate8_t DirectSoundCreate8_next = (DirectSoundCreate8_t)g_hookMgr.GetOriginalFunc((PROC)DirectSoundCreate8_hook);
+  DWORD dwCaller;
+  __asm push dword ptr [ebp+4]
+  __asm pop  dword ptr [dwCaller] 
+  HMODULE hModule = ModuleFromAddress((PVOID)dwCaller);
+
+	DirectSoundCreate8_t DirectSoundCreate8_next = (DirectSoundCreate8_t)g_hookMgr.FindOriginalFunc(hModule, (PROC)DirectSoundCreate8_hook);
 
 	HRESULT hr = DirectSoundCreate8_next(pcGuidDevice, ppDS, pUnkOuter);
 

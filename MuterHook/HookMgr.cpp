@@ -42,20 +42,32 @@ void HookMgr::InstallHookForOneModule( HMODULE hModule, LPCSTR szImportModule, L
 	}
 	else 
 	{
-
-		HookMap* pHookMap = NULL;
-		ModuleMap::iterator moduleIter = m_modules.find(hModule);
-		if (moduleIter == m_modules.end()) 
+    ModuleMap::iterator iter;
+		HookMap* pHookMapByOriginalFunc = NULL;
+		iter = m_modulesByOriginalFunc.find(hModule);
+		if (iter == m_modulesByOriginalFunc.end()) 
 		{
-			pHookMap = new HookMap();
-			m_modules.insert(pair<HMODULE, HookMap*>(hModule, pHookMap));
+			pHookMapByOriginalFunc = new HookMap();
+			m_modulesByOriginalFunc.insert(pair<HMODULE, HookMap*>(hModule, pHookMapByOriginalFunc));
 		}
 		else
 		{
-			pHookMap = moduleIter->second;
+			pHookMapByOriginalFunc = iter->second;
 		}
-		pHookMap->insert(pair<PROC, HookItem*>(pItem->pOrigFunc, pItem));
-		m_originalFunctions.insert(pair<PROC, PROC>(pItem->pHookFunc, pItem->pOrigFunc));
+		pHookMapByOriginalFunc->insert(pair<PROC, HookItem*>(pItem->pOrigFunc, pItem));
+
+    HookMap* pHookMapByHookFunc = NULL;
+    iter = m_modulesByHookFunc.find(hModule);
+    if (iter == m_modulesByHookFunc.end()) 
+    {
+      pHookMapByHookFunc = new HookMap();
+      m_modulesByHookFunc.insert(pair<HMODULE, HookMap*>(hModule, pHookMapByHookFunc));
+    }
+    else
+    {
+      pHookMapByHookFunc = iter->second;
+    }
+		pHookMapByHookFunc->insert(pair<PROC, HookItem*>(pItem->pHookFunc, pItem));
 	}
 
 	LeaveCriticalSection(&m_cs);
@@ -87,16 +99,16 @@ void HookMgr::ClearAllHooks()
 	// Clear invalid modules' hooks
 	//
 
-	while (m_modules.size() > 0)
+	while (m_modulesByOriginalFunc.size() > 0)
 	{
-		HookMap* pHookMap = m_modules.begin()->second;
+		HookMap* pHookMap = m_modulesByOriginalFunc.begin()->second;
 		while (pHookMap->size() > 0)
 		{
 			HookItem* pItem = pHookMap->begin()->second;
 			pHookMap->erase(pHookMap->begin());
 			delete pItem;
 		}
-		m_modules.erase(m_modules.begin());
+		m_modulesByOriginalFunc.erase(m_modulesByOriginalFunc.begin());
 		delete pHookMap;
 	}
 
@@ -107,8 +119,8 @@ void HookMgr::UnInstallAllHooksForOneModule( HMODULE hModule )
 {
 	EnterCriticalSection(&m_cs);
 
-	ModuleMap::iterator moduleIter = m_modules.find(hModule);
-	if (moduleIter == m_modules.end())
+	ModuleMap::iterator moduleIter = m_modulesByOriginalFunc.find(hModule);
+	if (moduleIter == m_modulesByOriginalFunc.end())
 		return;
 	HookMap* pHookMap = moduleIter->second;
 	while (pHookMap->size() > 0)
@@ -118,7 +130,7 @@ void HookMgr::UnInstallAllHooksForOneModule( HMODULE hModule )
 		pHookMap->erase(pHookMap->begin());
 		delete pItem;
 	}
-	m_modules.erase(moduleIter);
+	m_modulesByOriginalFunc.erase(moduleIter);
 	delete pHookMap;
 }
 
@@ -128,8 +140,8 @@ HookItem* HookMgr::FindHook(HMODULE hModule, PROC pOrigFunc)
 
 	HookItem* pItem = NULL;
 
-	ModuleMap::iterator moduleIter = m_modules.find(hModule);
-	if (moduleIter != m_modules.end())
+	ModuleMap::iterator moduleIter = m_modulesByOriginalFunc.find(hModule);
+	if (moduleIter != m_modulesByOriginalFunc.end())
 	{
 		HookMap* pHookMap = moduleIter->second;
 		HookMap::iterator iter = pHookMap->find(pOrigFunc);
@@ -144,19 +156,29 @@ HookItem* HookMgr::FindHook(HMODULE hModule, PROC pOrigFunc)
 	return pItem;
 }
 
-PROC HookMgr::GetOriginalFunc( PROC pHook )
+PROC HookMgr::FindOriginalFunc(HMODULE hModule, PROC pHook)
 {
-	EnterCriticalSection(&m_cs);
+  EnterCriticalSection(&m_cs);
 
-	PROC result = NULL;
+  HookItem* pItem = NULL;
 
-	map<PROC, PROC>::iterator iter = m_originalFunctions.find(pHook);
-	if (iter != m_originalFunctions.end())
-	{
-		result =  iter->second;
-	}
+  ModuleMap::iterator moduleIter = m_modulesByHookFunc.find(hModule);
+  if (moduleIter != m_modulesByHookFunc.end())
+  {
+    HookMap* pHookMap = moduleIter->second;
+    HookMap::iterator iter = pHookMap->find(pHook);
+    if (iter != pHookMap->end()) 
+    {
+      pItem = iter->second;
+    }
+  }
 
-	LeaveCriticalSection(&m_cs);
+  PROC pOrigFunc = NULL;
+  if (pItem) 
+  {
+    pOrigFunc = pItem->pOrigFunc;
+  }
+  LeaveCriticalSection(&m_cs);
 
-	return result;
+  return pOrigFunc;
 }
