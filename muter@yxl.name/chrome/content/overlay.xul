@@ -3,14 +3,27 @@
  
 <!DOCTYPE overlay SYSTEM "chrome://muter/locale/muter.dtd">
 <overlay id="muter-overlay"
-		xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" 
-    xmlns:html="http://www.w3.org/1999/xhtml">
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" 
+         xmlns:html="http://www.w3.org/1999/xhtml">
 
   <script type="application/x-javascript" src="chrome://muter/content/overlay.js"/>
-  
-  <!-- addon bar button -->
-	<toolbarpalette id="BrowserToolbarPalette">
-		<toolbarbutton id="muter-toolbar-palette-button" mute="disabled" oncommand="muter.switchStatus()"/>
-	</toolbarpalette>
+  <popupset id="mainPopupSet">
+    <panel id="muter-popup" mute="disabled" type="arrow" align="start">
+      <hbox>
+        <image/>
+        <label id="muter-label-enabled" value="&muter-popup.enabled;"/>
+        <label id="muter-label-disabled" value="&muter-popup.disabled;"/>
+      </hbox>
+    </panel>
+  </popupset>
+  <toolbarpalette id="BrowserToolbarPalette">
+    <toolbarbutton id="muter-toolbar-palette-button"
+                   class="toolbarbutton-1 chromeclass-toolbar-additional"
+                   mute="disabled"
+                   oncommand="muter.switchStatus()"
+                   popup="muter-popup"
+                   label="&muter-button.label;"
+                   tooltiptext="&muter-button.tooltip;"/>
+  </toolbarpalette>
   
 </overlay>

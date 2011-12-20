@@ -1,0 +1,4 @@
+<!ENTITY muter-button.label "Mute">
+<!ENTITY muter-button.tooltip "Switch mute status">
+<!ENTITY muter-popup.enabled "Muted">
+<!ENTITY muter-popup.disabled "Sound Enabled">

@@ -25,26 +25,30 @@ var muter = {
     if (btn) {
       btn.setAttribute("mute", (shouldMute ? "enabled" : "disabled"));
     }
+    let panel = document.getElementById("muter-popup");
+    if (panel) {
+      panel.setAttribute("mute", (shouldMute ? "enabled" : "disabled"));
+    }
   },
   
   /** Add the muter button to the addon bar */
   setupAddonBar: function() {
-		var addonbar = window.document.getElementById("addon-bar");
-		let curSet = addonbar.currentSet;
-		if (-1 == curSet.indexOf("muter-toolbar-palette-button")){
-			let newSet = curSet + ",muter-toolbar-palette-button";
-			addonbar.currentSet = newSet;
-			addonbar.setAttribute("currentset", newSet);
-			document.persist(addonbar.id, "currentset");
-			try{
-				BrowserToolboxCustomizeDone(true);
-			}catch(e){}
-			if (addonbar.getAttribute("collapsed") == "true") {
-				addonbar.setAttribute("collapsed", "false");
-			}
-			document.persist(addonbar.id, "collapsed");
-		}
-	},
+    var addonbar = window.document.getElementById("addon-bar");
+    let curSet = addonbar.currentSet;
+    if (-1 == curSet.indexOf("muter-toolbar-palette-button")){
+      let newSet = curSet + ",muter-toolbar-palette-button";
+      addonbar.currentSet = newSet;
+      addonbar.setAttribute("currentset", newSet);
+      document.persist(addonbar.id, "currentset");
+      try{
+        BrowserToolboxCustomizeDone(true);
+      }catch(e){}
+      if (addonbar.getAttribute("collapsed") == "true") {
+        addonbar.setAttribute("collapsed", "false");
+      }
+      document.persist(addonbar.id, "collapsed");
+    }
+  },
 }
 
 window.addEventListener("load", muter.init, false);

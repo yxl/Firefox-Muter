@@ -3,6 +3,7 @@ skin    muter classic/1.0   chrome/skin/
 resource  muter modules/
 
 overlay	chrome://browser/content/browser.xul	chrome://muter/content/overlay.xul
+style	chrome://global/content/customizeToolbar.xul	chrome://muter/skin/overlay.css
 
 component {F9F38A8B-99B3-4CBC-87BF-3C9CFF16A013} components/FirefoxObserver.js
 contract @yxl.name/muter/startup;1 {F9F38A8B-99B3-4CBC-87BF-3C9CFF16A013}
