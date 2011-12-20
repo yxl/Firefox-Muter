@@ -9,6 +9,9 @@ var jsm = {};
 Cu.import("resource://gre/modules/Services.jsm", jsm);
 Cu.import("resource://gre/modules/ctypes.jsm", jsm);
 
+var observerService = Components.classes["@mozilla.org/observer-service;1"]
+                  .getService(Components.interfaces.nsIObserverService);
+
 var muterHook = {
   _EnableMute:    null,
   _IsMuteEnabled:  null,
@@ -49,6 +52,7 @@ var muterHook = {
   enableMute: function(isEnabled) {
     var enableParam = isEnabled ? 1 : 0;
     this._EnableMute(enableParam);
+    observerService.notifyObservers(null, "muter-status-changed", null);
   },
   
   isMuteEnabled: function() {
