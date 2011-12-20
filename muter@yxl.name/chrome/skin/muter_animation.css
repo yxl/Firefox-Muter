@@ -1,0 +1,22 @@
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+#muter-toolbar-palette-button[mute="enabled"]  {
+  list-style-image: url("chrome://muter/skin/mute_enabled.png");
+}
+
+#muter-toolbar-palette-button[mute="disabled"]  {
+  list-style-image: url("chrome://muter/skin/mute_disabled.png");
+}
+
+#muter-popup[mute="enabled"] > hbox > image {
+  list-style-image: url("chrome://muter/skin/mute_enabled_animation.gif");
+}
+
+#muter-popup[mute="disabled"] > hbox > image {
+  list-style-image: url("chrome://muter/skin/mute_disabled_animation.gif");
+}
+
+#muter-popup[mute="enabled"] > hbox > #muter-label-disabled,
+#muter-popup[mute="disabled"] > hbox > #muter-label-enabled {
+  display: none;
+}

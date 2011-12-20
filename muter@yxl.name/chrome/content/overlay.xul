@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<?xml-stylesheet href="chrome://muter/skin/muter.css" type="text/css"?>
+<?xml-stylesheet href="chrome://muter/skin/muter_animation.css" type="text/css"?>
  
 <!DOCTYPE overlay SYSTEM "chrome://muter/locale/muter.dtd">
 <overlay id="muter-overlay"
