@@ -14,6 +14,7 @@ extern "C"
 	typedef struct TGlobalDLLData 
 	{
 		BOOL bMute;
+    LONG lLastSoundPlayingTimeInSeconds;
 	} TGlobalDLLData;
 
 	extern TGlobalDLLData *GlobalData;

@@ -16,6 +16,8 @@ DLLIMPORT void EnableMute(BOOL bEnabled);
 
 DLLIMPORT BOOL IsMuteEnabled();
 
+DLLIMPORT LONG GetLastSoundPlayingTimeInSeconds();
+
 extern HINSTANCE g_hInstance;
 
 #ifdef __cplusplus

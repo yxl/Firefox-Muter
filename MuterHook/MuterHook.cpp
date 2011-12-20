@@ -29,6 +29,18 @@ extern "C"
 	}
 
 
+  /*DLLIMPORT*/ LONG GetLastSoundPlayingTimeInSeconds()
+  {
+    LONG time = -1;
+    if (GlobalData)
+    {
+      time = GlobalData->lLastSoundPlayingTimeInSeconds; 
+    }
+    return time;
+  }
+
+
+
 	BOOL APIENTRY DllMain (HINSTANCE hInst     /* Library instance handle. */ ,
 		DWORD reason        /* Reason this function is being called. */ ,
 		LPVOID reserved     /* Not used. */ )

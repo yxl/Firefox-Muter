@@ -12,6 +12,7 @@ void ThTypes_Init()
 	if (GlobalData) 
 	{
 		GlobalData->bMute = FALSE;
+    GlobalData->lLastSoundPlayingTimeInSeconds = -1;
 	}
 }
 
@@ -20,6 +21,7 @@ void ThTypes_End()
 	if (GlobalData) 
 	{
 		GlobalData->bMute = FALSE;
+    GlobalData->lLastSoundPlayingTimeInSeconds = -1;
 		UnmapViewOfFile(GlobalData);
 		GlobalData = NULL;
 	}

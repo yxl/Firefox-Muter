@@ -70,6 +70,10 @@ class MyDirectSoundBuffer : public IDirectSoundBuffer {
   }
   STDMETHOD(Unlock)               (THIS_ __in_bcount(dwAudioBytes1) LPVOID pvAudioPtr1, DWORD dwAudioBytes1,
     __in_bcount_opt(dwAudioBytes2) LPVOID pvAudioPtr2, DWORD dwAudioBytes2) {
+      if (GlobalData)
+      {
+        GlobalData->lLastSoundPlayingTimeInSeconds = (LONG)time(NULL);
+      }
       if (GlobalData && GlobalData->bMute) {
         if (pvAudioPtr1) {
           memset(pvAudioPtr1, 0, dwAudioBytes1);
