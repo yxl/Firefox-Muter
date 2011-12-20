@@ -8,6 +8,7 @@ var muter = (function(){
 
   var muter = {
     _muterObserver: null,
+    _autoHideTimeoutId: null,
 
     init: function(event) {
       window.removeEventListener("load", muter.init, false);
@@ -59,9 +60,13 @@ var muter = (function(){
 
     setAutoHide: function(panel, timeout) {	
       panel.addEventListener('popupshown', function() {
-        window.setTimeout(function() {
+        muter._autoHideTimeoutId = window.setTimeout(function() {
           panel.hidePopup();
-      }, timeout);
+        }, timeout);
+      }, false);
+      
+      panel.addEventListener('popuphidden', function() {
+        window.clearTimeout(muter._autoHideTimeoutId);
       }, false);
     },
 
