@@ -8,9 +8,6 @@
 
   <script type="application/x-javascript" src="chrome://muter/content/overlay.js"/>
   
-  <!-- muter plug-in -->
-  <html:embed id="muter-plugin" type="application/muter" hidden='true' width='0' height='0'/>
-	
   <!-- addon bar button -->
 	<toolbarpalette id="BrowserToolbarPalette">
 		<toolbarbutton id="muter-toolbar-palette-button" mute="disabled" oncommand="muter.switchStatus()"/>

@@ -11,10 +11,10 @@
  * for the specific language governing rights and limitations under the
  * License.
  *
- * The Original Code is FirefoxSyncEasySetupDemo.
+ * The Original Code is Firefox Muter.
  *
  * The Initial Developer of the Original Code is
- * the Mozilla Foundation.
+ * the Mozilla Online.
  * Portions created by the Initial Developer are Copyright (C) 2011
  * the Initial Developer. All Rights Reserved.
  *

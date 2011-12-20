@@ -9,13 +9,11 @@ var muter = {
 
   init: function(event) {
     window.removeEventListener("load", muter.init, false);
-    muterHook.open();
     muter.setupAddonBar();
   },
 
   destroy: function(event) {
     window.removeEventListener("unload", muter.destroy, false);
-    muterHook.close();
   },
 
   switchStatus: function(event) {
