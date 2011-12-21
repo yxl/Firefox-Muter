@@ -16,6 +16,8 @@ var muter = (function(){
       muter.setupAddonBar();
       muter.setAutoHide(document.getElementById('muter-popup-init'), 3000);
       muter.setAutoHide(document.getElementById('muter-popup'), 3000);
+      
+      muter.updateUI();
 
       muter._muterObserver = new MuterObserver();
       muter._muterObserver.register();
@@ -30,8 +32,6 @@ var muter = (function(){
     switchStatus: function(event) {
       let shouldMute = !muterHook.isMuteEnabled();
       muterHook.enableMute(shouldMute);
-
-      this.updateUI();
     },
 
     /** Add the muter button to the addon bar */
