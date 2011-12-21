@@ -3,8 +3,9 @@
  */
 var muter = (function(){
   let jsm = {};
+  Components.utils["import"]("resource://gre/modules/Services.jsm", jsm);
   Components.utils["import"]("resource://muter/muterHook.jsm", jsm);
-  let { muterHook } = jsm;
+  let { Services, muterHook } = jsm;
 
   var muter = {
     _muterObserver: null,
@@ -35,6 +36,10 @@ var muter = (function(){
 
     /** Add the muter button to the addon bar */
     setupAddonBar: function() {
+      var buttonInstalled = Services.prefs.getBoolPref('extensions.firefox-muter.button-installed');
+      if (buttonInstalled) {
+        return;
+      }
       var addonbar = window.document.getElementById("addon-bar");
       let curSet = addonbar.currentSet;
       if (-1 == curSet.indexOf("muter-toolbar-palette-button")){
@@ -55,16 +60,18 @@ var muter = (function(){
         if (initpanel && btn) {
           initpanel.openPopup(btn, "topcenter bottomright");
         }
+
+        Services.prefs.setBoolPref('extensions.firefox-muter.button-installed', true);
       }
     },
 
-    setAutoHide: function(panel, timeout) {	
+    setAutoHide: function(panel, timeout) {
       panel.addEventListener('popupshown', function() {
         muter._autoHideTimeoutId = window.setTimeout(function() {
           panel.hidePopup();
         }, timeout);
       }, false);
-      
+
       panel.addEventListener('popuphidden', function() {
         window.clearTimeout(muter._autoHideTimeoutId);
       }, false);
@@ -78,7 +85,7 @@ var muter = (function(){
       if (btn) {
         btn.setAttribute("mute", (isMuted ? "enabled" : "disabled"));
       }
-      
+
       // Changes the button popup tips
       let panel = document.getElementById("muter-popup");
       if (panel) {
@@ -95,15 +102,11 @@ var muter = (function(){
       muter.updateUI();
     },
     register: function() {
-      var observerService = Components.classes["@mozilla.org/observer-service;1"]
-                            .getService(Components.interfaces.nsIObserverService);
-      observerService.addObserver(this, "muter-status-changed", false);
+      Services.obs.addObserver(this, "muter-status-changed", false);
     },
 
     unregister: function() {
-      var observerService = Components.classes["@mozilla.org/observer-service;1"]
-                            .getService(Components.interfaces.nsIObserverService);
-      observerService.removeObserver(this, "muter-status-changed");
+      Services.obs.removeObserver(this, "muter-status-changed");
     }
   }
 
