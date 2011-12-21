@@ -10,6 +10,7 @@
   <em:homepageURL></em:homepageURL>
   <em:iconURL>chrome://muter/skin/icon.png</em:iconURL>
   <em:unpack>true</em:unpack>
+  <em:targetPlatform>WINNT_x86-msvc</em:targetPlatform>
   
   <!-- Firefox -->
   <em:targetApplication>
