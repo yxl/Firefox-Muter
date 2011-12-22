@@ -13,15 +13,10 @@
   width: 48px;
 }
 
-#muter-popup[mute="enabled"] > hbox > image {
+#muter-popup-image-enabled{
   list-style-image: url("chrome://muter/skin/mute_enabled_big.png");
 }
 
-#muter-popup[mute="disabled"] > hbox > image {
+#muter-popup-image-disabled {
   list-style-image: url("chrome://muter/skin/mute_disabled_big.png");
-}
-
-#muter-popup[mute="enabled"] > hbox > #muter-label-disabled,
-#muter-popup[mute="disabled"] > hbox > #muter-label-enabled {
-  display: none;
 }

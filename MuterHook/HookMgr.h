@@ -75,8 +75,6 @@ public:
 	HookMgr(void);
 	~HookMgr(void);
 
-	void InstallHookForAllModules(LPCSTR szImportModule, LPCSTR szFunc, PROC pHookFunc);
-
 	void InstallHookForOneModule(HMODULE hModule, LPCSTR szImportModule, LPCSTR szFunc, PROC pHookFunc);
 
 	void ClearAllHooks();
@@ -84,13 +82,16 @@ public:
 	HookItem* FindHook(HMODULE hModule, PROC pOrigFunc);
 	
 	PROC FindOriginalFunc(HMODULE hModule, PROC pHook);
-	
+
 	BOOL IsModuleHooked(HMODULE hModule);
 private:   
 	void UnInstallAllHooksForOneModule(HMODULE hModule);
+
+	// Map used to find the Original Function by its hooked function and module.
 	ModuleMap m_modulesByOriginalFunc;
+
+	// Map used to find the Hooked Function by its original function and module.
 	ModuleMap m_modulesByHookFunc;
-	map<PROC, PROC> m_originalFunctions;
 
 	CRITICAL_SECTION m_cs;
 };

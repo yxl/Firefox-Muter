@@ -229,6 +229,30 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\BasicHooks.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\DllEntry.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath=".\HookImportFunction.cpp"
 				>
 				<FileConfiguration
@@ -253,24 +277,12 @@
 				>
 			</File>
 			<File
-				RelativePath=".\MuterHook.cpp"
+				RelativePath=".\SDKTrace.cpp"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\SoundHooks.cpp"
+				>
 			</File>
 			<File
 				RelativePath=".\ThTypes.cpp"
@@ -302,7 +314,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\BasicHooks.h"
+				>
+			</File>
+			<File
+				RelativePath=".\DllEntry.h"
+				>
+			</File>
+			<File
 				RelativePath=".\dsound.h"
+				>
+			</File>
+			<File
+				RelativePath=".\HookedDsound.h"
 				>
 			</File>
 			<File
@@ -314,11 +338,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\MuterHook.h"
+				RelativePath=".\SDKTrace.h"
 				>
 			</File>
 			<File
-				RelativePath=".\mydsound.h"
+				RelativePath=".\SoundHooks.h"
 				>
 			</File>
 			<File

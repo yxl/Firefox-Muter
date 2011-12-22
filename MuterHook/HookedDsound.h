@@ -1,11 +1,16 @@
-#ifndef APIHOOK_MYDSOUND_H_
-#define APIHOOK_MYDSOUND_H_
+#pragma once
+#include <time.h>
+
 #include "dsound.h"
 #include "ThTypes.h"
 
+/**
+ * The original code comes from  Chrome Toolbox project(http://code.google.com/p/chrome-toolbox/)
+ */
+
 // it's a wapper of IDirectSoundBuffer interface for mute some audio
 // played by dsound
-class MyDirectSoundBuffer : public IDirectSoundBuffer {
+class HookedDirectSoundBuffer : public IDirectSoundBuffer {
   // IUnknown methods
   STDMETHOD(QueryInterface)       (THIS_ __in REFIID iid, __deref_out LPVOID* lpout) {
     return directsound_buffer_->QueryInterface(iid, lpout);
@@ -94,7 +99,7 @@ public:
 
 // it's a wapper of IDirectSound interface for mute some audio
 // played by dsound
-class MyDirectSound : public IDirectSound {
+class HookedDirectSound : public IDirectSound {
 
   // IUnknown methods
   STDMETHOD(QueryInterface)       (THIS_ __in REFIID iid, __deref_out LPVOID* lpout) {
@@ -111,7 +116,7 @@ class MyDirectSound : public IDirectSound {
   STDMETHOD(CreateSoundBuffer)    (THIS_ __in LPCDSBUFFERDESC pcDSBufferDesc, __deref_out LPDIRECTSOUNDBUFFER *ppDSBuffer, __null LPUNKNOWN pUnkOuter) {
     HRESULT hr = direct_sound_->CreateSoundBuffer(pcDSBufferDesc, ppDSBuffer, pUnkOuter);
     if (SUCCEEDED(hr)) {
-      MyDirectSoundBuffer* p = new MyDirectSoundBuffer;
+      HookedDirectSoundBuffer* p = new HookedDirectSoundBuffer;
       p->directsound_buffer_ = *ppDSBuffer;
       *ppDSBuffer = p;
     }
@@ -143,7 +148,7 @@ public:
   IDirectSound* direct_sound_;
 };
 
-class MyDirectSound8 : public IDirectSound8 {
+class HookedDirectSound8 : public IDirectSound8 {
   // IUnknown methods
   STDMETHOD(QueryInterface)       (THIS_ __in REFIID iid, __deref_out LPVOID* lpout) {
     return direct_sound_->QueryInterface(iid, lpout);
@@ -159,7 +164,7 @@ class MyDirectSound8 : public IDirectSound8 {
   STDMETHOD(CreateSoundBuffer)    (THIS_ __in LPCDSBUFFERDESC pcDSBufferDesc, __deref_out LPDIRECTSOUNDBUFFER *ppDSBuffer, __null LPUNKNOWN pUnkOuter) {
     HRESULT hr = direct_sound_->CreateSoundBuffer(pcDSBufferDesc, ppDSBuffer, pUnkOuter);
     if (SUCCEEDED(hr)) {
-      MyDirectSoundBuffer* p = new MyDirectSoundBuffer;
+      HookedDirectSoundBuffer* p = new HookedDirectSoundBuffer;
       p->directsound_buffer_ = *ppDSBuffer;
       *ppDSBuffer = p;
     }
@@ -196,5 +201,3 @@ public:
   IDirectSound8* direct_sound_;
 
 };
-
-#endif

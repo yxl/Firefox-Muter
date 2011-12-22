@@ -3,9 +3,6 @@
 
 #include <windows.h>
 
-#define DLL_NAME "MuterHook.dll"
-#define DLL_NAME_WIDE L"MuterHook.dll"
-
 #ifdef __cplusplus
 extern "C"
 {

@@ -1,5 +1,5 @@
-#include "MuterHook.h"
 #include "ThTypes.h"
+#include "DllEntry.h"
 #include "ApiHooks.h"
 
 #ifdef __cplusplus
@@ -8,7 +8,6 @@ extern "C"
 #endif				/* __cplusplus */
 
 	HINSTANCE g_hInstance = NULL;
-	HANDLE g_hSyncMutex = 0;
 
 	/*DLLIMPORT*/ void EnableMute(BOOL bEnabled)
 	{
@@ -16,6 +15,7 @@ extern "C"
 		{
 			GlobalData->bMute = bEnabled;
 		}
+		InjectAllProcess();
 	}
 
 	/*DLLIMPORT*/ BOOL IsMuteEnabled()
@@ -29,16 +29,15 @@ extern "C"
 	}
 
 
-  /*DLLIMPORT*/ LONG GetLastSoundPlayingTimeInSeconds()
-  {
-    LONG time = -1;
-    if (GlobalData)
-    {
-      time = GlobalData->lLastSoundPlayingTimeInSeconds; 
-    }
-    return time;
-  }
-
+	/*DLLIMPORT*/ LONG GetLastSoundPlayingTimeInSeconds()
+	{
+		LONG time = -1;
+		if (GlobalData)
+		{
+			time = GlobalData->lLastSoundPlayingTimeInSeconds; 
+		}
+		return time;
+	}
 
 
 	BOOL APIENTRY DllMain (HINSTANCE hInst     /* Library instance handle. */ ,
@@ -49,15 +48,11 @@ extern "C"
 		{
 		case DLL_PROCESS_ATTACH:
 			g_hInstance = hInst;
-			g_hSyncMutex = CreateMutex(NULL, FALSE, "muter@yxl.name");
 			ThTypes_Init();
 			InstallMuterHooks();
 			break;
 
 		case DLL_PROCESS_DETACH:
-			WaitForSingleObject(g_hSyncMutex, INFINITE);
-			ReleaseMutex(g_hSyncMutex);
-			CloseHandle(g_hSyncMutex);
 			UnInstallMuterHooks();
 			ThTypes_End();
 			break;

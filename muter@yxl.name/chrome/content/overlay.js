@@ -1,6 +1,41 @@
-/**
- * @author  Yuan Xulei <hi@yxl.name>
- */
+/* ***** BEGIN LICENSE BLOCK *****
+ * Version: MPL 1.1/GPL 2.0/LGPL 2.1
+ *
+ * The contents of this file are subject to the Mozilla Public License Version
+ * 1.1 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ * http://www.mozilla.org/MPL/
+ *
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ * for the specific language governing rights and limitations under the
+ * License.
+ *
+ * The Original Code is Firefox Muter.
+ *
+ * The Initial Developer of the Original Code is
+ * the Mozilla Online.
+ * Portions created by the Initial Developer are Copyright (C) 2011
+ * the Initial Developer. All Rights Reserved.
+ *
+ * Contributor(s):
+ *  Yuan Xulei <xyuan@mozilla.com>
+ *  Hector Zhao <bzhao@mozilla.com>
+ *
+ * Alternatively, the contents of this file may be used under the terms of
+ * either the GNU General Public License Version 2 or later (the "GPL"), or
+ * the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
+ * in which case the provisions of the GPL or the LGPL are applicable instead
+ * of those above. If you wish to allow use of your version of this file only
+ * under the terms of either the GPL or the LGPL, and not to allow others to
+ * use your version of this file under the terms of the MPL, indicate your
+ * decision by deleting the provisions above and replace them with the notice
+ * and other provisions required by the GPL or the LGPL. If you do not delete
+ * the provisions above, a recipient may use your version of this file under
+ * the terms of any one of the MPL, the GPL or the LGPL.
+ *
+ * ***** END LICENSE BLOCK ***** */
+
 var muter = (function(){
   let jsm = {};
   Components.utils["import"]("resource://gre/modules/Services.jsm", jsm);
@@ -8,14 +43,16 @@ var muter = (function(){
   let { Services, muterHook } = jsm;
 
   var muter = {
+    // Monitors the mute status and updates the UI
     _muterObserver: null,
+    
+    // Timer to hide the button popup
     _autoHideTimeoutId: null,
 
     init: function(event) {
       window.removeEventListener("load", muter.init, false);
-      muter.setupAddonBar();
-      muter.setAutoHide(document.getElementById('muter-popup-init'), 3000);
-      muter.setAutoHide(document.getElementById('muter-popup'), 3000);
+      muter._setupAddonBar();
+      muter._setupPopups();
       
       muter.updateUI();
 
@@ -33,13 +70,36 @@ var muter = (function(){
       let shouldMute = !muterHook.isMuteEnabled();
       muterHook.enableMute(shouldMute);
     },
+    
+    updateUI: function() {
+      let isMuted = muterHook.isMuteEnabled();
 
-    /** Add the muter button to the addon bar */
-    setupAddonBar: function() {
+      // Changes the button status icon
+      let btn = document.getElementById("muter-toolbar-palette-button");
+      if (btn) {
+        btn.setAttribute("mute", (isMuted ? "enabled" : "disabled"));
+      }
+
+      // Changes the button popup content
+      let popupMuteEnabled = document.getElementById("muter-popup-mute-enabled");
+      if (popupMuteEnabled) {
+        popupMuteEnabled.hidden = !isMuted;
+      }
+      let popupMuteDisabled = document.getElementById("muter-popup-mute-disabled");
+      if (popupMuteDisabled) {
+        popupMuteDisabled.hidden = isMuted;
+      }      
+    },
+
+    /** Move the muter button to the addon bar */
+    _setupAddonBar: function() {
+      // Check if we have already made it.
       var buttonInstalled = Services.prefs.getBoolPref('extensions.firefox-muter.button-installed');
       if (buttonInstalled) {
         return;
       }
+ 
+      // Move the muter button to the addon bar
       var addonbar = window.document.getElementById("addon-bar");
       let curSet = addonbar.currentSet;
       if (-1 == curSet.indexOf("muter-toolbar-palette-button")){
@@ -60,42 +120,39 @@ var muter = (function(){
         if (initpanel && btn) {
           initpanel.openPopup(btn, "topcenter bottomright");
         }
-
-        Services.prefs.setBoolPref('extensions.firefox-muter.button-installed', true);
       }
+      
+      Services.prefs.setBoolPref('extensions.firefox-muter.button-installed', true);
     },
-
-    setAutoHide: function(panel, timeout) {
+    
+    _setupPopups: function() {
+      // muter introduction popup
+      this._setAutoHide(document.getElementById('muter-popup-init'), 3000);
+      
+      // muter button popup
+      this._setAutoHide(document.getElementById('muter-popup'), 2000);
+    },
+    
+    _setAutoHide: function(panel, timeout) {
+      let self = this;
       panel.addEventListener('popupshown', function() {
-        muter._autoHideTimeoutId = window.setTimeout(function() {
+        self._autoHideTimeoutId = window.setTimeout(function() {
           panel.hidePopup();
         }, timeout);
       }, false);
 
       panel.addEventListener('popuphidden', function() {
-        window.clearTimeout(muter._autoHideTimeoutId);
+        window.clearTimeout(self._autoHideTimeoutId);
       }, false);
-    },
-
-    updateUI: function() {
-      let isMuted = muterHook.isMuteEnabled();
-
-      // Changes the button status icon
-      let btn = document.getElementById("muter-toolbar-palette-button");
-      if (btn) {
-        btn.setAttribute("mute", (isMuted ? "enabled" : "disabled"));
-      }
-
-      // Changes the button popup tips
-      let panel = document.getElementById("muter-popup");
-      if (panel) {
-        panel.setAttribute("mute", (isMuted ? "enabled" : "disabled"));
-      }
     }
-  }
+  };
 
+  /**
+   * Observer monitering the mute status.
+   * If the status is changed, updates the UI of each window.
+   */
   function MuterObserver()  {
-  }
+  };
 
   MuterObserver.prototype = {
     observe: function(subject, topic, data) {
@@ -108,7 +165,7 @@ var muter = (function(){
     unregister: function() {
       Services.obs.removeObserver(this, "muter-status-changed");
     }
-  }
+  };
 
   window.addEventListener("load", muter.init, false);
   window.addEventListener("unload", muter.destroy, false);

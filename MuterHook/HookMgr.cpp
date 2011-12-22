@@ -1,6 +1,8 @@
-#include "ThTypes.h"
+#include "DllEntry.h"
 #include "HookMgr.h"
 #include "HookImportFunction.h"
+#include "SDKTrace.h"
+
 #include <tlhelp32.h>
 
 HookMgr::HookMgr(void)
@@ -12,26 +14,7 @@ HookMgr::~HookMgr(void)
 {
 }
 
-void HookMgr::InstallHookForAllModules(LPCSTR szImportModule, LPCSTR szFunc, PROC pHookFunc)
-{
-	HANDLE hSnapshot;
-	MODULEENTRY32 me = {sizeof(MODULEENTRY32)};
-
-	hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE,0);
-
-	BOOL bOk = Module32First(hSnapshot,&me);
-	while (bOk) 
-	{
-		// We don't hook functions in our own module
-		if (strcmp(me.szModule, DLL_NAME) != 0)
-		{
-			InstallHookForOneModule(me.hModule, szImportModule, szFunc, pHookFunc);
-		}
-		bOk = Module32Next(hSnapshot,&me);
-	}
-}
-
-void HookMgr::InstallHookForOneModule( HMODULE hModule, LPCSTR szImportModule, LPCSTR szFunc, PROC pHookFunc )
+void HookMgr::InstallHookForOneModule( HMODULE hModule, LPCSTR szImportModule, LPCSTR szFunc, PROC pHookFunc)
 {
 	EnterCriticalSection(&m_cs);
 
@@ -87,11 +70,7 @@ void HookMgr::ClearAllHooks()
 	BOOL bOk = Module32First(hSnapshot,&me);
 	while (bOk) 
 	{
-		// We don't hook functions in our own module
-		if (strcmp(me.szModule, DLL_NAME) != 0)
-		{
-			UnInstallAllHooksForOneModule(me.hModule);
-		}
+		UnInstallAllHooksForOneModule(me.hModule);
 		bOk = Module32Next(hSnapshot,&me);
 	}
 

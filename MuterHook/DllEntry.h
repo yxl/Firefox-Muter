@@ -6,6 +6,10 @@ extern "C"
 {
 #endif				/* __cplusplus */
 
+// Should be capitilized!
+#define DLL_NAME "MUTERHOOK.DLL"
+#define DLL_NAME_WIDE L"MUTERHOOK.DLL"
+
 #if BUILDING_DLL
 # define DLLIMPORT __declspec (dllexport)
 #else /* Not BUILDING_DLL */
