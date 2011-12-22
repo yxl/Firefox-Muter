@@ -3,3 +3,9 @@
 <!ENTITY muter-popup.init "快速切换静音状态">
 <!ENTITY muter-popup.enabled "声音已禁用">
 <!ENTITY muter-popup.disabled "声音已启用">
+
+<!ENTITY muter.settings.title "静音设置">
+<!ENTITY muter.settings.shorcut.title "快捷键">
+<!ENTITY muter.settings.ui.title "用户界面">
+<!ENTITY muter.settings.restore "还原默认值">
+<!ENTITY muter.settings.showInAddonBar "在附加组件栏显示切换按钮">

@@ -3,3 +3,9 @@
 <!ENTITY muter-popup.init "Quickly switch mute status">
 <!ENTITY muter-popup.enabled "Muted">
 <!ENTITY muter-popup.disabled "Sound Enabled">
+
+<!ENTITY muter.settings.title "Firefox-Muter Settings">
+<!ENTITY muter.settings.shorcut.title "Shortcut Keys">
+<!ENTITY muter.settings.ui.title "User Interface">
+<!ENTITY muter.settings.restore "Restore Defaults">
+<!ENTITY muter.settings.showInAddonBar "Show switch button in the addon bar.">

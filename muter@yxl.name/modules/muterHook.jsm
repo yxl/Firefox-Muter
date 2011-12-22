@@ -16,10 +16,16 @@ var muterHook = {
   _EnableMute:    null,
   _IsMuteEnabled:  null,
   _GetLastSoundPlayingTimeInSeconds: null,
-
+ 
   _dllFile:          null,
 
   open: function() {
+  
+    // Check if it is already opened
+    if (this._dllFile) {
+      return;
+    }
+    
     let uri = jsm.Services.io.newURI('resource://muter/MuterHook.dll', null, null);
     if (uri instanceof Components.interfaces.nsIFileURL) {
       this._dllFile = jsm.ctypes.open(uri.file.path);
@@ -46,7 +52,9 @@ var muterHook = {
   },
   
   close: function() {
-    this._dllFile.close();
+    if (this._dllFile) {
+      this._dllFile.close();
+    }
   },
    
   enableMute: function(isEnabled) {

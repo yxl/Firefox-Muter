@@ -1,0 +1,93 @@
+<?xml version="1.0" ?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css" ?>
+<?xml-stylesheet href="chrome://muter/skin/muter_animation.css" type="text/css"?>
+<!DOCTYPE window SYSTEM "chrome://muter/locale/muter.dtd">
+<prefwindow id="muter-settings" 
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    title="&muter.settings.title;"
+    onload="muterSettings.init();" onunload="muterSettings.destory();" 
+    buttons="accept, cancel, extra1"
+    ondialogaccept="muterSettings.saveSettings();"
+    ondialogextra1="muterSettings.restoreSettings();">
+  <script type="application/x-javascript" src="chrome://muter/content/muterSettings.js "/>
+  <prefpane id="muter-prefpane1" label="preference">
+    <!-- Lists all the preferences to be set here -->
+    <preferences>
+			<preference id="shortcutKey" name="extensions.firefox-muter.shortcut.key" type="string"/>
+			<preference id="shortcutModifiers" name="extensions.firefox-muter.shortcut.modifiers" type="string"/>
+			<preference id="showInAddonBar" name="extensions.firefox-muter.showInAddonBar" type="bool"/>
+		</preferences>
+    
+    <!-- Sets Shortcut key -->
+    <groupbox id="muter-settings-shortcut">
+      <caption label="&muter.settings.shorcut.title;" />
+      <hbox>
+        <menulist id="muter-settings-shortcut-modifiers" preference="shortcutModifiers">
+          <menupopup>
+            <menuitem value="control" label="Ctrl"/>
+            <menuitem value="control shift" label="Ctrl + Shift"/>
+            <menuitem value="control alt" label="Ctrl + Alt"/>
+            <menuitem value="alt shift" label="Alt + Shift"/>
+          </menupopup>
+        </menulist>
+        <label> + </label>
+        <menulist id="muter-settings-shortcut-key" preference="shortcutKey">
+          <menupopup>
+            <menuitem value="A" label="A"/>
+            <menuitem value="B" label="B"/>
+            <menuitem value="C" label="C"/>
+            <menuitem value="D" label="D"/>
+            <menuitem value="E" label="E"/>
+            <menuitem value="F" label="F"/>
+            <menuitem value="G" label="G"/>
+            <menuitem value="H" label="H"/>
+            <menuitem value="I" label="I"/>
+            <menuitem value="J" label="J"/>
+            <menuitem value="K" label="K"/>
+            <menuitem value="L" label="L"/>
+            <menuitem value="M" label="M"/>
+            <menuitem value="N" label="N"/>
+            <menuitem value="O" label="O"/>
+            <menuitem value="P" label="P"/>
+            <menuitem value="Q" label="Q"/>
+            <menuitem value="R" label="R"/>
+            <menuitem value="S" label="S"/>
+            <menuitem value="T" label="T"/>
+            <menuitem value="U" label="U"/>
+            <menuitem value="V" label="V"/>
+            <menuitem value="W" label="W"/>
+            <menuitem value="X" label="X"/>
+            <menuitem value="Y" label="Y"/>
+            <menuitem value="Z" label="Z"/>
+            <menuitem value="0" label="0"/>
+            <menuitem value="1" label="1"/>
+            <menuitem value="2" label="2"/>
+            <menuitem value="3" label="3"/>
+            <menuitem value="4" label="4"/>
+            <menuitem value="5" label="5"/>
+            <menuitem value="6" label="6"/>
+            <menuitem value="7" label="7"/>
+            <menuitem value="8" label="8"/>
+            <menuitem value="9" label="9"/>
+          </menupopup>
+        </menulist>
+      </hbox>
+    </groupbox>
+    
+    <!-- Sets the UI -->
+    <groupbox id="muter-settings-ui">
+      <caption label="&muter.settings.ui.title;"/>
+      <hbox>
+        <checkbox id="muter-settings-show-in-addon-bar" 
+          preference="showInAddonBar" 
+          label="&muter.settings.showInAddonBar;"/>
+      </hbox>
+    </groupbox>
+  </prefpane>
+  <hbox>
+    <button dlgtype="extra1" id="muter-settings-restore" label="&muter.settings.restore;" />
+    <spacer flex="1" />
+    <button dlgtype="accept" id="muter-settings-accept" />
+    <button dlgtype="cancel" id="muter-settings-cancel" />
+  </hbox>
+</prefwindow>

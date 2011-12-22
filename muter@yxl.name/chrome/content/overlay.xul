@@ -1,11 +1,8 @@
 <?xml version="1.0" ?>
 <?xml-stylesheet href="chrome://muter/skin/muter_animation.css" type="text/css"?>
- 
 <!DOCTYPE overlay SYSTEM "chrome://muter/locale/muter.dtd">
 <overlay id="muter-overlay"
-         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" 
-         xmlns:html="http://www.w3.org/1999/xhtml">
-
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <script type="application/x-javascript" src="chrome://muter/content/overlay.js"/>
   <commandset id="mainCommandSet">
     <command id="cmd_muterToggle" oncommand="muter.switchStatus();"/>
@@ -34,8 +31,15 @@
                    mute="disabled"
                    command="cmd_muterToggle"
                    popup="muter-popup"
+                   onclick="muter.clickSwitchButton(event);"
                    label="&muter-button.label;"
                    tooltiptext="&muter-button.tooltip;"/>
   </toolbarpalette>
-  
+  <!-- popup menus -->
+  <popupset>
+    <!-- Muter button context menu -->
+    <menupopup id="muter-toolbar-palette-context-menu">
+      <menuitem label="&muter.settings.title;" oncommand="muter.openSettingsDialog()" />
+    </menupopup>
+  </popupset>  
 </overlay>

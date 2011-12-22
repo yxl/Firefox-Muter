@@ -51,10 +51,20 @@ var muter = (function(){
 
     init: function(event) {
       window.removeEventListener("load", muter.init, false);
-      muter._setupAddonBar();
-      muter._setupShortcut();
-      muter._setupPopups();
       
+      window.addEventListener("aftercustomization", muter._onToolBarChanged, false);
+      muter._onToolBarChanged();
+      
+      // Install a switch button after installation
+      var firstRun = Services.prefs.getBoolPref('extensions.firefox-muter.firstRun');
+      if (firstRun) {
+        muter.setupAddonBar();
+        Services.prefs.setBoolPref('extensions.firefox-muter.firstRun', false);
+      }
+      
+      muter.setupShortcut();
+      muter._setupPopups();
+   
       muter.updateUI();
 
       muter._muterObserver = new MuterObserver();
@@ -63,6 +73,7 @@ var muter = (function(){
 
     destroy: function(event) {
       window.removeEventListener("unload", muter.destroy, false);
+      window.removeEventListener("aftercustomization", muter._onAddonBarChanged, false);
 
       muter._muterObserver.unregister();
     },
@@ -70,6 +81,26 @@ var muter = (function(){
     switchStatus: function(event) {
       let shouldMute = !muterHook.isMuteEnabled();
       muterHook.enableMute(shouldMute);
+    },
+    
+    clickSwitchButton: function(event) {
+      if (event.button == 2) { 
+        // Right click to show the settings menu
+        let btn = document.getElementById("muter-toolbar-palette-button");
+        let menu = document.getElementById("muter-toolbar-palette-context-menu");
+        if (btn && menu) {
+          menu.openPopup(btn, "after_start", -1, 0, true, false);
+        }
+        event.preventDefault();
+      }
+    },
+    
+    /** 打开设置对话框 */
+    openSettingsDialog:function () {
+      // For the usage of window.openDialog, refers to 
+      // https://developer.mozilla.org/en/DOM/window.openDialog
+      let url = 'chrome://muter/content/muterSettings.xul';
+      window.showModalDialog(url);
     },
     
     updateUI: function() {
@@ -93,15 +124,9 @@ var muter = (function(){
     },
 
     /** Move the muter button to the addon bar */
-    _setupAddonBar: function() {
-      // Check if we have already made it.
-      var buttonInstalled = Services.prefs.getBoolPref('extensions.firefox-muter.button-installed');
-      if (buttonInstalled) {
-        return;
-      }
- 
+    setupAddonBar: function() {
       // Move the muter button to the addon bar
-      var addonbar = window.document.getElementById("addon-bar");
+      let addonbar = document.getElementById("addon-bar");
       let curSet = addonbar.currentSet;
       if (-1 == curSet.indexOf("muter-toolbar-palette-button")){
         let newSet = curSet + ",muter-toolbar-palette-button";
@@ -122,15 +147,22 @@ var muter = (function(){
           initpanel.openPopup(btn, "topcenter bottomright");
         }
       }
-      
-      Services.prefs.setBoolPref('extensions.firefox-muter.button-installed', true);
     },
 
-    _setupShortcut: function() {
+    setupShortcut: function() {
       try {
-        document.getElementById('key_muterToggle').setAttribute('key', Services.prefs.getCharPref('extensions.firefox-muter.shortcut.key'));
-        document.getElementById('key_muterToggle').setAttribute('modifiers', Services.prefs.getCharPref('extensions.firefox-muter.shortcut.modifiers'));
+        let keyItem = document.getElementById('key_muterToggle');
+        if (keyItem) {
+          // Default key is "M"
+          keyItem.setAttribute('key', Services.prefs.getCharPref('extensions.firefox-muter.shortcut.key'));
+          // Default modifiers is "control alt"
+          keyItem.setAttribute('modifiers', Services.prefs.getCharPref('extensions.firefox-muter.shortcut.modifiers'));
+        }
       } catch(e) {}
+    },
+    
+    _onToolBarChanged: function(event) {
+      Services.prefs.setBoolPref('extensions.firefox-muter.showInAddonBar', muter._isButtonShowInAddonBar());
     },
     
     _setupPopups: function() {
@@ -152,26 +184,62 @@ var muter = (function(){
       panel.addEventListener('popuphidden', function() {
         window.clearTimeout(self._autoHideTimeoutId);
       }, false);
+    },
+    
+    _isButtonShowInAddonBar: function() {
+      let addonbar = document.getElementById("addon-bar");
+      if (addonbar) {
+        let curSet = addonbar.currentSet;
+        return curSet.indexOf("muter-toolbar-palette-button") != -1;
+      }
+      return false;
     }
   };
 
+  const PREF_BRANCH = "extensions.firefox-muter.";
   /**
-   * Observer monitering the mute status.
+   * Observer monitering the mute status and preferences.
    * If the status is changed, updates the UI of each window.
    */
   function MuterObserver()  {
   };
 
   MuterObserver.prototype = {
+    _branch: null,
+    
     observe: function(subject, topic, data) {
-      muter.updateUI();
+      if (topic === "muter-status-changed") {
+        muter.updateUI();
+      } else if (topic === "nsPref:changed") {
+        let prefName = PREF_BRANCH + data;
+        if (prefName.indexOf("shortcut.") != -1) {
+          muter.setupShortcut();
+        } else if (prefName === "extensions.firefox-muter.showInAddonBar") {
+          let needShow = Services.prefs.getBoolPref(prefName);
+          if (needShow) {
+            muter.setupAddonBar();
+          }
+        }
+      }
     },
     register: function() {
       Services.obs.addObserver(this, "muter-status-changed", false);
+      
+      this._branch = Services.prefs.getBranch(PREF_BRANCH);
+      if (this._branch) {
+        // Now we queue the interface called nsIPrefBranch2. This interface is described as: 
+        // "nsIPrefBranch2 allows clients to observe changes to pref values."
+        this._branch.QueryInterface(Components.interfaces.nsIPrefBranch2);
+        this._branch.addObserver("", this, false);
+       }
     },
 
-    unregister: function() {
+    unregister: function() {     
       Services.obs.removeObserver(this, "muter-status-changed");
+      
+      if (this.branch) {
+        this._branch.removeObserver("", this);
+      }
     }
   };
 

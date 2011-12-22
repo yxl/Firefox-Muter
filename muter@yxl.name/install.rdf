@@ -8,6 +8,7 @@
   <em:description>Let you to mute the Firefox browser.</em:description> 
   <em:creator>Yuan Xulei</em:creator> 
   <em:homepageURL></em:homepageURL>
+  <em:optionsURL>chrome://muter/content/muterSettings.xul</em:optionsURL>
   <em:iconURL>chrome://muter/skin/icon.png</em:iconURL>
   <em:unpack>true</em:unpack>
   <em:targetPlatform>WINNT_x86-msvc</em:targetPlatform>
