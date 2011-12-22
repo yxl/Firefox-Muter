@@ -52,6 +52,7 @@ var muter = (function(){
     init: function(event) {
       window.removeEventListener("load", muter.init, false);
       muter._setupAddonBar();
+      muter._setupShortcut();
       muter._setupPopups();
       
       muter.updateUI();
@@ -123,6 +124,13 @@ var muter = (function(){
       }
       
       Services.prefs.setBoolPref('extensions.firefox-muter.button-installed', true);
+    },
+
+    _setupShortcut: function() {
+      try {
+        document.getElementById('key_muterToggle').setAttribute('key', Services.prefs.getCharPref('extensions.firefox-muter.shortcut.key'));
+        document.getElementById('key_muterToggle').setAttribute('modifiers', Services.prefs.getCharPref('extensions.firefox-muter.shortcut.modifiers'));
+      } catch(e) {}
     },
     
     _setupPopups: function() {
