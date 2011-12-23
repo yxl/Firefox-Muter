@@ -5,6 +5,9 @@
 #include "HookMgr.h"
 #include "HookedDsound.h"
 
+#pragma comment(lib, "Winmm.lib")
+#pragma comment(lib, "DSound.lib")
+
 MMRESULT WINAPI waveOutWrite_hook(HWAVEOUT hwo, LPWAVEHDR pwh, UINT cbwh) 
 {
 	DWORD dwCaller;
@@ -20,8 +23,7 @@ MMRESULT WINAPI waveOutWrite_hook(HWAVEOUT hwo, LPWAVEHDR pwh, UINT cbwh)
 		memset(pwh->lpData, 0 , pwh->dwBufferLength);
 	}
 
-	waveOutWrite_t waveOutWrite_next = (waveOutWrite_t)g_hookMgr.FindOriginalFunc(hModule, (PROC)waveOutWrite_hook);
-	return waveOutWrite_next(hwo, pwh, cbwh);
+	return ::waveOutWrite(hwo, pwh, cbwh);
 }
 
 MMRESULT WINAPI midiStreamOut_hook(HMIDISTRM hms, LPMIDIHDR pmh, UINT cbmh) 
@@ -39,8 +41,7 @@ MMRESULT WINAPI midiStreamOut_hook(HMIDISTRM hms, LPMIDIHDR pmh, UINT cbmh)
 		memset(pmh->lpData, 0 , pmh->dwBufferLength);
 	}
 
-	midiStreamOut_t midiStreamOut_next = (midiStreamOut_t)g_hookMgr.FindOriginalFunc(hModule, (PROC)midiStreamOut_hook);
-	return midiStreamOut_next(hms, pmh, cbmh);
+	::midiStreamOut(hms, pmh, cbmh);
 }
 
 HRESULT WINAPI DirectSoundCreate_hook(LPCGUID pcGuidDevice, 
@@ -51,9 +52,7 @@ HRESULT WINAPI DirectSoundCreate_hook(LPCGUID pcGuidDevice,
 	GET_CALLER(dwCaller);
 	HMODULE hModule = ModuleFromAddress((PVOID)dwCaller);
 
-	DirectSoundCreate_t DirectSoundCreate_next = (DirectSoundCreate_t)g_hookMgr.FindOriginalFunc(hModule, (PROC)DirectSoundCreate_hook);
-
-	HRESULT hr = DirectSoundCreate_next(pcGuidDevice, ppDS, pUnkOuter);
+	HRESULT hr = ::DirectSoundCreate(pcGuidDevice, ppDS, pUnkOuter);
 
 	if (SUCCEEDED(hr)) 
 	{
@@ -73,9 +72,7 @@ HRESULT WINAPI DirectSoundCreate8_hook(LPCGUID pcGuidDevice,
 	GET_CALLER(dwCaller);
 	HMODULE hModule = ModuleFromAddress((PVOID)dwCaller);
 
-	DirectSoundCreate8_t DirectSoundCreate8_next = (DirectSoundCreate8_t)g_hookMgr.FindOriginalFunc(hModule, (PROC)DirectSoundCreate8_hook);
-
-	HRESULT hr = DirectSoundCreate8_next(pcGuidDevice, ppDS, pUnkOuter);
+	HRESULT hr = ::DirectSoundCreate8(pcGuidDevice, ppDS, pUnkOuter);
 
 	if (SUCCEEDED(hr)) 
 	{

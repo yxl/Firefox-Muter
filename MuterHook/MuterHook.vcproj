@@ -77,6 +77,7 @@
 				OutputFile="..\muter@yxl.name\modules\MuterHook.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
+				UACExecutionLevel="2"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Debug/MuterHook.pdb"
 				RandomizedBaseAddress="1"
@@ -170,6 +171,7 @@
 				OutputFile="..\muter@yxl.name\modules\MuterHook.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
+				UACExecutionLevel="2"
 				ProgramDatabaseFile=".\Release/MuterHook.pdb"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
@@ -230,6 +232,10 @@
 			</File>
 			<File
 				RelativePath=".\BasicHooks.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ComHooks.cpp"
 				>
 			</File>
 			<File
@@ -315,6 +321,10 @@
 			</File>
 			<File
 				RelativePath=".\BasicHooks.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ComHooks.h"
 				>
 			</File>
 			<File

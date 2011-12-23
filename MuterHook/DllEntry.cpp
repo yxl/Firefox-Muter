@@ -15,7 +15,6 @@ extern "C"
 		{
 			GlobalData->bMute = bEnabled;
 		}
-		//InjectAllProcess();
 	}
 
 	/*DLLIMPORT*/ BOOL IsMuteEnabled()

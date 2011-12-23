@@ -174,6 +174,7 @@ void InjectAllProcess()
 
 void InstallMuterHooks()
 {
+	::LoadLibraryA("dsound.dll");
 	HANDLE hSnapshot;
 	MODULEENTRY32 me = {sizeof(MODULEENTRY32)};
 

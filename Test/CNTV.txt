@@ -1,5 +1,0 @@
-http://bugu.cntv.cn/live_channel1/index.shtml
-
-AppData\LocalLow\CCTV\tv\CCTVPlayer.ocx
-
-AppData\LocalLow\CCTV\tv\Reli_CCTV.dll
