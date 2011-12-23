@@ -163,6 +163,9 @@ var muter = (function(){
     
     _onToolBarChanged: function(event) {
       Services.prefs.setBoolPref('extensions.firefox-muter.showInAddonBar', muter._isButtonShowInAddonBar());
+      window.setTimeout(function() {
+        muter.setupAddonBar();
+      }, 3000);
     },
     
     _setupPopups: function() {

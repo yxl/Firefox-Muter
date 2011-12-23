@@ -25,6 +25,7 @@ void HookMgr::InstallHookForOneModule( HMODULE hModule, LPCSTR szImportModule, L
 	}
 	else 
 	{
+    TRACE("[MuterHook] InstallHookForOneModule %s %s\n", szImportModule, szFunc);
 		ModuleMap::iterator iter;
 		HookMap* pHookMapByOriginalFunc = NULL;
 		iter = m_modulesByOriginalFunc.find(hModule);

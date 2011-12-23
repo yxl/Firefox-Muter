@@ -6,6 +6,7 @@
 #include "HookMgr.h"
 #include "BasicHooks.h"
 #include "SoundHooks.h"
+#include "ComHooks.h"
 #include "SDKTrace.h"
 
 HookMgr g_hookMgr = HookMgr();
@@ -50,7 +51,6 @@ BOOL ShouldHookModule( LPCSTR szModuleName)
 		"UXTHEME", // Microsoft UxTheme Lib
 		"WINNSI", // Network Store Information RPC interface
 		"FECLIENT", // Windows NT File Encryption Client Interface
-		"APPHELP",  // Application Compatibility Helper
 		"SQLITE", // SQLite Database Lib
 		"KSFMON", // KSafe Monitor
 		"KWSUI", // Kingsoft Webshield Module
@@ -172,9 +172,62 @@ void InjectAllProcess()
 		CloseHandle(hprocess);
 }
 
+void CrachSound()
+{
+  BYTE aByte[]={0xC2,0x0C,0x00}; //ASM RET 0	
+
+  HMODULE hModule = ::LoadLibraryA("dsound.dll");
+  if (hModule)
+  {
+    PROC pDirectSoundCreate = ::GetProcAddress(hModule, "DirectSoundCreate");
+    if (pDirectSoundCreate)
+    {
+      DWORD dwOldProtect = 0;
+      VirtualProtect(pDirectSoundCreate, 3, PAGE_EXECUTE_READWRITE, &dwOldProtect);
+      CopyMemory(pDirectSoundCreate,aByte,sizeof(aByte));
+      VirtualProtect(pDirectSoundCreate, 3, dwOldProtect, &dwOldProtect);	
+      TRACE("[MuterHook] Crach DirectSoundCreate Done!\n");
+    }
+
+    PROC pDirectSoundCreate8 = ::GetProcAddress(hModule, "DirectSoundCreate8");
+    if (pDirectSoundCreate8)
+    {
+      DWORD dwOldProtect = 0;
+      VirtualProtect(pDirectSoundCreate8, 3, PAGE_EXECUTE_READWRITE, &dwOldProtect);
+      CopyMemory(pDirectSoundCreate8,aByte,sizeof(aByte));
+      VirtualProtect(pDirectSoundCreate8, 3, dwOldProtect, &dwOldProtect);	
+      TRACE("[MuterHook] Crach pDirectSoundCreate8 Done!\n");
+    }
+  }
+
+  hModule = ::LoadLibraryA("winmm.dll");
+  if (hModule)
+  {
+    PROC pWaveOutWrite = ::GetProcAddress(hModule, "waveOutWrite");
+    if (pWaveOutWrite)
+    {
+      DWORD dwOldProtect = 0;
+      VirtualProtect(pWaveOutWrite, 3, PAGE_EXECUTE_READWRITE, &dwOldProtect);
+      CopyMemory(pWaveOutWrite,aByte,sizeof(aByte));
+      VirtualProtect(pWaveOutWrite, 3, dwOldProtect, &dwOldProtect);	
+      TRACE("[MuterHook] Crach pWaveOutWrite Done!\n");
+    }
+
+    PROC pMidiStreamOut = ::GetProcAddress(hModule, "midiStreamOut");
+    if (pMidiStreamOut)
+    {
+      DWORD dwOldProtect = 0;
+      VirtualProtect(pMidiStreamOut, 3, PAGE_EXECUTE_READWRITE, &dwOldProtect);
+      CopyMemory(pMidiStreamOut,aByte,sizeof(aByte));
+      VirtualProtect(pMidiStreamOut, 3, dwOldProtect, &dwOldProtect);	
+      TRACE("[MuterHook] Crach pMidiStreamOut Done!\n");
+    }
+  }
+}
+
+
 void InstallMuterHooks()
 {
-	::LoadLibraryA("dsound.dll");
 	HANDLE hSnapshot;
 	MODULEENTRY32 me = {sizeof(MODULEENTRY32)};
 
@@ -206,6 +259,8 @@ void UnInstallMuterHooks()
 
 void InstallHooksForNewModule(HMODULE hModule)
 {
+  CrachSound();
+
 	if (g_hookMgr.IsModuleHooked(hModule))
 	{
 		return;
@@ -219,6 +274,11 @@ void InstallHooksForNewModule(HMODULE hModule)
 	g_hookMgr.InstallHookForOneModule(hModule, "Kernel32.dll", "LoadLibraryExW", (PROC)LoadLibraryExW_hook);
 	g_hookMgr.InstallHookForOneModule(hModule, "Kernel32.dll", "CreateProcessA", (PROC)CreateProcessA_hook);
 	g_hookMgr.InstallHookForOneModule(hModule, "Kernel32.dll", "CreateProcessW", (PROC)CreateProcessW_hook);
+
+  // Com hooks
+  g_hookMgr.InstallHookForOneModule(hModule, "ole32.dll", "CoCreateInstance", (PROC)CoCreateInstance_hook);
+  g_hookMgr.InstallHookForOneModule(hModule, "ole32.dll", "CoGetClassObject", (PROC)CoGetClassObject_hook);
+
 
 	// Sound function hooks
 	g_hookMgr.InstallHookForOneModule(hModule, "winmm.dll", "waveOutWrite", (PROC)waveOutWrite_hook);

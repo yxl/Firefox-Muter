@@ -1,6 +1,7 @@
 #include "ThTypes.h"
 #include "DllEntry.h"
 #include "ApiHooks.h"
+#include "SDKTrace.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -15,6 +16,8 @@ extern "C"
 		{
 			GlobalData->bMute = bEnabled;
 		}
+//    InjectAllProcess();
+//    InstallMuterHooks();
 	}
 
 	/*DLLIMPORT*/ BOOL IsMuteEnabled()

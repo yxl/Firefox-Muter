@@ -4,12 +4,14 @@
 #include "DllEntry.h"
 #include "HookMgr.h"
 #include "HookedDsound.h"
+#include "SDKTrace.h"
 
 #pragma comment(lib, "Winmm.lib")
 #pragma comment(lib, "DSound.lib")
 
 MMRESULT WINAPI waveOutWrite_hook(HWAVEOUT hwo, LPWAVEHDR pwh, UINT cbwh) 
 {
+  TRACE("[MuterHook] waveOutWrite_hook\n");
 	DWORD dwCaller;
 	GET_CALLER(dwCaller);
 	HMODULE hModule = ModuleFromAddress((PVOID)dwCaller);
@@ -28,6 +30,7 @@ MMRESULT WINAPI waveOutWrite_hook(HWAVEOUT hwo, LPWAVEHDR pwh, UINT cbwh)
 
 MMRESULT WINAPI midiStreamOut_hook(HMIDISTRM hms, LPMIDIHDR pmh, UINT cbmh) 
 {
+  TRACE("[MuterHook] midiStreamOut_hook\n");
 	DWORD dwCaller;
 	GET_CALLER(dwCaller);
 	HMODULE hModule = ModuleFromAddress((PVOID)dwCaller);
@@ -48,6 +51,7 @@ HRESULT WINAPI DirectSoundCreate_hook(LPCGUID pcGuidDevice,
 									  LPDIRECTSOUND *ppDS, 
 									  LPUNKNOWN pUnkOuter) 
 {
+  TRACE("[MuterHook] DirectSoundCreate_hook\n");
 	DWORD dwCaller;
 	GET_CALLER(dwCaller);
 	HMODULE hModule = ModuleFromAddress((PVOID)dwCaller);
@@ -68,6 +72,7 @@ HRESULT WINAPI DirectSoundCreate8_hook(LPCGUID pcGuidDevice,
 									   LPDIRECTSOUND8 *ppDS, 
 									   LPUNKNOWN pUnkOuter) 
 {
+  TRACE("[MuterHook] DirectSoundCreate8_hook\n");
 	DWORD dwCaller;
 	GET_CALLER(dwCaller);
 	HMODULE hModule = ModuleFromAddress((PVOID)dwCaller);
