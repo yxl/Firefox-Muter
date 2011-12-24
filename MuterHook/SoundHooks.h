@@ -1,20 +1,24 @@
 #pragma once
-#include "dsound.h"
+#include "external\dsound.h"
 
-typedef MMRESULT (WINAPI *waveOutWrite_t)(HWAVEOUT hwo, LPWAVEHDR pwh, UINT cbwh);
+extern MMRESULT (WINAPI *waveOutWrite_original)(HWAVEOUT hwo, LPWAVEHDR pwh, UINT cbwh);
+
 MMRESULT WINAPI waveOutWrite_hook(HWAVEOUT hwo, LPWAVEHDR pwh, UINT cbwh);
 
-typedef BOOL (WINAPI *midiStreamOut_t)(HMIDISTRM hms, LPMIDIHDR pmh, UINT cbmh);
+extern MMRESULT (WINAPI *midiStreamOut_original)(HMIDISTRM hms, LPMIDIHDR pmh, UINT cbmh);
+
 MMRESULT WINAPI midiStreamOut_hook(HMIDISTRM hms, LPMIDIHDR pmh, UINT cbmh);
 
-typedef int (WINAPI* DirectSoundCreate_t)(LPCGUID pcGuidDevice, 
+
+extern HRESULT (WINAPI* DirectSoundCreate_original)(LPCGUID pcGuidDevice, 
 										  LPDIRECTSOUND *ppDS, 
 										  LPUNKNOWN pUnkOuter);
+
 HRESULT WINAPI DirectSoundCreate_hook(LPCGUID pcGuidDevice, 
 									  LPDIRECTSOUND *ppDS, 
 									  LPUNKNOWN pUnkOuter);
 
-typedef int (WINAPI* DirectSoundCreate8_t)(LPCGUID pcGuidDevice, 
+extern HRESULT (WINAPI* DirectSoundCreate8_original)(LPCGUID pcGuidDevice, 
 										   LPDIRECTSOUND8 *ppDS, 
 										   LPUNKNOWN pUnkOuter);
 

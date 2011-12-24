@@ -1,64 +1,56 @@
 #include "SoundHooks.h"
-#include "ThTypes.h"
 #include "ApiHooks.h"
 #include "DllEntry.h"
-#include "HookMgr.h"
 #include "HookedDsound.h"
 #include "SDKTrace.h"
 
-#pragma comment(lib, "Winmm.lib")
-#pragma comment(lib, "DSound.lib")
+MMRESULT (WINAPI *waveOutWrite_original)(HWAVEOUT hwo, LPWAVEHDR pwh, UINT cbwh) = NULL;
 
 MMRESULT WINAPI waveOutWrite_hook(HWAVEOUT hwo, LPWAVEHDR pwh, UINT cbwh) 
 {
-  TRACE("[MuterHook] waveOutWrite_hook\n");
-	DWORD dwCaller;
-	GET_CALLER(dwCaller);
-	HMODULE hModule = ModuleFromAddress((PVOID)dwCaller);
+	TRACE("[MuterHook] waveOutWrite_hook\n");
 
-	if (GlobalData)
+	if (IsInThisModuleProcess())
 	{
-		GlobalData->lLastSoundPlayingTimeInSeconds = (LONG)time(NULL);
-	}
-	if (GlobalData && GlobalData->bMute) 
-	{ 
-		memset(pwh->lpData, 0 , pwh->dwBufferLength);
+		if (ShouldMute())
+		{ 
+			memset(pwh->lpData, 0 , pwh->dwBufferLength);
+		}
 	}
 
-	return ::waveOutWrite(hwo, pwh, cbwh);
+	return waveOutWrite_original(hwo, pwh, cbwh);
 }
+
+MMRESULT (WINAPI *midiStreamOut_original)(HMIDISTRM hms, LPMIDIHDR pmh, UINT cbmh) = NULL;
 
 MMRESULT WINAPI midiStreamOut_hook(HMIDISTRM hms, LPMIDIHDR pmh, UINT cbmh) 
 {
-  TRACE("[MuterHook] midiStreamOut_hook\n");
-	DWORD dwCaller;
-	GET_CALLER(dwCaller);
-	HMODULE hModule = ModuleFromAddress((PVOID)dwCaller);
+	TRACE("[MuterHook] midiStreamOut_hook\n");
 
-	if (GlobalData)
+	if (IsInThisModuleProcess())
 	{
-		GlobalData->lLastSoundPlayingTimeInSeconds = (LONG)time(NULL);
-	}
-	if (GlobalData && GlobalData->bMute) 
-	{
-		memset(pmh->lpData, 0 , pmh->dwBufferLength);
+		if (ShouldMute()) 
+		{
+			memset(pmh->lpData, 0 , pmh->dwBufferLength);
+		}
 	}
 
-	::midiStreamOut(hms, pmh, cbmh);
+	return midiStreamOut_original(hms, pmh, cbmh);
 }
+
+HRESULT (WINAPI* DirectSoundCreate_original)(LPCGUID pcGuidDevice, 
+											 LPDIRECTSOUND *ppDS, 
+											 LPUNKNOWN pUnkOuter) =  NULL;
 
 HRESULT WINAPI DirectSoundCreate_hook(LPCGUID pcGuidDevice, 
 									  LPDIRECTSOUND *ppDS, 
 									  LPUNKNOWN pUnkOuter) 
 {
-  TRACE("[MuterHook] DirectSoundCreate_hook\n");
-	DWORD dwCaller;
-	GET_CALLER(dwCaller);
-	HMODULE hModule = ModuleFromAddress((PVOID)dwCaller);
+	TRACE("[MuterHook] DirectSoundCreate_hook\n");
 
-	HRESULT hr = ::DirectSoundCreate(pcGuidDevice, ppDS, pUnkOuter);
+	HRESULT hr = DirectSoundCreate_original(pcGuidDevice, ppDS, pUnkOuter);
 
-	if (SUCCEEDED(hr)) 
+	if (SUCCEEDED(hr) && IsInThisModuleProcess()) 
 	{
 		HookedDirectSound* p = new HookedDirectSound;
 		p->direct_sound_ = *ppDS;
@@ -68,18 +60,19 @@ HRESULT WINAPI DirectSoundCreate_hook(LPCGUID pcGuidDevice,
 	return hr;
 }
 
+HRESULT (WINAPI* DirectSoundCreate8_original)(LPCGUID pcGuidDevice, 
+											  LPDIRECTSOUND8 *ppDS, 
+											  LPUNKNOWN pUnkOuter) = NULL;
+
 HRESULT WINAPI DirectSoundCreate8_hook(LPCGUID pcGuidDevice, 
 									   LPDIRECTSOUND8 *ppDS, 
 									   LPUNKNOWN pUnkOuter) 
 {
-  TRACE("[MuterHook] DirectSoundCreate8_hook\n");
-	DWORD dwCaller;
-	GET_CALLER(dwCaller);
-	HMODULE hModule = ModuleFromAddress((PVOID)dwCaller);
+	TRACE("[MuterHook] DirectSoundCreate8_hook\n");
 
-	HRESULT hr = ::DirectSoundCreate8(pcGuidDevice, ppDS, pUnkOuter);
+	HRESULT hr = DirectSoundCreate8_original(pcGuidDevice, ppDS, pUnkOuter);
 
-	if (SUCCEEDED(hr)) 
+	if (SUCCEEDED(hr) && IsInThisModuleProcess()) 
 	{
 		HookedDirectSound8* p = new HookedDirectSound8;
 		p->direct_sound_ = *ppDS;

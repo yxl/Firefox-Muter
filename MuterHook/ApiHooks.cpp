@@ -1,288 +1,162 @@
 #include <windows.h>
 #include <tlhelp32.h>
 
+#include "external\detours.h"
+#pragma comment(lib, "external\\lib\\detours.lib")
+
 #include "ApiHooks.h"
 #include "DllEntry.h"
-#include "HookMgr.h"
 #include "BasicHooks.h"
 #include "SoundHooks.h"
 #include "ComHooks.h"
 #include "SDKTrace.h"
 
-HookMgr g_hookMgr = HookMgr();
 
-HMODULE WINAPI ModuleFromAddress(PVOID pv)
+struct FunctionInfo
 {
-	MEMORY_BASIC_INFORMATION mbi;
-	if(::VirtualQuery(pv, &mbi, sizeof(mbi)) != 0)
-	{
-		return (HMODULE)mbi.AllocationBase;
-	}
-	else
-	{
-		return NULL;
-	}
-}
+	LPCSTR  szFunctionModule;
+	LPCSTR  szFunctionName;
+	PVOID*  ppOriginalFunction;
+	PVOID   pHookFunction;
+};
 
-HMODULE GetThisModule() 
+#define DEFINE_FUNCTION_INFO(module, func) {module, #func, (PVOID *)&func##_original, (PVOID)func##_hook}
+
+FunctionInfo s_Functions[] = 
 {
-	return ModuleFromAddress(GetThisModule);
-}
+	DEFINE_FUNCTION_INFO("Kernel32.dll", CreateProcessA),
+	DEFINE_FUNCTION_INFO("Kernel32.dll", CreateProcessW),
 
-BOOL ShouldHookModule( LPCSTR szModuleName)
+	DEFINE_FUNCTION_INFO("winmm.dll", waveOutWrite),
+	DEFINE_FUNCTION_INFO("winmm.dll", midiStreamOut),
+	DEFINE_FUNCTION_INFO("dsound.dll", DirectSoundCreate),
+	DEFINE_FUNCTION_INFO("dsound.dll", DirectSoundCreate8),
+
+	DEFINE_FUNCTION_INFO("ole32.dll", CoCreateInstance),
+};
+
+const size_t s_FunctionsCount = sizeof(s_Functions)/sizeof(FunctionInfo);
+
+BOOL InjectIntoProcess(HANDLE hProcess) 
 {
-	// The words in the list should be capitilized!
-	static LPCSTR aIgnoreList[] = 
+	CHAR szDllPath[MAX_PATH];
+	LPVOID pPath = VirtualAllocEx(hProcess, NULL, 
+		sizeof(szDllPath), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+
+	if (!pPath) 
 	{
-		DLL_NAME,   // Our own module
-		"NTDLL", 
-		"GDI32", // GDI Client
-		"GDIPLUS", // GDI+
-		"MSIMG32", // GDIEXT Client
-		"WSOCK32", // Windows Socket
-		"WS2_32", // Windows Socket
-		"MSWSOCK", // Windows Socket
-		"WSHTCPIP", // Winsock2 Helper
-		"WININET", // Win32 Internet Lib
-		"SETUPAPI", // Window Installation API
-		"IPHLPAPI", // IP Helper API
-		"DNSAPI", // DNS Client API
-		"RASADHLP", // Remote Access AutoDial Helper
-		"UXTHEME", // Microsoft UxTheme Lib
-		"WINNSI", // Network Store Information RPC interface
-		"FECLIENT", // Windows NT File Encryption Client Interface
-		"SQLITE", // SQLite Database Lib
-		"KSFMON", // KSafe Monitor
-		"KWSUI", // Kingsoft Webshield Module
-		"KDUMP", // Kingsoft Antivirus Dump Collect Lib
-		"TORTOISE", // Tortoise Veriosn Control Client
-	};
-
-	// Converts to upper case string
-	char szUpperCaseName[MAX_PATH];
-	strcpy_s(szUpperCaseName, szModuleName);
-	_strupr_s(szUpperCaseName);
-
-	// Ignore list length
-	int n = sizeof(aIgnoreList) / sizeof(LPCSTR);
-
-	for (int i=0; i<n; i++)
-	{
-		if (strstr(szUpperCaseName, aIgnoreList[i]) != NULL)
-			return FALSE;
+		return FALSE;
 	}
+
+	if (!WriteProcessMemory(hProcess, pPath, g_szThisModulePath, 
+		sizeof(g_szThisModulePath), NULL))
+	{
+		return FALSE;
+	}
+
+	HANDLE hThread = CreateRemoteThread(hProcess, NULL, 0,
+		(LPTHREAD_START_ROUTINE)LoadLibraryA, pPath, 0, NULL);
+	if (!hThread) 
+	{
+		return FALSE;
+	}
+
+	CloseHandle(pPath);
 
 	return TRUE;
 }
 
-BOOL WINAPI InjectIntoProcess(HANDLE hprocess) 
+void InjectIntoSubProcesses()
 {
-	TCHAR dllpath[MAX_PATH];
-	LPVOID memory_pointer = VirtualAllocEx(hprocess, NULL, 
-		sizeof(dllpath), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
-
-	if (!memory_pointer) 
-	{
-		return FALSE;
-	}
-
-	if (!g_hInstance)
-	{
-		g_hInstance = GetThisModule();
-	}
-	::GetModuleFileName(g_hInstance, dllpath, MAX_PATH);
-	if (!WriteProcessMemory(hprocess, memory_pointer, dllpath, 
-		sizeof(dllpath), NULL))
-	{
-		return FALSE;
-	}
-
-	HANDLE remote_thread = CreateRemoteThread(hprocess, NULL, 0,
-		(LPTHREAD_START_ROUTINE)LoadLibraryA, memory_pointer, 0, NULL);
-	if (!remote_thread) 
-	{
-		return FALSE;
-	}
-
-	CloseHandle(remote_thread);
-
-	return TRUE;
-}
-
-void InjectAllProcess() 
-{
-	DWORD parent_pid = 0;
-	BOOL find_apihook_flag = FALSE;
-
-	/*
-	// Get parent process id
-	HANDLE hprocess = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
-	PROCESSENTRY32 process = { sizeof(PROCESSENTRY32) };
-	BOOL ret = Process32First(hprocess, &process);
-	while (ret) {
-	if (process.th32ProcessID == GetCurrentProcessId()) {
-	parent_pid = process.th32ParentProcessID;
-	HANDLE hmodule = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, parent_pid);
-	MODULEENTRY32 mod = { sizeof(MODULEENTRY32) };
-	if (Module32First(hmodule, &mod)) {
-	while(Module32Next(hmodule, &mod)) {
-	if (_tcsicmp(mod.szModule, _T("mutechrome.dll")) == 0 ||
-	_tcsicmp(mod.szModule, _T("apihook.dll")) == 0) {
-	find_apihook_flag = TRUE;
-	break;
-	}
-	}
-	}
-	if (hmodule != INVALID_HANDLE_VALUE)
-	CloseHandle(hmodule);
-	break;
-	}
-	ret = Process32Next(hprocess, &process);
-	}
-	if (hprocess != INVALID_HANDLE_VALUE)
-	CloseHandle(hprocess);
-
-
-	// If the main chrome process has been injected then return directly.
-	if (find_apihook_flag)
-	return;
-	*/
-
-	HANDLE hprocess = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
-	PROCESSENTRY32 process = { sizeof(PROCESSENTRY32) };
-	BOOL ret = Process32First(hprocess, &process);
-	while (ret) {
-
-		HANDLE process_handle = OpenProcess(
-			PROCESS_CREATE_THREAD | PROCESS_QUERY_INFORMATION | 
-			PROCESS_VM_OPERATION | PROCESS_VM_WRITE | PROCESS_VM_READ, 
-			FALSE, process.th32ProcessID);
-		if (!process_handle) {
-			TRACE("[MuterHook] Error OpenProcess GetLastError=%ld\n", GetLastError());
-		} else {
-			TRACE("[MuterHook] InjectIntoProcess, ProcessId=%ld\n", 
-				process.th32ProcessID);
-		}
-		InjectIntoProcess(process_handle);
-		if (process_handle)
-			CloseHandle(process_handle);
-		ret = Process32Next(hprocess, &process);
-	}
-	if (hprocess != INVALID_HANDLE_VALUE)
-		CloseHandle(hprocess);
-}
-
-void CrachSound()
-{
-  BYTE aByte[]={0xC2,0x0C,0x00}; //ASM RET 0	
-
-  HMODULE hModule = ::LoadLibraryA("dsound.dll");
-  if (hModule)
-  {
-    PROC pDirectSoundCreate = ::GetProcAddress(hModule, "DirectSoundCreate");
-    if (pDirectSoundCreate)
-    {
-      DWORD dwOldProtect = 0;
-      VirtualProtect(pDirectSoundCreate, 3, PAGE_EXECUTE_READWRITE, &dwOldProtect);
-      CopyMemory(pDirectSoundCreate,aByte,sizeof(aByte));
-      VirtualProtect(pDirectSoundCreate, 3, dwOldProtect, &dwOldProtect);	
-      TRACE("[MuterHook] Crach DirectSoundCreate Done!\n");
-    }
-
-    PROC pDirectSoundCreate8 = ::GetProcAddress(hModule, "DirectSoundCreate8");
-    if (pDirectSoundCreate8)
-    {
-      DWORD dwOldProtect = 0;
-      VirtualProtect(pDirectSoundCreate8, 3, PAGE_EXECUTE_READWRITE, &dwOldProtect);
-      CopyMemory(pDirectSoundCreate8,aByte,sizeof(aByte));
-      VirtualProtect(pDirectSoundCreate8, 3, dwOldProtect, &dwOldProtect);	
-      TRACE("[MuterHook] Crach pDirectSoundCreate8 Done!\n");
-    }
-  }
-
-  hModule = ::LoadLibraryA("winmm.dll");
-  if (hModule)
-  {
-    PROC pWaveOutWrite = ::GetProcAddress(hModule, "waveOutWrite");
-    if (pWaveOutWrite)
-    {
-      DWORD dwOldProtect = 0;
-      VirtualProtect(pWaveOutWrite, 3, PAGE_EXECUTE_READWRITE, &dwOldProtect);
-      CopyMemory(pWaveOutWrite,aByte,sizeof(aByte));
-      VirtualProtect(pWaveOutWrite, 3, dwOldProtect, &dwOldProtect);	
-      TRACE("[MuterHook] Crach pWaveOutWrite Done!\n");
-    }
-
-    PROC pMidiStreamOut = ::GetProcAddress(hModule, "midiStreamOut");
-    if (pMidiStreamOut)
-    {
-      DWORD dwOldProtect = 0;
-      VirtualProtect(pMidiStreamOut, 3, PAGE_EXECUTE_READWRITE, &dwOldProtect);
-      CopyMemory(pMidiStreamOut,aByte,sizeof(aByte));
-      VirtualProtect(pMidiStreamOut, 3, dwOldProtect, &dwOldProtect);	
-      TRACE("[MuterHook] Crach pMidiStreamOut Done!\n");
-    }
-  }
-}
-
-
-void InstallMuterHooks()
-{
-	HANDLE hSnapshot;
-	MODULEENTRY32 me = {sizeof(MODULEENTRY32)};
-
-	hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE,0);
-
-	BOOL bOk = Module32First(hSnapshot,&me);
-	while (bOk) 
-	{
-		if (ShouldHookModule(me.szModule))
-		{
-			if (!g_hookMgr.IsModuleHooked(me.hModule))
-			{
-				TRACE("[MuterHook] New module is hooked! %s\n", me.szModule);
-			}
-			if (strstr(me.szModule, "CCTV"))
-			{
-				TRACE("[MuterHook] New module is hooked! %s\n", me.szModule);
-			}
-			InstallHooksForNewModule(me.hModule);
-		}
-		bOk = Module32Next(hSnapshot,&me);
-	}
-}
-
-void UnInstallMuterHooks()
-{
-	g_hookMgr.ClearAllHooks();
-}
-
-void InstallHooksForNewModule(HMODULE hModule)
-{
-  CrachSound();
-
-	if (g_hookMgr.IsModuleHooked(hModule))
+	DWORD dwCurrentProcessId = GetCurrentProcessId();
+	HANDLE hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+	if (hSnapShot == INVALID_HANDLE_VALUE)
 	{
 		return;
 	}
 
-	// Basic function hooks
-	g_hookMgr.InstallHookForOneModule(hModule, "Kernel32.dll", "GetProcAddress", (PROC)GetProcAddress_hook);
-	g_hookMgr.InstallHookForOneModule(hModule, "Kernel32.dll", "LoadLibraryA", (PROC)LoadLibraryA_hook);
-	g_hookMgr.InstallHookForOneModule(hModule, "Kernel32.dll", "LoadLibraryW", (PROC)LoadLibraryW_hook);
-	g_hookMgr.InstallHookForOneModule(hModule, "Kernel32.dll", "LoadLibraryExA", (PROC)LoadLibraryExA_hook);
-	g_hookMgr.InstallHookForOneModule(hModule, "Kernel32.dll", "LoadLibraryExW", (PROC)LoadLibraryExW_hook);
-	g_hookMgr.InstallHookForOneModule(hModule, "Kernel32.dll", "CreateProcessA", (PROC)CreateProcessA_hook);
-	g_hookMgr.InstallHookForOneModule(hModule, "Kernel32.dll", "CreateProcessW", (PROC)CreateProcessW_hook);
+	PROCESSENTRY32 procentry  = { sizeof(PROCESSENTRY32) };
+	BOOL bContinue = Process32First(hSnapShot, &procentry);
+	while( bContinue )
+	{
+		if(dwCurrentProcessId == procentry.th32ParentProcessID)
+		{
+			HANDLE hProcess = OpenProcess(
+				PROCESS_CREATE_THREAD | PROCESS_QUERY_INFORMATION | 
+				PROCESS_VM_OPERATION | PROCESS_VM_WRITE | PROCESS_VM_READ, 
+				FALSE, procentry.th32ProcessID);
+			if (hProcess)
+			{
+				InjectIntoProcess(hProcess);
+				CloseHandle(hProcess);
+			}
+			else
+			{
+				TRACE("[MuterHook] InjectIntoProcess failed!, ProcessId=%ld\n", procentry.th32ProcessID);
+			}
+		}
+		bContinue = Process32Next( hSnapShot, &procentry );
+	}
 
-  // Com hooks
-  g_hookMgr.InstallHookForOneModule(hModule, "ole32.dll", "CoCreateInstance", (PROC)CoCreateInstance_hook);
-  g_hookMgr.InstallHookForOneModule(hModule, "ole32.dll", "CoGetClassObject", (PROC)CoGetClassObject_hook);
+	CloseHandle(hSnapShot);
+}
 
+BOOL IsInThisModuleProcess()
+{
+	DWORD dwCurrentProcessId = GetCurrentProcessId();
 
-	// Sound function hooks
-	g_hookMgr.InstallHookForOneModule(hModule, "winmm.dll", "waveOutWrite", (PROC)waveOutWrite_hook);
-	g_hookMgr.InstallHookForOneModule(hModule, "winmm.dll", "midiStreamOut", (PROC)midiStreamOut_hook);
-	g_hookMgr.InstallHookForOneModule(hModule, "dsound.dll", "DirectSoundCreate", (PROC)DirectSoundCreate_hook);
-	g_hookMgr.InstallHookForOneModule(hModule, "dsound.dll", "DirectSoundCreate8", (PROC)DirectSoundCreate8_hook);
+	if (dwCurrentProcessId == g_dwThisModuleProcessId) 
+		return TRUE;
+
+	return TRUE;
+}
+
+void InstallMuterHooks()
+{
+	DetourTransactionBegin();
+	DetourUpdateThread(GetCurrentThread());
+
+	for(int i = 0; i < s_FunctionsCount; ++i)
+	{
+		FunctionInfo& info = s_Functions[i];
+
+		HMODULE hModule = ::LoadLibraryA(info.szFunctionModule);
+		if (!hModule)
+		{
+			TRACE("[MuterHook] Cannot LoadLibraryA(%s)", info.szFunctionModule);
+			continue;
+		}
+
+		*(info.ppOriginalFunction) = GetProcAddress(hModule, info.szFunctionName);
+		if (*(info.ppOriginalFunction) == NULL)
+		{
+			TRACE("[MuterHook] Cannot GetProcAddress of %s", info.szFunctionName);
+			continue;
+		}
+
+		if (NO_ERROR != DetourAttach(info.ppOriginalFunction, info.pHookFunction))
+		{
+			TRACE("[MuterHook] DetourAttach failed! Module: %s  Function: %s", info.szFunctionModule, info.szFunctionName);
+			continue;
+		}
+	}
+
+	DetourTransactionCommit();
+}
+
+void UnInstallMuterHooks()
+{
+	DetourTransactionBegin();
+	DetourUpdateThread(GetCurrentThread());
+
+	for(int i = 0; i < s_FunctionsCount; ++i)
+	{
+		FunctionInfo& info = s_Functions[i];
+		if (*info.ppOriginalFunction == NULL)
+		{
+			DetourDetach(info.ppOriginalFunction, info.pHookFunction);
+		}
+	}
+
+	DetourTransactionCommit();
 }

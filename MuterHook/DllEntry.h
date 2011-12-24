@@ -22,7 +22,11 @@ DLLIMPORT BOOL IsMuteEnabled();
 
 DLLIMPORT LONG GetLastSoundPlayingTimeInSeconds();
 
-extern HINSTANCE g_hInstance;
+BOOL ShouldMute();
+
+extern CHAR g_szThisModulePath[MAX_PATH];
+
+extern DWORD g_dwThisModuleProcessId;
 
 #ifdef __cplusplus
 }

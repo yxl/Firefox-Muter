@@ -259,56 +259,12 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\HookImportFunction.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\HookMgr.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\SDKTrace.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\SoundHooks.cpp"
 				>
-			</File>
-			<File
-				RelativePath=".\ThTypes.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
 			</File>
 		</Filter>
 		<Filter
@@ -332,19 +288,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\dsound.h"
-				>
-			</File>
-			<File
 				RelativePath=".\HookedDsound.h"
-				>
-			</File>
-			<File
-				RelativePath="HookImportFunction.h"
-				>
-			</File>
-			<File
-				RelativePath=".\HookMgr.h"
 				>
 			</File>
 			<File
@@ -353,10 +297,6 @@
 			</File>
 			<File
 				RelativePath=".\SoundHooks.h"
-				>
-			</File>
-			<File
-				RelativePath="ThTypes.h"
 				>
 			</File>
 		</Filter>
