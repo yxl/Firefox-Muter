@@ -231,6 +231,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\AudioVolume.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\BasicHooks.cpp"
 				>
 			</File>
@@ -273,6 +277,10 @@
 			>
 			<File
 				RelativePath=".\ApiHooks.h"
+				>
+			</File>
+			<File
+				RelativePath=".\AudioVolume.h"
 				>
 			</File>
 			<File

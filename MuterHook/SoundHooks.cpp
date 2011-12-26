@@ -3,6 +3,7 @@
 #include "DllEntry.h"
 #include "HookedDsound.h"
 #include "SDKTrace.h"
+#pragma comment(lib, "winmm.lib")
 
 MMRESULT (WINAPI *waveOutWrite_original)(HWAVEOUT hwo, LPWAVEHDR pwh, UINT cbwh) = NULL;
 
@@ -32,7 +33,7 @@ MMRESULT WINAPI midiStreamOut_hook(HMIDISTRM hms, LPMIDIHDR pmh, UINT cbmh)
 		if (ShouldMute()) 
 		{
 			memset(pmh->lpData, 0 , pmh->dwBufferLength);
-		}
+		}	
 	}
 
 	return midiStreamOut_original(hms, pmh, cbmh);

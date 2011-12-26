@@ -39,31 +39,53 @@ const size_t s_FunctionsCount = sizeof(s_Functions)/sizeof(FunctionInfo);
 
 BOOL InjectIntoProcess(HANDLE hProcess) 
 {
-	CHAR szDllPath[MAX_PATH];
-	LPVOID pPath = VirtualAllocEx(hProcess, NULL, 
-		sizeof(szDllPath), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+	BOOL bOK = FALSE;
 
-	if (!pPath) 
+	LPVOID pPath = NULL;
+	HANDLE hThread = NULL;
+	try
 	{
-		return FALSE;
+		pPath = VirtualAllocEx(hProcess, NULL, 
+			sizeof(g_szThisModulePath), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+		if (!pPath) 
+		{
+			throw "VirtualAllocEx failed!";
+		}
+
+		if (!WriteProcessMemory(hProcess, pPath, g_szThisModulePath, 
+			sizeof(g_szThisModulePath), NULL))
+		{
+			throw "WriteProcessMemory failed!";
+		}
+
+		hThread = CreateRemoteThread(hProcess, NULL, 0,
+			(LPTHREAD_START_ROUTINE)LoadLibraryA, pPath, 0, NULL);
+		if (!hThread)
+		{
+			throw "CreateRemoteThread failed!";
+		}
+
+		WaitForSingleObject(hThread, INFINITE);
+
+		bOK = TRUE;
+
+	}
+	catch (LPSTR error)
+	{
+		TRACE("[MuterHook] InjectIntoProcess failed! %s\n", error);
 	}
 
-	if (!WriteProcessMemory(hProcess, pPath, g_szThisModulePath, 
-		sizeof(g_szThisModulePath), NULL))
+	if (hThread)
 	{
-		return FALSE;
+		CloseHandle(hThread);
 	}
 
-	HANDLE hThread = CreateRemoteThread(hProcess, NULL, 0,
-		(LPTHREAD_START_ROUTINE)LoadLibraryA, pPath, 0, NULL);
-	if (!hThread) 
+	if (pPath)
 	{
-		return FALSE;
+		VirtualFreeEx(hProcess, pPath, 0, MEM_RELEASE);
 	}
 
-	CloseHandle(pPath);
-
-	return TRUE;
+	return bOK;
 }
 
 void InjectIntoSubProcesses()
@@ -85,14 +107,13 @@ void InjectIntoSubProcesses()
 				PROCESS_CREATE_THREAD | PROCESS_QUERY_INFORMATION | 
 				PROCESS_VM_OPERATION | PROCESS_VM_WRITE | PROCESS_VM_READ, 
 				FALSE, procentry.th32ProcessID);
-			if (hProcess)
-			{
-				InjectIntoProcess(hProcess);
+			if (hProcess && InjectIntoProcess(hProcess))
+			{	
 				CloseHandle(hProcess);
 			}
 			else
 			{
-				TRACE("[MuterHook] InjectIntoProcess failed!, ProcessId=%ld\n", procentry.th32ProcessID);
+				TRACE("[MuterHook] InjectIntoSubProcesses failed!, ProcessId=%ld\n", procentry.th32ProcessID);
 			}
 		}
 		bContinue = Process32Next( hSnapShot, &procentry );
