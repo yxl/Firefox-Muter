@@ -30,7 +30,7 @@ extern "C"
 			CoUninitialize();
 			return FALSE;
 		}
-    g_pAudioVolume->Initialize();
+		g_pAudioVolume->Initialize();
 		EnableMute(FALSE);
 		return TRUE;
 	}

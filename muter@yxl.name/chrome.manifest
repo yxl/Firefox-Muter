@@ -1,8 +1,7 @@
 content	muter	chrome/content/
 skin    muter classic/1.0   chrome/skin/
 resource  muter modules/
-resource  muter-binary modules/ctypes-binary/prewin7/	ABI=WINNT_x86-msvc  osversion<6.1
-resource  muter-binary modules/ctypes-binary/sincewin7/	ABI=WINNT_x86-msvc  osversion>=6.1
+resource  muter-binary modules/ctypes-binary/
 
 overlay	chrome://browser/content/browser.xul	chrome://muter/content/overlay.xul
 style	chrome://global/content/customizeToolbar.xul	chrome://muter/skin/muter.css

@@ -39,12 +39,12 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\muter%40yxl.name\modules\</OutDir>
+    <OutDir>..\muter%40yxl.name\modules\ctypes-binary\</OutDir>
     <IntDir>.\Debug\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\muter%40yxl.name\modules\</OutDir>
+    <OutDir>..\muter%40yxl.name\modules\ctypes-binary\</OutDir>
     <IntDir>.\Release\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

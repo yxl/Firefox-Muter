@@ -1,27 +1,55 @@
 var EXPORTED_SYMBOLS = ['muterHook'];
 
-const Cu = Components.utils;
-const Cc = Components.classes;
-const Ci = Components.interfaces;
-
 var jsm = {};
 
-Cu.import("resource://gre/modules/Services.jsm", jsm);
-Cu.import("resource://gre/modules/ctypes.jsm", jsm);
+Components.utils.import("resource://gre/modules/Services.jsm", jsm);
+Components.utils.import("resource://gre/modules/ctypes.jsm", jsm);
 
 var observerService = Components.classes["@mozilla.org/observer-service;1"]
                   .getService(Components.interfaces.nsIObserverService);
 
-/** Needs implementation*/  
-function checkOSVersion() {
-  // For how to get OS version, refers to https://developer.mozilla.org/en/Code_snippets/Miscellaneous
-  let osVersion = Cc["@mozilla.org/network/protocol;1?name=http"] 
-          .getService(Components.interfaces.nsIHttpProtocolHandler).oscpu;
-  isWin7OrLater = false;
-  return true;
-}
+var platform = {
+  name: null,
+  version: 0.0,
+  win: false,
+  mac: false,
+  linux: false,
+  other: false,
+  
+  isWin7OrLater: function() {
+    if (this.win && this.version >= 6.1) {
+      return true;
+    } else {
+      return false;
+    }
+  },
+};
 
-checkOSVersion();
+(function checkOSVersion() {  
+  // For how to get OS version, refers to https://developer.mozilla.org/en/Code_snippets/Miscellaneous
+  let osName = Components.classes["@mozilla.org/xre/app-info;1"]  
+               .getService(Components.interfaces.nsIXULRuntime).OS;
+  osName = osName.trim().toLowerCase();
+  if (osName === 'winnt') {
+    platform.name = 'win';
+    platform.win = true;
+  } else if (osName === 'linux') {
+    platform.name = 'linux';
+    platform.linux = tue;
+  } else if (osName === 'darwin') {
+    platform.name = 'mac';
+    platform.mac = true;
+  } else {
+    platform.name = osName;
+    platform.other = true;
+  }
+  let osVersion = Components.classes["@mozilla.org/network/protocol;1?name=http"] 
+          .getService(Components.interfaces.nsIHttpProtocolHandler).oscpu;
+  var m = /.* (\d+\.\d+)/.exec(osVersion);
+  if (m) {
+    platform.version = parseFloat(m[1]);
+  }
+})();
 
 var muterHook = {
   _EnableMute:    null,
@@ -37,8 +65,11 @@ var muterHook = {
     if (this._dllFile) {
       return;
     }
-        
-    let uri = jsm.Services.io.newURI('resource://muter-binary/MuterHook.dll', null, null);
+    
+    let isWin7OrLater = platform.isWin7OrLater();
+    
+    let dllFileName = isWin7OrLater ? 'MuterWin7.dll' : 'MuterHook.dll';    
+    let uri = jsm.Services.io.newURI('resource://muter-binary/' + dllFileName, null, null);    
     if (uri instanceof Components.interfaces.nsIFileURL) {
       this._dllFile = jsm.ctypes.open(uri.file.path);
     } else {
@@ -76,7 +107,7 @@ var muterHook = {
   },
   
   close: function() {
-    if (isWin7OrLater) {
+    if (platform.isWin7OrLater()) {
       this._Dispose();
     }
     if (this._dllFile) {
