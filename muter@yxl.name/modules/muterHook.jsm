@@ -16,9 +16,14 @@ var isWin7OrLater =  false;
 
 /** Needs implementation*/  
 function checkOSVersion() {
+  // For how to get OS version, refers to https://developer.mozilla.org/en/Code_snippets/Miscellaneous
+  let osVersion = Cc["@mozilla.org/network/protocol;1?name=http"] 
+          .getService(Components.interfaces.nsIHttpProtocolHandler).oscpu;
   isWin7OrLater = false;
   return true;
 }
+
+checkOSVersion();
 
 var muterHook = {
   _EnableMute:    null,
