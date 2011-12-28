@@ -24,17 +24,13 @@ extern "C"
 
 	MUTERWIN7_API BOOL Initialize(void)
 	{
-		HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
-		if (FAILED(hr))
-		{
-			return FALSE;
-		}
 		g_pAudioVolume = new (std::nothrow)AudioVolume();
 		if (g_pAudioVolume == NULL) 
 		{
 			CoUninitialize();
 			return FALSE;
 		}
+    g_pAudioVolume->Initialize();
 		EnableMute(FALSE);
 		return TRUE;
 	}
@@ -44,7 +40,6 @@ extern "C"
 		EnableMute(FALSE);
 		g_pAudioVolume->Dispose();
 		g_pAudioVolume->Release();
-		CoUninitialize();
 	}
 
 	MUTERWIN7_API void EnableMute(BOOL bEnabled)

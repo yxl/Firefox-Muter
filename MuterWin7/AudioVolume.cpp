@@ -132,23 +132,6 @@ HRESULT AudioVolume::OnDefaultDeviceChanged
 }
 
 // ----------------------------------------------------------------------
-//  Implementation of IAudioSessionEvents::OnSimpleVolumeChanged
-//
-//  This is called by the audio core when the process changes the volume or 
-//  mute state for the endpoint we are monitoring
-//
-// ----------------------------------------------------------------------
-HRESULT AudioVolume::OnSimpleVolumeChanged(float NewVolume, BOOL NewMute, LPCGUID EventContext)
-{
-	BOOL bMute = IsMuteEnabled();
-	if (bMute != NewMute)
-	{
-		EnableMute(bMute);
-	}
-	return S_OK;
-}
-
-// ----------------------------------------------------------------------
 //  Implementation of IAudioSessionNotification::OnSessionCreated
 //
 //  Notifies the registered processes that the audio session has been created.
@@ -170,10 +153,6 @@ HRESULT AudioVolume::QueryInterface(REFIID iid, void** ppUnk)
 		(iid == __uuidof(IMMNotificationClient)))
 	{
 		*ppUnk = static_cast<IMMNotificationClient*>(this);
-	}
-	else if (iid == __uuidof(IAudioSessionEvents))
-	{
-		*ppUnk = static_cast<IAudioSessionEvents*>(this);
 	}
 	else if (iid == __uuidof(IAudioSessionNotification))
 	{
@@ -242,7 +221,12 @@ void AudioVolume::UpdateMuteStatus()
 	{
 		return;
 	}
-	map.insert(std::make_pair(g_dwThisModuleProcessId, TRUE));
+
+  std::map<DWORD, BOOL>::iterator iter = map.find(g_dwThisModuleProcessId);
+  if (iter != map.end())
+  {
+    iter->second = TRUE;
+  }
 
 	BOOL bMute = ::IsMuteEnabled();
 
@@ -279,5 +263,5 @@ void AudioVolume::UpdateMuteStatus()
 	}
 
 Exit:
-	SAFE_RELEASE(m_spAudioEndpoint);
+	return;
 }

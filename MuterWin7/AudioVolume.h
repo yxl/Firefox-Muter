@@ -1,7 +1,4 @@
 #pragma once
-#include <windows.h>
-#include <atlbase.h>
-#include <atlsync.h>
 #include <mmdeviceapi.h>
 #include <audiopolicy.h>
 
@@ -13,7 +10,7 @@
 // {F432FAD2-59F3-41d6-ADBF-478D6E12F6B7}
 static const GUID AudioVolumnCtx = { 0xf432fad2, 0x59f3, 0x41d6, { 0xad, 0xbf, 0x47, 0x8d, 0x6e, 0x12, 0xf6, 0xb7 } };
 
-class AudioVolume: public IMMNotificationClient, IAudioSessionEvents, IAudioSessionNotification
+class AudioVolume: public IMMNotificationClient, IAudioSessionNotification
 {
 private:
 	BOOL                            m_bRegisteredForEndpointNotifications;
@@ -40,15 +37,6 @@ private:
 	IFACEMETHODIMP OnDeviceQueryRemove()   {   return S_OK;    }
 	IFACEMETHODIMP OnDeviceQueryRemoveFailed() {   return S_OK;    }
 	IFACEMETHODIMP OnDeviceRemovePending() {   return S_OK;    }
-
-	// IAudioSessionEvents (only need to really implement OnSimpleVolumeChanged)
-	IFACEMETHODIMP OnDisplayNameChanged(LPCWSTR NewDisplayName, LPCGUID EventContext) {return S_OK;}
-	IFACEMETHODIMP OnIconPathChanged(LPCWSTR NewIconPath, LPCGUID EventContext){return S_OK;}
-	IFACEMETHODIMP OnSimpleVolumeChanged(float NewVolume, BOOL NewMute, LPCGUID EventContext);
-	IFACEMETHODIMP OnChannelVolumeChanged(DWORD ChannelCount, float NewChannelVolumeArray[], DWORD ChangedChannel, LPCGUID EventContext) {return S_OK;}
-	IFACEMETHODIMP OnGroupingParamChanged(LPCGUID NewGroupingParam,  LPCGUID EventContext) {return S_OK;}
-	IFACEMETHODIMP OnStateChanged(AudioSessionState NewState){return S_OK;}
-	IFACEMETHODIMP OnSessionDisconnected(AudioSessionDisconnectReason DisconnectReason){return S_OK;}
 
 	// IAudioSessionNotification
 	IFACEMETHODIMP OnSessionCreated(IAudioSessionControl *NewSession);
