@@ -11,14 +11,6 @@ Cu.import("resource://gre/modules/ctypes.jsm", jsm);
 
 var observerService = Components.classes["@mozilla.org/observer-service;1"]
                   .getService(Components.interfaces.nsIObserverService);
-                  
-var isWin7OrLater =  false;
-
-/** Needs implementation*/  
-function checkOSVersion() {
-  isWin7OrLater = false;
-  return true;
-}
 
 var muterHook = {
   _EnableMute:    null,
@@ -35,8 +27,7 @@ var muterHook = {
       return;
     }
         
-    let dllFileName = isWin7OrLater ? 'MuterWin7.dll' : 'MuterHook.dll';    
-    let uri = jsm.Services.io.newURI('resource://muter/' + dllFileName, null, null);
+    let uri = jsm.Services.io.newURI('resource://muter-binary/MuterHook.dll', null, null);
     if (uri instanceof Components.interfaces.nsIFileURL) {
       this._dllFile = jsm.ctypes.open(uri.file.path);
     } else {
