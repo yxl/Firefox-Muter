@@ -75,7 +75,7 @@ class HookedDirectSoundBuffer : public IDirectSoundBuffer {
 		__in_bcount_opt(dwAudioBytes2) LPVOID pvAudioPtr2, DWORD dwAudioBytes2) {
 			if (IsInThisModuleProcess())
 			{
-				if (ShouldMute())
+				if (IsMuteEnabled())
 				{
 					if (pvAudioPtr1) {
 						memset(pvAudioPtr1, 0, dwAudioBytes1);

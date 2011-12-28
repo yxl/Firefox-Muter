@@ -8,19 +8,19 @@
 #include <shlwapi.h>
 #pragma comment(lib, "Shlwapi.lib")
 
+#include <map>
+
 // {F432FAD2-59F3-41d6-ADBF-478D6E12F6B7}
 static const GUID AudioVolumnCtx = { 0xf432fad2, 0x59f3, 0x41d6, { 0xad, 0xbf, 0x47, 0x8d, 0x6e, 0x12, 0xf6, 0xb7 } };
 
-class AudioVolume: public IMMNotificationClient, IAudioSessionEvents
+class AudioVolume: public IMMNotificationClient, IAudioSessionEvents, IAudioSessionNotification
 {
 private:
 	BOOL                            m_bRegisteredForEndpointNotifications;
 	BOOL                            m_bRegisteredForAudioSessionNotifications;
-	CComPtr<IMMDeviceEnumerator>    m_spEnumerator;
-	CComPtr<IMMDevice>              m_spAudioEndpoint;
-	CComPtr<IAudioSessionManager>   m_spAudioSessionManager;
-	CComPtr<IAudioSessionControl>   m_spAudioSessionControl;
-	CComPtr<ISimpleAudioVolume>     m_spSimpleAudioVolume;
+	CComQIPtr<IMMDeviceEnumerator>    m_spEnumerator;
+	CComQIPtr<IMMDevice>              m_spAudioEndpoint;
+	CComQIPtr<IAudioSessionManager2>   m_spAudioSessionManager2;
 
 	CCriticalSection                m_csEndpoint;
 
@@ -50,15 +50,22 @@ private:
 	IFACEMETHODIMP OnStateChanged(AudioSessionState NewState){return S_OK;}
 	IFACEMETHODIMP OnSessionDisconnected(AudioSessionDisconnectReason DisconnectReason){return S_OK;}
 
+	// IAudioSessionNotification
+	IFACEMETHODIMP OnSessionCreated(IAudioSessionControl *NewSession);
+
 	// IUnknown
 	IFACEMETHODIMP QueryInterface(const IID& iid, void** ppUnk);
+
+	// Get a map that its keys contains all process IDs and the value for each key is a boolean value indicating whehter the process with key is a subprocess.
+	BOOL GetSubProcesseMap(DWORD dwParentProcessId, std::map<DWORD, BOOL> &map);
 public:
 	AudioVolume();
 
 	HRESULT Initialize();
 	void    Dispose();
 
-	void EnableMute(BOOL bEnabled);
+	// Change mute status of all audio session
+	void UpdateMuteStatus();
 
 	// IUnknown
 	IFACEMETHODIMP_(ULONG) AddRef();

@@ -8,7 +8,7 @@ HRESULT (WINAPI *CoCreateInstance_original)(REFCLSID rclsid, LPUNKNOWN pUnkOuter
 HRESULT WINAPI CoCreateInstance_hook(REFCLSID rclsid, LPUNKNOWN pUnkOuter, DWORD dwClsContext, REFIID riid, LPVOID* ppv)
 {
   TRACE("[MuterHook] CoCreateInstance_hook\n");
-  HRESULT hret =  ::CoCreateInstance_original(rclsid, pUnkOuter, dwClsContext, riid, ppv);
+  HRESULT hret =  CoCreateInstance_original(rclsid, pUnkOuter, dwClsContext, riid, ppv);
   if (IsInThisModuleProcess())
   {
 	  InjectIntoSubProcesses();

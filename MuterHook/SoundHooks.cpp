@@ -13,7 +13,7 @@ MMRESULT WINAPI waveOutWrite_hook(HWAVEOUT hwo, LPWAVEHDR pwh, UINT cbwh)
 
 	if (IsInThisModuleProcess())
 	{
-		if (ShouldMute())
+		if (IsMuteEnabled())
 		{ 
 			memset(pwh->lpData, 0 , pwh->dwBufferLength);
 		}
@@ -30,7 +30,7 @@ MMRESULT WINAPI midiStreamOut_hook(HMIDISTRM hms, LPMIDIHDR pmh, UINT cbmh)
 
 	if (IsInThisModuleProcess())
 	{
-		if (ShouldMute()) 
+		if (IsMuteEnabled()) 
 		{
 			memset(pmh->lpData, 0 , pmh->dwBufferLength);
 		}	

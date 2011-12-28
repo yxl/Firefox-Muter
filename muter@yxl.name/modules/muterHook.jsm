@@ -11,11 +11,20 @@ Cu.import("resource://gre/modules/ctypes.jsm", jsm);
 
 var observerService = Components.classes["@mozilla.org/observer-service;1"]
                   .getService(Components.interfaces.nsIObserverService);
+                  
+var isWin7OrLater =  false;
+
+/** Needs implementation*/  
+function checkOSVersion() {
+  isWin7OrLater = false;
+  return true;
+}
 
 var muterHook = {
   _EnableMute:    null,
   _IsMuteEnabled:  null,
-  _GetLastSoundPlayingTimeInSeconds: null,
+  _Initialize: null,  // win7 only
+  _Dispose: null,  // win7 only
  
   _dllFile:          null,
 
@@ -25,8 +34,9 @@ var muterHook = {
     if (this._dllFile) {
       return;
     }
-    
-    let uri = jsm.Services.io.newURI('resource://muter/MuterHook.dll', null, null);
+        
+    let dllFileName = isWin7OrLater ? 'MuterWin7.dll' : 'MuterHook.dll';    
+    let uri = jsm.Services.io.newURI('resource://muter/' + dllFileName, null, null);
     if (uri instanceof Components.interfaces.nsIFileURL) {
       this._dllFile = jsm.ctypes.open(uri.file.path);
     } else {
@@ -43,15 +53,30 @@ var muterHook = {
     // BOOL IsMuteEnabled()
     this._IsMuteEnabled = this._dllFile.declare("IsMuteEnabled",
       jsm.ctypes.winapi_abi,
-      jsm.ctypes.int32_t);
+      jsm.ctypes.int32_t
+      );
+
+    if (isWin7OrLater) {
+      // BOOL Initialize()
+      this._Initialize = this._dllFile.declare("Initialize",
+        jsm.ctypes.winapi_abi,
+        jsm.ctypes.int32_t
+        );
       
-    // LONG GetLastSoundPlayingTimeInSeconds()
-    this._GetLastSoundPlayingTimeInSeconds = this._dllFile.declare("GetLastSoundPlayingTimeInSeconds",
-      jsm.ctypes.winapi_abi,
-      jsm.ctypes.int32_t);
+      // void Dispose()
+      this._Dispose = this._dllFile.declare("Dispose",
+        jsm.ctypes.winapi_abi,
+        jsm.ctypes.void_t
+        );
+      
+      this._Initialize();
+    }
   },
   
   close: function() {
+    if (isWin7OrLater) {
+      this._Dispose();
+    }
     if (this._dllFile) {
       this._dllFile.close();
     }
@@ -65,17 +90,5 @@ var muterHook = {
   
   isMuteEnabled: function() {
     return this._IsMuteEnabled();
-  },
-  
-  getLastSoundPlayingTimeInSeconds: function() {
-    return this._GetLastSoundPlayingTimeInSeconds();
-  },
-  
-  getLastSoundPlayingTime: function() {
-    let seconds = this.getLastSoundPlayingTimeInSeconds();
-    if (seconds == -1) {
-      return null;
-    }
-    return new Date(seconds * 1000);
   }
 };
