@@ -14,5 +14,11 @@
 #include <windows.h>
 #include <atlbase.h>
 #include <atlsync.h>
+#include <atlcoll.h>
+#include <mmdeviceapi.h>
+#include <audiopolicy.h>
+
+#include <shlwapi.h>
+#pragma comment(lib, "Shlwapi.lib")
 
 // TODO: reference additional headers your program requires here
