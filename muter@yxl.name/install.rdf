@@ -13,6 +13,8 @@
   <em:iconURL>chrome://muter/skin/icon.png</em:iconURL>
   <em:unpack>true</em:unpack>
   <em:targetPlatform>WINNT_x86-msvc</em:targetPlatform>
+  <em:updateURL>http://g-fox.cn/chinaedition/addons/muter/update.rdf</em:updateURL>
+  <em:updateKey>MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDHbBATP51w21dgRhO8ShC3l7seoq6QqUUNgM0+iweZMUOBjZCjx0AvVLn1g+6/yAfGg2DtogxKsffKk7xcjH3PAk+6oljwWJo/tF8P4px2fbLQclwxdmN5SkCsnvruN0wOtGm8uJfm8qfz2ceYYjOVWzpSgG5j45l3gwM+sL152QIDAQAB</em:updateKey>
   
   <!-- Firefox -->
   <em:targetApplication>
