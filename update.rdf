@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF
+  xmlns:em="http://www.mozilla.org/2004/em-rdf#"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+>
+  <rdf:Description rdf:about="urn:mozilla:extension:muter@yxl.name">
+    <em:signature>MIGTMA0GCSqGSIb3DQEBDQUAA4GBAAIbNtSu1gtz+Di5bllvAoFM05IJdoseVZU7tiK68/uiNZQumeFGQ55O06XLQEoDpZzUUuEBF/jwUP1aTB3gGoZJaO1RyDvdAYmjCnktEoHN7GY672WMiFGIGMIbYS3MOrGGjvXIXwsI1sj1dtrHfZv0rzdgSUQFqbh4YQsg67nH</em:signature>
+    <em:updates>
+      <rdf:Seq>
+        <rdf:li>
+          <rdf:Description>
+            <em:targetApplication>
+              <rdf:Description>
+                <em:updateLink>http://yxl.github.com/Firefox-Muter/muter-0.3.xpi</em:updateLink>
+                <em:updateHash>sha1:5b95ab2cca8e3ba0a7385f225cc8629d8d66d310</em:updateHash>
+                <em:maxVersion>9.*</em:maxVersion>
+                <em:minVersion>6.0</em:minVersion>
+                <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+              </rdf:Description>
+            </em:targetApplication>
+            <em:version>0.3</em:version>
+          </rdf:Description>
+        </rdf:li>
+      </rdf:Seq>
+    </em:updates>
+  </rdf:Description>
+</rdf:RDF>
