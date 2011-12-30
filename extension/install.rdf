@@ -8,7 +8,7 @@
   <em:description>Let you to mute the Firefox browser.</em:description> 
   <em:creator>Yuan Xulei</em:creator>
   <em:contributor>Zhao Botong</em:contributor>
-  <em:homepageURL></em:homepageURL>
+  <em:homepageURL>http://yxl.github.com/Firefox-Muter</em:homepageURL>
   <em:optionsURL>chrome://muter/content/muterSettings.xul</em:optionsURL>
   <em:iconURL>chrome://muter/skin/icon.png</em:iconURL>
   <em:unpack>true</em:unpack>
