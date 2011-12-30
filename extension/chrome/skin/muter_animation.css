@@ -1,5 +1,9 @@
 @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
 
+#muter-toolbar-palette-button {
+  -moz-animation: crazy 10s 2s infinite backwards;
+  background-color:transparent;
+}
 #muter-toolbar-palette-button[mute="enabled"]  {
   list-style-image: url("chrome://muter/skin/mute_enabled.png");
 }
@@ -14,4 +18,12 @@
 
 #muter-popup-image-disabled {
   list-style-image: url("chrome://muter/skin/mute_disabled_animation.gif");
+}
+
+@-moz-keyframes crazy {
+	0%   { -moz-transform: rotate(0deg);   background-color:transparent;}
+  5%  { -moz-transform: rotate(0deg);   background-color:#F00;}
+  8%  { -moz-transform: rotate(0deg);   background-color:transparent;}
+  20%  { -moz-transform: rotate(360deg);   background-color:transparent;}
+	100% { -moz-transform: rotate(360deg); background-color:transparent;}
 }
