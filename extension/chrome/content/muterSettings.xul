@@ -13,10 +13,11 @@
   <prefpane id="muter-prefpane1" label="preference">
     <!-- Lists all the preferences to be set here -->
     <preferences>
-			<preference id="shortcutKey" name="extensions.firefox-muter.shortcut.key" type="string"/>
-			<preference id="shortcutModifiers" name="extensions.firefox-muter.shortcut.modifiers" type="string"/>
-			<preference id="showInAddonBar" name="extensions.firefox-muter.showInAddonBar" type="bool"/>
-		</preferences>
+      <preference id="shortcutKey" name="extensions.firefox-muter.shortcut.key" type="string"/>
+      <preference id="shortcutModifiers" name="extensions.firefox-muter.shortcut.modifiers" type="string"/>
+      <preference id="showInAddonBar" name="extensions.firefox-muter.showInAddonBar" type="bool"/>
+      <preference id="showInStatusBar" name="extensions.firefox-muter.showInStatusBar" type="bool"/>
+    </preferences>
     
     <!-- Sets Shortcut key -->
     <groupbox id="muter-settings-shortcut">
@@ -77,11 +78,17 @@
     <!-- Sets the UI -->
     <groupbox id="muter-settings-ui">
       <caption label="&muter.settings.ui.title;"/>
-      <hbox>
-        <checkbox id="muter-settings-show-in-addon-bar" 
+      <hbox id="muter-settings-show-in-addon-bar">
+        <checkbox
           preference="showInAddonBar" 
           label="&muter.settings.showInAddonBar;"/>
       </hbox>
+      <!-- For firefox 3.6 only -->
+      <hbox id="muter-settings-show-in-status-bar" hidden="true">
+        <checkbox
+          preference="showInStatusBar" 
+          label="&muter.settings.showInStatusBar;" />
+      </hbox>      
     </groupbox>
   </prefpane>
   <hbox>

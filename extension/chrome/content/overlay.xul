@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<?xml-stylesheet href="chrome://muter/skin/muter_animation.css" type="text/css"?>
+<?xml-stylesheet href="chrome://muter/skin/muter.css" type="text/css"?>
 <!DOCTYPE overlay SYSTEM "chrome://muter/locale/muter.dtd">
 <overlay id="muter-overlay"
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
@@ -14,17 +14,8 @@
     <panel id="muter-popup-init" type="arrow" align="start">
       <label id="muter-label-init" value="&muter-popup.init;"/>
     </panel>
-    <panel id="muter-popup" type="arrow" align="start">
-      <hbox id="muter-popup-mute-enabled">
-        <image id="muter-popup-image-enabled"/>
-        <label id="muter-popup-label-enabled" value="&muter-popup.enabled;"/>
-      </hbox>
-      <hbox id="muter-popup-mute-disabled"  hidden='true'>
-        <image id="muter-popup-image-disabled"/>
-        <label id="muter-popup-label-disabled" value="&muter-popup.disabled;"/>
-      </hbox>      
-    </panel>
   </popupset>
+  <!-- Toolbar button-->
   <toolbarpalette id="BrowserToolbarPalette">
     <toolbarbutton id="muter-toolbar-palette-button"
                    class="toolbarbutton-1 chromeclass-toolbar-additional"
@@ -41,5 +32,15 @@
     <menupopup id="muter-toolbar-palette-context-menu">
       <menuitem label="&muter.settings.title;" oncommand="muter.openSettingsDialog()" />
     </menupopup>
-  </popupset>  
+  </popupset>
+  <!-- statusbar, only for firefox 3.6-->
+  <statusbar id="status-bar">
+    <toolbarbutton id="muter-statusbar-button"
+                   class="toolbarbutton-1 chromeclass-toolbar-additional"
+                   mute="disabled"
+                   command="cmd_muterToggle"
+                   popup="muter-popup"
+                   onclick="muter.clickSwitchButton(event);"
+                   tooltiptext="&muter-button.tooltip;" hidden="true" />        
+  </statusbar>
 </overlay>
