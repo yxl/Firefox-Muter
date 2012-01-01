@@ -131,6 +131,7 @@ var muter = (function(){
     setupAddonBar: function() {
       // Move the muter button to the addon bar
       let addonbar = document.getElementById("addon-bar");
+      if (!addonbar) return; 
       let curSet = addonbar.currentSet;
       if (-1 == curSet.indexOf("muter-toolbar-palette-button")){
         let newSet = curSet + ",muter-toolbar-palette-button";
@@ -145,12 +146,19 @@ var muter = (function(){
         }
         document.persist(addonbar.id, "collapsed");
 
+        this._showIntroPopup();
+      }
+    },
+    
+    /** popup an introduction message */
+    _showIntroPopup: function() {
+      window.setTimeout(function() {
         let initpanel = document.getElementById("muter-popup-init");
         let btn = document.getElementById("muter-toolbar-palette-button");
         if (initpanel && btn) {
           initpanel.openPopup(btn, "topcenter bottomright");
         }
-      }
+      }, 1000);
     },
     
     /** For firefox 3.6 only! Setup the muter button in the status bar**/
