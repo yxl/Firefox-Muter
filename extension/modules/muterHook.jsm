@@ -11,47 +11,55 @@ let muterHook = {
   _Initialize: null,  // win7 only
   _Dispose: null,  // win7 only
  
-  _dllFile:          null,
+  _lib:          null,
 
   open: function() {
   
     // Check if it is already opened
-    if (this._dllFile) {
+    if (this._lib) {
       return;
     }
     
-    let dllFileName = isWin7OrLater ? 'MuterWin7.dll' : 'MuterHook.dll';    
-    let uri = muterUtils.Services.io.newURI('resource://muter-binary/' + dllFileName, null, null);    
+    let libFile = '';
+    if (muterUtils.platform.win) {
+       libFile = isWin7OrLater ? 'MuterWin7.dll' : 'MuterHook.dll';    
+    } else if (muterUtils.platform.linux) {
+       libFile = 'libMuterPulseAudio.so';
+    }
+    let uri = muterUtils.Services.io.newURI('resource://muter-binary/' + libFile, null, null);    
     if (uri instanceof Components.interfaces.nsIFileURL) {
-      this._dllFile = ctypes.open(uri.file.path);
+      this._lib = ctypes.open(uri.file.path);
     } else {
       return;
     }
     
-    let abiType = muterUtils.isVersionLessThan("4.0") ? ctypes.stdcall_abi: ctypes.winapi_abi;
+    let abiType = ctypes.default_abi;
+    if (muterUtils.platform.win) {
+      abiType = muterUtils.isVersionLessThan("4.0") ? ctypes.stdcall_abi: ctypes.winapi_abi;
+    }
 
     // void EnableMute(BOOL bEnabeled)
-    this._EnableMute = this._dllFile.declare("EnableMute",
+    this._EnableMute = this._lib.declare("EnableMute",
       abiType,
       ctypes.void_t, // void
       ctypes.int32_t  //BOOL
       );  
       
     // BOOL IsMuteEnabled()
-    this._IsMuteEnabled = this._dllFile.declare("IsMuteEnabled",
+    this._IsMuteEnabled = this._lib.declare("IsMuteEnabled",
       abiType,
       ctypes.int32_t
       );
 
-    if (isWin7OrLater) {
+    if (isWin7OrLater || muterUtils.platform.linux) {
       // BOOL Initialize()
-      this._Initialize = this._dllFile.declare("Initialize",
+      this._Initialize = this._lib.declare("Initialize",
         abiType,
         ctypes.int32_t
         );
       
       // void Dispose()
-      this._Dispose = this._dllFile.declare("Dispose",
+      this._Dispose = this._lib.declare("Dispose",
         abiType,
         ctypes.void_t
         );
@@ -61,11 +69,11 @@ let muterHook = {
   },
   
   close: function() {
-    if (isWin7OrLater()) {
+    if (isWin7OrLater || muterUtils.platform.linux) {
       this._Dispose();
     }
-    if (this._dllFile) {
-      this._dllFile.close();
+    if (this._lib) {
+      this._lib.close();
     }
   },
    

@@ -14,11 +14,11 @@
 }
 
 @-moz-keyframes crazy {
-	0%   { -moz-transform: rotate(0deg);   background-color:transparent;}
+  0%   { -moz-transform: rotate(0deg);   background-color:transparent;}
   5%  { -moz-transform: rotate(0deg);   background-color:#F00;}
   8%  { -moz-transform: rotate(0deg);   background-color:transparent;}
   20%  { -moz-transform: rotate(360deg);   background-color:transparent;}
-	100% { -moz-transform: rotate(360deg); background-color:transparent;}
+  100% { -moz-transform: rotate(360deg); background-color:transparent;}
 }
 
 /** For Firfox 3.6 only! **/
@@ -26,7 +26,6 @@
 #muter-statusbar-button {
   background-color:transparent;
   height: 16px;
-  width: 16px;
   padding: 0;
   margin: 0;
 }

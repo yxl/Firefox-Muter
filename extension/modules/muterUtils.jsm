@@ -35,7 +35,7 @@ let platform = {
     platform.win = true;
   } else if (osName === 'linux') {
     platform.name = 'linux';
-    platform.linux = tue;
+    platform.linux = true;
   } else if (osName === 'darwin') {
     platform.name = 'mac';
     platform.mac = true;
