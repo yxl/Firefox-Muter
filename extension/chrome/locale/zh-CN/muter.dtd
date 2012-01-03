@@ -7,4 +7,5 @@
 <!ENTITY muter.settings.ui.title "用户界面">
 <!ENTITY muter.settings.restore "还原默认值">
 <!ENTITY muter.settings.showInAddonBar "在附加组件栏显示切换按钮">
+<!ENTITY muter.settings.enableCrazy "切换按钮每10秒发一次疯">
 <!ENTITY muter.settings.showInStatusBar "在状态栏显示切换按钮">

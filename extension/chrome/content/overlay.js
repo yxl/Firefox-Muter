@@ -116,12 +116,13 @@ var muter = (function(){
       let btn = document.getElementById("muter-toolbar-palette-button");
       if (btn) {
         btn.setAttribute("mute", (isMuted ? "enabled" : "disabled"));
+        let needCrazy = Services.prefs.getBoolPref("extensions.firefox-muter.enableCrazy");
+        btn.setAttribute("crazy", needCrazy);        
       }
       
       // For firefox 3.6 only
       let statusbarBtn = document.getElementById("muter-statusbar-button");
       statusbarBtn.setAttribute("mute", (isMuted ? "enabled" : "disabled"));
-
       if (muterUtils.isVersionLessThan("4.0")) {
         statusbarBtn.hidden = false;
       }    
@@ -240,6 +241,9 @@ var muter = (function(){
           }
         } else if (prefName == "extensions.firefox-muter.showInStatusBar") {
           muter.setupStatusBar();
+        } else if (prefName == "extensions.firefox-muter.enableCrazy") {
+          let needCrazy = Services.prefs.getBoolPref(prefName);
+          document.getElementById("muter-toolbar-palette-button").setAttribute("crazy", needCrazy);
         }
       }
     },

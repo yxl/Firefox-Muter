@@ -7,4 +7,5 @@
 <!ENTITY muter.settings.ui.title "User Interface">
 <!ENTITY muter.settings.restore "Restore Defaults">
 <!ENTITY muter.settings.showInAddonBar "Show switch button in the addon bar.">
+<!ENTITY muter.settings.enableCrazy "Let switch button every 10 seconds.">
 <!ENTITY muter.settings.showInStatusBar "Show switch button in the status bar.">

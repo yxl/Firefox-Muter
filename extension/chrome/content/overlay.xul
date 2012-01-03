@@ -20,6 +20,7 @@
     <toolbarbutton id="muter-toolbar-palette-button"
                    class="toolbarbutton-1 chromeclass-toolbar-additional"
                    mute="disabled"
+                   crazy="false"
                    command="cmd_muterToggle"
                    popup="muter-popup"
                    onclick="muter.clickSwitchButton(event);"
