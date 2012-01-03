@@ -237,8 +237,7 @@ void AudioMixerControl::PaContextGetSinkInputInfoCallback(pa_context *context,
   }
 }
 
-
-int GetParentProcessId(int processId)
+static int GetParentProcessId(int processId)
 {
   char pname[100];
   char buffer[666];
@@ -248,8 +247,8 @@ int GetParentProcessId(int processId)
 
   int ppid = -1;
 
-  if ((procfd = open(pname, O_RDONLY)) != -1 &&
-   read(procfd, buffer, sizeof (buffer)) > 0)
+  if ((procfd = open(pname, O_RDONLY)) != -1
+      && read(procfd, buffer, sizeof(buffer)) > 0)
   {
     int pid;
     char fname[100];
@@ -276,14 +275,20 @@ void AudioMixerControl::UpdateSinkInput(const pa_sink_input_info *info)
   }
   else
   {
-    int pid = getpid();
     stream = new SinkInput();
     stream->UpdateData(info);
-    if (stream->GetProcessId() != pid && GetParentProcessId(stream->GetProcessId()) != pid)
+
+    // Check if the stream belongs to Firefox
+    int pid = getpid();
+    if (stream->GetProcessId() != pid
+        && GetParentProcessId(stream->GetProcessId()) != pid
+        && (stream->GetApplicationName() == NULL
+            || strcmp(stream->GetApplicationName(), "Movie browser plugin") != 0))
     {
       delete stream;
       return;
     }
+
     m_sinkInputs.insert(std::make_pair(info->index, stream));
     printf("[%s] Add SinkInput\n", PACKAGE_NAME);
     UpdateMuteStatus();

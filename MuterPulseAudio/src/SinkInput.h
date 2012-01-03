@@ -22,6 +22,7 @@ public:
 
   uint32_t GetIndex() const;
   char *GetProcessBinary() const;
+  char *GetApplicationName() const {return m_applicationName;}
   int GetProcessId() const;
   bool IsMute() const;
 
@@ -33,6 +34,7 @@ private:
 private:
   uint32_t m_index;
   char* m_processBinary;
+  char* m_applicationName;
   int m_processId;
   bool m_mute;
 };

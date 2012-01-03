@@ -9,8 +9,8 @@
 #include <string.h>
 
 SinkInput::SinkInput() :
-    m_index(INVALID_INDEX), m_processBinary(NULL), m_processId(-1), m_mute(
-        false)
+    m_index(INVALID_INDEX), m_processBinary(NULL), m_applicationName(NULL), m_processId(
+        -1), m_mute(false)
 {
 }
 
@@ -20,6 +20,11 @@ void SinkInput::UpdateData(const pa_sink_input_info *info)
   {
     m_index = info->index;
 
+    if (m_processBinary)
+    {
+      free(m_processBinary);
+      m_processBinary = NULL;
+    }
     m_processBinary = DupPaPopString(info->proplist,
         PA_PROP_APPLICATION_PROCESS_BINARY);
 
@@ -30,6 +35,14 @@ void SinkInput::UpdateData(const pa_sink_input_info *info)
       m_processId = atoi(szProcessId);
       free(szProcessId);
     }
+
+    if (m_applicationName)
+    {
+      free(m_applicationName);
+      m_applicationName = NULL;
+    }
+    m_applicationName = DupPaPopString(info->proplist,
+        PA_PROP_APPLICATION_NAME);
 
     m_mute = info->mute != 0;
   }
@@ -75,6 +88,10 @@ SinkInput::~SinkInput()
   if (m_processBinary)
   {
     free(m_processBinary);
+  }
+  if (m_applicationName)
+  {
+    free(m_applicationName);
   }
 }
 
