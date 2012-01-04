@@ -11,6 +11,7 @@ muterUtils.isVersionLessThan = function(v) {
 let platform = {
   name: null,
   version: 0.0,
+  is64: false, 
   win: false,
   mac: false,
   linux: false,
@@ -27,9 +28,11 @@ let platform = {
 
 (function checkOSVersion() {  
   // For how to get OS version, refers to https://developer.mozilla.org/en/Code_snippets/Miscellaneous
-  let osName = Components.classes["@mozilla.org/xre/app-info;1"]  
-               .getService(Components.interfaces.nsIXULRuntime).OS;
-  osName = osName.trim().toLowerCase();
+  let runtime = Components.classes["@mozilla.org/xre/app-info;1"]  
+               .getService(Components.interfaces.nsIXULRuntime);
+  
+  // OS Name
+  let osName = runtime.OS.trim().toLowerCase();
   if (osName === 'winnt') {
     platform.name = 'win';
     platform.win = true;
@@ -43,6 +46,14 @@ let platform = {
     platform.name = osName;
     platform.other = true;
   }
+  
+  // Platfrom
+  if (runtime.XPCOMABI.indexOf('64') == -1) {
+    platform.is64 = false;
+  } else {
+    platform.is64 = true;
+  }
+  // OS version
   let osVersion = Components.classes["@mozilla.org/network/protocol;1?name=http"] 
           .getService(Components.interfaces.nsIHttpProtocolHandler).oscpu;
   var m = /.* (\d+\.\d+)/.exec(osVersion);

@@ -21,10 +21,13 @@ let muterHook = {
     }
     
     let libFile = '';
+    let suffix = muterUtils.platform.is64 ? '-64' : '-32';
     if (muterUtils.platform.win) {
-       libFile = isWin7OrLater ? 'MuterWin7.dll' : 'MuterHook.dll';    
+       libFile = isWin7OrLater ? 'MuterWin7' : 'MuterHook';
+       libFile += suffix + '.dll';       
     } else if (muterUtils.platform.linux) {
-       libFile = 'libMuterPulseAudio.so';
+       libFile = 'libMuterPulseAudio';
+       libFile += suffix + '.so';
     }
     let uri = muterUtils.Services.io.newURI('resource://muter-binary/' + libFile, null, null);    
     if (uri instanceof Components.interfaces.nsIFileURL) {

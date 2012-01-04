@@ -204,7 +204,7 @@ void AudioVolume::InitializeAudioSessionControlList()
 
 void AudioVolume::DisposeAudioSessionControlList()
 {
-  int n = m_arrSpAudioSessionControl2.GetCount();
+  int n = static_cast<int>(m_arrSpAudioSessionControl2.GetCount());
   for (int i=0; i<n; i++)
   {
     SAFE_RELEASE(m_arrSpAudioSessionControl2[i]);
@@ -354,7 +354,7 @@ void AudioVolume::UpdateMuteStatus()
 
   BOOL bMute = ::IsMuteEnabled();
 
-  int n = m_arrSpAudioSessionControl2.GetCount();
+  int n = static_cast<int>(m_arrSpAudioSessionControl2.GetCount());
 
   // Enumerate audio sessions
   for (int i=0; i<n; i++)
