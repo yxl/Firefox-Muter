@@ -37,12 +37,19 @@
  * ***** END LICENSE BLOCK ***** */
 var muterSettings = (function(){
   let jsm = {};
-  Components.utils["import"]("resource://gre/modules/Services.jsm", jsm);
-  let { Services } = jsm;
-
-  var muterSettings = {
+  Components.utils.import("resource://muter/muterUtils.jsm", jsm);
+  let { muterUtils } = jsm;
+  
+  let muterSettings = {
   
     init: function(event) {
+      // For firefox 3.6 only
+      if (muterUtils.isVersionLessThan("4.0")) {
+        let showInStatusBar = document.getElementById("muter-settings-show-in-status-bar");
+        showInStatusBar.hidden = false;
+        let showInAddonBar = document.getElementById("muter-settings-show-in-addon-bar");
+        showInAddonBar.hidden = true;
+      }
     },
 
     destory: function(event) {

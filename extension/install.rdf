@@ -4,8 +4,8 @@
   
   <em:id>muter@yxl.name</em:id>
   <em:name>Muter</em:name>
-  <em:version>0.4</em:version>
-  <em:description>Let you to mute the Firefox browser.</em:description> 
+  <em:version>0.6</em:version>
+  <em:description>Let you mute the Firefox browser.</em:description> 
   <em:creator>Yuan Xulei</em:creator>
   <em:contributor>Zhao Botong</em:contributor>
   <em:homepageURL>http://yxl.github.com/Firefox-Muter</em:homepageURL>
@@ -13,6 +13,7 @@
   <em:iconURL>chrome://muter/skin/icon.png</em:iconURL>
   <em:unpack>true</em:unpack>
   <em:targetPlatform>WINNT_x86-msvc</em:targetPlatform>
+  <em:targetPlatform>Linux</em:targetPlatform>
   <em:updateURL>http://yxl.github.com/Firefox-Muter/update.rdf</em:updateURL>
   <em:updateKey>MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDHbBATP51w21dgRhO8ShC3l7seoq6QqUUNgM0+iweZMUOBjZCjx0AvVLn1g+6/yAfGg2DtogxKsffKk7xcjH3PAk+6oljwWJo/tF8P4px2fbLQclwxdmN5SkCsnvruN0wOtGm8uJfm8qfz2ceYYjOVWzpSgG5j45l3gwM+sL152QIDAQAB</em:updateKey>
   
@@ -20,8 +21,8 @@
   <em:targetApplication>
     <Description>
       <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
-      <em:minVersion>6.0</em:minVersion>
-      <em:maxVersion>9.*</em:maxVersion>
+      <em:minVersion>3.6</em:minVersion>
+      <em:maxVersion>12.*</em:maxVersion>
     </Description>
   </em:targetApplication>
 

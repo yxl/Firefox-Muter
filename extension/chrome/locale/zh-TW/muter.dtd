@@ -1,11 +1,11 @@
 <!ENTITY muter-button.label "靜音控制">
 <!ENTITY muter-button.tooltip "切換靜音狀態">
 <!ENTITY muter-popup.init "快速切換靜音狀態">
-<!ENTITY muter-popup.enabled "聲音已禁用">
-<!ENTITY muter-popup.disabled "聲音已啟用">
 
 <!ENTITY muter.settings.title "靜音設置">
 <!ENTITY muter.settings.shorcut.title "快速鍵">
 <!ENTITY muter.settings.ui.title "使用者介面">
 <!ENTITY muter.settings.restore "還原預設值">
 <!ENTITY muter.settings.showInAddonBar "在附加元件欄顯示切換按鈕">
+<!ENTITY muter.settings.enableCrazy "切換按鈕每10秒發一次瘋">
+<!ENTITY muter.settings.showInStatusBar "在狀態欄顯示切換按鈕">

@@ -1,5 +1,13 @@
 @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
 
+#muter-toolbar-palette-button {
+  background-color:transparent;
+}
+
+#muter-toolbar-palette-button[crazy="true"] {
+  -moz-animation: crazy 10s 2s infinite backwards;
+}
+
 #muter-toolbar-palette-button[mute="enabled"]  {
   list-style-image: url("chrome://muter/skin/mute_enabled.png");
 }
@@ -8,15 +16,25 @@
   list-style-image: url("chrome://muter/skin/mute_disabled.png");
 }
 
-#muter-popup > hbox > image {
-  height: 48px;
-  width: 48px;
+@-moz-keyframes crazy {
+  0%   { -moz-transform: rotate(0deg);}
+  20%  { -moz-transform: rotate(360deg); }
+  100% { -moz-transform: rotate(360deg); }
 }
 
-#muter-popup-image-enabled{
-  list-style-image: url("chrome://muter/skin/mute_enabled_big.png");
+/** For Firfox 3.6 only! **/
+
+#muter-statusbar-button {
+  background-color:transparent;
+  height: 16px;
+  padding: 0;
+  margin: 0;
 }
 
-#muter-popup-image-disabled {
-  list-style-image: url("chrome://muter/skin/mute_disabled_big.png");
+#muter-statusbar-button[mute="enabled"]  {
+  list-style-image: url("chrome://muter/skin/mute_enabled.png");
+}
+
+#muter-statusbar-button[mute="disabled"]  {
+  list-style-image: url("chrome://muter/skin/mute_disabled.png");
 }
