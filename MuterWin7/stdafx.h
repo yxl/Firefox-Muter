@@ -15,6 +15,8 @@
 #include <atlbase.h>
 #include <atlsync.h>
 #include <atlcoll.h>
+#include <atlstr.h>
+
 #include <mmdeviceapi.h>
 #include <audiopolicy.h>
 

@@ -6,17 +6,18 @@
 #include <tlhelp32.h>
 
 #define EXIT_ON_ERROR(hr) \
-  if (FAILED(hr)) { goto Exit; }
+	if (FAILED(hr)) { goto Exit; }
 
 #define SAFE_RELEASE(sp) \
-  if ((sp) != NULL) \
+	if ((sp) != NULL) \
 { (sp).Release();}
 
 AudioVolume::AudioVolume(void)
-  : m_bRegisteredForEndpointNotifications(FALSE)
-  , m_bRegisteredForAudioSessionNotifications(FALSE)
-  , m_cRef(1)
+	: m_bRegisteredForEndpointNotifications(FALSE)
+	, m_bRegisteredForAudioSessionNotifications(FALSE)
+	, m_cRef(1)
 {
+	m_mapSpAudioSessionControl2.InitHashTable(257);
 }
 
 AudioVolume::~AudioVolume(void)
@@ -29,21 +30,21 @@ AudioVolume::~AudioVolume(void)
 // ----------------------------------------------------------------------
 HRESULT AudioVolume::Initialize()
 {
-  HRESULT hr;
+	HRESULT hr;
 
-  // create enumerator
-  hr = m_spEnumerator.CoCreateInstance(__uuidof(MMDeviceEnumerator));
-  if (SUCCEEDED(hr))
-  {
-    hr = m_spEnumerator->RegisterEndpointNotificationCallback(this);
-    if (SUCCEEDED(hr))
-    {
-      m_bRegisteredForEndpointNotifications = TRUE;
-      hr = AttachToDefaultEndpoint();
-    }
-  }
+	// create enumerator
+	hr = m_spEnumerator.CoCreateInstance(__uuidof(MMDeviceEnumerator));
+	if (SUCCEEDED(hr))
+	{
+		hr = m_spEnumerator->RegisterEndpointNotificationCallback(this);
+		if (SUCCEEDED(hr))
+		{
+			m_bRegisteredForEndpointNotifications = TRUE;
+			hr = AttachToDefaultEndpoint();
+		}
+	}
 
-  return hr;
+	return hr;
 }
 
 // ----------------------------------------------------------------------
@@ -53,15 +54,15 @@ HRESULT AudioVolume::Initialize()
 // ----------------------------------------------------------------------
 void AudioVolume::Dispose()
 {
-  DetachFromEndpoint();
+	DetachFromEndpoint();
 
-  if (m_bRegisteredForEndpointNotifications)
-  {
-    m_spEnumerator->UnregisterEndpointNotificationCallback(this);
-    m_bRegisteredForEndpointNotifications = FALSE;
-  }
+	if (m_bRegisteredForEndpointNotifications)
+	{
+		m_spEnumerator->UnregisterEndpointNotificationCallback(this);
+		m_bRegisteredForEndpointNotifications = FALSE;
+	}
 
-  SAFE_RELEASE(m_spEnumerator);
+	SAFE_RELEASE(m_spEnumerator);
 }
 
 
@@ -71,25 +72,25 @@ void AudioVolume::Dispose()
 // ----------------------------------------------------------------------
 HRESULT AudioVolume::AttachToDefaultEndpoint()
 {
-  m_csEndpoint.Enter();
+	m_csEndpoint.Enter();
 
-  // get the default music & movies playback device
-  HRESULT hr = m_spEnumerator->GetDefaultAudioEndpoint(eRender, eMultimedia, &m_spAudioEndpoint);
-  if (SUCCEEDED(hr))
-  {
-    // Get the session manager for this device.
-    hr = m_spAudioEndpoint->Activate(__uuidof(IAudioSessionManager2), CLSCTX_INPROC_SERVER, NULL, (void**)&m_spAudioSessionManager2);
-    if (SUCCEEDED(hr))
-    {
-      hr = m_spAudioSessionManager2->RegisterSessionNotification(this);
-      m_bRegisteredForAudioSessionNotifications = SUCCEEDED(hr);
-      InitializeAudioSessionControlList();
-    }
-  }
+	// get the default music & movies playback device
+	HRESULT hr = m_spEnumerator->GetDefaultAudioEndpoint(eRender, eMultimedia, &m_spAudioEndpoint);
+	if (SUCCEEDED(hr))
+	{
+		// Get the session manager for this device.
+		hr = m_spAudioEndpoint->Activate(__uuidof(IAudioSessionManager2), CLSCTX_INPROC_SERVER, NULL, (void**)&m_spAudioSessionManager2);
+		if (SUCCEEDED(hr))
+		{
+			hr = m_spAudioSessionManager2->RegisterSessionNotification(this);
+			m_bRegisteredForAudioSessionNotifications = SUCCEEDED(hr);
+			UpdateAudioSessionControlList();
+		}
+	}
 
-  m_csEndpoint.Leave();
+	m_csEndpoint.Leave();
 
-  return hr;
+	return hr;
 }
 
 // ----------------------------------------------------------------------
@@ -98,118 +99,146 @@ HRESULT AudioVolume::AttachToDefaultEndpoint()
 // ----------------------------------------------------------------------
 void AudioVolume::DetachFromEndpoint()
 {
-  m_csEndpoint.Enter();
+	m_csEndpoint.Enter();
 
-  DisposeAudioSessionControlList();
+	DisposeAudioSessionControlList();
 
-  if (m_spAudioSessionManager2 != NULL)
-  {
-    // be sure to unregister...
-    if (m_bRegisteredForAudioSessionNotifications)
-    {
-      m_spAudioSessionManager2->UnregisterSessionNotification(this);
-      m_bRegisteredForAudioSessionNotifications = FALSE;
-    }
-    m_spAudioSessionManager2.Release();
-  }
+	if (m_spAudioSessionManager2 != NULL)
+	{
+		// be sure to unregister...
+		if (m_bRegisteredForAudioSessionNotifications)
+		{
+			m_spAudioSessionManager2->UnregisterSessionNotification(this);
+			m_bRegisteredForAudioSessionNotifications = FALSE;
+		}
+		m_spAudioSessionManager2.Release();
+	}
 
-  SAFE_RELEASE(m_spAudioEndpoint);
+	SAFE_RELEASE(m_spAudioEndpoint);
 
-  m_csEndpoint.Leave();
+	m_csEndpoint.Leave();
 }
 
-void AudioVolume::InitializeAudioSessionControlList()
+void AudioVolume::UpdateAudioSessionControlList()
 {
-  HRESULT hr = S_OK;
+	HRESULT hr = S_OK;
 
-  CComQIPtr<IAudioSessionEnumerator> spAudioSessionEnumerator;
-  try
-  {
-    // Map indicating whether a process belongs to firefox
-    std::map<DWORD, BOOL> map;
-    if (!GetSubProcesseMap(g_dwThisModuleProcessId, map))
-    {
-      throw "AudioVolume::GetSubProcesseMap failed!";
-    }
-    std::map<DWORD, BOOL>::iterator iter = map.find(g_dwThisModuleProcessId);
-    if (iter != map.end())
-    {
-      iter->second = TRUE;
-    }
+	CComQIPtr<IAudioSessionEnumerator> spAudioSessionEnumerator;
+	try
+	{
+		// Get audio session enumerator
+		hr = m_spAudioSessionManager2->GetSessionEnumerator(&spAudioSessionEnumerator);
+		if (FAILED(hr))
+		{
+			throw "Cannot get audio session enumerator!";
+		}
 
-    // Get audio session enumerator
-    hr = m_spAudioSessionManager2->GetSessionEnumerator(&spAudioSessionEnumerator);
-    if (FAILED(hr))
-    {
-      throw "Cannot get audio session enumerator!";
-    }
+		// Get audio session number
+		int nSessions = 0;
+		hr = spAudioSessionEnumerator->GetCount(&nSessions);
+		if (FAILED(hr))
+		{
+			throw "Cannot get audio session number!";
+		}
 
-    // Get audio session number
-    int nSessions = 0;
-    hr = spAudioSessionEnumerator->GetCount(&nSessions);
-    if (FAILED(hr))
-    {
-      throw "Cannot get audio session number!";
-    }
+		// Map indicating whether a process belongs to firefox
+		std::map<DWORD, BOOL> map;
+		if (!GetSubProcesseMap(g_dwThisModuleProcessId, map))
+		{
+			throw "AudioVolume::GetSubProcesseMap failed!";
+		}
+		std::map<DWORD, BOOL>::iterator iter = map.find(g_dwThisModuleProcessId);
+		if (iter != map.end())
+		{
+			iter->second = TRUE;
+		}
 
-    // Enumerate audio sessions
-    for (int i=0; i<nSessions; i++)
-    {
-      CComQIPtr<IAudioSessionControl> spAudioSessionControl;
-      CComQIPtr<IAudioSessionControl2> spAudioSessionControl2;
-      try
-      {
-        // Get AudioSessionControl
-        CComQIPtr<IAudioSessionControl> spAudioSessionControl;
-        HRESULT hr = spAudioSessionEnumerator->GetSession(i, &spAudioSessionControl);
-        if (FAILED(hr))
-        {
-          throw "Cannot get AudioSessionControl!";
-        }
+		// Enumerate audio sessions
+		for (int i=0; i<nSessions; i++)
+		{
+			CComQIPtr<IAudioSessionControl> spAudioSessionControl;
+			try
+			{
+				// Get AudioSessionControl
+				CComQIPtr<IAudioSessionControl> spAudioSessionControl;
+				HRESULT hr = spAudioSessionEnumerator->GetSession(i, &spAudioSessionControl);
+				if (FAILED(hr))
+				{
+					throw "Cannot get AudioSessionControl!";
+				}
 
-        // Get AudioSessionControl2
-        spAudioSessionControl2 = spAudioSessionControl;
-        if (spAudioSessionControl2 == NULL)
-        {
-          throw "Cannot get AudioSessionControl2!";
-        }
+				AddSessionIfNew(map, spAudioSessionControl);
+			}
+			catch (LPTSTR szError)
+			{
+				TRACE("[MuterWin7] AudioVolume::UpdateAudioSessionControlList: %s\n", szError);
+			}
+			SAFE_RELEASE(spAudioSessionControl);
+		}
+	} 
+	catch (LPTSTR szError)
+	{
+		TRACE("[MuterWin7] AudioVolume::UpdateAudioSessionControlList: %s\n", szError);
+	}
+	SAFE_RELEASE(spAudioSessionEnumerator);
+}
 
-        // Check if it is the firfox's audio session
-        DWORD dwProcessId;
-        hr = spAudioSessionControl2->GetProcessId(&dwProcessId);
-        if (FAILED(hr))
-        {
-          throw "spAudioSessionControl2->GetProcessId failed!";
-        }
-        std::map<DWORD, BOOL>::iterator iter = map.find(dwProcessId);
-        if (iter != map.end() && iter->second == TRUE)
-        {
-          m_arrSpAudioSessionControl2.Add(spAudioSessionControl2);
-        }
-      }
-      catch (LPTSTR szError)
-      {
-        TRACE("[MuterWin7] AudioVolume::InitializeAudioSessionControlList: %s\n", szError);
-      }
-      SAFE_RELEASE(spAudioSessionControl2);
-      SAFE_RELEASE(spAudioSessionControl);
-    }
-  } 
-  catch (LPTSTR szError)
-  {
-    TRACE("[MuterWin7] AudioVolume::InitializeAudioSessionControlList: %s\n", szError);
-  }
-  SAFE_RELEASE(spAudioSessionEnumerator);
+void AudioVolume::AddSessionIfNew(const std::map<DWORD, BOOL> &map, CComQIPtr<IAudioSessionControl> spAudioSessionControl)
+{
+	HRESULT hr = S_OK;
+	CComQIPtr<IAudioSessionControl2> spAudioSessionControl2;
+	try
+	{
+		// Get AudioSessionControl2
+		spAudioSessionControl2 = spAudioSessionControl;
+		if (spAudioSessionControl2 == NULL)
+		{
+			throw "Cannot get AudioSessionControl2!";
+		}
+
+		// Check if it is the firfox's audio session
+		DWORD dwProcessId;
+		hr = spAudioSessionControl2->GetProcessId(&dwProcessId);
+		if (FAILED(hr))
+		{
+			throw "spAudioSessionControl2->GetProcessId failed!";
+		}
+		LPWSTR pswSessionName = NULL;
+		hr = spAudioSessionControl->GetDisplayName(&pswSessionName);
+		if (FAILED(hr))
+		{
+			throw "spAudioSessionControl->GetDisplayName failed!";
+		}
+		std::map<DWORD, BOOL>::const_iterator iter = map.find(dwProcessId);				
+		if ((iter != map.end() && iter->second == TRUE) || (pswSessionName != NULL && wcsstr(pswSessionName, L"Firefox") != NULL))
+		{
+			LPWSTR pswInstanceId = NULL;
+			if (SUCCEEDED(spAudioSessionControl2->GetSessionInstanceIdentifier(&pswInstanceId)))
+			{
+				m_mapSpAudioSessionControl2[CStringW(pswInstanceId)] = spAudioSessionControl2;
+			}
+			CoTaskMemFree(pswInstanceId);
+		}
+		TRACE_WIDE(L"%s\n", pswSessionName);
+
+		CoTaskMemFree(pswSessionName);	
+	}
+	catch (LPTSTR szError)
+	{
+		TRACE("[MuterWin7] AudioVolume::AddSessionIfNew: %s\n", szError);
+	}
+	SAFE_RELEASE(spAudioSessionControl2);
+
 }
 
 void AudioVolume::DisposeAudioSessionControlList()
 {
-  int n = static_cast<int>(m_arrSpAudioSessionControl2.GetCount());
-  for (int i=0; i<n; i++)
-  {
-    SAFE_RELEASE(m_arrSpAudioSessionControl2[i]);
-  }
-  m_arrSpAudioSessionControl2.RemoveAll();
+	POSITION pos = m_mapSpAudioSessionControl2.GetStartPosition();
+	while (pos != NULL)
+	{
+		SAFE_RELEASE(m_mapSpAudioSessionControl2.GetNextValue(pos));
+	}
+	m_mapSpAudioSessionControl2.RemoveAll();
 }
 
 // ----------------------------------------------------------------------
@@ -220,14 +249,14 @@ void AudioVolume::DisposeAudioSessionControlList()
 //
 // ----------------------------------------------------------------------
 HRESULT AudioVolume::OnDefaultDeviceChanged
-  (
-  EDataFlow   flow, 
-  ERole       role, 
-  LPCWSTR     pwstrDefaultDeviceId
-  )
+	(
+	EDataFlow   flow, 
+	ERole       role, 
+	LPCWSTR     pwstrDefaultDeviceId
+	)
 {
-  DetachFromEndpoint();
-  return AttachToDefaultEndpoint();;
+	DetachFromEndpoint();
+	return AttachToDefaultEndpoint();;
 }
 
 // ----------------------------------------------------------------------
@@ -238,51 +267,40 @@ HRESULT AudioVolume::OnDefaultDeviceChanged
 // ----------------------------------------------------------------------
 HRESULT AudioVolume::OnSessionCreated(IAudioSessionControl *NewSession)
 {
-  TRACE("AudioVolume::OnSessionCreated\n");
+	TRACE("AudioVolume::OnSessionCreated\n");
 
-  m_csEndpoint.Enter();
+	m_csEndpoint.Enter();
 
-  CComQIPtr<IAudioSessionControl2> spIAudioSessionControl2 = NewSession;
+	CComQIPtr<IAudioSessionControl> spIAudioSessionControl = NewSession;
 
-  try
-  {
-    // Map indicating whether a process belongs to firefox
-    std::map<DWORD, BOOL> map;
-    if (!GetSubProcesseMap(g_dwThisModuleProcessId, map))
-    {
-      throw "AudioVolume::GetSubProcesseMap failed!";
-    }
-    std::map<DWORD, BOOL>::iterator iter = map.find(g_dwThisModuleProcessId);
-    if (iter != map.end())
-    {
-      iter->second = TRUE;
-    }
+	try
+	{
+		// Map indicating whether a process belongs to firefox
+		std::map<DWORD, BOOL> map;
+		if (!GetSubProcesseMap(g_dwThisModuleProcessId, map))
+		{
+			throw "AudioVolume::GetSubProcesseMap failed!";
+		}
+		std::map<DWORD, BOOL>::iterator iter = map.find(g_dwThisModuleProcessId);
+		if (iter != map.end())
+		{
+			iter->second = TRUE;
+		}
 
-    // Check if it is the firfox's audio session
-    DWORD dwProcessId;
-    HRESULT hr = spIAudioSessionControl2->GetProcessId(&dwProcessId);
-    if (FAILED(hr)) 
-    {
-      throw "spAudioSessionControl2->GetProcessId failed!";
-    }
-    iter = map.find(dwProcessId);
-    if (iter != map.end() && iter->second == TRUE)
-    {
-      m_arrSpAudioSessionControl2.Add(spIAudioSessionControl2);
-    }
+		AddSessionIfNew(map, spIAudioSessionControl);
 
-    UpdateMuteStatus();
-  }
-  catch (LPCSTR szError)
-  {
-    TRACE("[MuterWin7] AudioVolume::OnSessionCreated: %s\n", szError);
-  }
+		UpdateMuteStatus();
+	}
+	catch (LPCSTR szError)
+	{
+		TRACE("[MuterWin7] AudioVolume::OnSessionCreated: %s\n", szError);
+	}
 
-  SAFE_RELEASE(spIAudioSessionControl2);
+	SAFE_RELEASE(spIAudioSessionControl);
 
-  m_csEndpoint.Leave();
-  
-  return S_OK;
+	m_csEndpoint.Leave();
+
+	return S_OK;
 }
 
 
@@ -290,77 +308,78 @@ HRESULT AudioVolume::OnSessionCreated(IAudioSessionControl *NewSession)
 
 HRESULT AudioVolume::QueryInterface(REFIID iid, void** ppUnk)
 {
-  if ((iid == __uuidof(IUnknown)) ||
-    (iid == __uuidof(IMMNotificationClient)))
-  {
-    *ppUnk = static_cast<IMMNotificationClient*>(this);
-  }
-  else if (iid == __uuidof(IAudioSessionNotification))
-  {
-    *ppUnk = static_cast<IAudioSessionNotification*>(this);
-  }
-  else
-  {
-    *ppUnk = NULL;
-    return E_NOINTERFACE;
-  }
+	if ((iid == __uuidof(IUnknown)) ||
+		(iid == __uuidof(IMMNotificationClient)))
+	{
+		*ppUnk = static_cast<IMMNotificationClient*>(this);
+	}
+	else if (iid == __uuidof(IAudioSessionNotification))
+	{
+		*ppUnk = static_cast<IAudioSessionNotification*>(this);
+	}
+	else
+	{
+		*ppUnk = NULL;
+		return E_NOINTERFACE;
+	}
 
-  AddRef();
-  return S_OK;
+	AddRef();
+	return S_OK;
 }
 
 ULONG AudioVolume::AddRef()
 {
-  return InterlockedIncrement(&m_cRef);
+	return InterlockedIncrement(&m_cRef);
 }
 
 ULONG AudioVolume::Release()
 {
-  long lRef = InterlockedDecrement(&m_cRef);
-  if (lRef == 0)
-  {
-    delete this;
-  }
-  return lRef;
+	long lRef = InterlockedDecrement(&m_cRef);
+	if (lRef == 0)
+	{
+		delete this;
+	}
+	return lRef;
 }
 
 // Get a map that its keys contains all process IDs and the value for each key is a boolean value indicating whehter the process with the key is a subprocess.
 BOOL AudioVolume::GetSubProcesseMap(DWORD dwParentProcessId, std::map<DWORD, BOOL> &map)
 {
-  HANDLE hSnapShot = ::CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
-  if (hSnapShot == INVALID_HANDLE_VALUE)
-  {
-    return FALSE;
-  }
+	HANDLE hSnapShot = ::CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+	if (hSnapShot == INVALID_HANDLE_VALUE)
+	{
+		return FALSE;
+	}
 
-  PROCESSENTRY32 procentry  = { sizeof(PROCESSENTRY32) };
-  BOOL bContinue = Process32First(hSnapShot, &procentry);
-  while( bContinue )
-  {
-    DWORD dwProcessId = procentry.th32ProcessID;
-    BOOL bIsSubProcess = dwParentProcessId == procentry.th32ParentProcessID;
-    map.insert(std::make_pair(dwProcessId, bIsSubProcess));
-    bContinue = Process32Next( hSnapShot, &procentry );
-  }
+	PROCESSENTRY32 procentry  = { sizeof(PROCESSENTRY32) };
+	BOOL bContinue = Process32First(hSnapShot, &procentry);
+	while( bContinue )
+	{
+		DWORD dwProcessId = procentry.th32ProcessID;
+		BOOL bIsSubProcess = dwParentProcessId == procentry.th32ParentProcessID;
+		map.insert(std::make_pair(dwProcessId, bIsSubProcess));
+		bContinue = Process32Next( hSnapShot, &procentry );
+	}
 
-  CloseHandle(hSnapShot);
-  return TRUE;
+	CloseHandle(hSnapShot);
+	return TRUE;
 }
 
 // Change mute status of all audio session
 void AudioVolume::UpdateMuteStatus()
 {
-  TRACE("AudioVolume::UpdateMuteStatus\n");
+	TRACE("AudioVolume::UpdateMuteStatus\n");
 
-  BOOL bMute = ::IsMuteEnabled();
+	BOOL bMute = ::IsMuteEnabled();
 
-  int n = static_cast<int>(m_arrSpAudioSessionControl2.GetCount());
+	UpdateAudioSessionControlList();
 
-  // Enumerate audio sessions
-  for (int i=0; i<n; i++)
-  {
-    CComQIPtr<ISimpleAudioVolume> spSimpleAudioVolume = m_arrSpAudioSessionControl2[i];
-    spSimpleAudioVolume->SetMute(bMute, &AudioVolumnCtx);
-    SAFE_RELEASE(spSimpleAudioVolume);
-  }
+	// Enumerate audio sessions
+	POSITION pos = m_mapSpAudioSessionControl2.GetStartPosition();
+	while (pos != NULL)
+	{
+		CComQIPtr<ISimpleAudioVolume> spSimpleAudioVolume = m_mapSpAudioSessionControl2.GetNextValue(pos);
+		spSimpleAudioVolume->SetMute(bMute, &AudioVolumnCtx);
+		SAFE_RELEASE(spSimpleAudioVolume);
+	}
 }

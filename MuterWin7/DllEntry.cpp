@@ -14,15 +14,9 @@ BOOL APIENTRY DllMain( HMODULE hModule,
   case DLL_PROCESS_ATTACH:
     {
       g_dwThisModuleProcessId = GetCurrentProcessId();
-      HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE | COINIT_MULTITHREADED);
-      if (FAILED(hr))
-      {
-        return FALSE;
-      }
     }
     break;
   case DLL_PROCESS_DETACH:
-    CoUninitialize();
     break;
   case DLL_THREAD_ATTACH:
     break;
