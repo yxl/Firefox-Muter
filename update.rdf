@@ -4,24 +4,24 @@
   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 >
   <rdf:Description rdf:about="urn:mozilla:extension:muter@yxl.name">
+    <em:signature>MIGTMA0GCSqGSIb3DQEBDQUAA4GBAC1ft9SgosSlo+Wke4VzcAqUiDaWz7QlhsEs5EizAn7X4NgixiS16UQJoqbGdOMii4RPWpz7BAaCbJXFsHu+WKwL/CrUmAY2iO7a7Xr843JljHGcGk5sLYT0nNPui05zeVWnJRerAHgMH+yrBDTVKOEoPVKPSvv8eyBJmn1T5lMD</em:signature>
     <em:updates>
       <rdf:Seq>
         <rdf:li>
           <rdf:Description>
-            <em:version>0.6</em:version>
             <em:targetApplication>
               <rdf:Description>
-                <em:maxVersion>12.*</em:maxVersion>
-                <em:minVersion>3.6</em:minVersion>
                 <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
-                <em:updateHash>sha1:a097c283c0104f7cc11e0b10dbea6c11c96eb1cd</em:updateHash>
-                <em:updateLink>http://yxl.github.com/Firefox-Muter/muter-0.6.xpi</em:updateLink>
+                <em:minVersion>3.6</em:minVersion>
+                <em:updateLink>http://yxl.github.com/Firefox-Muter/muter-0.7.xpi</em:updateLink>
+                <em:updateHash>sha1:51e8973a45f367d1ad8c4885d4a2ae13d3e6c0d3</em:updateHash>
+                <em:maxVersion>12.*</em:maxVersion>
               </rdf:Description>
             </em:targetApplication>
+            <em:version>0.7</em:version>
           </rdf:Description>
         </rdf:li>
       </rdf:Seq>
     </em:updates>
-    <em:signature>MIGTMA0GCSqGSIb3DQEBDQUAA4GBACdj28PWvZWYYqGh3oUKRLwaHdhlnymPdig+8BQrdJKZiZihzQJ24AHDqJezjp9xYkU3Vh25/VqhlMKlcqaMCZBLWmsKoiLjoXL1lSKKuiv3BQz4AduE82t+0i6my6j8zx2JhLNT+fyAWEZJuJ9RUoAm6PlqlzNkstYeY/mAQZjv</em:signature>
   </rdf:Description>
 </rdf:RDF>
