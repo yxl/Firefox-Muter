@@ -8,14 +8,6 @@
   -moz-animation: crazy 10s 2s infinite backwards;
 }
 
-#muter-toolbar-palette-button[mute="enabled"]  {
-  list-style-image: url("chrome://muter/skin/mute_enabled.png");
-}
-
-#muter-toolbar-palette-button[mute="disabled"]  {
-  list-style-image: url("chrome://muter/skin/mute_disabled.png");
-}
-
 @-moz-keyframes crazy {
   0%   { -moz-transform: rotate(0deg);}
   20%  { -moz-transform: rotate(360deg); }

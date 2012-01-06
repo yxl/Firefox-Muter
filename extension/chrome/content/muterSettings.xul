@@ -17,7 +17,6 @@
       <preference id="shortcutModifiers" name="extensions.firefox-muter.shortcut.modifiers" type="string"/>
       <preference id="showInAddonBar" name="extensions.firefox-muter.showInAddonBar" type="bool"/>
       <preference id="showInStatusBar" name="extensions.firefox-muter.showInStatusBar" type="bool"/>
-      <preference id="enableCrazy" name="extensions.firefox-muter.enableCrazy" type="bool" />
     </preferences>
     
     <!-- Sets Shortcut key -->
@@ -84,11 +83,6 @@
         <checkbox
           preference="showInAddonBar" 
           label="&muter.settings.showInAddonBar;"/>
-      </hbox>
-      <hbox id="muter-settings-crazy-button">
-        <checkbox
-          preference="enableCrazy" 
-          label="&muter.settings.enableCrazy;"/>
       </hbox>
       <!-- Status bar setting. For firefox 3.6 only -->
       <hbox id="muter-settings-show-in-status-bar" hidden="true">

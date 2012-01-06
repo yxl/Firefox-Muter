@@ -1,5 +1,8 @@
 let EXPORTED_SYMBOLS = ['muterUtils'];
 
+Components.utils.import("resource://gre/modules/XPCOMUtils.jsm");
+
+
 let muterUtils = {};
 
 muterUtils.isVersionLessThan = function(v) {
@@ -69,6 +72,23 @@ if (muterUtils.isVersionLessThan("4.0")) {
 } else {
   Components.utils.import("resource://gre/modules/Services.jsm", muterUtils);
 }
+
+muterUtils.getLocaleString = function() {
+  return muterUtils.Services.prefs.getCharPref('general.useragent.locale');
+}
+
+/**
+ * Cache of commonly used string bundles.
+ */
+muterUtils.Strings = {};
+[
+  ["defaultSkin", "chrome://muter/locale/defaultSkin.properties"],
+].forEach(function(aStringBundle) {
+  let[name, bundle] = aStringBundle;
+  XPCOMUtils.defineLazyGetter(muterUtils.Strings, name, function() {
+    return muterUtils.Services.strings.createBundle(bundle);
+  });
+});
 
 
 

@@ -1,11 +1,10 @@
-<!ENTITY muter-button.label "ìoÒô¿ØÖÆ">
-<!ENTITY muter-button.tooltip "ÇÐ“QìoÒô î‘B">
-<!ENTITY muter-popup.init "¿ìËÙÇÐ“QìoÒô î‘B">
+<!ENTITY muter-button.label "éœéŸ³æŽ§åˆ¶">
+<!ENTITY muter-button.tooltip "åˆ‡æ›éœéŸ³ç‹€æ…‹">
+<!ENTITY muter-popup.init "å¿«é€Ÿåˆ‡æ›éœéŸ³ç‹€æ…‹">
 
-<!ENTITY muter.settings.title "ìoÒôÔOÖÃ">
-<!ENTITY muter.settings.shorcut.title "¿ìËÙæI">
-<!ENTITY muter.settings.ui.title "Ê¹ÓÃÕß½éÃæ">
-<!ENTITY muter.settings.restore "ß€Ô­îAÔOÖµ">
-<!ENTITY muter.settings.showInAddonBar "ÔÚ¸½¼ÓÔª¼þ™Úï@Ê¾ÇÐ“Q°´âo">
-<!ENTITY muter.settings.enableCrazy "ÇÐ“Q°´âoÃ¿10Ãë°lÒ»´Î¯‚">
-<!ENTITY muter.settings.showInStatusBar "ÔÚ î‘B™Úï@Ê¾ÇÐ“Q°´âo">
+<!ENTITY muter.settings.title "è¨­ç½®">
+<!ENTITY muter.settings.shorcut.title "å¿«é€Ÿéµ">
+<!ENTITY muter.settings.ui.title "ä½¿ç”¨è€…ä»‹é¢">
+<!ENTITY muter.settings.restore "é‚„åŽŸé è¨­å€¼">
+<!ENTITY muter.settings.showInAddonBar "åœ¨é™„åŠ å…ƒä»¶æ¬„é¡¯ç¤ºåˆ‡æ›æŒ‰éˆ•">
+<!ENTITY muter.settings.showInStatusBar "åœ¨ç‹€æ…‹æ¬„é¡¯ç¤ºåˆ‡æ›æŒ‰éˆ•">
