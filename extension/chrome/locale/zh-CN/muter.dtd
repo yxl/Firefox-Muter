@@ -1,6 +1,7 @@
 <!ENTITY muter-button.label "静音控制">
 <!ENTITY muter-button.tooltip "切换静音状态">
 <!ENTITY muter-popup.init "快速切换静音状态">
+<!ENTITY muter.feedback "报告问题">
 
 <!ENTITY muter.settings.title "设置">
 <!ENTITY muter.settings.shorcut.title "快捷键">

@@ -134,6 +134,15 @@ var muter = (function(){
       window.showModalDialog(url);
     },
     
+    openFeedback: function() {
+      let url = 'http://yxl.github.com/Firefox-Muter/';
+      if (switchToTabHavingURI){
+        switchToTabHavingURI(url, true);
+      } else {
+          openUILink(url);
+      }
+    },
+    
     updateUI: function() {
       let isMuted = muterHook.isMuteEnabled();
 

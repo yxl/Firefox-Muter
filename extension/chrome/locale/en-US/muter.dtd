@@ -1,6 +1,7 @@
 <!ENTITY muter-button.label "Mute">
 <!ENTITY muter-button.tooltip "Switch mute status">
 <!ENTITY muter-popup.init "Quickly switch mute status">
+<!ENTITY muter.feedback "Troubleshooting">
 
 <!ENTITY muter.settings.title "Settings">
 <!ENTITY muter.settings.shorcut.title "Shortcut Keys">

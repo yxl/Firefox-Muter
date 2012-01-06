@@ -38,7 +38,7 @@
     <menupopup id="muter-switch-button-popup-menu" position="after_end">
       <menuseparator id='muter-skin-menu-separator-closing'/>
       <menuitem label="&muter.settings.title;" oncommand="muter.openSettingsDialog(event);" />
-      <menuitem label="报告问题"/>
+      <menuitem label="&muter.feedback;" oncommand="muter.openFeedback();"/>
     </menupopup>
   </popupset>
   <!-- statusbar, only for firefox 3.6-->
