@@ -33,7 +33,7 @@ muterSkin.ui = {
    *  Build the skin selection popup menu
    */
   rebuildSkinMenu: function() {
-    let menuPopup = document.getElementById('muter-toolbar-palette-button-popup');
+    let menuPopup = document.getElementById('muter-switch-button-popup-menu');
     let closingSeparator = document.getElementById('muter-skin-menu-separator-closing');
     
     // Remove everything above the separator

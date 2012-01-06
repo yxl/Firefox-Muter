@@ -8,25 +8,10 @@
   -moz-animation: crazy 10s 2s infinite backwards;
 }
 
-@-moz-keyframes crazy {
-  0%   { -moz-transform: rotate(0deg);}
-  20%  { -moz-transform: rotate(360deg); }
-  100% { -moz-transform: rotate(360deg); }
-}
-
 /** For Firfox 3.6 only! **/
 
 #muter-statusbar-button {
   background-color:transparent;
   height: 16px;
-  padding: 0;
   margin: 0;
-}
-
-#muter-statusbar-button[mute="enabled"]  {
-  list-style-image: url("chrome://muter/skin/mute_enabled.png");
-}
-
-#muter-statusbar-button[mute="disabled"]  {
-  list-style-image: url("chrome://muter/skin/mute_disabled.png");
 }

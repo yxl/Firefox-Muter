@@ -53,36 +53,44 @@ var muter = (function(){
     init: function(event) {
       window.removeEventListener("load", muter.init, false);
       
-      window.addEventListener("aftercustomization", muter._onToolBarChanged, false);
-      muter._onToolBarChanged();
-      
-      // For firefox 3.6 only
-      if (muterUtils.isVersionLessThan("4.0")) {
-        muter.setupStatusBar();
-      }
-      
-      // Install a switch button after installation
       let firstRun = Services.prefs.getBoolPref('extensions.firefox-muter.firstRun');
       if (firstRun) {
-        muter.setupAddonBar();
+        muter._firstRun();
         Services.prefs.setBoolPref('extensions.firefox-muter.firstRun', false);
       }
-      
+
+      muter.setupAddonBar();
+      muter.setupStatusBar();  // For firefox 3.6 only      
       muter.setupSwitchButton();
       muter.setupShortcut();
       muter._setupPopups();
    
       muter.updateUI();
-
+      
+      window.addEventListener("aftercustomization", muter._onToolBarChanged, false);
+      muter._onToolBarChanged();
+      
       muter._muterObserver = new MuterObserver();
       muter._muterObserver.register();      
     },
     
     destroy: function(event) {
       window.removeEventListener("unload", muter.destroy, false);
+      
       window.removeEventListener("aftercustomization", muter._onAddonBarChanged, false);
-
       muter._muterObserver.unregister();
+    },
+    
+    /**
+     * Initilization after installation
+     * It only need to call once.
+     */
+    _firstRun: function() {
+      // For firefox 3.6 only
+      if (muterUtils.isVersionLessThan("4.0")) {
+        // Show status bar button
+        Services.prefs.setBoolPref('extensions.firefox-muter.showInStatusBar', true);
+      } 
     },
 
     switchStatus: function(event) {
@@ -91,15 +99,29 @@ var muter = (function(){
     },
     
     clickSwitchButton: function(event) {
-      if (event.button == 2) { 
-        // Right click to show the settings menu
-        let btn = event.currentTarget;
-        let menu = document.getElementById("muter-toolbar-palette-button-popup");
-        if (btn && menu) {
-          menu.openPopup(btn, "after_start", -1, 0, true, false);
+      if (event.button == 0) {
+        // Left button click
+        if (event.currentTarget.id === 'muter-statusbar-button') {
+          muter.switchStatus();
         }
+      } else if (event.button == 2) { 
+        // Right click to show the popup menu
+        let btn = event.currentTarget;
+        let menu = document.getElementById("muter-switch-button-popup-menu");
+        if (btn && menu) {
+           menu.openPopup(btn, "after_start", -1, 0, true, false);
+        }        
         event.preventDefault();
+        event.stopPropagation();
       }
+    },
+    
+    showPopuMenu: function(event) {
+      let btn = document.getElementById("muter-toolbar-palette-button");
+      let menu = document.getElementById("muter-switch-button-popup-menu");
+      if (btn && menu) {
+         menu.openPopup(btn, "after_start", -1, 0, true, false);
+      }             
     },
     
     /** Open Settings dialog */
@@ -124,12 +146,13 @@ var muter = (function(){
       
       // For firefox 3.6 only
       let statusbarBtn = document.getElementById("muter-statusbar-button");
-      statusbarBtn.setAttribute("mute", (isMuted ? "enabled" : "disabled"));
-      if (muterUtils.isVersionLessThan("4.0")) {
-        statusbarBtn.hidden = false;
-      }    
+      if (statusbarBtn) {
+        let icon = statusbarBtn.getAttribute(isMuted ? 'image-enabled' : 'image-disabled');
+        statusbarBtn.setAttribute("image", icon);
+      }  
     },
     
+    /** Setup the icon of the switch button*/
     setupSwitchButton: function() {
       let disabledIcon = Services.prefs.getCharPref('extensions.firefox-muter.disabledIcon');
       let enabledIcon = Services.prefs.getCharPref('extensions.firefox-muter.enabledIcon');
@@ -146,16 +169,29 @@ var muter = (function(){
       this.updateUI();
     },
 
-    /** Move the muter button to the addon bar */
+    /** Add the muter button to the addon bar or remove it */
     setupAddonBar: function() {
+      let showInAddonBar = Services.prefs.getBoolPref('extensions.firefox-muter.showInAddonBar');
+      
       // Move the muter button to the addon bar
       let addonbar = document.getElementById("addon-bar");
       if (!addonbar) return; 
-      let curSet = addonbar.currentSet;
-      if (-1 == curSet.indexOf("muter-toolbar-palette-button")){
-        let newSet = curSet + ",muter-toolbar-palette-button";
-        addonbar.currentSet = newSet;
-        addonbar.setAttribute("currentset", newSet);
+      let curSet = addonbar.currentSet.replace(/\s/g,'').split(',');
+      let isChanged = false;
+      let index = curSet.indexOf("muter-toolbar-palette-button");
+      if (showInAddonBar && -1 == index) {
+        curSet.push("muter-toolbar-palette-button");
+        isChanged = true;
+      } else if (!showInAddonBar && -1 != index) {
+        curSet.splice(index, 1);
+        isChanged = true;
+      }
+      if (isChanged){
+        let newSetString=curSet.join();
+        
+        addonbar.currentSet = newSetString;
+        addonbar.setAttribute("currentset", newSetString);
+        
         document.persist(addonbar.id, "currentset");
         try{
           BrowserToolboxCustomizeDone(true);
@@ -165,7 +201,9 @@ var muter = (function(){
         }
         document.persist(addonbar.id, "collapsed");
 
-        this._showIntroPopup();
+        if (showInAddonBar) {
+          this._showIntroPopup();
+        }
       }
     },
     
@@ -177,7 +215,7 @@ var muter = (function(){
         if (initpanel && btn) {
           initpanel.openPopup(btn, "topcenter bottomright");
         }
-      }, 1000);
+      }, 3000);
     },
     
     /** For firefox 3.6 only! Setup the muter button in the status bar**/

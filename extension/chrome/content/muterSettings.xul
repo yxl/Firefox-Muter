@@ -85,7 +85,7 @@
           label="&muter.settings.showInAddonBar;"/>
       </hbox>
       <!-- Status bar setting. For firefox 3.6 only -->
-      <hbox id="muter-settings-show-in-status-bar" hidden="true">
+      <hbox id="muter-settings-show-in-status-bar">
         <checkbox
           preference="showInStatusBar" 
           label="&muter.settings.showInStatusBar;" />

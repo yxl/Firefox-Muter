@@ -168,15 +168,16 @@ void AudioVolume::UpdateAudioSessionControlList()
 				}
 
 				AddSessionIfNew(map, spAudioSessionControl);
+				SAFE_RELEASE(spAudioSessionControl);
 			}
-			catch (LPTSTR szError)
+			catch (LPCSTR szError)
 			{
 				TRACE("[MuterWin7] AudioVolume::UpdateAudioSessionControlList: %s\n", szError);
 			}
 			SAFE_RELEASE(spAudioSessionControl);
 		}
 	} 
-	catch (LPTSTR szError)
+	catch (LPCSTR szError)
 	{
 		TRACE("[MuterWin7] AudioVolume::UpdateAudioSessionControlList: %s\n", szError);
 	}
@@ -219,16 +220,15 @@ void AudioVolume::AddSessionIfNew(const std::map<DWORD, BOOL> &map, CComQIPtr<IA
 			}
 			CoTaskMemFree(pswInstanceId);
 		}
-		TRACE_WIDE(L"%s\n", pswSessionName);
 
 		CoTaskMemFree(pswSessionName);	
 	}
-	catch (LPTSTR szError)
+	catch (LPCSTR szError)
 	{
 		TRACE("[MuterWin7] AudioVolume::AddSessionIfNew: %s\n", szError);
 	}
+	SAFE_RELEASE(spAudioSessionControl);
 	SAFE_RELEASE(spAudioSessionControl2);
-
 }
 
 void AudioVolume::DisposeAudioSessionControlList()
@@ -288,8 +288,6 @@ HRESULT AudioVolume::OnSessionCreated(IAudioSessionControl *NewSession)
 		}
 
 		AddSessionIfNew(map, spIAudioSessionControl);
-
-		UpdateMuteStatus();
 	}
 	catch (LPCSTR szError)
 	{
@@ -299,6 +297,8 @@ HRESULT AudioVolume::OnSessionCreated(IAudioSessionControl *NewSession)
 	SAFE_RELEASE(spIAudioSessionControl);
 
 	m_csEndpoint.Leave();
+
+	UpdateMuteStatus();
 
 	return S_OK;
 }
@@ -368,7 +368,9 @@ BOOL AudioVolume::GetSubProcesseMap(DWORD dwParentProcessId, std::map<DWORD, BOO
 // Change mute status of all audio session
 void AudioVolume::UpdateMuteStatus()
 {
-	TRACE("AudioVolume::UpdateMuteStatus\n");
+	m_csEndpoint.Enter();
+
+	TRACE("[MuterWin7] AudioVolume::UpdateMuteStatus\n");
 
 	BOOL bMute = ::IsMuteEnabled();
 
@@ -382,4 +384,6 @@ void AudioVolume::UpdateMuteStatus()
 		spSimpleAudioVolume->SetMute(bMute, &AudioVolumnCtx);
 		SAFE_RELEASE(spSimpleAudioVolume);
 	}
+
+	m_csEndpoint.Leave();
 }

@@ -45,8 +45,6 @@ var muterSettings = (function(){
     init: function(event) {
       // For firefox 3.6 only
       if (muterUtils.isVersionLessThan("4.0")) {
-        let showInStatusBar = document.getElementById("muter-settings-show-in-status-bar");
-        showInStatusBar.hidden = false;
         let showInAddonBar = document.getElementById("muter-settings-show-in-addon-bar");
         showInAddonBar.hidden = true;
       }
@@ -63,6 +61,11 @@ var muterSettings = (function(){
       for (let i = 0; i < preferences.length; i++) {
         preferences[i].value = preferences[i].defaultValue;
       }
+      // For firefox 3.6 only
+      if (muterUtils.isVersionLessThan("4.0")) {
+        let showInStatusBarPref = document.getElementById("showInStatusBar");
+        showInStatusBarPref.value = true;
+      }      
     }, 
     
   };
