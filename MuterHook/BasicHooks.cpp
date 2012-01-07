@@ -2,6 +2,7 @@
 #include "ApiHooks.h"
 #include "DllEntry.h"
 #include "SDKTrace.h"
+#include "external\detours.h"
 
 BOOL (WINAPI *CreateProcessA_original)(LPCSTR lpApplicationName, 
 											  LPSTR lpCommandLine, 
@@ -26,19 +27,12 @@ BOOL WINAPI CreateProcessA_hook(LPCSTR lpApplicationName,
 								LPPROCESS_INFORMATION lpProcessInformation) 
 {
 	TRACE("[MuterHook] CreateProcessA_hook\n");
-	BOOL ret = ::CreateProcessA_original(lpApplicationName, lpCommandLine, 
-		lpProcessAttributes, lpThreadAttributes, bInheritHandles, 
-		dwCreationFlags, lpEnvironment, lpCurrentDirectory, lpStartupInfo,
-		lpProcessInformation);
-	if (ret) 
+	BOOL ret= ::DetourCreateProcessWithDllA(lpApplicationName, lpCommandLine, lpProcessAttributes, 
+		lpThreadAttributes, bInheritHandles,dwCreationFlags, lpEnvironment, lpCurrentDirectory,
+		lpStartupInfo, lpProcessInformation, g_szThisModulePath, CreateProcessA_original);
+	if (ret == FALSE)
 	{
-		if (IsInThisModuleProcess() && lpCommandLine != NULL && strstr(lpApplicationName, "plugin-container.exe") != NULL &&
-			strstr(lpCommandLine, "npaliedit.dll") == NULL &&
-			strstr(lpCommandLine, "npqqedit.dll") == NULL &&
-			strstr(lpCommandLine, "npqqcert.dll") == NULL)
-		{
-			InjectIntoProcess(lpProcessInformation->hProcess);
-		}
+		TRACE("[MuterHook] CreateProcessA_hook failed!\n");
 	}
 	return ret;
 }
@@ -66,19 +60,13 @@ BOOL WINAPI CreateProcessW_hook(LPCWSTR lpApplicationName,
 								LPPROCESS_INFORMATION lpProcessInformation) 
 {
 	TRACE("[MuterHook] CreateProcessW_hook\n");
-	BOOL ret = ::CreateProcessW_original(lpApplicationName, lpCommandLine, 
+	BOOL ret = ::DetourCreateProcessWithDllW(lpApplicationName, lpCommandLine, 
 		lpProcessAttributes, lpThreadAttributes, bInheritHandles, 
 		dwCreationFlags, lpEnvironment, lpCurrentDirectory, lpStartupInfo,
-		lpProcessInformation);
-	if (ret) 
+		lpProcessInformation, g_szThisModulePath, CreateProcessW_original);
+	if (ret == FALSE)
 	{
-		if (IsInThisModuleProcess() &&lpCommandLine != NULL && wcsstr(lpCommandLine, L"plugin-container.exe") != NULL &&
-			wcsstr(lpCommandLine, L"npaliedit.dll") == NULL &&
-			wcsstr(lpCommandLine, L"npqqedit.dll") == NULL && 
-			wcsstr(lpCommandLine, L"npqqcert.dll") == NULL)
-		{
-			InjectIntoProcess(lpProcessInformation->hProcess);
-		}
+		TRACE("[MuterHook] CreateProcessW_hook failed!\n");
 	}
 	return ret;
 }

@@ -217,6 +217,10 @@ void AudioVolume::AddSessionIfNew(const std::map<DWORD, BOOL> &map, CComQIPtr<IA
 			if (SUCCEEDED(spAudioSessionControl2->GetSessionInstanceIdentifier(&pswInstanceId)))
 			{
 				m_mapSpAudioSessionControl2[CStringW(pswInstanceId)] = spAudioSessionControl2;
+
+				CComQIPtr<ISimpleAudioVolume> spSimpleAudioVolume = spAudioSessionControl2;
+				spSimpleAudioVolume->SetMute(::IsMuteEnabled(), &AudioVolumnCtx);
+				SAFE_RELEASE(spSimpleAudioVolume);
 			}
 			CoTaskMemFree(pswInstanceId);
 		}
@@ -298,8 +302,6 @@ HRESULT AudioVolume::OnSessionCreated(IAudioSessionControl *NewSession)
 
 	m_csEndpoint.Leave();
 
-	UpdateMuteStatus();
-
 	return S_OK;
 }
 
@@ -372,18 +374,7 @@ void AudioVolume::UpdateMuteStatus()
 
 	TRACE("[MuterWin7] AudioVolume::UpdateMuteStatus\n");
 
-	BOOL bMute = ::IsMuteEnabled();
-
 	UpdateAudioSessionControlList();
-
-	// Enumerate audio sessions
-	POSITION pos = m_mapSpAudioSessionControl2.GetStartPosition();
-	while (pos != NULL)
-	{
-		CComQIPtr<ISimpleAudioVolume> spSimpleAudioVolume = m_mapSpAudioSessionControl2.GetNextValue(pos);
-		spSimpleAudioVolume->SetMute(bMute, &AudioVolumnCtx);
-		SAFE_RELEASE(spSimpleAudioVolume);
-	}
 
 	m_csEndpoint.Leave();
 }
