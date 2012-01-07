@@ -1,0 +1,42 @@
+[
+    {
+        "name": {
+            "en-US": "DefaultD",
+            "zh-CN": "默认D",
+            "zh-TW": "預設D"
+        },
+        "disabledIconUrl": "http://yxl.github.com/Firefox-Muter/update/icons/mute-disabled.png",
+        "enabledIconUrl": "http://yxl.github.com/Firefox-Muter/update/icons/mute-enabled.png",
+        "iconSource": "http://www.iconfinder.com/icondetails/33834/128/mute_icon"
+    },
+    {
+        "name": {
+            "en-US": "Super MonoD",
+            "zh-CN": "简洁立体D",
+            "zh-TW": "簡潔立體D"
+        },
+        "disabledIconUrl": "http://yxl.github.com/Firefox-Muter/update/icons/super-mono-disabled.png",
+        "enabledIconUrl": "http://yxl.github.com/Firefox-Muter/update/icons/super-mono-enabled.png",
+        "iconSource": "http://www.lanrentuku.com/png/1326.html"
+    },
+    {
+        "name": {
+            "en-US": "Four ColorD",
+            "zh-CN": "简单四色D",
+            "zh-TW": "簡單四色D"
+        },
+        "disabledIconUrl": "http://yxl.github.com/Firefox-Muter/update/icons/simple-disabled.png",
+        "enabledIconUrl": "http://yxl.github.com/Firefox-Muter/update/icons/simple-enabled.png",
+        "iconSource": "http://www.lanrentuku.com/png/14.html"
+    },
+    {
+        "name": {
+            "en-US": "HeavyD",
+            "zh-CN": "笨重D",
+            "zh-TW": "笨重D"
+        },
+        "disabledIconUrl": "http://yxl.github.com/Firefox-Muter/update/icons/heavy-disabled.png",
+        "enabledIconUrl": "http://yxl.github.com/Firefox-Muter/update/icons/heavy-enabled.png",
+        "iconSource": "http://www.icosky.com/icon/kmix-docked-mute-icon/"
+    }    
+]
