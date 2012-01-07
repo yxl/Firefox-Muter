@@ -90,15 +90,24 @@ muterSkin.ui = {
     
   _onPreviewSkin: function(event) {
     let menuItem = event.originalTarget;
-    let btn = document.getElementById("muter-toolbar-palette-button");
     let img = menuItem.getAttribute(muterHook.isMuteEnabled() ? 'image-enabled-url' : 'image-disabled-url');
+    
+    let btn = document.getElementById("muter-toolbar-palette-button");
     btn.setAttribute('image', img);
+    
+    let btnStatusBar = document.getElementById("muter-statusbar-button");
+    btnStatusBar.setAttribute('src', img);
   },
 
   _onResetSkin: function(event) {
     let btn = document.getElementById("muter-toolbar-palette-button");
     let img = btn.getAttribute(muterHook.isMuteEnabled() ? 'image-enabled' : 'image-disabled');
     btn.setAttribute('image', img);    
+
+    let btnStatusBar = document.getElementById("muter-statusbar-button");
+    let img = btnStatusBar.getAttribute(muterHook.isMuteEnabled() ? 'image-enabled' : 'image-disabled');
+    btnStatusBar.setAttribute('src', img);
+    
   },
   
   _onSelectSkin: function(event) {
