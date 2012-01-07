@@ -1,9 +1,9 @@
 [
     {
         "name": {
-            "en-US": "DefaultD",
-            "zh-CN": "默认D",
-            "zh-TW": "預設D"
+            "en-US": "Default",
+            "zh-CN": "默认",
+            "zh-TW": "預設"
         },
         "disabledIconUrl": "http://yxl.github.com/Firefox-Muter/update/icons/mute-disabled.png",
         "enabledIconUrl": "http://yxl.github.com/Firefox-Muter/update/icons/mute-enabled.png",
@@ -11,9 +11,9 @@
     },
     {
         "name": {
-            "en-US": "Super MonoD",
-            "zh-CN": "简洁立体D",
-            "zh-TW": "簡潔立體D"
+            "en-US": "Super Mono",
+            "zh-CN": "简洁立体",
+            "zh-TW": "簡潔立體"
         },
         "disabledIconUrl": "http://yxl.github.com/Firefox-Muter/update/icons/super-mono-disabled.png",
         "enabledIconUrl": "http://yxl.github.com/Firefox-Muter/update/icons/super-mono-enabled.png",
@@ -21,9 +21,9 @@
     },
     {
         "name": {
-            "en-US": "Four ColorD",
-            "zh-CN": "简单四色D",
-            "zh-TW": "簡單四色D"
+            "en-US": "Four Color",
+            "zh-CN": "简单四色",
+            "zh-TW": "簡單四色"
         },
         "disabledIconUrl": "http://yxl.github.com/Firefox-Muter/update/icons/simple-disabled.png",
         "enabledIconUrl": "http://yxl.github.com/Firefox-Muter/update/icons/simple-enabled.png",
@@ -31,12 +31,32 @@
     },
     {
         "name": {
-            "en-US": "HeavyD",
-            "zh-CN": "笨重D",
-            "zh-TW": "笨重D"
+            "en-US": "Heavy",
+            "zh-CN": "笨重",
+            "zh-TW": "笨重"
         },
         "disabledIconUrl": "http://yxl.github.com/Firefox-Muter/update/icons/heavy-disabled.png",
         "enabledIconUrl": "http://yxl.github.com/Firefox-Muter/update/icons/heavy-enabled.png",
         "iconSource": "http://www.icosky.com/icon/kmix-docked-mute-icon/"
-    }    
+    },
+    {
+        "name": {
+            "en-US": "Snow White",
+            "zh-CN": "白雪公主",
+            "zh-TW": "白雪公主"
+        },
+        "disabledIconUrl": "http://yxl.github.com/Firefox-Muter/update/icons/snow-white-disabled.png",
+        "enabledIconUrl": "http://yxl.github.com/Firefox-Muter/update/icons/snow-white-enabled.png",
+        "iconSource": "http://www.mricons.com/icon/116516/128/mute-icon"
+    },
+    {
+        "name": {
+            "en-US": "Light Music",
+            "zh-CN": "轻音乐",
+            "zh-TW": "輕音樂"
+        },
+        "disabledIconUrl": "http://yxl.github.com/Firefox-Muter/update/icons/light-music-disabled.png",
+        "enabledIconUrl": "http://yxl.github.com/Firefox-Muter/update/icons/light-music-enabled.png",
+        "iconSource": "http://www.mricons.com/icon/106746/96/stop-icon"
+    }
 ]
