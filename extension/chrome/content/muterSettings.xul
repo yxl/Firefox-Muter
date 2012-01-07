@@ -123,13 +123,15 @@
           </vbox>
         </hbox>
       </radiogroup>
-      
+    
     </groupbox>
+    
+    <hbox>
+      <button dlgtype="extra1" id="muter-settings-restore" label="&muter.settings.restore;" />
+      <spacer flex="1" />
+      <button dlgtype="accept" id="muter-settings-accept" />
+      <button dlgtype="cancel" id="muter-settings-cancel" />
+    </hbox>
+      
   </prefpane>
-  <hbox>
-    <button dlgtype="extra1" id="muter-settings-restore" label="&muter.settings.restore;" />
-    <spacer flex="1" />
-    <button dlgtype="accept" id="muter-settings-accept" />
-    <button dlgtype="cancel" id="muter-settings-cancel" />
-  </hbox>
 </prefwindow>
