@@ -21,6 +21,8 @@ if (typeof(muterSkin) == "undefined") {
  *　Manage the UI relative to the skin function
  */
 muterSkin.ui = {
+  _isSkinUpdating: false,
+  
   load: function() {
     muterSkin.db.init();
     muterSkin.ui.rebuildSkinMenu();
@@ -128,6 +130,10 @@ muterSkin.ui = {
    * Update the skin list from internet
    */
   updateFromWeb: function() {
+    if (this._isSkinUpdating) {
+      return;
+    }
+    this._isSkinUpdating = true;
     let url = muterUtils.Services.prefs.getCharPref("extensions.firefox-muter.skin.updateurl");
     if (!url) {
       url = 'http://yxl.github.com/Firefox-Muter/update/skin.json';
@@ -166,18 +172,22 @@ muterSkin.ui = {
     if (4 == xmlHttpRequest.readyState && 200 == xmlHttpRequest.status) {
       try {
         let json = JSON.parse(xmlHttpRequest.responseText);
-        muterSkin.db.navArray = json.nav;
-        this.rebuildSkinMenu();
+        if (!muterSkin.db.isSkinArrayEqual(json)) {
+          muterSkin.db.skinArray = json;
+          muterSkin.ui.rebuildSkinMenu();
+        }
       } catch (ex) {
+        Components.utils.reportError('onWebDownloadFinished:' + ex);
       }
     }
+    muterSkin.ui._isSkinUpdating = false;
   }
 };
 
 /**
  *  Use preferences to store the skin data. 
  *　The skin data is a JSON object of the following format:
-        muterSkin: [{
+        [{
           name: {
             'en-US':'Super Mono',
             'zh-CN':'简洁立体',
@@ -209,7 +219,7 @@ muterSkin.db = {
 
   init: function() {
     try {
-      this._items = this._getJSONPref(this._prefName).muterSkin;
+      this._items = this._getJSONPref(this._prefName);
     } catch (ex) {}
     if (!this._items) {
       this._items = this._loadDefaultValue();
@@ -221,10 +231,16 @@ muterSkin.db = {
   },
 
   set skinArray(value) {
-    this._items = {
-      muterSkin: value
-    };
-    this._setJSONPref(this._prefName, this._items);
+    this._items = value;
+    this._setJSONPref(this._prefName, value);
+  },
+  
+  isSkinArrayEqual: function(value) {
+    try {
+     return JSON.stringify(this._items) === JSON.stringify(value);
+    } catch (ex) {
+      return false;
+    }
   },
 
   /**

@@ -90,12 +90,14 @@ var muter = (function(){
       if (muterUtils.isVersionLessThan("4.0")) {
         // Show status bar button
         Services.prefs.setBoolPref('extensions.firefox-muter.showInStatusBar', true);
-      } 
+      }
+      muterSkin.ui.updateFromWeb();
     },
 
     switchStatus: function(event) {
       let shouldMute = !muterHook.isMuteEnabled();
       muterHook.enableMute(shouldMute);
+      muterSkin.ui.updateFromWeb();
     },
     
     clickSwitchButton: function(event) {
@@ -117,6 +119,7 @@ var muter = (function(){
     },
     
     showPopuMenu: function(event) {
+      muterSkin.ui.updateFromWeb();
       let btn = document.getElementById("muter-toolbar-palette-button");
       let menu = document.getElementById("muter-switch-button-popup-menu");
       if (btn && menu) {

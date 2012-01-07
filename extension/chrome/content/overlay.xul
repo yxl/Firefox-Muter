@@ -3,8 +3,8 @@
 <!DOCTYPE overlay SYSTEM "chrome://muter/locale/muter.dtd">
 <overlay id="muter-overlay"
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-  <script type="application/x-javascript" src="chrome://muter/content/overlay.js"/>
   <script type="application/x-javascript" src="chrome://muter/content/muterSkin.js"/>  
+  <script type="application/x-javascript" src="chrome://muter/content/overlay.js"/>
   <commandset id="mainCommandSet">
     <command id="cmd_muterToggle" oncommand="muter.switchStatus();"/>
   </commandset>
