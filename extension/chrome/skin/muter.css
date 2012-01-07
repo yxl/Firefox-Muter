@@ -4,8 +4,10 @@
   background-color:transparent;
 }
 
-#muter-toolbar-palette-button[crazy="true"] {
-  -moz-animation: crazy 10s 2s infinite backwards;
+image.muter-shadow-image {
+  margin: 2px 10px 15px 10px;
+  border: 1px solid #000;
+  -moz-box-shadow: 3px 3px 4px #333;
 }
 
 /** For Firfox 3.6 only! **/

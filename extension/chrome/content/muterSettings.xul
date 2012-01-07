@@ -1,7 +1,15 @@
 <?xml version="1.0" ?>
+
+<!DOCTYPE prefwindow [
+	<!ENTITY % brandDTD SYSTEM "chrome://branding/locale/brand.dtd">
+  %brandDTD;
+	<!ENTITY % muterDTD SYSTEM "chrome://muter/locale/muter.dtd">
+	%muterDTD;
+]>
+
 <?xml-stylesheet href="chrome://global/skin/" type="text/css" ?>
-<?xml-stylesheet href="chrome://muter/skin/muter_animation.css" type="text/css"?>
-<!DOCTYPE window SYSTEM "chrome://muter/locale/muter.dtd">
+<?xml-stylesheet href="chrome://muter/skin/muter.css" type="text/css"?>
+
 <prefwindow id="muter-settings" 
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
     title="&muter.settings.title;"
@@ -17,6 +25,7 @@
       <preference id="shortcutModifiers" name="extensions.firefox-muter.shortcut.modifiers" type="string"/>
       <preference id="showInAddonBar" name="extensions.firefox-muter.showInAddonBar" type="bool"/>
       <preference id="showInStatusBar" name="extensions.firefox-muter.showInStatusBar" type="bool"/>
+      <preference id="switchButtonType" name="extensions.firefox-muter.switchButtonType" type="string" />
     </preferences>
     
     <!-- Sets Shortcut key -->
@@ -73,23 +82,48 @@
           </menupopup>
         </menulist>
       </hbox>
+      <hbox>
+        <label value="&muter.settings.restart.descr;" />
+      </hbox>
     </groupbox>
     
     <!-- Sets the UI -->
     <groupbox id="muter-settings-ui">
       <caption label="&muter.settings.ui.title;"/>
-      <!-- Addon bar setting. -->
-      <hbox id="muter-settings-show-in-addon-bar">
-        <checkbox
-          preference="showInAddonBar" 
-          label="&muter.settings.showInAddonBar;"/>
+      <hbox>
+        
+        <!-- Addon bar setting. -->
+        <vbox id="muter-settings-show-in-addon-bar">
+          <checkbox
+            preference="showInAddonBar" 
+            label="&muter.settings.showInAddonBar;"/>
+          <image class="muter-shadow-image" src="chrome://muter/skin/show-in-addon-bar.png" />          
+        </vbox>
+        
+        <!-- Status bar setting. For firefox 3.6 only -->
+        <vbox id="muter-settings-show-in-status-bar">
+          <checkbox
+            preference="showInStatusBar" 
+            label="&muter.settings.showInStatusBar;" />
+          <image class="muter-shadow-image" src="chrome://muter/skin/show-in-status-bar.png" />
+        </vbox>
       </hbox>
-      <!-- Status bar setting. For firefox 3.6 only -->
-      <hbox id="muter-settings-show-in-status-bar">
-        <checkbox
-          preference="showInStatusBar" 
-          label="&muter.settings.showInStatusBar;" />
-      </hbox>      
+      
+      <!-- Switch button style -->
+      <radiogroup id="muter-settings-switch-button-style" preference="switchButtonType">
+        <label value="&muter.settings.switchButtonStyle;" />
+        <hbox>
+          <vbox>
+            <radio label="&muter.settings.switchButtonWithMenu;" value="menu-button" />
+            <image class="muter-shadow-image" src="chrome://muter/locale/switch-button-with-menu.png" />
+          </vbox>
+          <vbox>
+            <radio label="&muter.settings.switchButtonWithoutMenu;" value="none" />
+            <image class="muter-shadow-image" src="chrome://muter/skin/switch-button-without-menu.png" />
+          </vbox>
+        </hbox>
+      </radiogroup>
+      
     </groupbox>
   </prefpane>
   <hbox>

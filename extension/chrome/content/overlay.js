@@ -165,10 +165,16 @@ var muter = (function(){
     setupSwitchButton: function() {
       let disabledIcon = Services.prefs.getCharPref('extensions.firefox-muter.disabledIcon');
       let enabledIcon = Services.prefs.getCharPref('extensions.firefox-muter.enabledIcon');
-           
+      let switchButtonType = Services.prefs.getCharPref('extensions.firefox-muter.switchButtonType');
+      
       let btn = document.getElementById("muter-toolbar-palette-button");
       btn.setAttribute('image-disabled', disabledIcon);
       btn.setAttribute('image-enabled', enabledIcon);
+      if (switchButtonType !== 'none') {
+        btn.setAttribute('type', switchButtonType);
+      } else {
+        btn.removeAttribute('type');
+      }
       
       // For firefox 3.6 only
       let statusbarBtn = document.getElementById("muter-statusbar-button");
@@ -301,7 +307,8 @@ var muter = (function(){
         } else if (prefName == "extensions.firefox-muter.showInStatusBar") {
           muter.setupStatusBar();
         } else if (prefName == "extensions.firefox-muter.disabledIcon" ||
-                   prefName == "extensions.firefox-muter.enabledIcon") {
+                   prefName == "extensions.firefox-muter.enabledIcon" ||
+                   prefName == "extensions.firefox-muter.switchButtonType") {
           muter.setupSwitchButton();
         }
       }

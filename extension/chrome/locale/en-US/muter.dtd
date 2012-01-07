@@ -3,9 +3,13 @@
 <!ENTITY muter-popup.init "Quickly switch mute status">
 <!ENTITY muter.feedback "Troubleshooting">
 
-<!ENTITY muter.settings.title "Settings">
+<!ENTITY muter.settings.title "Muter Settings">
 <!ENTITY muter.settings.shorcut.title "Shortcut Keys">
 <!ENTITY muter.settings.ui.title "User Interface">
 <!ENTITY muter.settings.restore "Restore Defaults">
 <!ENTITY muter.settings.showInAddonBar "Show switch button in the addon bar.">
 <!ENTITY muter.settings.showInStatusBar "Show switch button in the status bar.">
+<!ENTITY muter.settings.restart.descr "It will take effect after &brandShortName; restarts.">
+<!ENTITY muter.settings.switchButtonStyle "Switch button style:">
+<!ENTITY muter.settings.switchButtonWithMenu "With menu">
+<!ENTITY muter.settings.switchButtonWithoutMenu "Without menu">

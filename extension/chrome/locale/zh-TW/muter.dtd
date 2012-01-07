@@ -3,9 +3,13 @@
 <!ENTITY muter-popup.init "快速切換靜音狀態">
 <!ENTITY muter.feedback "報告問題">
 
-<!ENTITY muter.settings.title "設置">
+<!ENTITY muter.settings.title "靜音設置">
 <!ENTITY muter.settings.shorcut.title "快速鍵">
 <!ENTITY muter.settings.ui.title "使用者介面">
 <!ENTITY muter.settings.restore "還原預設值">
 <!ENTITY muter.settings.showInAddonBar "在附加元件欄顯示切換按鈕">
 <!ENTITY muter.settings.showInStatusBar "在狀態欄顯示切換按鈕">
+<!ENTITY muter.settings.restart.descr "重新啟動 &brandShortName; 之後生效。">
+<!ENTITY muter.settings.switchButtonStyle "切換按鈕風格:">
+<!ENTITY muter.settings.switchButtonWithMenu "帶功能表">
+<!ENTITY muter.settings.switchButtonWithoutMenu "不帶功能表">

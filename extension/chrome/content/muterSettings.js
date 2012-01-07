@@ -47,6 +47,8 @@ var muterSettings = (function(){
       if (muterUtils.isVersionLessThan("4.0")) {
         let showInAddonBar = document.getElementById("muter-settings-show-in-addon-bar");
         showInAddonBar.hidden = true;
+        let switchButtonStype = document.getElementById("muter-settings-switch-button-style");
+        switchButtonStype.hidden = true;
       }
     },
 
