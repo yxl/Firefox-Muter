@@ -11,6 +11,7 @@ HRESULT WINAPI CoCreateInstance_hook(REFCLSID rclsid, LPUNKNOWN pUnkOuter, DWORD
   HRESULT hret =  CoCreateInstance_original(rclsid, pUnkOuter, dwClsContext, riid, ppv);
   if (IsInThisModuleProcess())
   {
+	  InstallMuterHooks();
 	  InjectIntoSubProcesses();
   }
   return hret;

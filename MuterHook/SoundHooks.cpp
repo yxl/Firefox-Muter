@@ -3,7 +3,6 @@
 #include "DllEntry.h"
 #include "HookedDsound.h"
 #include "SDKTrace.h"
-#pragma comment(lib, "winmm.lib")
 
 MMRESULT (WINAPI *waveOutWrite_original)(HWAVEOUT hwo, LPWAVEHDR pwh, UINT cbwh) = NULL;
 

@@ -18,9 +18,10 @@ struct FunctionInfo
 	LPCSTR  szFunctionName;
 	PVOID*  ppOriginalFunction;
 	PVOID   pHookFunction;
+	BOOL    bSucceeded;
 };
 
-#define DEFINE_FUNCTION_INFO(module, func) {module, #func, (PVOID *)&func##_original, (PVOID)func##_hook}
+#define DEFINE_FUNCTION_INFO(module, func) {module, #func, (PVOID *)&func##_original, (PVOID)func##_hook, FALSE}
 
 FunctionInfo s_Functions[] = 
 {
@@ -40,7 +41,7 @@ const size_t s_FunctionsCount = sizeof(s_Functions)/sizeof(FunctionInfo);
 BOOL InjectIntoProcess(HANDLE hProcess) 
 {
 	
-	TRACE("[MuterHook] InjectIntoProcess Enter\n");
+	TRACE("[MuterHook] InjectIntoProcess\n");
 	LPCSTR rlpDlls[2];
     DWORD nDlls = 0;
     rlpDlls[nDlls++] = g_szThisModulePath;
@@ -100,10 +101,16 @@ void InstallMuterHooks()
 	{
 		FunctionInfo& info = s_Functions[i];
 
+		if (info.bSucceeded) 
+		{
+			continue;
+		}
+
 		HMODULE hModule = ::LoadLibraryA(info.szFunctionModule);
 		if (!hModule)
 		{
-			TRACE("[MuterHook] Cannot LoadLibraryA(%s)", info.szFunctionModule);
+			DWORD dwErrorCode = ::GetLastError();
+			TRACE("[MuterHook] Cannot LoadLibraryA(%s)! GetLastError: %d", info.szFunctionModule, dwErrorCode);
 			continue;
 		}
 
@@ -119,6 +126,7 @@ void InstallMuterHooks()
 			TRACE("[MuterHook] DetourAttach failed! Module: %s  Function: %s", info.szFunctionModule, info.szFunctionName);
 			continue;
 		}
+		info.bSucceeded = TRUE;
 	}
 
 	DetourTransactionCommit();
