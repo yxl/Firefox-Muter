@@ -101,7 +101,7 @@
         </vbox>
         
         <!-- Status bar setting. For firefox 3.6 only -->
-        <vbox id="muter-settings-show-in-status-bar">
+        <vbox id="muter-settings-show-in-status-bar" hidden="true">
           <checkbox
             preference="showInStatusBar" 
             label="&muter.settings.showInStatusBar;" />
