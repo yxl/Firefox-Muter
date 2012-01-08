@@ -101,7 +101,7 @@
         </vbox>
         
         <!-- Status bar setting. For firefox 3.6 only -->
-        <vbox id="muter-settings-show-in-status-bar" hidden="true">
+        <vbox id="muter-settings-show-in-status-bar">
           <checkbox
             preference="showInStatusBar" 
             label="&muter.settings.showInStatusBar;" />
@@ -126,7 +126,7 @@
     
     </groupbox>
     
-    <hbox>
+    <hbox flex="1">
       <button dlgtype="extra1" id="muter-settings-restore" label="&muter.settings.restore;" />
       <spacer flex="1" />
       <button dlgtype="accept" id="muter-settings-accept" />

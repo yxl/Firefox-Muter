@@ -171,29 +171,37 @@ var muter = (function(){
       let switchButtonType = Services.prefs.getCharPref('extensions.firefox-muter.switchButtonType');
       
       let btn = document.getElementById("muter-toolbar-palette-button");
-      btn.setAttribute('image-disabled', disabledIcon);
-      btn.setAttribute('image-enabled', enabledIcon);
-      if (switchButtonType !== 'none') {
-        btn.setAttribute('type', switchButtonType);
-      } else {
-        btn.removeAttribute('type');
+      if (btn) {
+        btn.setAttribute('image-disabled', disabledIcon);
+        btn.setAttribute('image-enabled', enabledIcon);
+        if (switchButtonType !== 'none') {
+          btn.setAttribute('type', switchButtonType);
+        } else {
+          btn.removeAttribute('type');
+        }
       }
       
       // For firefox 3.6 only
       let statusbarBtn = document.getElementById("muter-statusbar-button");
-      statusbarBtn.setAttribute('image-disabled', disabledIcon);
-      statusbarBtn.setAttribute('image-enabled', enabledIcon);
+      if (statusbarBtn) {
+        statusbarBtn.setAttribute('image-disabled', disabledIcon);
+        statusbarBtn.setAttribute('image-enabled', enabledIcon);
+      }
       
       this.updateUI();
     },
 
     /** Add the muter button to the addon bar or remove it */
     setupAddonBar: function() {
-      let showInAddonBar = Services.prefs.getBoolPref('extensions.firefox-muter.showInAddonBar');
+      // For firefox 3.6 only
+      if (muterUtils.isVersionLessThan("4.0")) {
+        return;
+      }      
       
-      // Move the muter button to the addon bar
+      let showInAddonBar = Services.prefs.getBoolPref('extensions.firefox-muter.showInAddonBar');
       let addonbar = document.getElementById("addon-bar");
-      if (!addonbar) return; 
+      if (!addonbar) return;
+      
       let curSet = addonbar.currentSet.replace(/\s/g,'').split(',');
       let isChanged = false;
       let index = curSet.indexOf("muter-toolbar-palette-button");
@@ -245,8 +253,10 @@ var muter = (function(){
     /** For firefox 3.6 only! Setup the muter button in the status bar**/
     setupStatusBar: function() {
       let showInStatusBar = Services.prefs.getBoolPref("extensions.firefox-muter.showInStatusBar");
-      let statusbarBtn = document.getElementById("muter-statusbar-button");       
-      statusbarBtn.hidden = !showInStatusBar;
+      let statusbarBtn = document.getElementById("muter-statusbar-button");
+      if (statusbarBtn) {
+        statusbarBtn.hidden = !showInStatusBar;
+      }
       
       // prevent showing two switch buttons
       let showInAddonBar = Services.prefs.getBoolPref("extensions.firefox-muter.showInAddonBar");
