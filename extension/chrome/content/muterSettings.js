@@ -49,8 +49,9 @@ var muterSettings = (function(){
         showInAddonBar.hidden = true;
         let switchButtonStype = document.getElementById("muter-settings-switch-button-style");
         switchButtonStype.hidden = true;
+      } else {
         let showInStatusBar = document.getElementById("muter-settings-show-in-status-bar");
-        showInStatusBar.hidden = false;
+        showInStatusBar.hidden = true;
       }
     },
 
