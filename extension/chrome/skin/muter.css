@@ -12,8 +12,8 @@ image.muter-shadow-image {
 
 /** For Firfox 3.6 only! **/
 
-#muter-statusbar-button {
+#muter-statusbar-button > image{
   background-color:transparent;
   height: 16px;
-  margin: 0;
+  width: 16px;
 }
