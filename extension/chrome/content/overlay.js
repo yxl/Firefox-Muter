@@ -223,6 +223,12 @@ var muter = (function(){
           this._showIntroPopup();
         }
       }
+      
+      // prevent showing two switch buttons
+      let showInStatusBar = Services.prefs.getBoolPref("extensions.firefox-muter.showInStatusBar");
+      if (showInAddonBar) {
+        Services.prefs.setBoolPref("extensions.firefox-muter.showInStatusBar", false);
+      }
     },
     
     /** popup an introduction message */
@@ -238,9 +244,16 @@ var muter = (function(){
     
     /** For firefox 3.6 only! Setup the muter button in the status bar**/
     setupStatusBar: function() {
-      let needShow = Services.prefs.getBoolPref("extensions.firefox-muter.showInStatusBar");
+      let showInStatusBar = Services.prefs.getBoolPref("extensions.firefox-muter.showInStatusBar");
       let statusbarBtn = document.getElementById("muter-statusbar-button");       
-      statusbarBtn.hidden = !needShow;
+      statusbarBtn.hidden = !showInStatusBar;
+      
+      // prevent showing two switch buttons
+      let showInAddonBar = Services.prefs.getBoolPref("extensions.firefox-muter.showInAddonBar");
+      if (showInStatusBar) {
+        Services.prefs.setBoolPref("extensions.firefox-muter.showInAddonBar", false);
+      }
+      
     },
 
     setupShortcut: function() {
