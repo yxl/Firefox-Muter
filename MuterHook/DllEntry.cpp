@@ -25,6 +25,11 @@ extern "C"
 	/*DLLIMPORT*/ void EnableMute(BOOL bEnabled)
 	{
 		g_bMute = bEnabled;
+		if (bEnabled)
+		{
+			InstallMuterHooks();
+			InjectIntoSubProcesses();
+		}
 	}
 
 	/*DLLIMPORT*/ BOOL IsMuteEnabled()
