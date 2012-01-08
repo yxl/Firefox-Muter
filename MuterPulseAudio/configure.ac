@@ -40,6 +40,26 @@ AC_TYPE_UINT32_T
 # Checks for library functions
 AC_CHECK_FUNCS([strndup]) 
 
+# Default compiler options
+AC_ARG_ENABLE([debug],
+              AS_HELP_STRING([--enable-debug], [enable debug [default=no]]),
+              [enable_debug=$enableval],
+              [enable_debug=no])
+if test x$enable_debug = xyes; then
+  CXXFLAGS="-g -O0 -Wall"
+else 
+  CXXFLAGS="-O2 -Wall"
+fi
+AC_ARG_ENABLE([m64],
+              AS_HELP_STRING([--enable-m64], [generate 64-bit code [default=no]]),
+              [enable_debug=$enableval],
+              [enable_debug=no])
+if test x$enable_m64 = xyes; then
+  CXXFLAGS="$CXXFLAGS -m64"
+else
+  CXXFLAGS="$CXXFLAGS -m32"
+fi
+
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES(Makefile src/Makefile)
 AC_OUTPUT
