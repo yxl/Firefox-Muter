@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+<bindings
+    xmlns="http://www.mozilla.org/xbl"
+    xmlns:xbl="http://www.mozilla.org/xbl"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+  <binding id="navigationWizardHeader">
+    <resources>
+      <stylesheet src="chrome://global/skin/global.css" />
+      <stylesheet src="chrome://global/content/xul.css" />
+      <stylesheet src="chrome://global/skin/wizard.css" />
+    </resources>
+    
+    <content orient="vertical">
+      <xul:vbox xbl:inherits="selectedIndex=viewIndex">
+        <xul:label class="wizard-header-label" xbl:inherits="value=label"/>
+        <xul:progressbar id="progressBar" style="-moz-binding: url(progressBar.xml#progressBar);">
+          <xul:label id="typeSelectorHeader" class="progressLabel" value="header1" crop="end"/>
+          <xul:label id="screenshotHeader" class="progressLabel" value="header2" crop="end"/>
+          <xul:label id="commentPageHeader" class="progressLabel" value="header3" crop="end"/>
+          <xul:label id="sendPageHeader" class="progressLabel" value="header4" crop="end"/>
+        </xul:progressbar>
+      </xul:vbox>
+    </content>
+    
+    <implementation>
+    </implementation>
+    
+    <handlers>
+    </handlers>
+  </binding>
+
+</bindings>

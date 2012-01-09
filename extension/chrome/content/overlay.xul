@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
-<?xml-stylesheet href="chrome://muter/skin/muter.css" type="text/css"?>
 <!DOCTYPE overlay SYSTEM "chrome://muter/locale/muter.dtd">
+<?xml-stylesheet href="chrome://muter/skin/muter.css" type="text/css"?>
 <overlay id="muter-overlay"
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <script type="application/x-javascript" src="chrome://muter/content/muterSkin.js"/>  
@@ -38,7 +38,7 @@
     <menupopup id="muter-switch-button-popup-menu" position="after_end">
       <menuseparator id='muter-skin-menu-separator-closing'/>
       <menuitem label="&muter.settings.title;" oncommand="muter.openSettingsDialog(event);" />
-      <menuitem label="&muter.feedback;" oncommand="muter.openFeedback();"/>
+      <menuitem label="&muter.feedback;" oncommand="muter.openFeedback(event);"/>
     </menupopup>
   </popupset>
   <!-- statusbar, only for firefox 3.6-->

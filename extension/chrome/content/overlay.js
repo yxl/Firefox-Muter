@@ -131,13 +131,20 @@ var muter = (function(){
     openSettingsDialog:function (event) {
       event.stopPropagation();
       
-      // For the usage of window.openDialog, refers to 
-      // https://developer.mozilla.org/en/DOM/window.openDialog
+      // For the usage of window.showModalDialog, refer to 
+      // https://developer.mozilla.org/en/DOM/window.showModalDialog
       let url = 'chrome://muter/content/muterSettings.xul';
       window.showModalDialog(url);
     },
     
-    openFeedback: function() {
+    openFeedback: function(event) {
+      // For the usage of window.openDialog, refer to 
+      // https://developer.mozilla.org/en/DOM/window.openDialog
+      let url = 'chrome://muter/content/feedback.xul';
+      let name = 'muterFeedback';
+      let features = 'chrome,centerscreen';
+      window.openDialog(url, name, features);
+      return;
       let url = 'http://yxl.github.com/Firefox-Muter/';
       if (switchToTabHavingURI){
         switchToTabHavingURI(url, true);
