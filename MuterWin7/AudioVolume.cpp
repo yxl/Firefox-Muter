@@ -123,6 +123,9 @@ void AudioVolume::UpdateAudioSessionControlList()
 {
 	HRESULT hr = S_OK;
 
+  if (m_spAudioSessionManager2 == NULL)
+    return;
+
 	CComQIPtr<IAudioSessionEnumerator> spAudioSessionEnumerator;
 	try
 	{
