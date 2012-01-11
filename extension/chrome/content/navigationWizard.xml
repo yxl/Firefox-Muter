@@ -1,5 +1,10 @@
 <?xml version="1.0"?>
 
+<!DOCTYPE bindings [
+	<!ENTITY % muterDTD SYSTEM "chrome://muter/locale/muter.dtd">
+	%muterDTD;
+]>
+
 <bindings
     xmlns="http://www.mozilla.org/xbl"
     xmlns:xbl="http://www.mozilla.org/xbl"
@@ -15,12 +20,10 @@
     
     <content orient="vertical">
       <xul:vbox xbl:inherits="selectedIndex=viewIndex">
-        <xul:label class="wizard-header-label" xbl:inherits="value=label"/>
         <xul:progressbar id="progressBar" style="-moz-binding: url(progressBar.xml#progressBar);">
-          <xul:label id="typeSelectorHeader" class="progressLabel" value="header1" crop="end"/>
-          <xul:label id="screenshotHeader" class="progressLabel" value="header2" crop="end"/>
-          <xul:label id="commentPageHeader" class="progressLabel" value="header3" crop="end"/>
-          <xul:label id="sendPageHeader" class="progressLabel" value="header4" crop="end"/>
+          <xul:label id="typeSelectorHeader" class="progressLabel" value="&muter.feedback.typeSelector.heading;" crop="end"/>
+          <xul:label id="commentPageHeader" class="progressLabel" value="&muter.feedback.commentPage.heading;" crop="end"/>
+          <xul:label id="sendPageHeader" class="progressLabel" value="&muter.feedback.sendPage.heading;" crop="end"/>
         </xul:progressbar>
       </xul:vbox>
     </content>

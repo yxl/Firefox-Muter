@@ -13,3 +13,24 @@
 <!ENTITY muter.settings.switchButtonStyle "Switch button style:">
 <!ENTITY muter.settings.switchButtonWithMenu "With menu">
 <!ENTITY muter.settings.switchButtonWithoutMenu "Without menu">
+
+<!ENTITY muter.feedback.typeSelector.heading "Select issue type">
+<!ENTITY muter.feedback.notWorking.label "It doesn't work!">
+<!ENTITY muter.feedback.notWorking.description "It cannot mute the browser.">
+<!ENTITY muter.feedback.sideEffect.label "It is a problem maker.">
+<!ENTITY muter.feedback.sideEffect.description "The addon result in crash or other problems.">
+<!ENTITY muter.feedback.other.label "Other issue">
+<!ENTITY muter.feedback.other.description "Suggestions or other problems.">
+
+<!ENTITY muter.feedback.commentPage.heading  "Enter comment">
+<!ENTITY muter.feedback.comment.label  "Comment (optional):">
+<!ENTITY muter.feedback.email.label  "Email for further inquiries (optional):">
+<!ENTITY muter.feedback.comment.lengthWarning "The length of your comment exceeds 500 characters. Only the first 500 characters will be sent.">
+<!ENTITY muter.feedback.attachExtensions.label "Attach a list of active extensions to the report in case add-on conflict is the cause of the problem.">
+
+<!ENTITY muter.feedback.sendPage.heading "Send report">
+<!ENTITY muter.feedback.reportData.label "Report data:">
+<!ENTITY muter.feedback.sendPage.errorMessage "An attempt to send the report failed. Please ensure you are connected to the Internet and retry.">
+<!ENTITY muter.feedback.sendPage.retry.label "Send again">
+
+
