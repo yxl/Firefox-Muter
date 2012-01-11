@@ -39,16 +39,16 @@ Build
 ==================
 Assume the root directory of the project is PROJECT_ROOT.
 1. Build Linux share librarys with Ubuntun 32bit
+sudo apt-get install git autoconf libtool g++ libpulse-dev  build-essential
 cd PROJECT_ROOT 
-sudo apt-get install libtool libpulse-dev
 ./build-MuterPulseAudio-32.sh
 After successful building, you will get libMuterPulseAudio-32.so 
 in the directory of 
 PROJECT_ROOT\extension\modules\ctypes-binary.
 
 2. Build Linux share librarys with Ubuntun 64bit
+sudo apt-get install git autoconf libtool g++ libpulse-dev  build-essential
 cd PROJECT_ROOT 
-sudo apt-get install libtool libpulse-dev
 ./build-MuterPulseAudio-64.sh
 After successful building, you will get libMuterPulseAudio-64.so 
 in the directory of 
