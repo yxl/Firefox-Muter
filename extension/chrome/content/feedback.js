@@ -4,15 +4,16 @@
  * http://mozilla.org/MPL/2.0/.
  */
 
-var muterFeedback = (function(){
+var muterFeedback = (function() {
   let jsm = {};
   Components.utils.import("resource://muter/muterUtils.jsm", jsm);
-  let { muterUtils } = jsm;
-  
+  let {
+    muterUtils
+  } = jsm;
+
   let muterFeedback = {
-  
-    initWizard: function(event) {
-    },    
+
+    initWizard: function(event) {}
   };
 
   return muterFeedback;

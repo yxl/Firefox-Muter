@@ -15,18 +15,20 @@
 <!ENTITY muter.settings.switchButtonWithoutMenu "不帶功能表">
 
 <!ENTITY muter.feedback.typeSelector.heading "選擇問題類型">
-<!ENTITY muter.feedback.notWorking.label "It doesn't work!">
-<!ENTITY muter.feedback.notWorking.description "It cannot mute the browser.">
-<!ENTITY muter.feedback.sideEffect.label "It is a problem maker.">
-<!ENTITY muter.feedback.sideEffect.description "The addon result in crash or other problems.">
-<!ENTITY muter.feedback.other.label "Other issue">
-<!ENTITY muter.feedback.other.description "Suggestions or other problems.">
+<!ENTITY muter.feedback.typeSelector.description "本視窗會一步步指導您傳送一份“靜音”的錯誤報告。首先，請選擇您碰到的錯誤類型：">
+<!ENTITY muter.feedback.notWorking.label "無法靜音">
+<!ENTITY muter.feedback.notWorking.description "它不能讓流覽器靜音。">
+<!ENTITY muter.feedback.sideEffect.label "製造麻煩">
+<!ENTITY muter.feedback.sideEffect.description "導致流覽器崩潰或引起其他問題。">
+<!ENTITY muter.feedback.other.label "其他">
+<!ENTITY muter.feedback.other.description "提供建議或回饋其他情況。">
 
 <!ENTITY muter.feedback.commentPage.heading  "輸入註解">
-<!ENTITY muter.feedback.comment.label  "備註 (選用):">
-<!ENTITY muter.feedback.email.label  "進一步聯繫的 Email 地址 (選用):">
+<!ENTITY muter.feedback.commentPage.description  "下面的文字方塊可以讓您輸入額外的註解，以幫助我們更了解問題所在。這個步驟不是必須的，但若問題不太明顯時還是建議您這麼做。在回報之前您可以檢視報告資料。">
+<!ENTITY muter.feedback.comment.label  "備註(選用):">
+<!ENTITY muter.feedback.email.label  "Email(選用):">
 <!ENTITY muter.feedback.comment.lengthWarning "您輸入的註解超過 500 個字元。只有前 500 個字元會被傳送。">
-<!ENTITY muter.feedback.attachExtensions.label "附加目前啟用的擴充套件列表至報告中，以便排除因套件衝突所產生的問題">
+<!ENTITY muter.feedback.attachAddons.label "附加目前啟用的套件列表至報告中，以便排除因套件衝突所產生的問題">
 
 <!ENTITY muter.feedback.sendPage.heading "傳送報告">
 <!ENTITY muter.feedback.reportData.label "報告資料">

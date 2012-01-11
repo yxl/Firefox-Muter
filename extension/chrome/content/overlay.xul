@@ -1,61 +1,57 @@
-<?xml version="1.0" ?>
-
+<?xml version="1.0"?>
 <!-- This Source Code is subject to the terms of the Mozilla Public License
-	 - version 2.0 (the "License"). You can obtain a copy of the License at
-	 - http://mozilla.org/MPL/2.0/. -->
-
+         - version 2.0 (the "License"). You can obtain a copy of the License at
+         - http://mozilla.org/MPL/2.0/. -->
 <?xml-stylesheet href="chrome://muter/skin/muter.css" type="text/css"?>
-   
 <!DOCTYPE overlay SYSTEM "chrome://muter/locale/muter.dtd">
-
 <overlay id="muter-overlay"
-         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-  <script type="application/x-javascript" src="chrome://muter/content/muterSkin.js"/>  
-  <script type="application/x-javascript" src="chrome://muter/content/overlay.js"/>
+xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script type="application/x-javascript"
+  src="chrome://muter/content/muterSkin.js" />
+  <script type="application/x-javascript"
+  src="chrome://muter/content/overlay.js" />
   <commandset id="mainCommandSet">
-    <command id="cmd_muterToggle" oncommand="muter.switchStatus();"/>
+    <command id="cmd_muterToggle" oncommand="muter.switchStatus();" />
   </commandset>
   <keyset id="mainKeyset">
-    <key id="key_muterToggle" command="cmd_muterToggle" modifiers="accel any alt" key="M" />
+    <key id="key_muterToggle" command="cmd_muterToggle"
+    modifiers="accel any alt" key="M" />
   </keyset>
   <popupset id="mainPopupSet">
     <panel id="muter-popup-init" type="arrow" align="start">
-      <label id="muter-label-init" value="&muter-popup.init;"/>
+      <label id="muter-label-init" value="&muter-popup.init;" />
     </panel>
   </popupset>
   <!-- Toolbar button-->
   <toolbarpalette id="BrowserToolbarPalette">
-    <toolbarbutton id="muter-toolbar-palette-button"
-                   type = "menu-button"
-                   class="toolbarbutton-1 chromeclass-toolbar-additional"
-                   popup="muter-popup"
-                   onclick="muter.clickSwitchButton(event);"
-                   label="&muter-button.label;"
-                   tooltiptext="&muter-button.tooltip;"
-                   command='cmd_muterToggle'
-                   image='chrome://muter/skin/mute-enabled.png'
-                   menupopup="muter-toolbar-palette-button-popup"
-                   menu="muter-toolbar-palette-button-popup">
-      <menupopup id="muter-toolbar-palette-button-popup" onpopupshowing="muter.showPopuMenu();" />
-    </toolbarbutton>      
+    <toolbarbutton id="muter-toolbar-palette-button" type="menu-button"
+    class="toolbarbutton-1 chromeclass-toolbar-additional" popup="muter-popup"
+    onclick="muter.clickSwitchButton(event);" label="&muter-button.label;"
+    tooltiptext="&muter-button.tooltip;" command='cmd_muterToggle'
+    image='chrome://muter/skin/mute-enabled.png'
+    menupopup="muter-toolbar-palette-button-popup"
+    menu="muter-toolbar-palette-button-popup">
+      <menupopup id="muter-toolbar-palette-button-popup"
+      onpopupshowing="muter.showPopuMenu();" />
+    </toolbarbutton>
   </toolbarpalette>
   <!-- popup menus -->
   <popupset>
     <!-- Muter button popup menu -->
     <menupopup id="muter-switch-button-popup-menu" position="after_end">
-      <menuseparator id='muter-skin-menu-separator-closing'/>
-      <menuitem label="&muter.settings.title;" oncommand="muter.openSettingsDialog(event);" />
-      <menuitem label="&muter.feedback;" oncommand="muter.openFeedback(event);"/>
+      <menuseparator id='muter-skin-menu-separator-closing' />
+      <menuitem label="&muter.settings.title;"
+      oncommand="muter.openSettingsDialog(event);" />
+      <menuitem label="&muter.feedback;"
+      oncommand="muter.openFeedback(event);" />
     </menupopup>
   </popupset>
   <!-- statusbar, only for firefox 3.6-->
   <statusbar id="status-bar">
     <statusbarpanel id="muter-statusbar-button"
-                   class="statusbarpanel-menu-iconic"
-                   command="cmd_muterToggle"
-                   popup="muter-popup"
-                   onclick="muter.clickSwitchButton(event);"
-                   tooltiptext="&muter-button.tooltip;" hidden="true"
-                   image='chrome://muter/skin/mute-enabled.png'/>        
+    class="statusbarpanel-menu-iconic" command="cmd_muterToggle"
+    popup="muter-popup" onclick="muter.clickSwitchButton(event);"
+    tooltiptext="&muter-button.tooltip;" hidden="true"
+    image='chrome://muter/skin/mute-enabled.png' />
   </statusbar>
 </overlay>

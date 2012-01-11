@@ -32,13 +32,15 @@
  * the terms of any one of the MPL, the GPL or the LGPL.
  *
  * ***** END LICENSE BLOCK ***** */
-var muterSettings = (function(){
+var muterSettings = (function() {
   let jsm = {};
   Components.utils.import("resource://muter/muterUtils.jsm", jsm);
-  let { muterUtils } = jsm;
-  
+  let {
+    muterUtils
+  } = jsm;
+
   let muterSettings = {
-  
+
     init: function(event) {
       // For firefox 3.6 only
       if (muterUtils.isVersionLessThan("4.0")) {
@@ -52,12 +54,10 @@ var muterSettings = (function(){
       }
     },
 
-    destory: function(event) {
-    },
-    
-    saveSettings: function(event) {
-    },
-    
+    destory: function(event) {},
+
+    saveSettings: function(event) {},
+
     restoreSettings: function(event) {
       let preferences = document.getElementsByTagName("preference");
       for (let i = 0; i < preferences.length; i++) {
@@ -67,9 +67,8 @@ var muterSettings = (function(){
       if (muterUtils.isVersionLessThan("4.0")) {
         let showInStatusBarPref = document.getElementById("showInStatusBar");
         showInStatusBarPref.value = true;
-      }      
-    }, 
-    
+      }
+    }
   };
 
   return muterSettings;

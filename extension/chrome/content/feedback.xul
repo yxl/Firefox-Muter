@@ -1,75 +1,75 @@
 <?xml version="1.0"?>
-
 <!-- This Source Code is subject to the terms of the Mozilla Public License
-	 - version 2.0 (the "License"). You can obtain a copy of the License at
-	 - http://mozilla.org/MPL/2.0/. -->
-	 
+         - version 2.0 (the "License"). You can obtain a copy of the License at
+         - http://mozilla.org/MPL/2.0/. -->
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://global/skin/tree.css" type="text/css"?>
 <?xml-stylesheet href="chrome://muter/skin/feedback.css" type="text/css"?>
-
-<!DOCTYPE wizard [
+<!DOCTYPE wizard
+[
 	<!ENTITY % brandDTD SYSTEM "chrome://branding/locale/brand.dtd">
-  %brandDTD;
+	%brandDTD;
 	<!ENTITY % muterDTD SYSTEM "chrome://muter/locale/muter.dtd">
 	%muterDTD;
 ]>
-
-<wizard id="muter-feedback-wizard"
-        title="&muter.feedback;"
-        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-        xmlns:html="http://www.w3.org/1999/xhtml"
-	onload="muterFeedback.initWizard();"
-        >
-    <script type="application/x-javascript" src="chrome://muter/content/feedback.js "/>
-  
-    <box hidden="false">
-      <label id="privacyLink" class="text-link" value="Privacy" />
-    </box>     
-
-    <wizardpage id="muter-feedback-typeSelectorPage" label="&muter.feedback.typeSelector.heading;">
-        <description>
-            &muter.feedback.typeSelector.heading;
-        </description>
-	<radiogroup id="muter-feedback-typeGroup" oncommand="typeSelectionUpdated();">
-		<radio id="muter-feedback-typeNotworking" value="not working" label="&muter.feedback.notWorking.label;"/>
-		<description class="radioDescription">&muter.feedback.notWorking.description;</description>
-		<radio id="muter-feedback-typeSideEffect" value="side effect" label="&muter.feedback.sideEffect.label;"/>
-		<description class="radioDescription">&muter.feedback.sideEffect.description;</description>
-		<radio id="muter-feedback-typeOther" value="other" label="&muter.feedback.other.label;"/>
-		<description class="radioDescription">&muter.feedback.other.description;</description>
-	</radiogroup>
-    </wizardpage>
-    
-    <wizardpage id="muter-feedback-commentPage" label="&muter.feedback.commentPage.heading;">
-        <description>
-            &muter.feedback.commentPage.heading;
-        </description>
-	<label class="topLabel" control="comment" value="&muter.feedback.comment.label;"/>
-	<textbox id="muter-feedback-comment" multiline="true" flex="1" oninput="updateComment();"/>
-	<hbox align="baseline">
-		<label control="email" value="&muter.feedback.email.label;"/>
-		<textbox id="muter-feedback-email" flex="1" maxlength="200" oninput="updateEmail();"/>
-	</hbox>
-	<description id="muter-feedback-commentLengthWarning" visible="false">&muter.feedback.comment.lengthWarning;</description>
-
-	<checkbox id="muter-feedback-extensionsCheckbox" label="&muter.feedback.attachExtensions.label;" />
-    </wizardpage>
-    
-    <wizardpage id="muter-feedback-sendPage" label="&muter.feedback.sendPage.heading;">
-        <description>
-            &muter.feedback.sendPage.heading;
-        </description>
-	<vbox>
-		<label control="data" value="&muter.feedback.reportData.label;"/>
-		<textbox id="muter-feedback-report-data" readonly="true" multiline="true" wrap="off" flex="1"/>
-	</vbox>	
-	<progressmeter id="muter-feedback-sendReportProgress" mode="undetermined"/>
-	<vbox id="muter-feedback-sendReportErrorBox" align="end" hidden="true">
-		<description id="sendReportError">
-		  &muter.feedback.sendPage.errorMessage;
-		</description>
-		<button id="muter-feedback-sendRetryButton" label="&muter.feedback.sendPage.retry.label;" oncommand="initSendPage();"/>
-	</vbox>	
-    </wizardpage>        
+<wizard id="muter-feedback-wizard" title="&muter.feedback;" width="600"
+height="400"
+xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+xmlns:html="http://www.w3.org/1999/xhtml" onload="muterFeedback.initWizard();">
+  <script type="application/x-javascript"
+  src="chrome://muter/content/feedback.js" />
+  <wizardpage id="muter-feedback-typeSelectorPage"
+  label="&muter.feedback.typeSelector.heading;">
+    <description>&muter.feedback.typeSelector.description;</description>
+    <radiogroup id="muter-feedback-typeGroup"
+    oncommand="typeSelectionUpdated();">
+      <radio id="muter-feedback-typeNotworking" value="not working"
+      label="&muter.feedback.notWorking.label;" />
+      <description class="radioDescription">
+      &muter.feedback.notWorking.description;</description>
+      <radio id="muter-feedback-typeSideEffect" value="side effect"
+      label="&muter.feedback.sideEffect.label;" />
+      <description class="radioDescription">
+      &muter.feedback.sideEffect.description;</description>
+      <radio id="muter-feedback-typeOther" value="other"
+      label="&muter.feedback.other.label;" />
+      <description class="radioDescription">
+      &muter.feedback.other.description;</description>
+    </radiogroup>
+  </wizardpage>
+  <wizardpage id="muter-feedback-commentPage"
+  label="&muter.feedback.commentPage.heading;">
+    <description>&muter.feedback.commentPage.description;</description>
+    <label class="topLabel" control="comment"
+    value="&muter.feedback.comment.label;" />
+    <textbox id="muter-feedback-comment" multiline="true" flex="1"
+    oninput="updateComment();" />
+    <hbox align="baseline">
+      <label control="email" value="&muter.feedback.email.label;" />
+      <textbox id="muter-feedback-email" flex="1" maxlength="200"
+      oninput="updateEmail();" />
+    </hbox>
+    <description id="muter-feedback-commentLengthWarning" hidden="true">
+    &muter.feedback.comment.lengthWarning;</description>
+    <checkbox id="muter-feedback-addonsCheckbox"
+    label="&muter.feedback.attachAddons.label;" checked="true"/>
+  </wizardpage>
+  <wizardpage id="muter-feedback-sendPage"
+  label="&muter.feedback.sendPage.heading;">
+    <description>&muter.feedback.sendPage.heading;</description>
+    <vbox>
+      <label control="data" value="&muter.feedback.reportData.label;" />
+      <textbox id="muter-feedback-report-data" readonly="true" multiline="true"
+      wrap="off" flex="1" />
+    </vbox>
+    <progressmeter id="muter-feedback-sendReportProgress"
+    mode="undetermined" />
+    <vbox id="muter-feedback-sendReportErrorBox" align="end" hidden="true">
+      <description id="sendReportError">
+      &muter.feedback.sendPage.errorMessage;</description>
+      <button id="muter-feedback-sendRetryButton"
+      label="&muter.feedback.sendPage.retry.label;"
+      oncommand="initSendPage();" />
+    </vbox>
+  </wizardpage>
 </wizard>

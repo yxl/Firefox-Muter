@@ -16,8 +16,7 @@ if (typeof(muterSkin) == "undefined") {
 
   /**
    * constructor
-   */
-  (function() {
+   */ (function() {
     this.init();
   }).apply(muterSkin);
 };
@@ -27,10 +26,10 @@ if (typeof(muterSkin) == "undefined") {
  */
 muterSkin.ui = {
   _isSkinUpdating: false,
-  
+
   load: function() {
     window.removeEventListener("load", muterSkin.ui.load, false);
-    
+
     muterSkin.db.init();
     muterSkin.ui.rebuildSkinMenu();
   },
@@ -45,12 +44,12 @@ muterSkin.ui = {
   rebuildSkinMenu: function() {
     let menuPopup = document.getElementById('muter-switch-button-popup-menu');
     let closingSeparator = document.getElementById('muter-skin-menu-separator-closing');
-    
+
     // Remove everything above the separator
     while (closingSeparator.previousSibling) {
-      menuPopup.removeChild(closingSeparator.previousSibling);    
+      menuPopup.removeChild(closingSeparator.previousSibling);
     }
-    
+
     let locale = muterUtils.getLocaleString();
     // Create skin list
     let data = muterSkin.db.skinArray;
@@ -73,10 +72,14 @@ muterSkin.ui = {
     item.setAttribute("image-disabled-url", disabledIconUrl);
     item.setAttribute("image-enabled-url", enabledIconUrl);
     item.setAttribute("label", name);
-    item.addEventListener("DOMMenuItemActive", function(event) { muterSkin.ui._onPreviewSkin(event) }, false);
-    item.addEventListener("DOMMenuItemInactive", function(event) { muterSkin.ui._onResetSkin(event) }, false);
+    item.addEventListener("DOMMenuItemActive", function(event) {
+      muterSkin.ui._onPreviewSkin(event)
+    }, false);
+    item.addEventListener("DOMMenuItemInactive", function(event) {
+      muterSkin.ui._onResetSkin(event)
+    }, false);
     item.setAttribute("oncommand", "muterSkin.ui._onSelectSkin(event)");
-    
+
     // Download the disabled icon
     let disImg = new Image();
     disImg.onload = function(event) {
@@ -84,7 +87,7 @@ muterSkin.ui = {
       item.setAttribute("image-disabled", data);
     };
     disImg.src = disabledIconUrl;
-    
+
     // Download the enabled icon
     let enImg = new Image();
     enImg.onload = function(event) {
@@ -92,17 +95,17 @@ muterSkin.ui = {
       item.setAttribute("image-enabled", data);
     };
     enImg.src = enabledIconUrl;
-    
-    return item;    
+
+    return item;
   },
-    
+
   _onPreviewSkin: function(event) {
     let menuItem = event.originalTarget;
     let img = menuItem.getAttribute(muterHook.isMuteEnabled() ? 'image-enabled-url' : 'image-disabled-url');
-    
+
     let btn = document.getElementById("muter-toolbar-palette-button");
     btn.setAttribute('image', img);
-    
+
     let btnStatusBar = document.getElementById("muter-statusbar-button");
     btnStatusBar.setAttribute('src', img);
   },
@@ -110,14 +113,14 @@ muterSkin.ui = {
   _onResetSkin: function(event) {
     let btn = document.getElementById("muter-toolbar-palette-button");
     let img = btn.getAttribute(muterHook.isMuteEnabled() ? 'image-enabled' : 'image-disabled');
-    btn.setAttribute('image', img);    
+    btn.setAttribute('image', img);
 
     let btnStatusBar = document.getElementById("muter-statusbar-button");
     let img = btnStatusBar.getAttribute(muterHook.isMuteEnabled() ? 'image-enabled' : 'image-disabled');
     btnStatusBar.setAttribute('src', img);
-    
+
   },
-  
+
   _onSelectSkin: function(event) {
     let menuItem = event.originalTarget;
     let disabledIcon = menuItem.getAttribute('image-disabled');
@@ -130,19 +133,19 @@ muterSkin.ui = {
     }
     event.stopPropagation();
   },
-   
+
   /**
    * Convert the image object to base64 encoded data url
    */
   _getImageDataURL: function(img) {
-			var canvas = document.createElementNS("http://www.w3.org/1999/xhtml", "html:canvas");
-			var context = canvas.getContext("2d");
-			canvas.height = img.height;
-			canvas.width = img.width;
-			context.drawImage(img, 0, 0, img.width, img.height);
-			return canvas.toDataURL('image/png', '');
-	},
-  
+    var canvas = document.createElementNS("http://www.w3.org/1999/xhtml", "html:canvas");
+    var context = canvas.getContext("2d");
+    canvas.height = img.height;
+    canvas.width = img.width;
+    context.drawImage(img, 0, 0, img.width, img.height);
+    return canvas.toDataURL('image/png', '');
+  },
+
   /**
    * Update the skin list from internet
    */
@@ -251,10 +254,10 @@ muterSkin.db = {
     this._items = value;
     this._setJSONPref(this._prefName, value);
   },
-  
+
   isSkinArrayEqual: function(value) {
     try {
-     return JSON.stringify(this._items) === JSON.stringify(value);
+      return JSON.stringify(this._items) === JSON.stringify(value);
     } catch (ex) {
       return false;
     }
@@ -310,7 +313,7 @@ muterSkin.db = {
    */
   _setJSONPref: function(name, value) {
     muterUtils.Services.prefs.setCharPref(name, encodeURIComponent(JSON.stringify(value)));
-  },
+  }
 }
 
 window.addEventListener("load", muterSkin.ui.load, false);

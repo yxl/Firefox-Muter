@@ -33,23 +33,25 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
-var muter = (function(){
+var muter = (function() {
   let jsm = {};
   Components.utils.import("resource://muter/muterUtils.jsm", jsm);
   Components.utils.import("resource://muter/muterHook.jsm", jsm);
-  let { muterUtils, muterHook } = jsm;
+  let {
+    muterUtils, muterHook
+  } = jsm;
   let Services = muterUtils.Services;
 
   var muter = {
     // Monitors the mute status and updates the UI
     _muterObserver: null,
-    
+
     // Timer to hide the button popup
     _autoHideTimeoutId: null,
 
     init: function(event) {
       window.removeEventListener("load", muter.init, false);
-      
+
       let firstRun = Services.prefs.getBoolPref('extensions.firefox-muter.firstRun');
       if (firstRun) {
         muter._firstRun();
@@ -57,27 +59,27 @@ var muter = (function(){
       }
 
       muter.setupAddonBar();
-      muter.setupStatusBar();  // For firefox 3.6 only      
+      muter.setupStatusBar(); // For firefox 3.6 only      
       muter.setupSwitchButton();
       muter.setupShortcut();
       muter._setupPopups();
-   
+
       muter.updateUI();
-      
+
       window.addEventListener("aftercustomization", muter._onToolBarChanged, false);
       muter._onToolBarChanged();
-      
+
       muter._muterObserver = new MuterObserver();
-      muter._muterObserver.register();      
+      muter._muterObserver.register();
     },
-    
+
     destroy: function(event) {
       window.removeEventListener("unload", muter.destroy, false);
-      
+
       window.removeEventListener("aftercustomization", muter._onAddonBarChanged, false);
       muter._muterObserver.unregister();
     },
-    
+
     /**
      * Initilization after installation
      * It only need to call once.
@@ -96,44 +98,44 @@ var muter = (function(){
       muterHook.enableMute(shouldMute);
       muterSkin.ui.updateFromWeb();
     },
-    
+
     clickSwitchButton: function(event) {
       if (event.button == 0) {
         // Left button click
         if (event.currentTarget.id === 'muter-statusbar-button') {
           muter.switchStatus();
         }
-      } else if (event.button == 2) { 
+      } else if (event.button == 2) {
         // Right click to show the popup menu
         let btn = event.currentTarget;
         let menu = document.getElementById("muter-switch-button-popup-menu");
         if (btn && menu) {
-           menu.openPopup(btn, "after_start", -1, 0, true, false);
-        }        
+          menu.openPopup(btn, "after_start", -1, 0, true, false);
+        }
         event.preventDefault();
         event.stopPropagation();
       }
     },
-    
+
     showPopuMenu: function(event) {
       muterSkin.ui.updateFromWeb();
       let btn = document.getElementById("muter-toolbar-palette-button");
       let menu = document.getElementById("muter-switch-button-popup-menu");
       if (btn && menu) {
-         menu.openPopup(btn, "after_start", -1, 0, true, false);
-      }             
+        menu.openPopup(btn, "after_start", -1, 0, true, false);
+      }
     },
-    
+
     /** Open Settings dialog */
-    openSettingsDialog:function (event) {
+    openSettingsDialog: function(event) {
       event.stopPropagation();
-      
+
       // For the usage of window.showModalDialog, refer to 
       // https://developer.mozilla.org/en/DOM/window.showModalDialog
       let url = 'chrome://muter/content/muterSettings.xul';
       window.showModalDialog(url);
     },
-    
+
     openFeedback: function(event) {
       // For the usage of window.openDialog, refer to 
       // https://developer.mozilla.org/en/DOM/window.openDialog
@@ -143,13 +145,13 @@ var muter = (function(){
       window.openDialog(url, name, features);
       return;
       let url = 'http://yxl.github.com/Firefox-Muter/';
-      if (switchToTabHavingURI){
+      if (switchToTabHavingURI) {
         switchToTabHavingURI(url, true);
       } else {
-          openUILink(url);
+        openUILink(url);
       }
     },
-    
+
     updateUI: function() {
       let isMuted = muterHook.isMuteEnabled();
 
@@ -159,21 +161,21 @@ var muter = (function(){
         let icon = btn.getAttribute(isMuted ? 'image-enabled' : 'image-disabled');
         btn.setAttribute("image", icon);
       }
-      
+
       // For firefox 3.6 only
       let statusbarBtn = document.getElementById("muter-statusbar-button");
       if (statusbarBtn) {
         let icon = statusbarBtn.getAttribute(isMuted ? 'image-enabled' : 'image-disabled');
         statusbarBtn.setAttribute("image", icon);
-      }  
+      }
     },
-    
+
     /** Setup the icon of the switch button*/
     setupSwitchButton: function() {
       let disabledIcon = Services.prefs.getCharPref('extensions.firefox-muter.disabledIcon');
       let enabledIcon = Services.prefs.getCharPref('extensions.firefox-muter.enabledIcon');
       let switchButtonType = Services.prefs.getCharPref('extensions.firefox-muter.switchButtonType');
-      
+
       let btn = document.getElementById("muter-toolbar-palette-button");
       if (btn) {
         btn.setAttribute('image-disabled', disabledIcon);
@@ -184,14 +186,14 @@ var muter = (function(){
           btn.removeAttribute('type');
         }
       }
-      
+
       // For firefox 3.6 only
       let statusbarBtn = document.getElementById("muter-statusbar-button");
       if (statusbarBtn) {
         statusbarBtn.setAttribute('image-disabled', disabledIcon);
         statusbarBtn.setAttribute('image-enabled', enabledIcon);
       }
-      
+
       this.updateUI();
     },
 
@@ -200,13 +202,13 @@ var muter = (function(){
       // For firefox 3.6 only
       if (muterUtils.isVersionLessThan("4.0")) {
         return;
-      }      
-      
+      }
+
       let showInAddonBar = Services.prefs.getBoolPref('extensions.firefox-muter.showInAddonBar');
       let addonbar = document.getElementById("addon-bar");
       if (!addonbar) return;
-      
-      let curSet = addonbar.currentSet.replace(/\s/g,'').split(',');
+
+      let curSet = addonbar.currentSet.replace(/\s/g, '').split(',');
       let isChanged = false;
       let index = curSet.indexOf("muter-toolbar-palette-button");
       if (showInAddonBar && -1 == index) {
@@ -216,16 +218,16 @@ var muter = (function(){
         curSet.splice(index, 1);
         isChanged = true;
       }
-      if (isChanged){
-        let newSetString=curSet.join();
-        
+      if (isChanged) {
+        let newSetString = curSet.join();
+
         addonbar.currentSet = newSetString;
         addonbar.setAttribute("currentset", newSetString);
-        
+
         document.persist(addonbar.id, "currentset");
-        try{
+        try {
           BrowserToolboxCustomizeDone(true);
-        }catch(e){}
+        } catch (e) {}
         if (addonbar.getAttribute("collapsed") == "true") {
           addonbar.setAttribute("collapsed", "false");
         }
@@ -235,14 +237,14 @@ var muter = (function(){
           this._showIntroPopup();
         }
       }
-      
+
       // prevent showing two switch buttons
       let showInStatusBar = Services.prefs.getBoolPref("extensions.firefox-muter.showInStatusBar");
       if (showInAddonBar) {
         Services.prefs.setBoolPref("extensions.firefox-muter.showInStatusBar", false);
       }
     },
-    
+
     /** popup an introduction message */
     _showIntroPopup: function() {
       window.setTimeout(function() {
@@ -253,7 +255,7 @@ var muter = (function(){
         }
       }, 3000);
     },
-    
+
     /** For firefox 3.6 only! Setup the muter button in the status bar**/
     setupStatusBar: function() {
       let showInStatusBar = Services.prefs.getBoolPref("extensions.firefox-muter.showInStatusBar");
@@ -261,13 +263,13 @@ var muter = (function(){
       if (statusbarBtn) {
         statusbarBtn.hidden = !showInStatusBar;
       }
-      
+
       // prevent showing two switch buttons
       let showInAddonBar = Services.prefs.getBoolPref("extensions.firefox-muter.showInAddonBar");
       if (showInStatusBar) {
         Services.prefs.setBoolPref("extensions.firefox-muter.showInAddonBar", false);
       }
-      
+
     },
 
     setupShortcut: function() {
@@ -279,18 +281,18 @@ var muter = (function(){
           // Default modifiers is "control alt"
           keyItem.setAttribute('modifiers', Services.prefs.getCharPref('extensions.firefox-muter.shortcut.modifiers'));
         }
-      } catch(e) {}
+      } catch (e) {}
     },
-    
+
     _onToolBarChanged: function(event) {
       Services.prefs.setBoolPref('extensions.firefox-muter.showInAddonBar', muter._isButtonShowInAddonBar());
     },
-    
+
     _setupPopups: function() {
       // introduction popup
       this._setAutoHide(document.getElementById('muter-popup-init'), 3000);
     },
-    
+
     _setAutoHide: function(panel, timeout) {
       let self = this;
       panel.addEventListener('popupshown', function() {
@@ -300,10 +302,10 @@ var muter = (function(){
       }, false);
 
       panel.addEventListener('popuphidden', function() {
-        window.clearTimeout(self._autoHideTimeoutId);   
+        window.clearTimeout(self._autoHideTimeoutId);
       }, false);
     },
-    
+
     _isButtonShowInAddonBar: function() {
       let addonbar = document.getElementById("addon-bar");
       if (addonbar) {
@@ -319,12 +321,11 @@ var muter = (function(){
    * Observer monitering the mute status and preferences.
    * If the status is changed, updates the UI of each window.
    */
-  function MuterObserver()  {
-  };
+  function MuterObserver() {};
 
   MuterObserver.prototype = {
     _branch: null,
-    
+
     observe: function(subject, topic, data) {
       if (topic === "muter-status-changed") {
         muter.updateUI();
@@ -336,29 +337,27 @@ var muter = (function(){
           muter.setupAddonBar();
         } else if (prefName == "extensions.firefox-muter.showInStatusBar") {
           muter.setupStatusBar();
-        } else if (prefName == "extensions.firefox-muter.disabledIcon" ||
-                   prefName == "extensions.firefox-muter.enabledIcon" ||
-                   prefName == "extensions.firefox-muter.switchButtonType") {
+        } else if (prefName == "extensions.firefox-muter.disabledIcon" || prefName == "extensions.firefox-muter.enabledIcon" || prefName == "extensions.firefox-muter.switchButtonType") {
           muter.setupSwitchButton();
         }
       }
     },
-    
+
     register: function() {
       Services.obs.addObserver(this, "muter-status-changed", false);
-      
+
       this._branch = Services.prefs.getBranch(PREF_BRANCH);
       if (this._branch) {
         // Now we queue the interface called nsIPrefBranch2. This interface is described as: 
         // "nsIPrefBranch2 allows clients to observe changes to pref values."
         this._branch.QueryInterface(Components.interfaces.nsIPrefBranch2);
         this._branch.addObserver("", this, false);
-       }
+      }
     },
 
-    unregister: function() {     
+    unregister: function() {
       Services.obs.removeObserver(this, "muter-status-changed");
-      
+
       if (this.branch) {
         this._branch.removeObserver("", this);
       }
