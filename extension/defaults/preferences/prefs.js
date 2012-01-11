@@ -7,3 +7,4 @@ pref('extensions.firefox-muter.skin.updateurl', 'http://yxl.github.com/Firefox-M
 pref('extensions.firefox-muter.disabledIcon', 'chrome://muter/skin/mute-disabled.png');
 pref('extensions.firefox-muter.enabledIcon', 'chrome://muter/skin/mute-enabled.png');
 pref('extensions.firefox-muter.switchButtonType', 'menu-button');
+pref('extensions.firefox-muter.feedbackUrl', 'http://www.huohu123.com');

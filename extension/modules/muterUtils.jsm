@@ -2,13 +2,18 @@ let EXPORTED_SYMBOLS = ['muterUtils'];
 
 Components.utils.import("resource://gre/modules/XPCOMUtils.jsm");
 
-
 let muterUtils = {};
 
+try {
+  // Firefox 4+
+  Components.utils.import("resource://gre/modules/Services.jsm", muterUtils);
+} catch(ex) {
+  // Firefox 3.6
+  Components.utils.import("resource://muter/Services.jsm", muterUtils);
+}
+
 muterUtils.isVersionLessThan = function(v) {
-  let appInfo = Components.classes["@mozilla.org/xre/app-info;1"].getService(Components.interfaces.nsIXULAppInfo);
-  let versionChecker = Components.classes["@mozilla.org/xpcom/version-comparator;1"].getService(Components.interfaces.nsIVersionComparator);
-  return (versionChecker.compare(appInfo.version, v) < 0);
+  return (muterUtils.Services.vc.compare(muterUtils.Services.appinfo.version, v) < 0);
 }
 
 let platform = {
@@ -31,8 +36,7 @@ let platform = {
 
 (function checkOSVersion() {  
   // For how to get OS version, refers to https://developer.mozilla.org/en/Code_snippets/Miscellaneous
-  let runtime = Components.classes["@mozilla.org/xre/app-info;1"]  
-               .getService(Components.interfaces.nsIXULRuntime);
+  let runtime = muterUtils.Services.appinfo;
   
   // OS Name
   let osName = runtime.OS.trim().toLowerCase();
@@ -67,11 +71,6 @@ let platform = {
 
 muterUtils.platform = platform;
 
-if (muterUtils.isVersionLessThan("4.0")) {
-  Components.utils.import("resource://muter/Services.jsm", muterUtils);
-} else {
-  Components.utils.import("resource://gre/modules/Services.jsm", muterUtils);
-}
 
 muterUtils.getLocaleString = function() {
   return muterUtils.Services.prefs.getCharPref('general.useragent.locale');

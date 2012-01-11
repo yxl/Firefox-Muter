@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 
 <!DOCTYPE bindings [
-	<!ENTITY % muterDTD SYSTEM "chrome://muter/locale/muter.dtd">
-	%muterDTD;
+  <!ENTITY % muterDTD SYSTEM "chrome://muter/locale/muter.dtd">
+  %muterDTD;
 ]>
 
 <bindings
@@ -17,20 +17,18 @@
       <stylesheet src="chrome://global/content/xul.css" />
       <stylesheet src="chrome://global/skin/wizard.css" />
     </resources>
-    
+
     <content orient="vertical">
-      <xul:vbox xbl:inherits="selectedIndex=viewIndex">
-        <xul:progressbar id="progressBar" style="-moz-binding: url(progressBar.xml#progressBar);">
-          <xul:label id="typeSelectorHeader" class="progressLabel" value="&muter.feedback.typeSelector.heading;" crop="end"/>
-          <xul:label id="commentPageHeader" class="progressLabel" value="&muter.feedback.commentPage.heading;" crop="end"/>
-          <xul:label id="sendPageHeader" class="progressLabel" value="&muter.feedback.sendPage.heading;" crop="end"/>
-        </xul:progressbar>
-      </xul:vbox>
+      <xul:progressbar id="progressBar" style="-moz-binding: url(progressBar.xml#progressBar);">
+        <xul:label id="typeSelectorHeader" class="progressLabel" value="&muter.feedback.typeSelector.heading;" crop="end"/>
+        <xul:label id="commentPageHeader" class="progressLabel" value="&muter.feedback.commentPage.heading;" crop="end"/>
+        <xul:label id="sendPageHeader" class="progressLabel" value="&muter.feedback.sendPage.heading;" crop="end"/>
+      </xul:progressbar>
     </content>
-    
+
     <implementation>
     </implementation>
-    
+
     <handlers>
     </handlers>
   </binding>
