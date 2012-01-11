@@ -13,3 +13,22 @@
 <!ENTITY muter.settings.switchButtonStyle "切換按鈕風格:">
 <!ENTITY muter.settings.switchButtonWithMenu "帶功能表">
 <!ENTITY muter.settings.switchButtonWithoutMenu "不帶功能表">
+
+<!ENTITY muter.feedback.typeSelector.heading "選擇問題類型">
+<!ENTITY muter.feedback.notWorking.label "It doesn't work!">
+<!ENTITY muter.feedback.notWorking.description "It cannot mute the browser.">
+<!ENTITY muter.feedback.sideEffect.label "It is a problem maker.">
+<!ENTITY muter.feedback.sideEffect.description "The addon result in crash or other problems.">
+<!ENTITY muter.feedback.other.label "Other issue">
+<!ENTITY muter.feedback.other.description "Suggestions or other problems.">
+
+<!ENTITY muter.feedback.commentPage.heading  "輸入註解">
+<!ENTITY muter.feedback.comment.label  "備註 (選用):">
+<!ENTITY muter.feedback.email.label  "進一步聯繫的 Email 地址 (選用):">
+<!ENTITY muter.feedback.comment.lengthWarning "您輸入的註解超過 500 個字元。只有前 500 個字元會被傳送。">
+<!ENTITY muter.feedback.attachExtensions.label "附加目前啟用的擴充套件列表至報告中，以便排除因套件衝突所產生的問題">
+
+<!ENTITY muter.feedback.sendPage.heading "傳送報告">
+<!ENTITY muter.feedback.reportData.label "報告資料">
+<!ENTITY muter.feedback.sendPage.errorMessage "嘗試傳送報告失敗。請確定您已連上網路後再試一次。">
+<!ENTITY muter.feedback.sendPage.retry.label "再次傳送">

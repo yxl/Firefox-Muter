@@ -1,3 +1,8 @@
+/**
+ * This Source Code is subject to the terms of the Mozilla Public License
+ * version 2.0 (the "License"). You can obtain a copy of the License at
+ * http://mozilla.org/MPL/2.0/.
+ */
 Components.utils.import("resource://muter/muterUtils.jsm");
 Components.utils.import("resource://muter/muterHook.jsm");
 
@@ -24,11 +29,14 @@ muterSkin.ui = {
   _isSkinUpdating: false,
   
   load: function() {
+    window.removeEventListener("load", muterSkin.ui.load, false);
+    
     muterSkin.db.init();
     muterSkin.ui.rebuildSkinMenu();
   },
 
   unload: function() {
+    window.removeEventListener("unload", muterSkin.ui.unload, false);
   },
 
   /** 

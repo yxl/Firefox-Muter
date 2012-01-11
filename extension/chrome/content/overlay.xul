@@ -1,6 +1,13 @@
 <?xml version="1.0" ?>
-<!DOCTYPE overlay SYSTEM "chrome://muter/locale/muter.dtd">
+
+<!-- This Source Code is subject to the terms of the Mozilla Public License
+	 - version 2.0 (the "License"). You can obtain a copy of the License at
+	 - http://mozilla.org/MPL/2.0/. -->
+
 <?xml-stylesheet href="chrome://muter/skin/muter.css" type="text/css"?>
+   
+<!DOCTYPE overlay SYSTEM "chrome://muter/locale/muter.dtd">
+
 <overlay id="muter-overlay"
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <script type="application/x-javascript" src="chrome://muter/content/muterSkin.js"/>  
