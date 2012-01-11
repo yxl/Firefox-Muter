@@ -35,3 +35,25 @@
 
 A Firefox addon allows user to mute the webpage.
 
+Build
+==================
+Assume the root directory of the project is PROJECT_ROOT.
+1. Build Linux share librarys with Ubuntun 64bit
+cd PROJECT_ROOT 
+sudo apt-get install libtool libpulse-dev
+./build-MuterPulseAudio.sh
+After successful building, you will get libMuterPulseAudio-32.so 
+and libMuterPulseAudio-64.so in the directory of 
+PROJECT_ROOT\extension\modules\ctypes-binary.
+
+2. Build Windows DLL with Visual Studio 2010
+Open the solution file: Muter.sln.
+Select Menu "Build | Batch Build..." and open "Bath Build" dialog. Check the selection of "MuterHook Release|Win32", "MuterWin7 Release|Win32" and
+"MuterWin7 Release|x64". Then build them all. 
+After successful building, you will get MuterHook-32.dll, MuterWin7-32.dll
+and MuterWin7-64.dll in the directory of 
+PROJECT_ROOT\extension\modules\ctypes-binary.
+
+3. Run the following batch file on Windows:
+PROJECT_ROOT\tools\buildxpi.bat
+You will get muter.xpi in the directory of PROJECT_ROOT.
