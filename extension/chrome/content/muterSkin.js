@@ -156,8 +156,10 @@ muterSkin.ui = {
     this._isSkinUpdating = true;
     let url = muterUtils.Services.prefs.getCharPref("extensions.firefox-muter.skin.updateurl");
     if (!url) {
-      url = 'http://yxl.github.com/Firefox-Muter/update/skin.json';
+      url = 'http://yxl.github.com/Firefox-Muter/update/skin.json' 
     }
+    // Add a random number to the end fo the URL to ensure that we don't get the cached file.
+    url += '?rnd=' + Math.random();
     this.httpGet(url, this.onWebDownloadFinished);
   },
 

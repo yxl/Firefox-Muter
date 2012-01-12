@@ -143,13 +143,6 @@ var muter = (function() {
       let name = 'muterFeedback';
       let features = 'chrome,centerscreen';
       window.openDialog(url, name, features, gBrowser.currentURI.spec);
-      return;
-      let url = 'http://yxl.github.com/Firefox-Muter/';
-      if (switchToTabHavingURI) {
-        switchToTabHavingURI(url, true);
-      } else {
-        openUILink(url);
-      }
     },
 
     updateUI: function() {

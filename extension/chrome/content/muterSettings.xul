@@ -14,9 +14,10 @@
 <prefwindow id="muter-settings"
 xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
 title="&muter.settings.title;" onload="muterSettings.init();"
-onunload="muterSettings.destory();" buttons="accept, cancel, extra1"
+onunload="muterSettings.destory();" buttons="accept, cancel, extra1, extra2"
 ondialogaccept="muterSettings.saveSettings();"
-ondialogextra1="muterSettings.restoreSettings();">
+ondialogextra1="muterSettings.restoreSettings();"
+ondialogextra2="muterSettings.openFeedback();">
   <script type="application/x-javascript"
   src="chrome://muter/content/muterSettings.js" />
   <prefpane id="muter-prefpane1" label="preference">
@@ -137,6 +138,8 @@ ondialogextra1="muterSettings.restoreSettings();">
       <spacer flex="1" />
       <button dlgtype="accept" id="muter-settings-accept" />
       <button dlgtype="cancel" id="muter-settings-cancel" />
+      <button dlgtype="extra2" id="muter-settings-feedback"
+      label="&muter.feedback;" />      
     </hbox>
   </prefpane>
 </prefwindow>

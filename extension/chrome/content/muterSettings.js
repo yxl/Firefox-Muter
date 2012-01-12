@@ -68,6 +68,15 @@ var muterSettings = (function() {
         let showInStatusBarPref = document.getElementById("showInStatusBar");
         showInStatusBarPref.value = true;
       }
+    },
+    
+    openFeedback: function() {
+      // For the usage of window.openDialog, refer to 
+      // https://developer.mozilla.org/en/DOM/window.openDialog
+      let url = 'chrome://muter/content/feedback.xul';
+      let name = 'muterFeedback';
+      let features = 'chrome,centerscreen';
+      window.openDialog(url, name, features);    
     }
   };
 
