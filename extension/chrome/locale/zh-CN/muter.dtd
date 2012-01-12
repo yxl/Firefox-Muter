@@ -13,6 +13,7 @@
 <!ENTITY muter.settings.switchButtonStyle "切换按钮风格:">
 <!ENTITY muter.settings.switchButtonWithMenu "带菜单">
 <!ENTITY muter.settings.switchButtonWithoutMenu "不带菜单">
+<!ENTITY muter.settings.saveStatus "重启&brandShortName;恢复静音状态。">
 
 <!ENTITY muter.feedback.typeSelector.heading "选择问题类型">
 <!ENTITY muter.feedback.typeSelector.description "本窗口将通过一系列的步骤来引导您提交“静音”的问题报告。首先，请选择问题类型：">

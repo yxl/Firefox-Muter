@@ -68,9 +68,16 @@ var muter = (function() {
 
       window.addEventListener("aftercustomization", muter._onToolBarChanged, false);
       muter._onToolBarChanged();
-
+      
       muter._muterObserver = new MuterObserver();
       muter._muterObserver.register();
+      
+      // restore mute status if necessary
+      let needRetoreMuteStatus = Services.prefs.getBoolPref('extensions.firefox-muter.saveStatus');
+      if (needRetoreMuteStatus) {
+        let needMute = Services.prefs.getBoolPref('extensions.firefox-muter.muteStatus');
+        muterHook.enableMute(needMute);
+      }
     },
 
     destroy: function(event) {
@@ -97,6 +104,7 @@ var muter = (function() {
       let shouldMute = !muterHook.isMuteEnabled();
       muterHook.enableMute(shouldMute);
       muterSkin.ui.updateFromWeb();
+      Services.prefs.setBoolPref('extensions.firefox-muter.muteStatus', shouldMute);
     },
 
     clickSwitchButton: function(event) {

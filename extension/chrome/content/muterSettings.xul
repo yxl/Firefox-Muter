@@ -33,6 +33,8 @@ ondialogextra2="muterSettings.openFeedback();">
       name="extensions.firefox-muter.showInStatusBar" type="bool" />
       <preference id="switchButtonType"
       name="extensions.firefox-muter.switchButtonType" type="string" />
+      <preference id="saveStatus"
+      name="extensions.firefox-muter.saveStatus" type="bool" />
     </preferences>
     <!-- Sets Shortcut key -->
     <groupbox id="muter-settings-shortcut">
@@ -131,6 +133,11 @@ ondialogextra2="muterSettings.openFeedback();">
           </vbox>
         </hbox>
       </radiogroup>
+      <hbox>
+        <!-- Save mute status. -->
+        <checkbox preference="saveStatus"
+        label="&muter.settings.saveStatus;" />
+      </hbox>
     </groupbox>
     <hbox flex="1">
       <button dlgtype="extra1" id="muter-settings-restore"

@@ -13,6 +13,7 @@
 <!ENTITY muter.settings.switchButtonStyle "Switch button style:">
 <!ENTITY muter.settings.switchButtonWithMenu "With menu">
 <!ENTITY muter.settings.switchButtonWithoutMenu "Without menu">
+<!ENTITY muter.settings.saveStatus "Restore mute status after &brandShortName; restarts.">
 
 <!ENTITY muter.feedback.typeSelector.heading "Select issue type">
 <!ENTITY muter.feedback.typeSelector.description "This window will guide you
