@@ -6,28 +6,28 @@
 <body>
 <?php
     // Get the feedback xml content
-		$xml = file_get_contents(‘php://input’);
+    $xml = file_get_contents('php://input');
 
     // Compose an email with the feedback content
-		$to = "xyuan@mozilla.com, bzhao@mozilla.com";	
-		$subject = "[muter feedback]";
-		$from = $email;
+    $to = "xyuan@mozilla.com, bzhao@mozilla.com";  
+    $subject = "[muter feedback]";
+    $from = $email;
     $headers = "";
     $headers .= "MIME-Version: 1.0\r\n";
     $headers .= "Content-type: text/html; charset=utf-8"."\r\n";
     $headers .= "From: ".$from."\r\n";
     $subject = "=?UTF-8?B?".base64_encode($subject)."?=";
     $date = date("Y-M-j h:i:s A");
-    $body = $xml;
+    $body = base64_encode($xml);
     
     // Send the email 
-		if($webname) {
-			if(@mail($to,$subject,$body,$headers)){
-				echo("Succeeded!");
-			}else{
-				echo("Failed!");
-			}
-		}
+    if($xml) {
+      if(@mail($to,$subject,$body,$headers)){
+        echo("Succeeded!");
+      }else{
+        echo("Failed!");
+      }
+    }
 ?>
 </body>
 </html>
