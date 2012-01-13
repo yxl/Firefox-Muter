@@ -3,8 +3,13 @@
  * version 2.0 (the "License"). You can obtain a copy of the License at
  * http://mozilla.org/MPL/2.0/.
  */
-Components.utils.import("resource://muter/muterUtils.jsm");
-Components.utils.import("resource://muter/muterHook.jsm");
+let jsm = {};
+Components.utils.import("resource://muter/muterUtils.jsm", jsm);
+Components.utils.import("resource://muter/muterHook.jsm", jsm);
+
+let {
+  muterUtils, muterHook
+} = jsm;
 
 /**
  * muterSkin namespace.
@@ -16,7 +21,8 @@ if (typeof(muterSkin) == "undefined") {
 
   /**
    * constructor
-   */ (function() {
+   */
+  (function() {
     this.init();
   }).apply(muterSkin);
 };
@@ -78,7 +84,9 @@ muterSkin.ui = {
     item.addEventListener("DOMMenuItemInactive", function(event) {
       muterSkin.ui._onResetSkin(event)
     }, false);
-    item.setAttribute("oncommand", "muterSkin.ui._onSelectSkin(event)");
+    item.addEventListener("command", function(event) {
+      muterSkin.ui._onSelectSkin(event);
+    }, false);
 
     // Download the disabled icon
     let disImg = new Image();
@@ -156,7 +164,7 @@ muterSkin.ui = {
     this._isSkinUpdating = true;
     let url = muterUtils.Services.prefs.getCharPref("extensions.firefox-muter.skin.updateurl");
     if (!url) {
-      url = 'http://yxl.github.com/Firefox-Muter/update/skin.json' 
+      url = 'http://yxl.github.com/Firefox-Muter/update/skin.json'
     }
     // Add a random number to the end fo the URL to ensure that we don't get the cached file.
     url += '?rnd=' + Math.random();

@@ -1,9 +1,10 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 <Description about="urn:mozilla:install-manifest">
   
   <em:id>muter@yxl.name</em:id>
   <em:name>Muter</em:name>
+  <em:type>2</em:type>
   <em:version>0.9.0</em:version>
   <em:description>Let you mute the Firefox browser.</em:description> 
   <em:creator>Yuan Xulei</em:creator>
@@ -14,15 +15,13 @@
   <em:unpack>true</em:unpack>
   <em:targetPlatform>WINNT</em:targetPlatform>
   <em:targetPlatform>Linux</em:targetPlatform>
-  <em:updateURL>http://yxl.github.com/Firefox-Muter/update.rdf</em:updateURL>
-  <em:updateKey>MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDHbBATP51w21dgRhO8ShC3l7seoq6QqUUNgM0+iweZMUOBjZCjx0AvVLn1g+6/yAfGg2DtogxKsffKk7xcjH3PAk+6oljwWJo/tF8P4px2fbLQclwxdmN5SkCsnvruN0wOtGm8uJfm8qfz2ceYYjOVWzpSgG5j45l3gwM+sL152QIDAQAB</em:updateKey>
   
   <!-- Firefox -->
   <em:targetApplication>
     <Description>
       <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
       <em:minVersion>3.6</em:minVersion>
-      <em:maxVersion>12.*</em:maxVersion>
+      <em:maxVersion>12.0a1</em:maxVersion>
     </Description>
   </em:targetApplication>
 
@@ -30,7 +29,7 @@
     <Description>
       <em:locale>zh-CN</em:locale>
       <em:name>静音</em:name>
-      <em:description>提供浏览器静音功能</em:description>
+      <em:description>提供浏览器静音功能 </em:description>
     </Description>
   </em:localized>
   
@@ -38,7 +37,7 @@
     <Description>
       <em:locale>zh-TW</em:locale>
       <em:name>靜音</em:name>
-      <em:description>提供瀏覽器靜音功能</em:description>
+      <em:description>提供瀏覽器靜音功能 </em:description>
     </Description>
   </em:localized>
 
