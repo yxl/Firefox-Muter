@@ -2,6 +2,11 @@
  * This Source Code is subject to the terms of the Mozilla Public License
  * version 2.0 (the "License"). You can obtain a copy of the License at
  * http://mozilla.org/MPL/2.0/.
+ *
+ * The orginal codes of  feedback.js and feedback.xul are from the project 
+ * of adblock plus(https://adblockplus.org/). If you have installed adblock
+ * plus extension on firefox. View related codes with the following URL:
+ * chrome://adblockplus/content/ui/sendReport.js.
  */
 
 var muterFeedback = (function() {
