@@ -22,7 +22,7 @@
 <!ENTITY muter.feedback.notWorking.label "It doesn't work!">
 <!ENTITY muter.feedback.notWorking.description "It cannot mute the browser.">
 <!ENTITY muter.feedback.sideEffect.label "It is a problem maker.">
-<!ENTITY muter.feedback.sideEffect.description "The addon result in crash or other problems.">
+<!ENTITY muter.feedback.sideEffect.description "The addon results in crash or other problems.">
 <!ENTITY muter.feedback.other.label "Other issue">
 <!ENTITY muter.feedback.other.description "Suggestions or other problems.">
 
