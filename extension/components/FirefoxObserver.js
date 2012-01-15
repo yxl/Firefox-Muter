@@ -1,8 +1,7 @@
 Components.utils.import("resource://gre/modules/XPCOMUtils.jsm");
-//Components.utils.import("resource://muter/muterHook.jsm");
 
 /**
- * Application startup/shutdown observer, triggers init()/shutdown() methods in muterHook.jsm module.
+ * Application startup/shutdown observer, triggers open()/close() methods in muterHook.jsm module.
  * @constructor
  */
 
