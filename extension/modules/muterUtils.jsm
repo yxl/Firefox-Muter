@@ -71,9 +71,10 @@ let platform = {
 
 muterUtils.platform = platform;
 
+XPCOMUtils.defineLazyServiceGetter(muterUtils, "chromeRegistry", "@mozilla.org/chrome/chrome-registry;1", "nsIXULChromeRegistry");
 
 muterUtils.getLocaleString = function() {
-  return muterUtils.Services.prefs.getCharPref('general.useragent.locale');
+  return muterUtils.chromeRegistry.getSelectedLocale("muter");
 }
 
 /**

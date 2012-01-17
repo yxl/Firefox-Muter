@@ -1,7 +1,7 @@
 let EXPORTED_SYMBOLS = ['muterHook'];
 
-Components.utils.import("resource://gre/modules/ctypes.jsm");
 Components.utils.import("resource://muter/muterUtils.jsm");
+Components.utils.import("resource://gre/modules/ctypes.jsm");
 
 let isWin7OrLater = muterUtils.platform.isWin7OrLater();
 
@@ -88,5 +88,5 @@ let muterHook = {
   
   isMuteEnabled: function() {
     return this._IsMuteEnabled();
-  },
+  }
 };

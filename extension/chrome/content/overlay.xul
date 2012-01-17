@@ -32,7 +32,7 @@ xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
     menupopup="muter-toolbar-palette-button-popup"
     menu="muter-toolbar-palette-button-popup">
       <menupopup id="muter-toolbar-palette-button-popup"
-      onpopupshowing="muter.showPopuMenu();" />
+      onpopupshowing="muter.showPopuMenu(event);" />
     </toolbarbutton>
   </toolbarpalette>
   <!-- popup menus -->

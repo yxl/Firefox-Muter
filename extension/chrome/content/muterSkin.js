@@ -3,8 +3,13 @@
  * version 2.0 (the "License"). You can obtain a copy of the License at
  * http://mozilla.org/MPL/2.0/.
  */
-Components.utils.import("resource://muter/muterUtils.jsm");
-Components.utils.import("resource://muter/muterHook.jsm");
+let jsm = {};
+Components.utils.import("resource://muter/muterUtils.jsm", jsm);
+Components.utils.import("resource://muter/muterHook.jsm", jsm);
+
+let {
+  muterUtils, muterHook
+} = jsm;
 
 /**
  * muterSkin namespace.
@@ -16,7 +21,8 @@ if (typeof(muterSkin) == "undefined") {
 
   /**
    * constructor
-   */ (function() {
+   */
+  (function() {
     this.init();
   }).apply(muterSkin);
 };
@@ -45,6 +51,10 @@ muterSkin.ui = {
     let menuPopup = document.getElementById('muter-switch-button-popup-menu');
     let closingSeparator = document.getElementById('muter-skin-menu-separator-closing');
 
+    if (!menuPopup || !closingSeparator) {
+        return;
+    }
+    
     // Remove everything above the separator
     while (closingSeparator.previousSibling) {
       menuPopup.removeChild(closingSeparator.previousSibling);
@@ -78,7 +88,9 @@ muterSkin.ui = {
     item.addEventListener("DOMMenuItemInactive", function(event) {
       muterSkin.ui._onResetSkin(event)
     }, false);
-    item.setAttribute("oncommand", "muterSkin.ui._onSelectSkin(event)");
+    item.addEventListener("command", function(event) {
+      muterSkin.ui._onSelectSkin(event);
+    }, false);
 
     // Download the disabled icon
     let disImg = new Image();
@@ -100,24 +112,36 @@ muterSkin.ui = {
   },
 
   _onPreviewSkin: function(event) {
+    let img = null;
+
     let menuItem = event.originalTarget;
-    let img = menuItem.getAttribute(muterHook.isMuteEnabled() ? 'image-enabled-url' : 'image-disabled-url');
+    if (menuItem) {
+      img = menuItem.getAttribute(muterHook.isMuteEnabled() ? 'image-enabled-url' : 'image-disabled-url');
+    }
 
     let btn = document.getElementById("muter-toolbar-palette-button");
-    btn.setAttribute('image', img);
-
+    if (btn) {
+      btn.setAttribute('image', img);
+    }
+    
     let btnStatusBar = document.getElementById("muter-statusbar-button");
-    btnStatusBar.setAttribute('src', img);
+    if (btnStatusBar) {
+      btnStatusBar.setAttribute('src', img);
+    }
   },
 
   _onResetSkin: function(event) {
     let btn = document.getElementById("muter-toolbar-palette-button");
-    let img = btn.getAttribute(muterHook.isMuteEnabled() ? 'image-enabled' : 'image-disabled');
-    btn.setAttribute('image', img);
+    if (btn) {
+      let img = btn.getAttribute(muterHook.isMuteEnabled() ? 'image-enabled' : 'image-disabled');
+      btn.setAttribute('image', img);
+    }
 
     let btnStatusBar = document.getElementById("muter-statusbar-button");
-    let img = btnStatusBar.getAttribute(muterHook.isMuteEnabled() ? 'image-enabled' : 'image-disabled');
-    btnStatusBar.setAttribute('src', img);
+    if (btnStatusBar) {
+      let img = btnStatusBar.getAttribute(muterHook.isMuteEnabled() ? 'image-enabled' : 'image-disabled');
+      btnStatusBar.setAttribute('src', img);
+    }
 
   },
 
@@ -138,8 +162,8 @@ muterSkin.ui = {
    * Convert the image object to base64 encoded data url
    */
   _getImageDataURL: function(img) {
-    var canvas = document.createElementNS("http://www.w3.org/1999/xhtml", "html:canvas");
-    var context = canvas.getContext("2d");
+    let canvas = gBrowser.contentDocument.createElementNS("http://www.w3.org/1999/xhtml", "html:canvas");
+    let context = canvas.getContext("2d");
     canvas.height = img.height;
     canvas.width = img.width;
     context.drawImage(img, 0, 0, img.width, img.height);
@@ -156,7 +180,7 @@ muterSkin.ui = {
     this._isSkinUpdating = true;
     let url = muterUtils.Services.prefs.getCharPref("extensions.firefox-muter.skin.updateurl");
     if (!url) {
-      url = 'http://yxl.github.com/Firefox-Muter/update/skin.json' 
+      url = 'http://yxl.github.com/Firefox-Muter/update/skin.json'
     }
     // Add a random number to the end fo the URL to ensure that we don't get the cached file.
     url += '?rnd=' + Math.random();

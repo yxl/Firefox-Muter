@@ -2,6 +2,11 @@
  * This Source Code is subject to the terms of the Mozilla Public License
  * version 2.0 (the "License"). You can obtain a copy of the License at
  * http://mozilla.org/MPL/2.0/.
+ *
+ * The orginal codes of  feedback.js and feedback.xul are from the project 
+ * of adblock plus(https://adblockplus.org/). If you have installed adblock
+ * plus extension on firefox. View related codes with the following URL:
+ * chrome://adblockplus/content/ui/sendReport.js.
  */
 
 var muterFeedback = (function() {
@@ -10,6 +15,13 @@ var muterFeedback = (function() {
   let {
     muterUtils
   } = jsm;
+  
+  let AddonManager = null;
+  try{
+    let namespace = {};
+    Components.utils.import("resource://gre/modules/AddonManager.jsm", namespace);
+    AddonManager = namespace.AddonManager;
+  } catch (e) {}
   
   let prefs = muterUtils.Services.prefs;
 
@@ -21,7 +33,7 @@ var muterFeedback = (function() {
                 <comment />
                 <email />
                 <url />
-    <muter version="" locale={muterUtils.getLocaleString()}/>
+    <muter version="9.1" locale={muterUtils.getLocaleString()}/>
     <application name={muterUtils.Services.appinfo.name} vendor={muterUtils.Services.appinfo.vendor} version={muterUtils.Services.appinfo.version} userAgent={window.navigator.userAgent}/>
     <platform name={muterUtils.platform.name} version={muterUtils.platform.version} is64={muterUtils.platform.is64}/>
     <prefs>
@@ -34,6 +46,21 @@ var muterFeedback = (function() {
                 </prefs>
     <addons />
   </report>;
+  
+  
+  // Get the extension's version
+  if (AddonManager) {
+    // Firefox 4 and later; Mozilla 2 and later  
+    AddonManager.getAddonByID("muter@yxl.name", function(addon) {
+      reportData.muter.@version = addon.version;
+    });  
+  } else {  
+    // Firefox 3.6 and before; Mozilla 1.9.2 and before  
+    let em = Components.classes["@mozilla.org/extensions/manager;1"]  
+             .getService(Components.interfaces.nsIExtensionManager);  
+    let addon = em.getItemForID("muter@yxl.name");
+    reportData.muter.@version = addon.version;
+  }  
 
   let muterFeedback = {
    
