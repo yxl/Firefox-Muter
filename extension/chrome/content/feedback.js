@@ -16,6 +16,13 @@ var muterFeedback = (function() {
     muterUtils
   } = jsm;
   
+  let AddonManager = null;
+  try{
+    let namespace = {};
+    Components.utils.import("resource://gre/modules/AddonManager.jsm", namespace);
+    AddonManager = namespace.AddonManager;
+  } catch (e) {}
+  
   let prefs = muterUtils.Services.prefs;
 
   //
@@ -26,7 +33,7 @@ var muterFeedback = (function() {
                 <comment />
                 <email />
                 <url />
-    <muter version="" locale={muterUtils.getLocaleString()}/>
+    <muter version="9.1" locale={muterUtils.getLocaleString()}/>
     <application name={muterUtils.Services.appinfo.name} vendor={muterUtils.Services.appinfo.vendor} version={muterUtils.Services.appinfo.version} userAgent={window.navigator.userAgent}/>
     <platform name={muterUtils.platform.name} version={muterUtils.platform.version} is64={muterUtils.platform.is64}/>
     <prefs>
@@ -39,6 +46,21 @@ var muterFeedback = (function() {
                 </prefs>
     <addons />
   </report>;
+  
+  
+  // Get the extension's version
+  if (AddonManager) {
+    // Firefox 4 and later; Mozilla 2 and later  
+    AddonManager.getAddonByID("muter@yxl.name", function(addon) {
+      reportData.muter.@version = addon.version;
+    });  
+  } else {  
+    // Firefox 3.6 and before; Mozilla 1.9.2 and before  
+    let em = Components.classes["@mozilla.org/extensions/manager;1"]  
+             .getService(Components.interfaces.nsIExtensionManager);  
+    let addon = em.getItemForID("muter@yxl.name");
+    reportData.muter.@version = addon.version;
+  }  
 
   let muterFeedback = {
    

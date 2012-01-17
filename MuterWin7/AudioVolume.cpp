@@ -56,13 +56,11 @@ void AudioVolume::Dispose()
 {
 	DetachFromEndpoint();
 
-	if (m_bRegisteredForEndpointNotifications)
+	if (m_spEnumerator != NULL && m_bRegisteredForEndpointNotifications)
 	{
 		m_spEnumerator->UnregisterEndpointNotificationCallback(this);
 		m_bRegisteredForEndpointNotifications = FALSE;
 	}
-
-	SAFE_RELEASE(m_spEnumerator);
 }
 
 
@@ -240,11 +238,6 @@ void AudioVolume::AddSessionIfNew(const std::map<DWORD, BOOL> &map, CComQIPtr<IA
 
 void AudioVolume::DisposeAudioSessionControlList()
 {
-	POSITION pos = m_mapSpAudioSessionControl2.GetStartPosition();
-	while (pos != NULL)
-	{
-		SAFE_RELEASE(m_mapSpAudioSessionControl2.GetNextValue(pos));
-	}
 	m_mapSpAudioSessionControl2.RemoveAll();
 }
 

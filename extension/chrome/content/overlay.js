@@ -40,6 +40,11 @@ var muter = (function() {
   let {
     muterUtils, muterHook
   } = jsm;
+  let AddonManager = null;
+  if (!muterUtils.isVersionLessThan("4.0")) {
+    Components.utils.import("resource://gre/modules/AddonManager.jsm", jsm);
+    AddonManager = jsm.AddonManager;
+  }
   let Services = muterUtils.Services;
 
   var muter = {
@@ -68,15 +73,20 @@ var muter = (function() {
 
       window.addEventListener("aftercustomization", muter._onToolBarChanged, false);
       muter._onToolBarChanged();
-      
+
       muter._muterObserver = new MuterObserver();
       muter._muterObserver.register();
-      
+
       // restore mute status if necessary
       let needRetoreMuteStatus = Services.prefs.getBoolPref('extensions.firefox-muter.saveStatus');
       if (needRetoreMuteStatus) {
         let needMute = Services.prefs.getBoolPref('extensions.firefox-muter.muteStatus');
         muterHook.enableMute(needMute);
+      }
+
+      if (AddonManager) {
+        // Listen for extension uninstalling
+        AddonManager.addAddonListener(muter._addonListener);
       }
     },
 
@@ -85,6 +95,11 @@ var muter = (function() {
 
       window.removeEventListener("aftercustomization", muter._onAddonBarChanged, false);
       muter._muterObserver.unregister();
+
+      if (AddonManager) {
+        // Listen for extension uninstalling
+        //AddonManager.removeAddonListener(muter._addonListener);
+      }
     },
 
     /**
@@ -98,6 +113,27 @@ var muter = (function() {
         Services.prefs.setBoolPref('extensions.firefox-muter.showInStatusBar', true);
       }
       muterSkin.ui.updateFromWeb();
+    },
+
+    _addonListener: {
+      onUninstalling: function(addon) {
+        if (addon.id == "muter@yxl.name") {
+          muter.uninstall();
+        }
+      },
+
+      onDisabling: function(addon, needsRestart) {
+        if (addon.id == "muter@yxl.name") {
+          muter.uninstall();
+        }
+      },
+
+    },
+
+
+    uninstall: function() {
+      // Clear all user preferences
+      Services.prefs.deleteBranch('extensions.firefox-muter.');
     },
 
     switchStatus: function(event) {
@@ -115,6 +151,7 @@ var muter = (function() {
         }
       } else if (event.button == 2) {
         // Right click to show the popup menu
+        muterSkin.ui.updateFromWeb();
         let btn = event.currentTarget;
         let menu = document.getElementById("muter-switch-button-popup-menu");
         if (btn && menu) {
@@ -132,6 +169,8 @@ var muter = (function() {
       if (btn && menu) {
         menu.openPopup(btn, "after_start", -1, 0, true, false);
       }
+        event.preventDefault();
+        event.stopPropagation();      
     },
 
     /** Open Settings dialog */
@@ -341,6 +380,12 @@ var muter = (function() {
         } else if (prefName == "extensions.firefox-muter.disabledIcon" || prefName == "extensions.firefox-muter.enabledIcon" || prefName == "extensions.firefox-muter.switchButtonType") {
           muter.setupSwitchButton();
         }
+      } else if (topic === "em-action-requested" /*&& subject.id === "muter@yxl.name"*/ ) {
+        // For firefox 3.6 only
+        subject.QueryInterface(Components.interfaces.nsIUpdateItem);
+        if (subject.id === "muter@yxl.name" && (data === "item-disabled" || data === "item-uninstalled")) {
+          muter.uninstall();
+        }
       }
     },
 
@@ -354,9 +399,14 @@ var muter = (function() {
         this._branch.QueryInterface(Components.interfaces.nsIPrefBranch2);
         this._branch.addObserver("", this, false);
       }
+
+      // For firefox 3.6 only!
+      Services.obs.addObserver(this, "em-action-requested", false);
     },
 
     unregister: function() {
+      Services.obs.removeObserver(this, "em-action-requested");
+
       Services.obs.removeObserver(this, "muter-status-changed");
 
       if (this.branch) {

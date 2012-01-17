@@ -51,6 +51,10 @@ muterSkin.ui = {
     let menuPopup = document.getElementById('muter-switch-button-popup-menu');
     let closingSeparator = document.getElementById('muter-skin-menu-separator-closing');
 
+    if (!menuPopup || !closingSeparator) {
+        return;
+    }
+    
     // Remove everything above the separator
     while (closingSeparator.previousSibling) {
       menuPopup.removeChild(closingSeparator.previousSibling);
@@ -108,24 +112,36 @@ muterSkin.ui = {
   },
 
   _onPreviewSkin: function(event) {
+    let img = null;
+
     let menuItem = event.originalTarget;
-    let img = menuItem.getAttribute(muterHook.isMuteEnabled() ? 'image-enabled-url' : 'image-disabled-url');
+    if (menuItem) {
+      img = menuItem.getAttribute(muterHook.isMuteEnabled() ? 'image-enabled-url' : 'image-disabled-url');
+    }
 
     let btn = document.getElementById("muter-toolbar-palette-button");
-    btn.setAttribute('image', img);
-
+    if (btn) {
+      btn.setAttribute('image', img);
+    }
+    
     let btnStatusBar = document.getElementById("muter-statusbar-button");
-    btnStatusBar.setAttribute('src', img);
+    if (btnStatusBar) {
+      btnStatusBar.setAttribute('src', img);
+    }
   },
 
   _onResetSkin: function(event) {
     let btn = document.getElementById("muter-toolbar-palette-button");
-    let img = btn.getAttribute(muterHook.isMuteEnabled() ? 'image-enabled' : 'image-disabled');
-    btn.setAttribute('image', img);
+    if (btn) {
+      let img = btn.getAttribute(muterHook.isMuteEnabled() ? 'image-enabled' : 'image-disabled');
+      btn.setAttribute('image', img);
+    }
 
     let btnStatusBar = document.getElementById("muter-statusbar-button");
-    let img = btnStatusBar.getAttribute(muterHook.isMuteEnabled() ? 'image-enabled' : 'image-disabled');
-    btnStatusBar.setAttribute('src', img);
+    if (btnStatusBar) {
+      let img = btnStatusBar.getAttribute(muterHook.isMuteEnabled() ? 'image-enabled' : 'image-disabled');
+      btnStatusBar.setAttribute('src', img);
+    }
 
   },
 
@@ -146,8 +162,8 @@ muterSkin.ui = {
    * Convert the image object to base64 encoded data url
    */
   _getImageDataURL: function(img) {
-    var canvas = document.createElementNS("http://www.w3.org/1999/xhtml", "html:canvas");
-    var context = canvas.getContext("2d");
+    let canvas = gBrowser.contentDocument.createElementNS("http://www.w3.org/1999/xhtml", "html:canvas");
+    let context = canvas.getContext("2d");
     canvas.height = img.height;
     canvas.width = img.width;
     context.drawImage(img, 0, 0, img.width, img.height);

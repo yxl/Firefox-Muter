@@ -28,12 +28,12 @@ FunctionInfo s_Functions[] =
   DEFINE_FUNCTION_INFO("Kernel32.dll", CreateProcessA),
   DEFINE_FUNCTION_INFO("Kernel32.dll", CreateProcessW),
 
+  DEFINE_FUNCTION_INFO("ole32.dll", CoCreateInstance),
+
   DEFINE_FUNCTION_INFO("winmm.dll", waveOutWrite),
   DEFINE_FUNCTION_INFO("winmm.dll", midiStreamOut),
   DEFINE_FUNCTION_INFO("dsound.dll", DirectSoundCreate),
   DEFINE_FUNCTION_INFO("dsound.dll", DirectSoundCreate8),
-
-  DEFINE_FUNCTION_INFO("ole32.dll", CoCreateInstance),
 };
 
 const size_t s_FunctionsCount = sizeof(s_Functions)/sizeof(FunctionInfo);
@@ -45,7 +45,12 @@ BOOL InjectIntoProcess(HANDLE hProcess)
   LPCSTR rlpDlls[2];
   DWORD nDlls = 0;
   rlpDlls[nDlls++] = g_szThisModulePath;
-  return DetourUpdateProcessWithDll(hProcess, rlpDlls, nDlls);
+  BOOL bRet = DetourUpdateProcessWithDll(hProcess, rlpDlls, nDlls);
+  if (!bRet) 
+  {
+    TRACE("[MuterHook] InjectIntoProcess failed!\n");
+  }
+  return bRet;
 }
 
 void InjectIntoSubProcesses()
