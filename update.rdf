@@ -10,18 +10,18 @@
           <rdf:Description>
             <em:targetApplication>
               <rdf:Description>
-                <em:minVersion>3.6</em:minVersion>
                 <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
-                <em:updateHash>sha1:9cb17b1b07d1ac5baeba7c41a7e6061ca63b8398</em:updateHash>
-                <em:updateLink>http://yxl.github.com/Firefox-Muter/muter-0.8.3.xpi</em:updateLink>
                 <em:maxVersion>12.*</em:maxVersion>
+                <em:updateLink>http://yxl.github.com/Firefox-Muter/muter-0.9.xpi</em:updateLink>
+                <em:updateHash>sha1:5fdba5b6c92396ac3d77a39061964ebe69d0a9fc</em:updateHash>
+                <em:minVersion>3.6</em:minVersion>
               </rdf:Description>
             </em:targetApplication>
-            <em:version>0.8.3</em:version>
+            <em:version>0.9.0</em:version>
           </rdf:Description>
         </rdf:li>
       </rdf:Seq>
     </em:updates>
-    <em:signature>MIGTMA0GCSqGSIb3DQEBDQUAA4GBAEtcyPjuUaNNsgsQbGeoXEh1cYkWxKY+y2Av4fX1817w27M6DXzzLGyn7RXxjclldVsMH3lmaQwqAf1ZxnzH3iXPz6UcU+SAxMm+CKgBlKCytUMPcA8VKBlofEd1nfwnnxJtxXBhA9nIR9YxMcjZaN1H6WF5UBgrpgnLBJ3ZKczK</em:signature>
+    <em:signature>MIGTMA0GCSqGSIb3DQEBDQUAA4GBAAC5PjVpQfo7VH28r6weuHhONildpMV+jjldL7SuaShO0ER+8ehgNtpcR76r9juumzCilg78pKs2YtoIxowhMY3Ygx/PrL1Bn2Kk4KBRkn66RU5Edl8DYzgr5i/9UioDU6tiudnOBFTYCkZvxbAmJloOFg8qPqI1SkpUbY2xHxo5</em:signature>
   </rdf:Description>
 </rdf:RDF>
