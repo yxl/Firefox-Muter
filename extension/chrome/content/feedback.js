@@ -34,14 +34,15 @@ var muterFeedback = (function() {
                 <email />
                 <url />
     <muter version="9.1" locale={muterUtils.getLocaleString()}/>
-    <application name={muterUtils.Services.appinfo.name} vendor={muterUtils.Services.appinfo.vendor} version={muterUtils.Services.appinfo.version} userAgent={window.navigator.userAgent}/>
+    <application name={muterUtils.Services.appinfo.name} vendor={muterUtils.Services.appinfo.vendor} version={muterUtils.Services.appinfo.version} />
     <platform name={muterUtils.platform.name} version={muterUtils.platform.version} is64={muterUtils.platform.is64}/>
     <prefs>
                     <pref key="extensions.firefox-muter.firstRun" value={prefs.getBoolPref("extensions.firefox-muter.firstRun")} />
                     <pref key="extensions.firefox-muter.showInAddonBar" value={prefs.getBoolPref("extensions.firefox-muter.showInAddonBar")} />
                     <pref key="extensions.firefox-muter.showInStatusBar" value={prefs.getBoolPref("extensions.firefox-muter.showInStatusBar")} />
-                    <pref key="extensions.firefox-muter.skin.items" value={prefs.getCharPref("extensions.firefox-muter.skin.items")} />
                     <pref key="extensions.firefox-muter.switchButtonType" value={prefs.getCharPref("extensions.firefox-muter.switchButtonType")} />
+                    <pref key="extensions.firefox-muter.saveStatus" value={prefs.getBoolPref("extensions.firefox-muter.saveStatus")} />
+                    <pref key="extensions.firefox-muter.muteStatus" value={prefs.getBoolPref("extensions.firefox-muter.muteStatus")} />
                     <pref key="dom.ipc.plugins.enabled" value={prefs.getBoolPref("dom.ipc.plugins.enabled")} />
                 </prefs>
     <addons />
