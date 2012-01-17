@@ -38,6 +38,57 @@ FunctionInfo s_Functions[] =
 
 const size_t s_FunctionsCount = sizeof(s_Functions)/sizeof(FunctionInfo);
 
+BOOL InjectIntoProcessByForce(HANDLE hProcess) 
+{
+	BOOL bOK = FALSE;
+
+	LPVOID pPath = NULL;
+	HANDLE hThread = NULL;
+	try
+	{
+		pPath = VirtualAllocEx(hProcess, NULL, 
+			sizeof(g_szThisModulePath), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+		if (!pPath) 
+		{
+			throw "VirtualAllocEx failed!";
+		}
+
+		if (!WriteProcessMemory(hProcess, pPath, g_szThisModulePath, 
+			sizeof(g_szThisModulePath), NULL))
+		{
+			throw "WriteProcessMemory failed!";
+		}
+
+		hThread = CreateRemoteThread(hProcess, NULL, 0,
+			(LPTHREAD_START_ROUTINE)LoadLibraryA, pPath, 0, NULL);
+		if (!hThread)
+		{
+			throw "CreateRemoteThread failed!";
+		}
+
+		WaitForSingleObject(hThread, INFINITE);
+
+		bOK = TRUE;
+
+	}
+	catch (LPSTR error)
+	{
+		TRACE("[MuterHook] InjectIntoProcessByForce failed! %s\n", error);
+	}
+
+	if (hThread)
+	{
+		CloseHandle(hThread);
+	}
+
+	if (pPath)
+	{
+		VirtualFreeEx(hProcess, pPath, 0, MEM_RELEASE);
+	}
+
+	return bOK;
+}
+
 BOOL InjectIntoProcess(HANDLE hProcess) 
 {
 
