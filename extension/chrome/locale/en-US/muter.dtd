@@ -4,8 +4,9 @@
 <!ENTITY muter.feedback "Troubleshooting">
 
 <!ENTITY muter.settings.title "Muter Settings">
+<!ENTITY muter.settings.ui.label "User Interface">
+<!ENTITY muter.settings.miscellaneous.label "Miscellaneous">
 <!ENTITY muter.settings.shorcut.title "Shortcut Keys">
-<!ENTITY muter.settings.ui.title "User Interface">
 <!ENTITY muter.settings.restore "Restore Defaults">
 <!ENTITY muter.settings.showInAddonBar "Show switch button in the addon bar.">
 <!ENTITY muter.settings.showInStatusBar "Show switch button in the status bar.">

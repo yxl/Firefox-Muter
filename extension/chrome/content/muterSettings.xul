@@ -33,112 +33,126 @@ ondialogextra2="muterSettings.openFeedback();">
       name="extensions.firefox-muter.showInStatusBar" type="bool" />
       <preference id="switchButtonType"
       name="extensions.firefox-muter.switchButtonType" type="string" />
-      <preference id="saveStatus"
-      name="extensions.firefox-muter.saveStatus" type="bool" />
+      <preference id="saveStatus" name="extensions.firefox-muter.saveStatus"
+      type="bool" />
     </preferences>
-    <!-- Sets Shortcut key -->
-    <groupbox id="muter-settings-shortcut">
-      <caption label="&muter.settings.shorcut.title;" />
-      <hbox>
-        <menulist id="muter-settings-shortcut-modifiers"
-        preference="shortcutModifiers">
-          <menupopup>
-            <menuitem value="control" label="Ctrl" />
-            <menuitem value="control shift" label="Ctrl + Shift" />
-            <menuitem value="control alt" label="Ctrl + Alt" />
-            <menuitem value="alt shift" label="Alt + Shift" />
-          </menupopup>
-        </menulist>
-        <label>+</label>
-        <menulist id="muter-settings-shortcut-key" preference="shortcutKey">
-          <menupopup>
-            <menuitem value="A" label="A" />
-            <menuitem value="B" label="B" />
-            <menuitem value="C" label="C" />
-            <menuitem value="D" label="D" />
-            <menuitem value="E" label="E" />
-            <menuitem value="F" label="F" />
-            <menuitem value="G" label="G" />
-            <menuitem value="H" label="H" />
-            <menuitem value="I" label="I" />
-            <menuitem value="J" label="J" />
-            <menuitem value="K" label="K" />
-            <menuitem value="L" label="L" />
-            <menuitem value="M" label="M" />
-            <menuitem value="N" label="N" />
-            <menuitem value="O" label="O" />
-            <menuitem value="P" label="P" />
-            <menuitem value="Q" label="Q" />
-            <menuitem value="R" label="R" />
-            <menuitem value="S" label="S" />
-            <menuitem value="T" label="T" />
-            <menuitem value="U" label="U" />
-            <menuitem value="V" label="V" />
-            <menuitem value="W" label="W" />
-            <menuitem value="X" label="X" />
-            <menuitem value="Y" label="Y" />
-            <menuitem value="Z" label="Z" />
-            <menuitem value="0" label="0" />
-            <menuitem value="1" label="1" />
-            <menuitem value="2" label="2" />
-            <menuitem value="3" label="3" />
-            <menuitem value="4" label="4" />
-            <menuitem value="5" label="5" />
-            <menuitem value="6" label="6" />
-            <menuitem value="7" label="7" />
-            <menuitem value="8" label="8" />
-            <menuitem value="9" label="9" />
-          </menupopup>
-        </menulist>
-      </hbox>
-      <hbox>
-        <label value="&muter.settings.restart.descr;" />
-      </hbox>
-    </groupbox>
-    <!-- Sets the UI -->
-    <groupbox id="muter-settings-ui">
-      <caption label="&muter.settings.ui.title;" />
-      <hbox>
-        <!-- Addon bar setting. -->
-        <vbox id="muter-settings-show-in-addon-bar">
-          <checkbox preference="showInAddonBar"
-          label="&muter.settings.showInAddonBar;" />
-          <image class="muter-shadow-image"
-          src="chrome://muter/skin/show-in-addon-bar.png" />
-        </vbox>
-        <!-- Status bar setting. For firefox 3.6 only -->
-        <vbox id="muter-settings-show-in-status-bar">
-          <checkbox preference="showInStatusBar"
-          label="&muter.settings.showInStatusBar;" />
-          <image class="muter-shadow-image"
-          src="chrome://muter/skin/show-in-status-bar.png" />
-        </vbox>
-      </hbox>
-      <!-- Switch button style -->
-      <radiogroup id="muter-settings-switch-button-style"
-      preference="switchButtonType">
-        <label value="&muter.settings.switchButtonStyle;" />
-        <hbox>
+    <tabbox>
+      <tabs>
+        <tab label="&muter.settings.ui.label;" />
+        <tab label="&muter.settings.miscellaneous.label;" />
+      </tabs>
+      <tabpanels>
+        <tabpanel>
+          <!-- Sets the UI -->
           <vbox>
-            <radio label="&muter.settings.switchButtonWithMenu;"
-            value="menu-button" />
-            <image class="muter-shadow-image"
-            src="chrome://muter/locale/switch-button-with-menu.png" />
+            <hbox>
+              <!-- Addon bar setting. -->
+              <vbox id="muter-settings-show-in-addon-bar">
+                <checkbox preference="showInAddonBar"
+                label="&muter.settings.showInAddonBar;" />
+                <image class="muter-shadow-image"
+                src="chrome://muter/skin/show-in-addon-bar.png" />
+              </vbox>
+              <!-- Status bar setting. For firefox 3.6 only -->
+              <vbox id="muter-settings-show-in-status-bar">
+                <checkbox preference="showInStatusBar"
+                label="&muter.settings.showInStatusBar;" />
+                <image class="muter-shadow-image"
+                src="chrome://muter/skin/show-in-status-bar.png" />
+              </vbox>
+            </hbox>
+            <!-- Switch button style -->
+            <radiogroup id="muter-settings-switch-button-style"
+            preference="switchButtonType">
+              <label value="&muter.settings.switchButtonStyle;" />
+              <hbox>
+                <vbox>
+                  <radio label="&muter.settings.switchButtonWithMenu;"
+                  value="menu-button" />
+                  <image class="muter-shadow-image"
+                  src="chrome://muter/locale/switch-button-with-menu.png" />
+                </vbox>
+                <vbox>
+                  <radio label="&muter.settings.switchButtonWithoutMenu;"
+                  value="none" />
+                  <image class="muter-shadow-image"
+                  src="chrome://muter/skin/switch-button-without-menu.png" />
+                </vbox>
+              </hbox>
+            </radiogroup>
           </vbox>
+        </tabpanel>
+        <tabpanel>
           <vbox>
-            <radio label="&muter.settings.switchButtonWithoutMenu;"
-            value="none" />
-            <image class="muter-shadow-image"
-            src="chrome://muter/skin/switch-button-without-menu.png" />
+            <!-- Sets Shortcut key -->
+            <groupbox id="muter-settings-shortcut">
+              <caption label="&muter.settings.shorcut.title;" />
+              <hbox>
+                <menulist id="muter-settings-shortcut-modifiers"
+                preference="shortcutModifiers">
+                  <menupopup>
+                    <menuitem value="control" label="Ctrl" />
+                    <menuitem value="control shift" label="Ctrl + Shift" />
+                    <menuitem value="control alt" label="Ctrl + Alt" />
+                    <menuitem value="alt shift" label="Alt + Shift" />
+                  </menupopup>
+                </menulist>
+                <label>+</label>
+                <menulist id="muter-settings-shortcut-key"
+                preference="shortcutKey">
+                  <menupopup>
+                    <menuitem value="A" label="A" />
+                    <menuitem value="B" label="B" />
+                    <menuitem value="C" label="C" />
+                    <menuitem value="D" label="D" />
+                    <menuitem value="E" label="E" />
+                    <menuitem value="F" label="F" />
+                    <menuitem value="G" label="G" />
+                    <menuitem value="H" label="H" />
+                    <menuitem value="I" label="I" />
+                    <menuitem value="J" label="J" />
+                    <menuitem value="K" label="K" />
+                    <menuitem value="L" label="L" />
+                    <menuitem value="M" label="M" />
+                    <menuitem value="N" label="N" />
+                    <menuitem value="O" label="O" />
+                    <menuitem value="P" label="P" />
+                    <menuitem value="Q" label="Q" />
+                    <menuitem value="R" label="R" />
+                    <menuitem value="S" label="S" />
+                    <menuitem value="T" label="T" />
+                    <menuitem value="U" label="U" />
+                    <menuitem value="V" label="V" />
+                    <menuitem value="W" label="W" />
+                    <menuitem value="X" label="X" />
+                    <menuitem value="Y" label="Y" />
+                    <menuitem value="Z" label="Z" />
+                    <menuitem value="0" label="0" />
+                    <menuitem value="1" label="1" />
+                    <menuitem value="2" label="2" />
+                    <menuitem value="3" label="3" />
+                    <menuitem value="4" label="4" />
+                    <menuitem value="5" label="5" />
+                    <menuitem value="6" label="6" />
+                    <menuitem value="7" label="7" />
+                    <menuitem value="8" label="8" />
+                    <menuitem value="9" label="9" />
+                  </menupopup>
+                </menulist>
+              </hbox>
+              <hbox>
+                <label value="&muter.settings.restart.descr;" />
+              </hbox>
+            </groupbox>
+            <hbox>
+              <!-- Save mute status. -->
+              <checkbox preference="saveStatus"
+              label="&muter.settings.saveStatus;" />
+            </hbox>
           </vbox>
-        </hbox>
-      </radiogroup>
-      <hbox>
-        <!-- Save mute status. -->
-        <checkbox preference="saveStatus"
-        label="&muter.settings.saveStatus;" />
-      </hbox>
-    </groupbox>
+        </tabpanel>
+      </tabpanels>
+    </tabbox>
     <hbox flex="1">
       <button dlgtype="extra1" id="muter-settings-restore"
       label="&muter.settings.restore;" />
@@ -146,7 +160,7 @@ ondialogextra2="muterSettings.openFeedback();">
       <button dlgtype="accept" id="muter-settings-accept" />
       <button dlgtype="cancel" id="muter-settings-cancel" />
       <button dlgtype="extra2" id="muter-settings-feedback"
-      label="&muter.feedback;" />      
+      label="&muter.feedback;" />
     </hbox>
   </prefpane>
 </prefwindow>
