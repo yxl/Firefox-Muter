@@ -1,16 +1,6 @@
 [
     {
         "name": {
-            "en-US": "Default",
-            "zh-CN": "默认",
-            "zh-TW": "預設"
-        },
-        "disabledIconUrl": "http://download.firefox.com.cn/chinaedition/extenstions/muter/icons/mute-disabled.png",
-        "enabledIconUrl": "http://download.firefox.com.cn/chinaedition/extenstions/muter/icons/mute-enabled.png",
-        "iconSource": "http://www.iconfinder.com/icondetails/33834/128/mute_icon"
-    },
-    {
-        "name": {
             "en-US": "Super Mono",
             "zh-CN": "简洁立体",
             "zh-TW": "簡潔立體"
