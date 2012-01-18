@@ -126,7 +126,7 @@ var muter = (function() {
         if (addon.id == "muter@yxl.name") {
           muter.uninstall();
         }
-      },
+      }
 
     },
 
@@ -323,6 +323,15 @@ var muter = (function() {
         }
       } catch (e) {}
     },
+    
+    useDefaultSkin: function() {
+      let defaultDisabledIcon = Services.prefs.getCharPref('extensions.firefox-muter.disabledIcon.default');
+      let defaultEnabledIcon = Services.prefs.getCharPref('extensions.firefox-muter.enabledIcon.default');
+      if (defaultDisabledIcon && defaultEnabledIcon) {
+        Services.prefs.setCharPref('extensions.firefox-muter.disabledIcon', defaultDisabledIcon);
+        Services.prefs.setCharPref('extensions.firefox-muter.enabledIcon', defaultEnabledIcon);
+      }
+    },
 
     _onToolBarChanged: function(event) {
       Services.prefs.setBoolPref('extensions.firefox-muter.showInAddonBar', muter._isButtonShowInAddonBar());
@@ -379,6 +388,10 @@ var muter = (function() {
           muter.setupStatusBar();
         } else if (prefName == "extensions.firefox-muter.disabledIcon" || prefName == "extensions.firefox-muter.enabledIcon" || prefName == "extensions.firefox-muter.switchButtonType") {
           muter.setupSwitchButton();
+        } else if (prefName == "extensions.firefox-muter.disabledIcon.default" ||
+                   prefName == "extensions.firefox-muter.enabledIcon.default") {
+          muter.useDefaultSkin();
+          muterSkin.ui.rebuildSkinMenu();
         }
       } else if (topic === "em-action-requested" /*&& subject.id === "muter@yxl.name"*/ ) {
         // For firefox 3.6 only

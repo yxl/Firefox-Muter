@@ -10,3 +10,5 @@ pref('extensions.firefox-muter.switchButtonType', 'menu-button');
 pref('extensions.firefox-muter.feedbackUrl', 'http://feedback.firefox.com.cn/muter/feedback.php');
 pref('extensions.firefox-muter.saveStatus', false);
 pref('extensions.firefox-muter.muteStatus', false);
+pref('extensions.firefox-muter.disabledIcon.default', 'chrome://muter/skin/mute-disabled.png');
+pref('extensions.firefox-muter.enabledIcon.default', 'chrome://muter/skin/mute-enabled.png');

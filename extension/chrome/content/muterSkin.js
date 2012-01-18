@@ -35,13 +35,28 @@ muterSkin.ui = {
 
   load: function() {
     window.removeEventListener("load", muterSkin.ui.load, false);
-
+    
+    // Setup the default menu item
+    let defaultItem = document.getElementById('muter-skin-menu-item-default');
+    if (defaultItem) {
+      defaultItem.addEventListener("DOMMenuItemActive", muterSkin.ui._onPreviewSkin, false);
+      defaultItem.addEventListener("DOMMenuItemInactive", muterSkin.ui._onResetSkin, false);
+      defaultItem.addEventListener("command", muterSkin.ui._onSelectSkin, false);
+    }
+    
     muterSkin.db.init();
     muterSkin.ui.rebuildSkinMenu();
   },
 
   unload: function() {
     window.removeEventListener("unload", muterSkin.ui.unload, false);
+    
+    let defaultItem = document.getElementById('muter-skin-menu-item-default');
+    if (defaultItem) {
+      defaultItem.removeEventListener("DOMMenuItemActive", muterSkin.ui._onPreviewSkin, false);
+      defaultItem.removeEventListener("DOMMenuItemInactive", muterSkin.ui._onResetSkin, false);
+      defaultItem.removeEventListener("command", muterSkin.ui._onSelectSkin, false);
+    } 
   },
 
   /** 
@@ -49,18 +64,33 @@ muterSkin.ui = {
    */
   rebuildSkinMenu: function() {
     let menuPopup = document.getElementById('muter-switch-button-popup-menu');
+    let defaultItem = document.getElementById('muter-skin-menu-item-default');    
     let closingSeparator = document.getElementById('muter-skin-menu-separator-closing');
 
-    if (!menuPopup || !closingSeparator) {
+    if (!menuPopup || !defaultItem || !closingSeparator) {
         return;
     }
     
-    // Remove everything above the separator
-    while (closingSeparator.previousSibling) {
+    // Setup the default menu item
+    let defaultDisabledIcon = muterUtils.Services.prefs.getCharPref('extensions.firefox-muter.disabledIcon.default');
+    let defaultEnabledIcon = muterUtils.Services.prefs.getCharPref('extensions.firefox-muter.enabledIcon.default');
+    defaultItem.setAttribute('image', defaultDisabledIcon);
+    defaultItem.setAttribute('image-disabled-url', defaultDisabledIcon);
+    defaultItem.setAttribute('image-disabled', defaultDisabledIcon);
+    defaultItem.setAttribute('image-enabled-url', defaultEnabledIcon);
+    defaultItem.setAttribute('image-enabled', defaultEnabledIcon);
+   
+    // Remove everything between the default item and the separator
+    while (closingSeparator.previousSibling &&
+           closingSeparator.previousSibling != defaultItem) {
       menuPopup.removeChild(closingSeparator.previousSibling);
     }
 
     let locale = muterUtils.getLocaleString();
+    if (locale !== 'en-US' && locale !== 'zh-CN' && locale !== 'zh-TW') {
+      locale = 'en-US';
+    }
+        
     // Create skin list
     let data = muterSkin.db.skinArray;
     for (let i = 0; i < data.length; i++) {
@@ -72,31 +102,33 @@ muterSkin.ui = {
   },
 
   /**
-   * 
+   *  
    */
   _createSkinMenuItem: function(name, disabledIconUrl, enabledIconUrl) {
     let item = document.createElement("menuitem");
 
+    item.hidden = true;
     item.setAttribute("class", "menuitem-iconic");
     item.setAttribute("image", disabledIconUrl);
     item.setAttribute("image-disabled-url", disabledIconUrl);
     item.setAttribute("image-enabled-url", enabledIconUrl);
     item.setAttribute("label", name);
-    item.addEventListener("DOMMenuItemActive", function(event) {
-      muterSkin.ui._onPreviewSkin(event)
-    }, false);
-    item.addEventListener("DOMMenuItemInactive", function(event) {
-      muterSkin.ui._onResetSkin(event)
-    }, false);
-    item.addEventListener("command", function(event) {
-      muterSkin.ui._onSelectSkin(event);
-    }, false);
+    item.addEventListener("DOMMenuItemActive", muterSkin.ui._onPreviewSkin, false);
+    item.addEventListener("DOMMenuItemInactive", muterSkin.ui._onResetSkin, false);
+    item.addEventListener("command", muterSkin.ui._onSelectSkin, false);
 
+    // Show the menu item when downloading is completed.
+    function checkDownloading() {
+      if (item.getAttribute("image-disabled") && item.getAttribute("image-enabled")) {
+        item.hidden = false;
+      }
+    }
     // Download the disabled icon
     let disImg = new Image();
     disImg.onload = function(event) {
       let data = muterSkin.ui._getImageDataURL(this);
       item.setAttribute("image-disabled", data);
+      checkDownloading();
     };
     disImg.src = disabledIconUrl;
 
@@ -105,6 +137,7 @@ muterSkin.ui = {
     enImg.onload = function(event) {
       let data = muterSkin.ui._getImageDataURL(this);
       item.setAttribute("image-enabled", data);
+      checkDownloading();    
     };
     enImg.src = enabledIconUrl;
 
@@ -290,32 +323,10 @@ muterSkin.db = {
   },
 
   /**
-   * Load the default skin data from the locale file of 
-   *    chrome://muter/locale/defaultSkin.properties
+   * Get the default skin data.
    */
   _loadDefaultValue: function() {
-    let MAX_NUM = 20;
     let defaultValue = [];
-    let strings = muterUtils.Strings.defaultSkin;
-    let locale = muterUtils.getLocaleString();
-    for (let i = 1; i <= MAX_NUM; i++) {
-      try {
-        let name = strings.GetStringFromName("item" + i + ".name");
-        let disabledIconUrl = strings.GetStringFromName("item" + i + ".disabledIconUrl");
-        let enabledIconUrl = strings.GetStringFromName("item" + i + ".enabledIconUrl");
-        if (name && disabledIconUrl && enabledIconUrl) {
-          let item = {
-            name: {},
-            disabledIconUrl: disabledIconUrl,
-            enabledIconUrl: enabledIconUrl
-          };
-          item.name[locale] = name;
-          defaultValue.push(item);
-        }
-      } catch (ex) {
-        break;
-      }
-    }
     return defaultValue;
   },
 

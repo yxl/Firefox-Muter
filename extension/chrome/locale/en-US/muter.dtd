@@ -2,9 +2,11 @@
 <!ENTITY muter-button.tooltip "Switch mute status">
 <!ENTITY muter-popup.init "Quickly switch mute status">
 <!ENTITY muter.feedback "Troubleshooting">
+<!ENTITY muter.skin.default.lable "Default">
 
 <!ENTITY muter.settings.title "Muter Settings">
 <!ENTITY muter.settings.ui.label "User Interface">
+<!ENTITY muter.settings.custom.label "Custom">
 <!ENTITY muter.settings.miscellaneous.label "Miscellaneous">
 <!ENTITY muter.settings.shorcut.title "Shortcut Keys">
 <!ENTITY muter.settings.restore "Restore Defaults">
@@ -15,6 +17,11 @@
 <!ENTITY muter.settings.switchButtonWithMenu "With menu">
 <!ENTITY muter.settings.switchButtonWithoutMenu "Without menu">
 <!ENTITY muter.settings.saveStatus "Restore mute status after &brandShortName; restarts.">
+<!ENTITY muter.settings.defaultIcons.label "Default icons">
+<!ENTITY muter.settings.defaultDisabledIcon.label "Normal status icon">
+<!ENTITY muter.settings.defaultEnabledIcon.label "Mute status icon">
+<!ENTITY muter.settings.changeIcon "Change icon...">
+<!ENTITY muter.settings.resetIcon "Reset icon">
 
 <!ENTITY muter.feedback.typeSelector.heading "Select issue type">
 <!ENTITY muter.feedback.typeSelector.description "This window will guide you

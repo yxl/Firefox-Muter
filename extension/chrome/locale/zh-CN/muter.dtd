@@ -2,9 +2,11 @@
 <!ENTITY muter-button.tooltip "切换静音状态">
 <!ENTITY muter-popup.init "快速切换静音状态">
 <!ENTITY muter.feedback "报告问题">
+<!ENTITY muter.skin.default.lable "默认">
 
 <!ENTITY muter.settings.title "静音设置">
 <!ENTITY muter.settings.ui.label "用户界面">
+<!ENTITY muter.settings.custom.label "自定义">
 <!ENTITY muter.settings.miscellaneous.label "其他">
 <!ENTITY muter.settings.shorcut.title "快捷键">
 <!ENTITY muter.settings.restore "还原默认值">
@@ -15,6 +17,11 @@
 <!ENTITY muter.settings.switchButtonWithMenu "带菜单">
 <!ENTITY muter.settings.switchButtonWithoutMenu "不带菜单">
 <!ENTITY muter.settings.saveStatus "重启&brandShortName;恢复静音状态。">
+<!ENTITY muter.settings.defaultIcons.label "默认图标">
+<!ENTITY muter.settings.defaultDisabledIcon.label "正常状态图标">
+<!ENTITY muter.settings.defaultEnabledIcon.label "静音状态图标">
+<!ENTITY muter.settings.changeIcon "改变图标...">
+<!ENTITY muter.settings.resetIcon "重置图标">
 
 <!ENTITY muter.feedback.typeSelector.heading "选择问题类型">
 <!ENTITY muter.feedback.typeSelector.description "本窗口将通过一系列的步骤来引导您提交“静音”的问题报告。首先，请选择问题类型：">

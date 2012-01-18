@@ -52,6 +52,7 @@ var muterSettings = (function() {
         let showInStatusBar = document.getElementById("muter-settings-show-in-status-bar");
         showInStatusBar.hidden = true;
       }
+      this._updateDefaultIcons();
     },
 
     destory: function(event) {},
@@ -68,6 +69,7 @@ var muterSettings = (function() {
         let showInStatusBarPref = document.getElementById("showInStatusBar");
         showInStatusBarPref.value = true;
       }
+      this._updateDefaultIcons();
     },
     
     openFeedback: function() {
@@ -77,6 +79,82 @@ var muterSettings = (function() {
       let name = 'muterFeedback';
       let features = 'chrome,centerscreen';
       window.openDialog(url, name, features);    
+    },
+    
+    _updateDefaultIcons: function() {
+      let defaultDisabledIcon = document.getElementById('defaultDisabledIcon');
+      let disabledIconImage = document.getElementById('muter-settings-default-disabled-icon');
+      if (defaultDisabledIcon && disabledIconImage) {
+        disabledIconImage.setAttribute("src", defaultDisabledIcon.value);
+      }
+      
+      let defaultEnabledIcon = document.getElementById('defaultEnabledIcon');
+      let enabledIconImage = document.getElementById('muter-settings-default-enabled-icon');
+      if (defaultEnabledIcon && enabledIconImage) {
+        enabledIconImage.setAttribute("src", defaultEnabledIcon.value);
+      }      
+    },
+    
+    changeDisabledIcon: function() {
+      let defaultDisabledIcon = document.getElementById('defaultDisabledIcon');
+      if (!defaultDisabledIcon) {
+        return;
+      }
+      
+      let fileName = this._getIconFilePath();
+      if (fileName) {
+        defaultDisabledIcon.value = fileName;
+        this._updateDefaultIcons();
+      }
+    },
+    
+    resetDisabledIcon: function() {
+      let defaultDisabledIcon = document.getElementById('defaultDisabledIcon');
+      if (!defaultDisabledIcon) {
+        return;
+      }
+      
+      defaultDisabledIcon.value = defaultDisabledIcon.defaultValue;
+      this._updateDefaultIcons();
+    },
+    
+    changeEnabledIcon: function() {
+      let defaultEnabledIcon = document.getElementById('defaultEnabledIcon');
+      if (!defaultEnabledIcon) {
+        return;
+      }
+      
+      let fileName = this._getIconFilePath();
+      if (fileName) {
+        defaultEnabledIcon.value = fileName;
+        this._updateDefaultIcons();
+      }      
+    },
+    
+    resetEnabledIcon: function() {
+      let defaultEnabledIcon = document.getElementById('defaultEnabledIcon');
+      if (!defaultEnabledIcon) {
+        return;
+      }
+      
+      defaultEnabledIcon.value = defaultEnabledIcon.defaultValue;
+      this._updateDefaultIcons();
+    },    
+    
+    _getIconFilePath: function() {
+      let fp = Components.classes["@mozilla.org/filepicker;1"].createInstance(Components.interfaces.nsIFilePicker);
+   
+      let parentWindow = window;
+      let title = "";
+      let mode = fp.modeOpen;
+      fp.init(parentWindow, title, mode);
+      fp.defaultExtension = "png";
+      fp.appendFilters(fp.filterImages);
+   
+      if (fp.show() != fp.returnCancel) {
+        return fp.fileURL.spec;
+      }
+      return null; 
     }
   };
 

@@ -35,10 +35,15 @@ ondialogextra2="muterSettings.openFeedback();">
       name="extensions.firefox-muter.switchButtonType" type="string" />
       <preference id="saveStatus" name="extensions.firefox-muter.saveStatus"
       type="bool" />
+      <preference id="defaultDisabledIcon"
+      name="extensions.firefox-muter.disabledIcon.default" type="string" />
+      <preference id="defaultEnabledIcon"
+      name="extensions.firefox-muter.enabledIcon.default" type="string" />       
     </preferences>
     <tabbox>
       <tabs>
         <tab label="&muter.settings.ui.label;" />
+        <tab label="&muter.settings.custom.label;" />
         <tab label="&muter.settings.miscellaneous.label;" />
       </tabs>
       <tabpanels>
@@ -81,6 +86,40 @@ ondialogextra2="muterSettings.openFeedback();">
               </hbox>
             </radiogroup>
           </vbox>
+        </tabpanel>
+        <tabpanel>
+          <groupbox>
+            <caption label="&muter.settings.defaultIcons.label;" />
+            <vbox class="muter-settings-default-icon-vbox">
+              <hbox>
+                <image id="muter-settings-default-disabled-icon" class="muter-shadow-image" />
+                <label value="&muter.settings.defaultDisabledIcon.label;" />
+              </hbox>
+              <hbox>
+                <button class="muter-settings-icon-button"
+                label="&muter.settings.changeIcon;"
+                oncommand="muterSettings.changeDisabledIcon();" />
+                <button class="muter-settings-icon-button"
+                label="&muter.settings.resetIcon;"
+                oncommand="muterSettings.resetDisabledIcon();" />
+              </hbox>
+            </vbox>
+            <vbox class="muter-settings-default-icon-vbox">
+              <hbox>
+                <image id="muter-settings-default-enabled-icon"
+                class="muter-shadow-image"/>
+                <label value="&muter.settings.defaultEnabledIcon.label;" />
+              </hbox>
+              <hbox>
+                <button class="muter-settings-icon-button"
+                label="&muter.settings.changeIcon;"
+                oncommand="muterSettings.changeEnabledIcon();" />
+                <button class="muter-settings-icon-button"
+                label="&muter.settings.resetIcon;"
+                oncommand="muterSettings.resetEnabledIcon();" />
+              </hbox>
+            </vbox>
+          </groupbox>
         </tabpanel>
         <tabpanel>
           <vbox>

@@ -1,7 +1,8 @@
 @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
 
-#muter-toolbar-palette-button {
+#muter-toolbar-palette-button > toolbarbutton > image{
   background-color:transparent;
+  height: 24px;
 }
 
 image.muter-shadow-image {
@@ -10,8 +11,17 @@ image.muter-shadow-image {
   -moz-box-shadow: 3px 3px 4px #333;
 }
 
-/** For Firfox 3.6 only! **/
+#muter-settings-default-disabled-icon, #muter-settings-default-enabled-icon {
+  width: 24px;
+  height: 24px;
+}
 
+.muter-settings-default-icon-vbox {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+/** For Firfox 3.6 only! **/
 #muter-statusbar-button > image{
   background-color:transparent;
   height: 16px;
