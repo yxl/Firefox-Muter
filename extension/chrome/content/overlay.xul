@@ -39,7 +39,14 @@ xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <popupset>
     <!-- Muter button popup menu -->
     <menupopup id="muter-switch-button-popup-menu" position="after_end">
-      <menuseparator id='muter-skin-menu-separator-closing' />
+      <menuitem id='muter-skin-menu-item-default' class="menuitem-iconic"
+                image="chrome://muter/skin/mute-disabled.png"
+                image-disabled-url="chrome://muter/skin/mute-disabled.png"
+                image-disabled="chrome://muter/skin/mute-disabled.png"
+                image-enabled-url="chrome://muter/skin/mute-enabled.png"
+                image-enabled="chrome://muter/skin/mute-enabled.png"
+                label="&muter.skin.default.lable;" />
+      <menuseparator id="muter-skin-menu-separator-closing" />
       <menuitem label="&muter.settings.title;"
       oncommand="muter.openSettingsDialog(event);" />
       <menuitem label="&muter.feedback;"

@@ -126,7 +126,7 @@ var muter = (function() {
         if (addon.id == "muter@yxl.name") {
           muter.uninstall();
         }
-      },
+      }
 
     },
 
@@ -379,7 +379,9 @@ var muter = (function() {
           muter.setupStatusBar();
         } else if (prefName == "extensions.firefox-muter.disabledIcon" || prefName == "extensions.firefox-muter.enabledIcon" || prefName == "extensions.firefox-muter.switchButtonType") {
           muter.setupSwitchButton();
-        }
+        } else if (prefName == "extensions.firefox-muter.disabledIcon.default" ||
+                   prefName == "extensions.firefox-muter.enabledIcon.default")
+          muterSkin.ui.rebuildSkinMenu();
       } else if (topic === "em-action-requested" /*&& subject.id === "muter@yxl.name"*/ ) {
         // For firefox 3.6 only
         subject.QueryInterface(Components.interfaces.nsIUpdateItem);

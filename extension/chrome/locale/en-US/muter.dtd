@@ -2,9 +2,11 @@
 <!ENTITY muter-button.tooltip "Switch mute status">
 <!ENTITY muter-popup.init "Quickly switch mute status">
 <!ENTITY muter.feedback "Troubleshooting">
+<!ENTITY muter.skin.default.lable "Default">
 
 <!ENTITY muter.settings.title "Muter Settings">
 <!ENTITY muter.settings.ui.label "User Interface">
+<!ENTITY muter.settings.custom.label "Custom">
 <!ENTITY muter.settings.miscellaneous.label "Miscellaneous">
 <!ENTITY muter.settings.shorcut.title "Shortcut Keys">
 <!ENTITY muter.settings.restore "Restore Defaults">
