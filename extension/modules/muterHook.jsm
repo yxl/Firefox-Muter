@@ -72,21 +72,28 @@ let muterHook = {
   },
   
   close: function() {
+    if (!this._lib) {
+      return;
+    }
     if (isWin7OrLater || muterUtils.platform.linux) {
       this._Dispose();
     }
-    if (this._lib) {
-      this._lib.close();
-    }
+    this._lib.close();
   },
    
   enableMute: function(isEnabled) {
+    if (!this._lib) {
+      return;
+    }
     let enableParam = isEnabled ? 1 : 0;
     this._EnableMute(enableParam);
     muterUtils.Services.obs.notifyObservers(null, "muter-status-changed", null);
   },
   
   isMuteEnabled: function() {
+    if (!this._lib) {
+      return false;
+    }
     return this._IsMuteEnabled();
   }
 };
