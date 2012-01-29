@@ -134,6 +134,7 @@ var muter = (function() {
     uninstall: function() {
       // Clear all user preferences
       Services.prefs.deleteBranch('extensions.firefox-muter.');
+      Services.obs.notifyObservers(null, "muter-uninstall", null);
     },
 
     switchStatus: function(event) {
@@ -393,7 +394,7 @@ var muter = (function() {
           muter.useDefaultSkin();
           muterSkin.ui.rebuildSkinMenu();
         }
-      } else if (topic === "em-action-requested" /*&& subject.id === "muter@yxl.name"*/ ) {
+      } else if (topic === "em-action-requested") {
         // For firefox 3.6 only
         subject.QueryInterface(Components.interfaces.nsIUpdateItem);
         if (subject.id === "muter@yxl.name" && (data === "item-disabled" || data === "item-uninstalled")) {
