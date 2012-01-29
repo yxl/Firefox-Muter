@@ -2,7 +2,8 @@
 
 #muter-toolbar-palette-button > toolbarbutton > image{
   background-color:transparent;
-  height: 24px;
+  height: 16px;
+  width: 16px;
 }
 
 image.muter-shadow-image {
