@@ -282,10 +282,10 @@ void AudioMixerControl::UpdateSinkInput(const pa_sink_input_info *info)
     int pid = getpid();
     if (stream->GetProcessId() != pid
         && GetParentProcessId(stream->GetProcessId()) != pid
-        && stream->GetApplicationName() != NULL
-        && strcmp(stream->GetApplicationName(), "Movie browser plugin") == 0
+        && (stream->GetApplicationName() == NULL
+        || (strcmp(stream->GetApplicationName(), "Movie browser plugin") != 0
         && strstr(stream->GetApplicationName(), "plug-in") == NULL
-        && strstr(stream->GetProcessBinary(), "plugin-container") == NULL)
+        && strstr(stream->GetProcessBinary(), "plugin-container") == NULL)))
     {
       delete stream;
       return;

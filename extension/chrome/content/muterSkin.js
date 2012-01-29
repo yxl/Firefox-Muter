@@ -63,11 +63,10 @@ muterSkin.ui = {
    *  Build the skin selection popup menu
    */
   rebuildSkinMenu: function() {
-    let menuPopup = document.getElementById('muter-switch-button-popup-menu');
+    let menuPopup = document.getElementById('muter-skin-menu-popup');
     let defaultItem = document.getElementById('muter-skin-menu-item-default');    
-    let closingSeparator = document.getElementById('muter-skin-menu-separator-closing');
 
-    if (!menuPopup || !defaultItem || !closingSeparator) {
+    if (!menuPopup || !defaultItem) {
         return;
     }
     
@@ -80,10 +79,9 @@ muterSkin.ui = {
     defaultItem.setAttribute('image-enabled-url', defaultEnabledIcon);
     defaultItem.setAttribute('image-enabled', defaultEnabledIcon);
    
-    // Remove everything between the default item and the separator
-    while (closingSeparator.previousSibling &&
-           closingSeparator.previousSibling != defaultItem) {
-      menuPopup.removeChild(closingSeparator.previousSibling);
+    // Remove everything after the default item
+    while (defaultItem.nextSibling) {
+      menuPopup.removeChild(defaultItem.nextSibling);
     }
 
     let locale = muterUtils.getLocaleString();
@@ -97,7 +95,7 @@ muterSkin.ui = {
       let item = data[i];
       let name = item.name[locale] || '';
       let menuItem = this._createSkinMenuItem(name, item.disabledIconUrl, item.enabledIconUrl);
-      menuPopup.insertBefore(menuItem, closingSeparator);
+      menuPopup.appendChild(menuItem);
     }
   },
 

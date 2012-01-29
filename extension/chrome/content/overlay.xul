@@ -39,16 +39,20 @@ xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <popupset>
     <!-- Muter button popup menu -->
     <menupopup id="muter-switch-button-popup-menu" position="after_end">
-      <menuitem id='muter-skin-menu-item-default' class="menuitem-iconic"
-                image="chrome://muter/skin/mute-disabled.png"
-                image-disabled-url="chrome://muter/skin/mute-disabled.png"
-                image-disabled="chrome://muter/skin/mute-disabled.png"
-                image-enabled-url="chrome://muter/skin/mute-enabled.png"
-                image-enabled="chrome://muter/skin/mute-enabled.png"
-                label="&muter.skin.default.lable;" />
-      <menuseparator id="muter-skin-menu-separator-closing" />
+      <menu id="muter-skin-menu" label="&muter.skin.label;">
+        <menupopup id="muter-skin-menu-popup">
+            <menuitem id='muter-skin-menu-item-default' class="menuitem-iconic"
+                      image="chrome://muter/skin/mute-disabled.png"
+                      image-disabled-url="chrome://muter/skin/mute-disabled.png"
+                      image-disabled="chrome://muter/skin/mute-disabled.png"
+                      image-enabled-url="chrome://muter/skin/mute-enabled.png"
+                      image-enabled="chrome://muter/skin/mute-enabled.png"
+                      label="&muter.skin.default.lable;" />
+        </menupopup>
+      </menu>
       <menuitem label="&muter.settings.title;"
       oncommand="muter.openSettingsDialog(event);" />
+      <menuseparator/>
       <menuitem label="&muter.feedback;"
       oncommand="muter.openFeedback(event);" />
     </menupopup>

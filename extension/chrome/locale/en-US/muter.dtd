@@ -2,6 +2,7 @@
 <!ENTITY muter-button.tooltip "Switch mute status">
 <!ENTITY muter-popup.init "Quickly switch mute status">
 <!ENTITY muter.feedback "Troubleshooting">
+<!ENTITY muter.skin.label "Skins">
 <!ENTITY muter.skin.default.lable "Default">
 
 <!ENTITY muter.settings.title "Muter Settings">

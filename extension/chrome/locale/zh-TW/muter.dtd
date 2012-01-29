@@ -2,6 +2,7 @@
 <!ENTITY muter-button.tooltip "切換靜音狀態">
 <!ENTITY muter-popup.init "快速切換靜音狀態">
 <!ENTITY muter.feedback "報告問題">
+<!ENTITY muter.skin.label "佈景主題">
 <!ENTITY muter.skin.default.lable "預設">
 
 <!ENTITY muter.settings.title "靜音設定">

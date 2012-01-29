@@ -2,6 +2,7 @@
 <!ENTITY muter-button.tooltip "切换静音状态">
 <!ENTITY muter-popup.init "快速切换静音状态">
 <!ENTITY muter.feedback "报告问题">
+<!ENTITY muter.skin.label "皮肤">
 <!ENTITY muter.skin.default.lable "默认">
 
 <!ENTITY muter.settings.title "静音设置">
