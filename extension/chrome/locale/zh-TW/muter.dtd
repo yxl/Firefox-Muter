@@ -37,7 +37,7 @@
 <!ENTITY muter.feedback.commentPage.description  "下面的文字方塊可以讓您輸入額外的註解，以幫助我們更了解問題所在。這個步驟不是必須的，但若問題不太明顯時還是建議您這麼做。在回報之前您可以檢視報告資料。">
 <!ENTITY muter.feedback.comment.label  "備註(選用):">
 <!ENTITY muter.feedback.url.label "相關URL(選用): ">
-<!ENTITY muter.feedback.email.label  "Email(選用):">
+<!ENTITY muter.feedback.email.label  "Email(選用。問題解決時我們會給您傳送Email。):">
 <!ENTITY muter.feedback.comment.lengthWarning "您輸入的註解超過 500 個字元。只有前 500 個字元會被傳送。">
 <!ENTITY muter.feedback.attachAddons.label "附加目前啟用的套件列表至報告中，以便排除因套件衝突所產生的問題">
 
