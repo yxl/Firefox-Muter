@@ -32,7 +32,6 @@ FirefoxObserver.prototype = {
       // Loads the hook dll when the firefox starts
       muterHook.open();
       muterUtils.Services.obs.addObserver(this, "quit-application", false);
-      
       muterUtils.Services.obs.addObserver(this, "muter-uninstall", false);
       break;
     case "quit-application":
@@ -41,8 +40,7 @@ FirefoxObserver.prototype = {
         muterUtils.Services.obs.removeObserver(this, "profile-after-change");
       }
       muterUtils.Services.obs.removeObserver(this, "quit-application");
-      // The application is about to quit. This can be in response to a normal shutdown, or a restart.
-      // Refers to https://developer.mozilla.org/en/Observer_Notifications.
+      muterUtils.Services.obs.removeObserver(this, "muter-uninstall");
       // Unloads the hook dll when the firefox quits
       muterHook.close();
       break;
@@ -51,6 +49,7 @@ FirefoxObserver.prototype = {
         muterUtils.Services.obs.removeObserver(this, "profile-after-change");
       }    
       muterUtils.Services.obs.removeObserver(this, "quit-application");
+      muterUtils.Services.obs.removeObserver(this, "muter-uninstall");
       break;
     }
   }

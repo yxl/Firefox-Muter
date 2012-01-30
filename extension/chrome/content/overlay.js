@@ -97,8 +97,7 @@ var muter = (function() {
       muter._muterObserver.unregister();
 
       if (AddonManager) {
-        // Listen for extension uninstalling
-        //AddonManager.removeAddonListener(muter._addonListener);
+        AddonManager.removeAddonListener(muter._addonListener);
       }
     },
 
@@ -126,6 +125,12 @@ var muter = (function() {
         if (addon.id == "muter@yxl.name") {
           muter.uninstall();
         }
+      },
+      
+      onInstalling: function(addon, needsRestart) {
+        if (addon.id == "muter@yxl.name") {
+          muter.uninstall();
+        }      
       }
 
     },
@@ -134,7 +139,7 @@ var muter = (function() {
     uninstall: function() {
       // Clear all user preferences
       Services.prefs.deleteBranch('extensions.firefox-muter.');
-      Services.obs.notifyObservers(null, "muter-uninstall", null);
+      Services.obs.notifyObservers(null, "muter-uninstall", null);      
     },
 
     switchStatus: function(event) {
@@ -397,7 +402,7 @@ var muter = (function() {
       } else if (topic === "em-action-requested") {
         // For firefox 3.6 only
         subject.QueryInterface(Components.interfaces.nsIUpdateItem);
-        if (subject.id === "muter@yxl.name" && (data === "item-disabled" || data === "item-uninstalled")) {
+        if (subject.id === "muter@yxl.name" && (data === "item-disabled" || data === "item-uninstalled" || data === "item-upgraded")) {
           muter.uninstall();
         }
       }
