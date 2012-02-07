@@ -13,3 +13,4 @@ category profile-after-change @yxl.name/muter/startup;1 @yxl.name/muter/startup;
 locale	muter	en-US	chrome/locale/en-US/
 locale	muter	zh-CN	chrome/locale/zh-CN/
 locale	muter	zh-TW	chrome/locale/zh-TW/
+locale	muter	ja-JP	chrome/locale/ja-JP/

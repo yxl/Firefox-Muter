@@ -1,0 +1,48 @@
+<!ENTITY muter-button.label "消音">
+<!ENTITY muter-button.tooltip "Switch mute status">
+<!ENTITY muter-popup.init "Quickly switch mute status">
+<!ENTITY muter.feedback "問題を報告する">
+<!ENTITY muter.skin.label "スキン">
+<!ENTITY muter.skin.default.lable "Default">
+<!ENTITY muter.settings.title "オプション設定">
+<!ENTITY muter.settings.ui.label "UI">
+<!ENTITY muter.settings.custom.label "カスタム">
+<!ENTITY muter.settings.miscellaneous.label "その他">
+<!ENTITY muter.settings.shorcut.title "ショートカットキー">
+<!ENTITY muter.settings.restore "Restore Defaults">
+<!ENTITY muter.settings.showInAddonBar "アドオンバーボタンを表示する。">
+<!ENTITY muter.settings.showInStatusBar "ステータスバーボタンを表示する。">
+<!ENTITY muter.settings.restart.descr "It will take effect after &brandShortName; restarts.">
+<!ENTITY muter.settings.switchButtonStyle "ボタンスタイル:">
+<!ENTITY muter.settings.switchButtonWithMenu "メニューを表示">
+<!ENTITY muter.settings.switchButtonWithoutMenu "メニューが表示されません">
+<!ENTITY muter.settings.saveStatus "Restore mute status after &brandShortName; restarts.">
+<!ENTITY muter.settings.defaultIcons.label "Default icons">
+<!ENTITY muter.settings.defaultDisabledIcon.label "ノーマル状態のボタン">
+<!ENTITY muter.settings.defaultEnabledIcon.label "ミュート状態のボタン">
+<!ENTITY muter.settings.changeIcon "Change icon...">
+<!ENTITY muter.settings.resetIcon "Reset icon">
+<!ENTITY muter.feedback.typeSelector.heading "Select issue type">
+<!ENTITY muter.feedback.typeSelector.description "This window will guide you through the steps required for the submission of a muter issue report. First, please select the type of issue that you are experiencing.
+
+
+  through the steps required for the submission of a muter issue report.
+
+  First, please select the type of issue that you are experiencing.">
+<!ENTITY muter.feedback.notWorking.label "It doesn't work!">
+<!ENTITY muter.feedback.notWorking.description "It cannot mute the browser.">
+<!ENTITY muter.feedback.sideEffect.label "It is a problem maker.">
+<!ENTITY muter.feedback.sideEffect.description "The addon results in crash or other problems.">
+<!ENTITY muter.feedback.other.label "その他の問題">
+<!ENTITY muter.feedback.other.description "Suggestions or other problems.">
+<!ENTITY muter.feedback.commentPage.heading "コメントを入力">
+<!ENTITY muter.feedback.commentPage.description "The text field below allows you to enter a comment to help us understand the issue.　This step is optional but recommended if the problem isn't obvious.　You can review the report data before it is sent.">
+<!ENTITY muter.feedback.comment.label "Comment (optional):">
+<!ENTITY muter.feedback.url.label "Related URL (optional):">
+<!ENTITY muter.feedback.email.label "Email (optional. We will send you a Email when the problem is resovled.):">
+<!ENTITY muter.feedback.comment.lengthWarning "コメントが 500文字を超えているので先頭から 500文字だけ送信されます。">
+<!ENTITY muter.feedback.attachAddons.label "原因がアドオンの衝突である場合に備え、動作中アドオンのリストをレポートに添付。">
+<!ENTITY muter.feedback.sendPage.heading "レポートを送信">
+<!ENTITY muter.feedback.reportData.label "レポートデータ">
+<!ENTITY muter.feedback.sendPage.errorMessage "レポート送信で失敗しました。インターネットに接続されているか確認し再試行してください。">
+<!ENTITY muter.feedback.sendPage.retry.label "再送信">
