@@ -13,8 +13,7 @@
 { (sp).Release();}
 
 AudioVolume::AudioVolume(void)
-	: m_bRegisteredForEndpointNotifications(FALSE)
-	, m_bRegisteredForAudioSessionNotifications(FALSE)
+	: m_bRegisteredForAudioSessionNotifications(FALSE)
 	, m_cRef(1)
 {
 	m_mapSpAudioSessionControl2.InitHashTable(257);
@@ -30,20 +29,16 @@ AudioVolume::~AudioVolume(void)
 // ----------------------------------------------------------------------
 HRESULT AudioVolume::Initialize()
 {
+  TRACE("AudioVolume::Initialize Enters\n");
 	HRESULT hr;
 
 	// create enumerator
 	hr = m_spEnumerator.CoCreateInstance(__uuidof(MMDeviceEnumerator));
 	if (SUCCEEDED(hr))
 	{
-		hr = m_spEnumerator->RegisterEndpointNotificationCallback(this);
-		if (SUCCEEDED(hr))
-		{
-			m_bRegisteredForEndpointNotifications = TRUE;
-			hr = AttachToDefaultEndpoint();
-		}
+		hr = AttachToDefaultEndpoint();
 	}
-
+  TRACE("AudioVolume::Initialize Leaves\n");
 	return hr;
 }
 
@@ -54,13 +49,10 @@ HRESULT AudioVolume::Initialize()
 // ----------------------------------------------------------------------
 void AudioVolume::Dispose()
 {
+  TRACE("AudioVolume::Dispose Enters\n");
 	DetachFromEndpoint();
-
-	if (m_spEnumerator != NULL && m_bRegisteredForEndpointNotifications)
-	{
-		m_spEnumerator->UnregisterEndpointNotificationCallback(this);
-		m_bRegisteredForEndpointNotifications = FALSE;
-	}
+  SAFE_RELEASE(m_spEnumerator);
+  TRACE("AudioVolume::Dispose Leaves\n");
 }
 
 
@@ -70,6 +62,7 @@ void AudioVolume::Dispose()
 // ----------------------------------------------------------------------
 HRESULT AudioVolume::AttachToDefaultEndpoint()
 {
+  TRACE("AudioVolume::AttachToDefaultEndpoint Enters\n");
 	m_csEndpoint.Enter();
 
 	// get the default music & movies playback device
@@ -88,6 +81,7 @@ HRESULT AudioVolume::AttachToDefaultEndpoint()
 
 	m_csEndpoint.Leave();
 
+  TRACE("AudioVolume::AttachToDefaultEndpoint Leaves\n");
 	return hr;
 }
 
@@ -97,10 +91,11 @@ HRESULT AudioVolume::AttachToDefaultEndpoint()
 // ----------------------------------------------------------------------
 void AudioVolume::DetachFromEndpoint()
 {
+  TRACE("AudioVolume::DetachFromEndpoint Enters\n");
+
 	m_csEndpoint.Enter();
 
 	DisposeAudioSessionControlList();
-
 	if (m_spAudioSessionManager2 != NULL)
 	{
 		// be sure to unregister...
@@ -109,12 +104,14 @@ void AudioVolume::DetachFromEndpoint()
 			m_spAudioSessionManager2->UnregisterSessionNotification(this);
 			m_bRegisteredForAudioSessionNotifications = FALSE;
 		}
-		m_spAudioSessionManager2.Release();
+		SAFE_RELEASE(m_spAudioSessionManager2);
 	}
 
 	SAFE_RELEASE(m_spAudioEndpoint);
 
 	m_csEndpoint.Leave();
+
+  TRACE("AudioVolume::DetachFromEndpoint Leaves\n");
 }
 
 void AudioVolume::UpdateAudioSessionControlList()
@@ -242,24 +239,6 @@ void AudioVolume::DisposeAudioSessionControlList()
 }
 
 // ----------------------------------------------------------------------
-//  Implementation of IMMNotificationClient::OnDefaultDeviceChanged
-//
-//  When the user changes the default output device we want to stop monitoring the
-//  former default and start monitoring the new default
-//
-// ----------------------------------------------------------------------
-HRESULT AudioVolume::OnDefaultDeviceChanged
-	(
-	EDataFlow   flow, 
-	ERole       role, 
-	LPCWSTR     pwstrDefaultDeviceId
-	)
-{
-	DetachFromEndpoint();
-	return AttachToDefaultEndpoint();;
-}
-
-// ----------------------------------------------------------------------
 //  Implementation of IAudioSessionNotification::OnSessionCreated
 //
 //  Notifies the registered processes that the audio session has been created.
@@ -267,7 +246,7 @@ HRESULT AudioVolume::OnDefaultDeviceChanged
 // ----------------------------------------------------------------------
 HRESULT AudioVolume::OnSessionCreated(IAudioSessionControl *NewSession)
 {
-	TRACE("AudioVolume::OnSessionCreated\n");
+	TRACE("AudioVolume::OnSessionCreated Enters\n");
 
 	m_csEndpoint.Enter();
 
@@ -298,6 +277,7 @@ HRESULT AudioVolume::OnSessionCreated(IAudioSessionControl *NewSession)
 
 	m_csEndpoint.Leave();
 
+  TRACE("AudioVolume::OnSessionCreated Leaves\n");
 	return S_OK;
 }
 
@@ -307,11 +287,7 @@ HRESULT AudioVolume::OnSessionCreated(IAudioSessionControl *NewSession)
 HRESULT AudioVolume::QueryInterface(REFIID iid, void** ppUnk)
 {
 	if ((iid == __uuidof(IUnknown)) ||
-		(iid == __uuidof(IMMNotificationClient)))
-	{
-		*ppUnk = static_cast<IMMNotificationClient*>(this);
-	}
-	else if (iid == __uuidof(IAudioSessionNotification))
+		(iid == __uuidof(IAudioSessionNotification)))
 	{
 		*ppUnk = static_cast<IAudioSessionNotification*>(this);
 	}
@@ -366,11 +342,11 @@ BOOL AudioVolume::GetSubProcesseMap(DWORD dwParentProcessId, std::map<DWORD, BOO
 // Change mute status of all audio session
 void AudioVolume::UpdateMuteStatus()
 {
-	m_csEndpoint.Enter();
-
-	TRACE("[MuterWin7] AudioVolume::UpdateMuteStatus\n");
+  TRACE("[MuterWin7] AudioVolume::UpdateMuteStatus Enter\n");
+	m_csEndpoint.Enter();	
 
 	UpdateAudioSessionControlList();
 
 	m_csEndpoint.Leave();
+  TRACE("[MuterWin7] AudioVolume::UpdateMuteStatus Leave\n");
 }
