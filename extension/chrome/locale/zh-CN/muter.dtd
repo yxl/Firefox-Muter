@@ -39,7 +39,7 @@
 <!ENTITY muter.feedback.url.label "相关URL(可选): ">
 <!ENTITY muter.feedback.email.label  "Email(可选。问题解决时我们会给您发Email。):">
 <!ENTITY muter.feedback.comment.lengthWarning "您输入的注释长度超过 500 个字符。只有前 500 个字符会被发送出去。">
-<!ENTITY muter.feedback.attachAddons.label "在报告中加入已启用的附加组件列表，用于排查因附加组件冲突造成的问题">
+<!ENTITY muter.feedback.attachAddons.label "在报告中加入已启用的附加组件列表，用于排查因附加组件冲突造成的问题。">
 
 <!ENTITY muter.feedback.sendPage.heading "发送报告">
 <!ENTITY muter.feedback.reportData.label "报告数据">

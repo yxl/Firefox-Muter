@@ -198,7 +198,7 @@ void UnInstallMuterHooks()
   for(int i = 0; i < s_FunctionsCount; ++i)
   {
     FunctionInfo& info = s_Functions[i];
-    if (*info.ppOriginalFunction == NULL)
+    if (*info.ppOriginalFunction != NULL)
     {
       DetourDetach(info.ppOriginalFunction, info.pHookFunction);
     }

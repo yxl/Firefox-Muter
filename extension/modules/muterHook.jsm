@@ -10,11 +10,12 @@ let muterHook = {
   _IsMuteEnabled:  null,
   _Initialize: null,  // win7 only
   _Dispose: null,  // win7 only
+  _refCount: 0,
  
   _lib:          null,
 
   open: function() {
-  
+    this._refCount++;
     // Check if it is already opened
     if (this._lib) {
       return;
@@ -72,6 +73,9 @@ let muterHook = {
   },
   
   close: function() {
+    if (--this._refCount > 0)
+      return;
+    
     if (!this._lib) {
       return;
     }
@@ -79,6 +83,8 @@ let muterHook = {
       this._Dispose();
     }
     this._lib.close();
+    
+    this._lib = null;
   },
    
   enableMute: function(isEnabled) {

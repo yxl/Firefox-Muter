@@ -57,6 +57,8 @@ var muter = (function() {
     init: function(event) {
       window.removeEventListener("load", muter.init, false);
 
+      muterHook.open();
+      
       let firstRun = Services.prefs.getBoolPref('extensions.firefox-muter.firstRun');
       if (firstRun) {
         muter._firstRun();
@@ -83,11 +85,6 @@ var muter = (function() {
         let needMute = Services.prefs.getBoolPref('extensions.firefox-muter.muteStatus');
         muterHook.enableMute(needMute);
       }
-
-      if (AddonManager) {
-        // Listen for extension uninstalling
-        AddonManager.addAddonListener(muter._addonListener);
-      }
     },
 
     destroy: function(event) {
@@ -95,10 +92,8 @@ var muter = (function() {
 
       window.removeEventListener("aftercustomization", muter._onAddonBarChanged, false);
       muter._muterObserver.unregister();
-
-      if (AddonManager) {
-        AddonManager.removeAddonListener(muter._addonListener);
-      }
+      
+      muterHook.close();
     },
 
     /**
@@ -113,28 +108,6 @@ var muter = (function() {
       }
       muterSkin.ui.updateFromWeb();
     },
-
-    _addonListener: {
-      onUninstalling: function(addon) {
-        if (addon.id == "muter@yxl.name") {
-          muter.uninstall();
-        }
-      },
-
-      onDisabling: function(addon, needsRestart) {
-        if (addon.id == "muter@yxl.name") {
-          muter.uninstall();
-        }
-      },
-      
-      onInstalling: function(addon, needsRestart) {
-        if (addon.id == "muter@yxl.name") {
-          muter.uninstall();
-        }      
-      }
-
-    },
-
 
     uninstall: function() {
       // Clear all user preferences
@@ -373,7 +346,7 @@ var muter = (function() {
 
   const PREF_BRANCH = "extensions.firefox-muter.";
   /**
-   * Observer monitering the mute status and preferences.
+   * Observer monitering the mute status, preferences and addon disable/uninstall.
    * If the status is changed, updates the UI of each window.
    */
   function MuterObserver() {};
@@ -410,7 +383,7 @@ var muter = (function() {
 
     register: function() {
       Services.obs.addObserver(this, "muter-status-changed", false);
-
+      
       this._branch = Services.prefs.getBranch(PREF_BRANCH);
       if (this._branch) {
         // Now we queue the interface called nsIPrefBranch2. This interface is described as: 
@@ -418,20 +391,49 @@ var muter = (function() {
         this._branch.QueryInterface(Components.interfaces.nsIPrefBranch2);
         this._branch.addObserver("", this, false);
       }
-
-      // For firefox 3.6 only!
-      Services.obs.addObserver(this, "em-action-requested", false);
+      
+      // Listen for extension disable/uninstall
+      if (muterUtils.isVersionLessThan("4.0")) {
+        // For firefox 3.6 only!
+        Services.obs.addObserver(this, "em-action-requested", false);
+      } else {
+        AddonManager.addAddonListener(this._addonListener);     
+      }      
     },
 
-    unregister: function() {
-      Services.obs.removeObserver(this, "em-action-requested");
+    unregister: function() {     
+      if (muterUtils.isVersionLessThan("4.0")) {
+        Services.obs.removeObserver(this, "em-action-requested");
+      } else {
+        AddonManager.removeAddonListener(this._addonListener);
+      }
 
       Services.obs.removeObserver(this, "muter-status-changed");
 
-      if (this.branch) {
+      if (this._branch) {
         this._branch.removeObserver("", this);
       }
-    }
+    },
+
+    _addonListener: {
+      onUninstalling: function(addon) {
+        if (addon.id == "muter@yxl.name") {
+          muter.uninstall();
+        }
+      },
+
+      onDisabling: function(addon, needsRestart) {
+        if (addon.id == "muter@yxl.name") {
+          muter.uninstall();
+        }
+      },
+      
+      onInstalling: function(addon, needsRestart) {
+        if (addon.id == "muter@yxl.name") {
+          muter.uninstall();
+        }      
+      }
+    }    
   };
 
   window.addEventListener("load", muter.init, false);
