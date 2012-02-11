@@ -1,10 +1,9 @@
 <!ENTITY muter-button.label "静音控制">
 <!ENTITY muter-button.tooltip "切换静音状态">
 <!ENTITY muter-popup.init "快速切换静音状态">
-<!ENTITY muter.feedback "报告问题">
+<!ENTITY muter.feedback "反馈">
 <!ENTITY muter.skin.label "皮肤">
 <!ENTITY muter.skin.default.lable "默认">
-
 <!ENTITY muter.settings.title "静音设置">
 <!ENTITY muter.settings.ui.label "用户界面">
 <!ENTITY muter.settings.custom.label "自定义">
@@ -23,7 +22,6 @@
 <!ENTITY muter.settings.defaultEnabledIcon.label "静音状态图标">
 <!ENTITY muter.settings.changeIcon "改变图标...">
 <!ENTITY muter.settings.resetIcon "重置图标">
-
 <!ENTITY muter.feedback.typeSelector.heading "选择问题类型">
 <!ENTITY muter.feedback.typeSelector.description "本窗口将通过一系列的步骤来引导您提交“静音”的问题报告。首先，请选择问题类型：">
 <!ENTITY muter.feedback.notWorking.label "无法静音">
@@ -32,17 +30,14 @@
 <!ENTITY muter.feedback.sideEffect.description "导致浏览器崩溃或引起其他问题。">
 <!ENTITY muter.feedback.other.label "其他">
 <!ENTITY muter.feedback.other.description "提供建议或反馈其他情况。">
-
-<!ENTITY muter.feedback.commentPage.heading  "输入注释">
-<!ENTITY muter.feedback.commentPage.description  "以下文本区允许您输入一些注释来帮助我们更好地理解该问题。该步骤虽然是可选的，但是如果问题不是那么显而易见的话，我们推荐您输入一些注释。您可以在发送之前检查一下报告的内容。">
-<!ENTITY muter.feedback.comment.label  "注释(可选):">
-<!ENTITY muter.feedback.url.label "相关URL(可选): ">
-<!ENTITY muter.feedback.email.label  "Email(可选。问题解决时我们会给您发Email。):">
+<!ENTITY muter.feedback.commentPage.heading "输入注释">
+<!ENTITY muter.feedback.commentPage.description "以下文本区允许您输入一些注释来帮助我们更好地理解该问题。该步骤虽然是可选的，但是如果问题不是那么显而易见的话，我们推荐您输入一些注释。您可以在发送之前检查一下报告的内容。">
+<!ENTITY muter.feedback.comment.label "注释(可选):">
+<!ENTITY muter.feedback.url.label "相关URL(可选):">
+<!ENTITY muter.feedback.email.label "Email(可选。问题解决时我们会给您发Email。):">
 <!ENTITY muter.feedback.comment.lengthWarning "您输入的注释长度超过 500 个字符。只有前 500 个字符会被发送出去。">
-<!ENTITY muter.feedback.attachAddons.label "在报告中加入已启用的附加组件列表，用于排查因附加组件冲突造成的问题。">
-
+<!ENTITY muter.feedback.attachAddons.label "在报告中加入已启用的附加组件列表，用于排查因附加组件冲突造成的问题">
 <!ENTITY muter.feedback.sendPage.heading "发送报告">
 <!ENTITY muter.feedback.reportData.label "报告数据">
 <!ENTITY muter.feedback.sendPage.errorMessage "发送报告失败。请确保您已连接互联网并重试。">
 <!ENTITY muter.feedback.sendPage.retry.label "再次发送">
-
