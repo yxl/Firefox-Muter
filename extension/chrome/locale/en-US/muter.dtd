@@ -1,6 +1,6 @@
 <!ENTITY muter-button.label "Mute">
 <!ENTITY muter-button.tooltip "Switch mute status">
-<!ENTITY muter-popup.init "Quickly switch mute status">
+<!ENTITY muter-popup.init "Quickly switch to mute status">
 <!ENTITY muter.feedback "Feedback">
 <!ENTITY muter.skin.label "Skins">
 <!ENTITY muter.skin.default.lable "Default">
@@ -22,21 +22,21 @@
 <!ENTITY muter.settings.defaultEnabledIcon.label "Mute status icon">
 <!ENTITY muter.settings.changeIcon "Change icon...">
 <!ENTITY muter.settings.resetIcon "Reset icon">
-<!ENTITY muter.feedback.typeSelector.heading "Select issue type">
-<!ENTITY muter.feedback.typeSelector.description "This window will guide you through the steps required for the submission of a muter issue report. First, please select the type of issue that you are experiencing.
+<!ENTITY muter.feedback.typeSelector.heading "Select problem type">
+<!ENTITY muter.feedback.typeSelector.description "This window will guide you through the steps required for the submission of a muter problem report. First, please select the type of problem that you are experiencing.
 
 
-  through the steps required for the submission of a muter issue report.
+  through the steps required for the submission of a muter problem report.
 
-  First, please select the type of issue that you are experiencing.">
+  First, please select the type of problem that you are experiencing.">
 <!ENTITY muter.feedback.notWorking.label "It doesn't work!">
 <!ENTITY muter.feedback.notWorking.description "It cannot mute the browser.">
 <!ENTITY muter.feedback.sideEffect.label "It is a problem maker.">
 <!ENTITY muter.feedback.sideEffect.description "The addon results in crash or other problems.">
-<!ENTITY muter.feedback.other.label "Other issue">
+<!ENTITY muter.feedback.other.label "Other problem">
 <!ENTITY muter.feedback.other.description "Suggestions or other problems.">
 <!ENTITY muter.feedback.commentPage.heading "Enter comment">
-<!ENTITY muter.feedback.commentPage.description "The text field below allows you to enter a comment to help us understand the issue.　This step is optional but recommended if the problem isn't obvious.　You can review the report data before it is sent.">
+<!ENTITY muter.feedback.commentPage.description "The text field below allows you to enter a comment to help us understand the problem.　This step is optional but recommended if the problem isn't obvious.　You can review the report data before it is sent.">
 <!ENTITY muter.feedback.comment.label "Comment (optional):">
 <!ENTITY muter.feedback.url.label "Related URL (optional):">
 <!ENTITY muter.feedback.email.label "Email (optional. We will send you a Email when the problem is resovled.):">

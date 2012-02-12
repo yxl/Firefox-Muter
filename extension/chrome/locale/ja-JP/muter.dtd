@@ -9,7 +9,7 @@
 <!ENTITY muter.settings.custom.label "カスタム">
 <!ENTITY muter.settings.miscellaneous.label "その他">
 <!ENTITY muter.settings.shorcut.title "ショートカットキー">
-<!ENTITY muter.settings.restore "デフォルトレストア">
+<!ENTITY muter.settings.restore "デフォルトリセット">
 <!ENTITY muter.settings.showInAddonBar "アドオンバーボタンを表示する。">
 <!ENTITY muter.settings.showInStatusBar "ステータスバーボタンを表示する。">
 <!ENTITY muter.settings.restart.descr "&brandShortName;再起動後、有効になります。">
