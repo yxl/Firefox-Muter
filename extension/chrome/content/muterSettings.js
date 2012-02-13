@@ -42,8 +42,8 @@ var muterSettings = (function() {
   let muterSettings = {
 
     init: function(event) {
-      // For firefox 3.6 only
-      if (muterUtils.isVersionLessThan("4.0")) {
+      // For firefox 3.6 and SeaMonkey
+      if (muterUtils.isVersionLessThan("4.0") || muterUtils.Services.appinfo.name === 'SeaMonkey') {
         let showInAddonBar = document.getElementById("muter-settings-show-in-addon-bar");
         showInAddonBar.hidden = true;
         let switchButtonStype = document.getElementById("muter-settings-switch-button-style");
@@ -64,8 +64,8 @@ var muterSettings = (function() {
       for (let i = 0; i < preferences.length; i++) {
         preferences[i].value = preferences[i].defaultValue;
       }
-      // For firefox 3.6 only
-      if (muterUtils.isVersionLessThan("4.0")) {
+      // For firefox 3.6 and SeaMonkey
+      if (muterUtils.isVersionLessThan("4.0") || muterUtils.Services.appinfo.name === 'SeaMonkey') {
         let showInStatusBarPref = document.getElementById("showInStatusBar");
         showInStatusBarPref.value = true;
       }

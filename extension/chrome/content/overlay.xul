@@ -15,7 +15,7 @@ xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   </commandset>
   <keyset id="mainKeyset">
     <key id="key_muterToggle" command="cmd_muterToggle"
-    modifiers="accel any alt" key="M" />
+    modifiers="accel any shift" key="M" />
   </keyset>
   <popupset id="mainPopupSet">
     <panel id="muter-popup-init" type="arrow" align="start">
@@ -57,7 +57,7 @@ xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
       oncommand="muter.openFeedback(event);" />
     </menupopup>
   </popupset>
-  <!-- statusbar, only for firefox 3.6-->
+  <!-- statusbar, only for firefox 3.6 and SeaMonkey-->
   <statusbar id="status-bar">
     <statusbarpanel id="muter-statusbar-button"
     class="statusbarpanel-menu-iconic" command="cmd_muterToggle"

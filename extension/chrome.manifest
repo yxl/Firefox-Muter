@@ -4,6 +4,7 @@ resource  muter modules/
 resource  muter-binary modules/ctypes-binary/
 
 overlay	chrome://browser/content/browser.xul	chrome://muter/content/overlay.xul
+overlay chrome://navigator/content/navigator.xul chrome://muter/content/overlay.xul
 style	chrome://global/content/customizeToolbar.xul	chrome://muter/skin/muter.css
 
 locale	muter	en-US	chrome/locale/en-US/

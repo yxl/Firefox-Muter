@@ -41,7 +41,7 @@ var muter = (function() {
     muterUtils, muterHook
   } = jsm;
   let AddonManager = null;
-  if (!muterUtils.isVersionLessThan("4.0")) {
+  if (!muterUtils.isVersionLessThan("4.0") || muterUtils.Services.appinfo.name != 'Firefox') {
     Components.utils.import("resource://gre/modules/AddonManager.jsm", jsm);
     AddonManager = jsm.AddonManager;
   }
@@ -101,8 +101,8 @@ var muter = (function() {
      * It only need to call once.
      */
     _firstRun: function() {
-      // For firefox 3.6 only
-      if (muterUtils.isVersionLessThan("4.0")) {
+      // For firefox 3.6 and SeaMonkey
+      if (muterUtils.isVersionLessThan("4.0") || muterUtils.Services.appinfo.name === 'SeaMonkey') {
         // Show status bar button
         Services.prefs.setBoolPref('extensions.firefox-muter.showInStatusBar', true);
       }
@@ -218,8 +218,8 @@ var muter = (function() {
 
     /** Add the muter button to the addon bar or remove it */
     setupAddonBar: function() {
-      // For firefox 3.6 only
-      if (muterUtils.isVersionLessThan("4.0")) {
+      // Firefox 3.6 and SeaMonkey have no addon bar.
+      if (muterUtils.isVersionLessThan("4.0") || muterUtils.Services.appinfo.name === 'SeaMonkey') {
         return;
       }
 
@@ -393,7 +393,7 @@ var muter = (function() {
       }
       
       // Listen for extension disable/uninstall
-      if (muterUtils.isVersionLessThan("4.0")) {
+      if (muterUtils.isVersionLessThan("4.0") && muterUtils.Services.appinfo.name === 'Firefox') {
         // For firefox 3.6 only!
         Services.obs.addObserver(this, "em-action-requested", false);
       } else {
@@ -402,7 +402,7 @@ var muter = (function() {
     },
 
     unregister: function() {     
-      if (muterUtils.isVersionLessThan("4.0")) {
+      if (muterUtils.isVersionLessThan("4.0") && muterUtils.Services.appinfo.name === 'Firefox') {
         Services.obs.removeObserver(this, "em-action-requested");
       } else {
         AddonManager.removeAddonListener(this._addonListener);

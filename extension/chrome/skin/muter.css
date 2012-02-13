@@ -1,9 +1,15 @@
 @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
 
-#muter-toolbar-palette-button > toolbarbutton > image{
+toolbar[iconsize="small"] #muter-toolbar-palette-button > toolbarbutton > image{
   background-color:transparent;
   height: 16px;
   width: 16px;
+}
+
+toolbar #muter-toolbar-palette-button > toolbarbutton > image{
+  background-color:transparent;
+  height: 29px;
+  width: 29px;
 }
 
 image.muter-shadow-image {

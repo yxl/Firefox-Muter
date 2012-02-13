@@ -39,7 +39,10 @@ let muterHook = {
     
     let abiType = ctypes.default_abi;
     if (muterUtils.platform.win) {
-      abiType = muterUtils.isVersionLessThan("4.0") ? ctypes.stdcall_abi: ctypes.winapi_abi;
+      abiType = ctypes.winapi_abi;
+      if (muterUtils.Services.appinfo.name === 'Firefox' && muterUtils.isVersionLessThan("4.0")) {
+        abiType =  ctypes.stdcall_abi;
+      }
     }
 
     // void EnableMute(BOOL bEnabeled)

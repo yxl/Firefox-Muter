@@ -1,6 +1,6 @@
 pref('extensions.firefox-muter.firstRun', true);
 pref('extensions.firefox-muter.shortcut.key', 'M');
-pref('extensions.firefox-muter.shortcut.modifiers', 'control alt');
+pref('extensions.firefox-muter.shortcut.modifiers', 'control shift');
 pref('extensions.firefox-muter.showInAddonBar', true);
 pref('extensions.firefox-muter.showInStatusBar', false);
 pref('extensions.firefox-muter.skin.updateurl', 'http://feedback.firefox.com.cn/muter/skin.json');
