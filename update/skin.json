@@ -48,5 +48,15 @@
         "disabledIconUrl": "http://download.firefox.com.cn/chinaedition/extenstions/muter/icons/light-music-disabled-16.png",
         "enabledIconUrl": "http://download.firefox.com.cn/chinaedition/extenstions/muter/icons/light-music-enabled-16.png",
         "iconSource": "http://www.mricons.com/icon/106746/96/stop-icon"
-    }
+    },
+    {
+        "name": {
+            "en-US": "Heart",
+            "zh-CN": "心动时刻",
+            "zh-TW": "心動時刻"
+        },
+        "disabledIconUrl": "http://download.firefox.com.cn/chinaedition/extenstions/muter/icons/heart-disabled-16.png",
+        "enabledIconUrl": "http://download.firefox.com.cn/chinaedition/extenstions/muter/icons/heart-enabled-16.png",
+        "iconSource": "http://weibo.com/u/2522776405"
+    }    
 ]
