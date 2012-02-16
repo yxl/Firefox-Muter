@@ -9,7 +9,7 @@
     $xml = file_get_contents('php://input');
 
     // Compose an email with the feedback content
-    $to = "xyuan@mozilla.com, bzhao@mozilla.com";  
+    $to = "xyuan@mozilla.com";  
     $subject = "[muter feedback]";
     $from = $email;
     $headers = "";
