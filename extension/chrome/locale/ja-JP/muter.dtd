@@ -31,8 +31,7 @@
 <!ENTITY muter.feedback.other.label "その他の問題">
 <!ENTITY muter.feedback.other.description "意見又は質問。">
 <!ENTITY muter.feedback.commentPage.heading "コメントの入力">
-<!ENTITY muter.feedback.commentPage.description "問題を正しく理解させるために、以下のテキストに、コメントを入力してください。
-このステップは選択できますが、明らかな問題ではなければ、コメントを入力した方がいいです。送信前にレポートの内容をチェックしてください。">
+<!ENTITY muter.feedback.commentPage.description "問題を正しく理解させるために、以下のテキストに、コメントを入力してください。このステップは選択できますが、明らかな問題ではなければ、コメントを入力した方がいいです。送信前にレポートの内容をチェックしてください。">
 <!ENTITY muter.feedback.comment.label "コメント（選択可）">
 <!ENTITY muter.feedback.url.label "関連URL（選択可）">
 <!ENTITY muter.feedback.email.label "Eメール（選択可、問題を解決すると、メールを送信します。）">

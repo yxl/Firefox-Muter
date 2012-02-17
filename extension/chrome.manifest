@@ -11,3 +11,7 @@ locale	muter	en-US	chrome/locale/en-US/
 locale	muter	zh-CN	chrome/locale/zh-CN/
 locale	muter	zh-TW	chrome/locale/zh-TW/
 locale	muter	ja-JP	chrome/locale/ja-JP/
+locale	muter	he	chrome/locale/he/
+locale	muter	nl	chrome/locale/nl/
+locale	muter	pl	chrome/locale/pl/
+

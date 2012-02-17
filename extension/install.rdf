@@ -33,6 +33,14 @@
       <em:maxVersion>2.7</em:maxVersion>
     </Description>
   </em:targetApplication>
+
+  <em:localized>
+    <Description>
+      <em:locale>en-US</em:locale>
+      <em:name>Muter</em:name>
+      <em:description>Let you mute the Firefox browser.</em:description>
+    </Description>
+  </em:localized>
   
   <em:localized>
     <Description>
@@ -54,10 +62,32 @@
     <Description>
       <em:locale>ja-JP</em:locale>
       <em:name>消音</em:name>
-      <em:description>Firefoxから流れる音だけをワンタッチで消音できるアドオン「消音」
-</em:description>
+      <em:description>Firefoxから流れる音だけをワンタッチで消音できるアドオン「消音」</em:description>
     </Description>
   </em:localized>
   
+  <em:localized>
+    <Description>
+      <em:locale>he</em:locale>
+      <em:name>Muter</em:name>
+      <em:description>Let you mute the Firefox browser.</em:description>
+    </Description>
+  </em:localized>
+  
+  <em:localized>
+    <Description>
+      <em:locale>nl</em:locale>
+      <em:name>Muter</em:name>
+      <em:description>Let you mute the Firefox browser.</em:description>
+    </Description>
+  </em:localized>  
+
+  <em:localized>
+    <Description>
+      <em:locale>pl</em:locale>
+      <em:name>Muter</em:name>
+      <em:description>Let you mute the Firefox browser.</em:description>
+    </Description>
+  </em:localized>    
 </Description>
 </RDF> 

@@ -1,0 +1,43 @@
+<!ENTITY muter-button.label "Dempen">
+<!ENTITY muter-button.tooltip "Dempingsstatus wisselen">
+<!ENTITY muter-popup.init "Snel wisselen naar gedempte status">
+<!ENTITY muter.feedback "Terugkoppeling">
+<!ENTITY muter.skin.label "Skins">
+<!ENTITY muter.skin.default.lable "Standaard">
+<!ENTITY muter.settings.title "Muter-instellingen">
+<!ENTITY muter.settings.ui.label "Gebruikersinterface">
+<!ENTITY muter.settings.custom.label "Aangepast">
+<!ENTITY muter.settings.miscellaneous.label "Diversen">
+<!ENTITY muter.settings.shorcut.title "Sneltoetsen">
+<!ENTITY muter.settings.restore "Standaardwaarden terugzetten">
+<!ENTITY muter.settings.showInAddonBar "Wisselknop in de add-onbalk weergeven.">
+<!ENTITY muter.settings.showInStatusBar "Wisselknop in de statusbalk weergeven.">
+<!ENTITY muter.settings.restart.descr "Dit wordt doorgevoerd na herstarten van &brandShortName;.">
+<!ENTITY muter.settings.switchButtonStyle "Stijl wisselknop:">
+<!ENTITY muter.settings.switchButtonWithMenu "Met menu">
+<!ENTITY muter.settings.switchButtonWithoutMenu "Zonder menu">
+<!ENTITY muter.settings.saveStatus "Dempingsstatus terugzetten na herstarten van &brandShortName;.">
+<!ENTITY muter.settings.defaultIcons.label "Standaardpictogrammen">
+<!ENTITY muter.settings.defaultDisabledIcon.label "Pictogram normale status">
+<!ENTITY muter.settings.defaultEnabledIcon.label "Pictogram gedempte status">
+<!ENTITY muter.settings.changeIcon "Pictogram wijzigen…">
+<!ENTITY muter.settings.resetIcon "Pictogram resetten">
+<!ENTITY muter.feedback.typeSelector.heading "Selecteer probleemtype">
+<!ENTITY muter.feedback.typeSelector.description "Dit venster leidt u door de vereiste stappen voor het indienen van een Muter-probleemrapport. Selecteer eerst het probleem dat u ervaart.">
+<!ENTITY muter.feedback.notWorking.label "Het werkt niet!">
+<!ENTITY muter.feedback.notWorking.description "Ik kan de browser niet dempen.">
+<!ENTITY muter.feedback.sideEffect.label "Het is een probleemgeval.">
+<!ENTITY muter.feedback.sideEffect.description "De add-on resulteert in een crash of andere problemen.">
+<!ENTITY muter.feedback.other.label "Ander probleem">
+<!ENTITY muter.feedback.other.description "Suggesties of andere problemen.">
+<!ENTITY muter.feedback.commentPage.heading "Voer opmerking in">
+<!ENTITY muter.feedback.commentPage.description "In het onderstaande tekstveld kunt u een opmerking (in het Engels) plaatsen om ons te helpen het probleem te begrijpen. Deze stap is optioneel maar wordt aanbevolen als het probleem niet voor de hand ligt. U kunt de in te zenden gegevens doorlezen voordat deze worden verzonden.">
+<!ENTITY muter.feedback.comment.label "Opmerking (optioneel):">
+<!ENTITY muter.feedback.url.label "Gerelateerde URL (optioneel):">
+<!ENTITY muter.feedback.email.label "E-mailadres (optioneel. We sturen u een e-mailbericht als het probleem is opgelost):">
+<!ENTITY muter.feedback.comment.lengthWarning "Uw opmerking is langer dan 500 tekens. Alleen de eerste 500 tekens worden verzonden.">
+<!ENTITY muter.feedback.attachAddons.label "Lijst met actieve add-ons aan het rapport toevoegen als een add-onconflict de oorzaak van het probleem is.">
+<!ENTITY muter.feedback.sendPage.heading "Rapport verzenden">
+<!ENTITY muter.feedback.reportData.label "Rapportgegevens:">
+<!ENTITY muter.feedback.sendPage.errorMessage "Het verzenden van het rapport is mislukt. Controleer of u bent verbonden met het internet en probeer het opnieuw.">
+<!ENTITY muter.feedback.sendPage.retry.label "Opnieuw verzenden">

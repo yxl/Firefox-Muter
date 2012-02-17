@@ -1,0 +1,43 @@
+<!ENTITY muter-button.label "Dźwięki">
+<!ENTITY muter-button.tooltip "Włącz/wyłącz dźwięk">
+<!ENTITY muter-popup.init "Szybko włącza/wyłącza dźwięk">
+<!ENTITY muter.feedback "Problemy">
+<!ENTITY muter.skin.label "Przyciski">
+<!ENTITY muter.skin.default.lable "Domyślny">
+<!ENTITY muter.settings.title "Muter – ustawienia">
+<!ENTITY muter.settings.ui.label "Interfejs użytkownika">
+<!ENTITY muter.settings.custom.label "Dostosuj">
+<!ENTITY muter.settings.miscellaneous.label "Różne">
+<!ENTITY muter.settings.shorcut.title "Skróty klawiszowe">
+<!ENTITY muter.settings.restore "Przywróć domyślne">
+<!ENTITY muter.settings.showInAddonBar "Wyświetlaj przycisk przełączający na pasku dodatków.">
+<!ENTITY muter.settings.showInStatusBar "Wyświetlaj przycisk przełączający na pasku stanu.">
+<!ENTITY muter.settings.restart.descr "Zmiany wymagają ponownego uruchomienia programu &brandShortName;.">
+<!ENTITY muter.settings.switchButtonStyle "Styl przycisku">
+<!ENTITY muter.settings.switchButtonWithMenu "Z menu">
+<!ENTITY muter.settings.switchButtonWithoutMenu "Bez menu">
+<!ENTITY muter.settings.saveStatus "Przywracaj stan po ponownym uruchomieniu programu &brandShortName;.">
+<!ENTITY muter.settings.defaultIcons.label "Domyślne ikony">
+<!ENTITY muter.settings.defaultDisabledIcon.label "Dźwięk włączony">
+<!ENTITY muter.settings.defaultEnabledIcon.label "Dźwięk wyłączony">
+<!ENTITY muter.settings.changeIcon "Zmień ikonę…">
+<!ENTITY muter.settings.resetIcon "Resetuj ikonę">
+<!ENTITY muter.feedback.typeSelector.heading "Wybierz typ problemu">
+<!ENTITY muter.feedback.typeSelector.description "Tutaj możesz przygotować do wysłania zgłoszenie problemu. Najpierw wybierz rodzaj problemu, jaki wystąpił i następnie wypełnij pozostałe elementy.">
+<!ENTITY muter.feedback.notWorking.label "Nie działa!">
+<!ENTITY muter.feedback.notWorking.description "Nie można wyłączyć dźwięku w przeglądarce.">
+<!ENTITY muter.feedback.sideEffect.label "To jest twórca problemów.">
+<!ENTITY muter.feedback.sideEffect.description "Dodatek powoduje awarie lub inne problemy.">
+<!ENTITY muter.feedback.other.label "Inny problem">
+<!ENTITY muter.feedback.other.description "Sugestie lub inne problemy.">
+<!ENTITY muter.feedback.commentPage.heading "Wprowadź komentarz">
+<!ENTITY muter.feedback.commentPage.description "W poniższym polu możesz opisać problem, by pomóc nam zrozumieć jego istotę. Jest to opcjonalne, ale zalecane, jeśli problem nie jest oczywisty. Możesz sprawdzić zgłoszenie zanim je wyślesz.">
+<!ENTITY muter.feedback.comment.label "Komentarz (opcjonalne):">
+<!ENTITY muter.feedback.url.label "Powiązany adres URL (opcjonalne):">
+<!ENTITY muter.feedback.email.label "Adres e-mail (opcjonalne – wyślemy powiadomienie po rozwiązaniu problemu):">
+<!ENTITY muter.feedback.comment.lengthWarning "Treść komentarza przekroczyła 500 znaków. Zostanie wysłane tylko pierwsze 500 znaków.">
+<!ENTITY muter.feedback.attachAddons.label "Dołącz wykaz aktywnych dodatków, jeśli problem powodują konflikty z innym dodatkami.">
+<!ENTITY muter.feedback.sendPage.heading "Wyślij zgłoszenie">
+<!ENTITY muter.feedback.reportData.label "Zawartość zgłoszenia:">
+<!ENTITY muter.feedback.sendPage.errorMessage "Nie udało się wysłać zgłoszenia. Sprawdź czy masz połączenie z internetem i ponów próbę.">
+<!ENTITY muter.feedback.sendPage.retry.label "Wyślij ponownie">

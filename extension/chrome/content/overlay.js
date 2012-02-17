@@ -112,7 +112,6 @@ var muter = (function() {
     uninstall: function() {
       // Clear all user preferences
       Services.prefs.deleteBranch('extensions.firefox-muter.');
-      Services.obs.notifyObservers(null, "muter-uninstall", null);      
     },
 
     switchStatus: function(event) {
