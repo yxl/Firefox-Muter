@@ -117,11 +117,11 @@ var muter = (function() {
     switchStatus: function(event) {
       let shouldMute = !muterHook.isMuteEnabled();
       muterHook.enableMute(shouldMute);
-      muterSkin.ui.updateFromWeb();
       Services.prefs.setBoolPref('extensions.firefox-muter.muteStatus', shouldMute);
     },
 
     clickSwitchButton: function(event) {
+      muterSkin.ui.updateFromWeb();
       if (event.button == 0) {
         // Left button click
         if (event.currentTarget.id === 'muter-statusbar-button') {
@@ -129,7 +129,6 @@ var muter = (function() {
         }
       } else if (event.button == 2) {
         // Right click to show the popup menu
-        muterSkin.ui.updateFromWeb();
         let btn = event.currentTarget;
         let menu = document.getElementById("muter-switch-button-popup-menu");
         if (btn && menu) {

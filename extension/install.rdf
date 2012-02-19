@@ -33,61 +33,92 @@
       <em:maxVersion>2.7</em:maxVersion>
     </Description>
   </em:targetApplication>
+ 
+  <em:localized>
+    <Description>
+      <em:locale>ja-JP</em:locale>
+      <em:name>消音</em:name>
+      <em:description>Firefoxから流れる音だけをワンタッチで消音できるアドオン「消音」</em:description>
+      <em:creator>Yuan Xulei</em:creator>
+      <em:homepageURL>http://yxl.github.com/Firefox-Muter/</em:homepageURL>
+      <em:developer>Hector Zhao</em:developer>
+      <em:translator>baryoni, beiwaiMM(尧七目), markh van BabelZilla.org, Leszek(teo)ŻyczkowskiCopy</em:translator>
+      <em:contributor>Hector Zhao</em:contributor>
+    </Description>
+  </em:localized>
+
+  <em:localized>
+    <Description>
+      <em:locale>zh-TW</em:locale>
+      <em:name>靜音</em:name>
+      <em:description>提供瀏覽器靜音功能</em:description>
+      <em:creator>袁徐磊</em:creator>
+      <em:homepageURL>http://yxl.github.com/Firefox-Muter/</em:homepageURL>
+      <em:developer>趙博通</em:developer>
+      <em:translator>baryoni, beiwaiMM(尧七目), markh van BabelZilla.org, Leszek(teo)ŻyczkowskiCopy</em:translator>
+      <em:contributor>趙博通</em:contributor>
+    </Description>
+  </em:localized>
 
   <em:localized>
     <Description>
       <em:locale>en-US</em:locale>
       <em:name>Muter</em:name>
       <em:description>Let you mute the Firefox browser.</em:description>
+      <em:creator>Yuan Xulei</em:creator>
+      <em:homepageURL>http://yxl.github.com/Firefox-Muter/</em:homepageURL>
+      <em:developer>Hector Zhao</em:developer>
+      <em:translator>baryoni, beiwaiMM(尧七目), markh van BabelZilla.org, Leszek(teo)Życzkowski</em:translator>
+      <em:contributor>Hector Zhao</em:contributor>
     </Description>
   </em:localized>
-  
+
   <em:localized>
     <Description>
       <em:locale>zh-CN</em:locale>
       <em:name>静音</em:name>
-      <em:description>提供浏览器静音功能 </em:description>
-    </Description>
-  </em:localized>
-  
-  <em:localized>
-    <Description>
-      <em:locale>zh-TW</em:locale>
-      <em:name>靜音</em:name>
-      <em:description>提供瀏覽器靜音功能 </em:description>
+      <em:description>提供浏览器静音功能</em:description>
+      <em:creator>袁徐磊</em:creator>
+      <em:homepageURL>http://yxl.github.com/Firefox-Muter/</em:homepageURL>
+      <em:developer>赵博通</em:developer>
+      <em:translator>baryoni, beiwaiMM(尧七目), markh van BabelZilla.org, Leszek(teo)ŻyczkowskiCopy</em:translator>
+      <em:contributor>赵博通</em:contributor>
     </Description>
   </em:localized>
 
   <em:localized>
     <Description>
-      <em:locale>ja-JP</em:locale>
-      <em:name>消音</em:name>
-      <em:description>Firefoxから流れる音だけをワンタッチで消音できるアドオン「消音」</em:description>
-    </Description>
-  </em:localized>
-  
-  <em:localized>
-    <Description>
       <em:locale>he</em:locale>
-      <em:name>Muter</em:name>
-      <em:description>Let you mute the Firefox browser.</em:description>
+      <em:creator>Yuan Xulei</em:creator>
+      <em:homepageURL>http://yxl.github.com/Firefox-Muter/</em:homepageURL>
+      <em:developer>Hector Zhao</em:developer>
+      <em:translator>baryoni, beiwaiMM(尧七目), markh van BabelZilla.org, Leszek(teo)ŻyczkowskiCopy</em:translator>
+      <em:contributor>Hector Zhao</em:contributor>
     </Description>
   </em:localized>
-  
+
   <em:localized>
     <Description>
       <em:locale>nl</em:locale>
       <em:name>Muter</em:name>
-      <em:description>Let you mute the Firefox browser.</em:description>
+      <em:description>Stelt u in staat om de Firefox-browser te dempen.</em:description>
+      <em:creator>Yuan Xulei</em:creator>
+      <em:homepageURL>http://yxl.github.com/Firefox-Muter/</em:homepageURL>
+      <em:developer>Hector Zhao</em:developer>
+      <em:translator>baryoni, beiwaiMM(尧七目), markh van BabelZilla.org, Leszek(teo)Życzkowski</em:translator>
+      <em:contributor>Hector Zhao</em:contributor>
     </Description>
-  </em:localized>  
+  </em:localized>
 
   <em:localized>
     <Description>
       <em:locale>pl</em:locale>
-      <em:name>Muter</em:name>
-      <em:description>Let you mute the Firefox browser.</em:description>
+      <em:creator>Yuan Xulei</em:creator>
+      <em:homepageURL>http://yxl.github.com/Firefox-Muter/</em:homepageURL>
+      <em:developer>Hector Zhao</em:developer>
+      <em:translator>baryoni, beiwaiMM(尧七目), markh van BabelZilla.org, Leszek(teo)ŻyczkowskiCopy</em:translator>
+      <em:contributor>Hector Zhao</em:contributor>
     </Description>
-  </em:localized>    
+  </em:localized>
 </Description>
 </RDF> 
