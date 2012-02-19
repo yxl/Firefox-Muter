@@ -77,18 +77,4 @@ muterUtils.getLocaleString = function() {
   return muterUtils.chromeRegistry.getSelectedLocale("muter");
 }
 
-/**
- * Cache of commonly used string bundles.
- */
-muterUtils.Strings = {};
-[
-  ["defaultSkin", "chrome://muter/locale/defaultSkin.properties"],
-].forEach(function(aStringBundle) {
-  let[name, bundle] = aStringBundle;
-  XPCOMUtils.defineLazyGetter(muterUtils.Strings, name, function() {
-    return muterUtils.Services.strings.createBundle(bundle);
-  });
-});
-
-
 
