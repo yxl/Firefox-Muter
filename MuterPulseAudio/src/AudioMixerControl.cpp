@@ -60,17 +60,36 @@ bool AudioMixerControl::Open()
 
   if (m_threadStopped)
   {
-    FreeThread();
-    m_threadAborting = false;
-    res = pthread_create(&m_threadId, NULL, AudioMixerControl::LoopThread,
-        static_cast<void *>(this));
-    if (res != 0)
-    {
-      printf("[%s] AudioMixerControl::pthread_create failed\n", PACKAGE_NAME);
-      return false;
-    }
+    return InitThread();
   }
   return true;
+}
+
+bool AudioMixerControl::InitThread()
+{
+  m_threadAborting = false;
+  int res = pthread_create(&m_threadId, NULL, AudioMixerControl::LoopThread,
+      static_cast<void *>(this));
+  if (res != 0)
+  {
+    printf("[%s] AudioMixerControl::InitThread failed\n", PACKAGE_NAME);
+    return false;
+  }
+  return true;
+}
+
+void AudioMixerControl::FreeThread()
+{
+  m_threadAborting = true;
+  if (m_threadId != 0)
+  {
+    pa_mainloop_quit(m_pa_mainloop, 0);
+    int res = pthread_join(m_threadId, NULL);
+    if (res == 0)
+    {
+      m_threadId = 0;
+    }
+  }
 }
 
 void AudioMixerControl::EnableMute(bool mute)
@@ -86,11 +105,9 @@ bool AudioMixerControl::Close()
     return false;
   }
 
-  pa_context_disconnect(m_pa_context);
-
-  m_threadAborting = true;
-
   FreeThread();
+
+  pa_context_disconnect(m_pa_context);
 
   return true;
 }
@@ -283,9 +300,10 @@ void AudioMixerControl::UpdateSinkInput(const pa_sink_input_info *info)
     if (stream->GetProcessId() != pid
         && GetParentProcessId(stream->GetProcessId()) != pid
         && (stream->GetApplicationName() == NULL
-        || (strcmp(stream->GetApplicationName(), "Movie browser plugin") != 0
-        && strstr(stream->GetApplicationName(), "plug-in") == NULL
-        && strstr(stream->GetProcessBinary(), "plugin-container") == NULL)))
+            || (strcmp(stream->GetApplicationName(), "Movie browser plugin")
+                != 0 && strstr(stream->GetApplicationName(), "plug-in") == NULL
+                && strstr(stream->GetProcessBinary(), "plugin-container")
+                    == NULL)))
     {
       delete stream;
       return;
@@ -355,17 +373,5 @@ void* AudioMixerControl::LoopThread(void *userdata)
   pThis->m_threadStopped = true;
 
   return NULL;
-}
-
-void AudioMixerControl::FreeThread()
-{
-  if (m_threadId != 0)
-  {
-    int res = pthread_join(m_threadId, NULL);
-    if (res == 0)
-    {
-      m_threadId = 0;
-    }
-  }
 }
 

@@ -8,9 +8,11 @@
  ============================================================================
  */
 
+#include "../config.h"
 #include "MuterPulseAudio.h"
 #include "AudioMixerControl.h"
 
+#include <stdio.h>
 
 AudioMixerControl g_ctrl;
 
@@ -21,6 +23,7 @@ BOOL Initialize(void)
   if (ret)
   {
     g_ctrl.EnableMute(false);
+    printf("[%s] Initialized!\n", PACKAGE_NAME);
     return true;
   }
   return false;
@@ -31,6 +34,7 @@ void Dispose(void)
 {
   g_ctrl.EnableMute(false);
   g_ctrl.Close();
+  printf("[%s] Disposed!\n", PACKAGE_NAME);
 }
 
 extern "C"

@@ -48,6 +48,7 @@ private:
 
   static void* LoopThread(void *userdata);
   void FreeThread();
+  bool InitThread();
 private:
   pa_mainloop* m_pa_mainloop;
   pa_mainloop_api* m_pa_api;
