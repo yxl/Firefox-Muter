@@ -15,9 +15,10 @@ static const GUID AudioVolumnCtx = { 0xf432fad2, 0x59f3, 0x41d6, { 0xad, 0xbf, 0
 * For more information, see IAudioSessionEnumerator interface at 
 * http://msdn.microsoft.com/en-us/library/dd368281(v=VS.85).aspx#1.
 */
-class AudioVolume: public IAudioSessionNotification
+class AudioVolume: public IMMNotificationClient, IAudioSessionNotification
 {
 private:
+	BOOL                            m_bRegisteredForEndpointNotifications;
 	BOOL                            m_bRegisteredForAudioSessionNotifications;
 	CComQIPtr<IMMDeviceEnumerator>    m_spEnumerator;
 	CComQIPtr<IMMDevice>              m_spAudioEndpoint;
@@ -34,6 +35,16 @@ private:
 
 	HRESULT AttachToDefaultEndpoint();
 	void    DetachFromEndpoint();
+
+	// IMMNotificationClient (only need to really implement OnDefaultDeviceChanged)
+	IFACEMETHODIMP OnDeviceStateChanged(LPCWSTR pwstrDeviceId, DWORD dwNewState)    {   return S_OK;    }
+	IFACEMETHODIMP OnDeviceAdded(LPCWSTR pwstrDeviceId)   {   return S_OK;    }
+	IFACEMETHODIMP OnDeviceRemoved(LPCWSTR pwstrDeviceId) {   return S_OK;    }
+	IFACEMETHODIMP OnDefaultDeviceChanged(EDataFlow flow, ERole role, LPCWSTR pwstrDefaultDeviceId);
+	IFACEMETHODIMP OnPropertyValueChanged(LPCWSTR pwstrDeviceId, const PROPERTYKEY key)   {   return S_OK;    }
+	IFACEMETHODIMP OnDeviceQueryRemove()   {   return S_OK;    }
+	IFACEMETHODIMP OnDeviceQueryRemoveFailed() {   return S_OK;    }
+	IFACEMETHODIMP OnDeviceRemovePending() {   return S_OK;    }
 
 	// IAudioSessionNotification
 	IFACEMETHODIMP OnSessionCreated(IAudioSessionControl *NewSession);

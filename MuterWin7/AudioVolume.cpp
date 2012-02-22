@@ -13,7 +13,8 @@
 { (sp).Release();}
 
 AudioVolume::AudioVolume(void)
-	: m_bRegisteredForAudioSessionNotifications(FALSE)
+	: m_bRegisteredForEndpointNotifications(FALSE)
+	, m_bRegisteredForAudioSessionNotifications(FALSE)
 	, m_cRef(1)
 {
 	m_mapSpAudioSessionControl2.InitHashTable(257);
@@ -36,9 +37,14 @@ HRESULT AudioVolume::Initialize()
 	hr = m_spEnumerator.CoCreateInstance(__uuidof(MMDeviceEnumerator));
 	if (SUCCEEDED(hr))
 	{
-		hr = AttachToDefaultEndpoint();
+		hr = m_spEnumerator->RegisterEndpointNotificationCallback(this);
+		if (SUCCEEDED(hr))
+		{
+			m_bRegisteredForEndpointNotifications = TRUE;
+			hr = AttachToDefaultEndpoint();
+		}
 	}
-  TRACE("AudioVolume::Initialize Leaves\n");
+
 	return hr;
 }
 
@@ -51,8 +57,14 @@ void AudioVolume::Dispose()
 {
   TRACE("AudioVolume::Dispose Enters\n");
 	DetachFromEndpoint();
-  SAFE_RELEASE(m_spEnumerator);
-  TRACE("AudioVolume::Dispose Leaves\n");
+
+	if (m_bRegisteredForEndpointNotifications)
+	{
+		m_spEnumerator->UnregisterEndpointNotificationCallback(this);
+		m_bRegisteredForEndpointNotifications = FALSE;
+	}
+
+	SAFE_RELEASE(m_spEnumerator);
 }
 
 
@@ -239,6 +251,26 @@ void AudioVolume::DisposeAudioSessionControlList()
 }
 
 // ----------------------------------------------------------------------
+//  Implementation of IMMNotificationClient::OnDefaultDeviceChanged
+//
+//  When the user changes the default output device we want to stop monitoring the
+//  former default and start monitoring the new default
+//
+// ----------------------------------------------------------------------
+HRESULT AudioVolume::OnDefaultDeviceChanged
+	(
+	EDataFlow   flow, 
+	ERole       role, 
+	LPCWSTR     pwstrDefaultDeviceId
+	)
+{
+	m_csEndpoint.Enter();
+	UpdateAudioSessionControlList();
+	m_csEndpoint.Leave();
+	return S_OK;
+}
+
+// ----------------------------------------------------------------------
 //  Implementation of IAudioSessionNotification::OnSessionCreated
 //
 //  Notifies the registered processes that the audio session has been created.
@@ -288,6 +320,10 @@ HRESULT AudioVolume::QueryInterface(REFIID iid, void** ppUnk)
 {
 	if ((iid == __uuidof(IUnknown)) ||
 		(iid == __uuidof(IAudioSessionNotification)))
+	{
+		*ppUnk = static_cast<IMMNotificationClient*>(this);
+	}
+	else if (iid == __uuidof(IAudioSessionNotification))
 	{
 		*ppUnk = static_cast<IAudioSessionNotification*>(this);
 	}
@@ -342,11 +378,11 @@ BOOL AudioVolume::GetSubProcesseMap(DWORD dwParentProcessId, std::map<DWORD, BOO
 // Change mute status of all audio session
 void AudioVolume::UpdateMuteStatus()
 {
-  TRACE("[MuterWin7] AudioVolume::UpdateMuteStatus Enter\n");
+	TRACE("[MuterWin7] AudioVolume::UpdateMuteStatus Enter\n");
 	m_csEndpoint.Enter();	
 
 	UpdateAudioSessionControlList();
 
 	m_csEndpoint.Leave();
-  TRACE("[MuterWin7] AudioVolume::UpdateMuteStatus Leave\n");
+	TRACE("[MuterWin7] AudioVolume::UpdateMuteStatus Leave\n");
 }
