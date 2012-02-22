@@ -373,7 +373,7 @@ var muter = (function() {
       } else if (topic === "em-action-requested") {
         // For firefox 3.6 only
         subject.QueryInterface(Components.interfaces.nsIUpdateItem);
-        if (subject.id === "muter@yxl.name" && (data === "item-disabled" || data === "item-uninstalled" || data === "item-upgraded")) {
+        if (subject.id === "muter@yxl.name" && (data === "item-disabled" || data === "item-uninstalled")) {
           muter.uninstall();
         }
       }
@@ -424,12 +424,6 @@ var muter = (function() {
         if (addon.id == "muter@yxl.name") {
           muter.uninstall();
         }
-      },
-      
-      onInstalling: function(addon, needsRestart) {
-        if (addon.id == "muter@yxl.name") {
-          muter.uninstall();
-        }      
       }
     }    
   };
