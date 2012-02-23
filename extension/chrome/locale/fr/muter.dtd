@@ -1,0 +1,43 @@
+<!ENTITY muter-button.label "Muet">
+<!ENTITY muter-button.tooltip "Basculer le statut muet">
+<!ENTITY muter-popup.init "Passer rapidement ŕ l'état muet">
+<!ENTITY muter.feedback "Retour d'information">
+<!ENTITY muter.skin.label "Skins">
+<!ENTITY muter.skin.default.lable "Par Défaut">
+<!ENTITY muter.settings.title "Paramčtres Muter">
+<!ENTITY muter.settings.ui.label "Interface Utilisateur">
+<!ENTITY muter.settings.custom.label "Personnaliser">
+<!ENTITY muter.settings.miscellaneous.label "Divers">
+<!ENTITY muter.settings.shorcut.title "Touches de raccourci">
+<!ENTITY muter.settings.restore "Restaurer les paramčtres par défaut">
+<!ENTITY muter.settings.showInAddonBar "Afficher le bouton basculer dans la barre des modules.">
+<!ENTITY muter.settings.showInStatusBar "Afficher le bouton basculer dans la barre d'état.">
+<!ENTITY muter.settings.restart.descr "Ça prendra effet aprčs que &brandShortName; redémarre.">
+<!ENTITY muter.settings.switchButtonStyle "Basculer le style du bouton:">
+<!ENTITY muter.settings.switchButtonWithMenu "Avec menu">
+<!ENTITY muter.settings.switchButtonWithoutMenu "Sans menu">
+<!ENTITY muter.settings.saveStatus "Restaurer le statut muet aprčs que &brandShortName; redémarre.">
+<!ENTITY muter.settings.defaultIcons.label "Icônes par défaut">
+<!ENTITY muter.settings.defaultDisabledIcon.label "Icône de l'état normale">
+<!ENTITY muter.settings.defaultEnabledIcon.label "Icône de l'état muet">
+<!ENTITY muter.settings.changeIcon "Changer l'icône...">
+<!ENTITY muter.settings.resetIcon "Réinitialiser l'icône">
+<!ENTITY muter.feedback.typeSelector.heading "Sélectionnez le type de problčme">
+<!ENTITY muter.feedback.typeSelector.description "Cette fenętre vous guidera ŕ travers les étapes requises pour la présentation d'un rapport de problčme Muter. Tout d'abord, s'il vous plaît sélectionnez le type de problčme que vous rencontrez.">
+<!ENTITY muter.feedback.notWorking.label "Ça ne fonctionne pas!">
+<!ENTITY muter.feedback.notWorking.description "Ça ne peut pas mettre le navigateur ŕ l'état muet.">
+<!ENTITY muter.feedback.sideEffect.label "Ça cause des problemes.">
+<!ENTITY muter.feedback.sideEffect.description "Le module cause un blocage ou d'autres problčmes.">
+<!ENTITY muter.feedback.other.label "Autre problčme">
+<!ENTITY muter.feedback.other.description "Suggestions ou d'autres problčmes.">
+<!ENTITY muter.feedback.commentPage.heading "Entrer un commentaire">
+<!ENTITY muter.feedback.commentPage.description "Le champ de texte ci-dessous vous permet d'entrer un commentaire pour nous aider ŕ comprendre le problčme.ă€€Cette étape est facultative mais recommandée si le problčme n'est pas évident.ă€€Vous pouvez consulter les données du rapport avant qu'il ne soit envoyé.">
+<!ENTITY muter.feedback.comment.label "Commentaire (facultatif):">
+<!ENTITY muter.feedback.url.label "URL associée (facultatif):">
+<!ENTITY muter.feedback.email.label "Email (facultatif. Nous vous enverrons un email lorsque le problčme sera résolu.):">
+<!ENTITY muter.feedback.comment.lengthWarning "La longueur de votre commentaire dépasse 500 caractčres. Seuls les 500 premiers caractčres seront envoyés.">
+<!ENTITY muter.feedback.attachAddons.label "Joignez une liste des modules actifs au rapport en cas qu'un conflit de modules soit la cause du problčme.">
+<!ENTITY muter.feedback.sendPage.heading "Envoyer le rapport">
+<!ENTITY muter.feedback.reportData.label "Données du rapport:">
+<!ENTITY muter.feedback.sendPage.errorMessage "Une tentative d'envoyer le rapport a échoué. S'il vous plaît vous assurer que vous ętes connecté ŕ Internet et réessayez.">
+<!ENTITY muter.feedback.sendPage.retry.label "Envoyer ŕ nouveau">

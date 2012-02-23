@@ -42,7 +42,7 @@
       <em:creator>Yuan Xulei</em:creator>
       <em:homepageURL>http://yxl.github.com/Firefox-Muter/</em:homepageURL>
       <em:developer>Hector Zhao</em:developer>
-      <em:translator>baryoni, beiwaiMM(尧七目), markh van BabelZilla.org, Leszek(teo)ŻyczkowskiCopy</em:translator>
+      <em:translator>baryoni, beiwaiMM(尧七目), markh van BabelZilla.org, Leszek(teo)ŻyczkowskiCopy, Jim Courbron</em:translator>
       <em:contributor>Hector Zhao</em:contributor>
     </Description>
   </em:localized>
@@ -55,7 +55,7 @@
       <em:creator>袁徐磊</em:creator>
       <em:homepageURL>http://yxl.github.com/Firefox-Muter/</em:homepageURL>
       <em:developer>趙博通</em:developer>
-      <em:translator>baryoni, beiwaiMM(尧七目), markh van BabelZilla.org, Leszek(teo)ŻyczkowskiCopy</em:translator>
+      <em:translator>baryoni, beiwaiMM(尧七目), markh van BabelZilla.org, Leszek(teo)ŻyczkowskiCopy, Jim Courbron</em:translator>
       <em:contributor>趙博通</em:contributor>
     </Description>
   </em:localized>
@@ -68,7 +68,7 @@
       <em:creator>Yuan Xulei</em:creator>
       <em:homepageURL>http://yxl.github.com/Firefox-Muter/</em:homepageURL>
       <em:developer>Hector Zhao</em:developer>
-      <em:translator>baryoni, beiwaiMM(尧七目), markh van BabelZilla.org, Leszek(teo)Życzkowski</em:translator>
+      <em:translator>baryoni, beiwaiMM(尧七目), markh van BabelZilla.org, Leszek(teo)Życzkowski, Jim Courbron</em:translator>
       <em:contributor>Hector Zhao</em:contributor>
     </Description>
   </em:localized>
@@ -81,7 +81,7 @@
       <em:creator>袁徐磊</em:creator>
       <em:homepageURL>http://yxl.github.com/Firefox-Muter/</em:homepageURL>
       <em:developer>赵博通</em:developer>
-      <em:translator>baryoni, beiwaiMM(尧七目), markh van BabelZilla.org, Leszek(teo)ŻyczkowskiCopy</em:translator>
+      <em:translator>baryoni, beiwaiMM(尧七目), markh van BabelZilla.org, Leszek(teo)ŻyczkowskiCopy, Jim Courbron</em:translator>
       <em:contributor>赵博通</em:contributor>
     </Description>
   </em:localized>
@@ -92,7 +92,7 @@
       <em:creator>Yuan Xulei</em:creator>
       <em:homepageURL>http://yxl.github.com/Firefox-Muter/</em:homepageURL>
       <em:developer>Hector Zhao</em:developer>
-      <em:translator>baryoni, beiwaiMM(尧七目), markh van BabelZilla.org, Leszek(teo)ŻyczkowskiCopy</em:translator>
+      <em:translator>baryoni, beiwaiMM(尧七目), markh van BabelZilla.org, Leszek(teo)ŻyczkowskiCopy, Jim Courbron</em:translator>
       <em:contributor>Hector Zhao</em:contributor>
     </Description>
   </em:localized>
@@ -105,7 +105,7 @@
       <em:creator>Yuan Xulei</em:creator>
       <em:homepageURL>http://yxl.github.com/Firefox-Muter/</em:homepageURL>
       <em:developer>Hector Zhao</em:developer>
-      <em:translator>baryoni, beiwaiMM(尧七目), markh van BabelZilla.org, Leszek(teo)Życzkowski</em:translator>
+      <em:translator>baryoni, beiwaiMM(尧七目), markh van BabelZilla.org, Leszek(teo)Życzkowski, Jim Courbron</em:translator>
       <em:contributor>Hector Zhao</em:contributor>
     </Description>
   </em:localized>
@@ -116,9 +116,22 @@
       <em:creator>Yuan Xulei</em:creator>
       <em:homepageURL>http://yxl.github.com/Firefox-Muter/</em:homepageURL>
       <em:developer>Hector Zhao</em:developer>
-      <em:translator>baryoni, beiwaiMM(尧七目), markh van BabelZilla.org, Leszek(teo)ŻyczkowskiCopy</em:translator>
+      <em:translator>baryoni, beiwaiMM(尧七目), markh van BabelZilla.org, Leszek(teo)ŻyczkowskiCopy, Jim Courbron</em:translator>
       <em:contributor>Hector Zhao</em:contributor>
     </Description>
   </em:localized>
+
+  <em:localized>
+    <Description>
+      <em:locale>fr</em:locale>
+      <em:name>Muter</em:name>
+      <em:description>FVous laisse mettre le son du navigateur Firefox à l'état muet.</em:description>
+      <em:creator>Yuan Xulei</em:creator>
+      <em:homepageURL>http://yxl.github.com/Firefox-Muter/</em:homepageURL>
+      <em:developer>Hector Zhao</em:developer>
+      <em:translator>baryoni, beiwaiMM(尧七目), markh van BabelZilla.org, Leszek(teo)ŻyczkowskiCopy, Jim Courbron</em:translator>
+      <em:contributor>Hector Zhao</em:contributor>
+    </Description>
+  </em:localized>  
 </Description>
 </RDF> 
