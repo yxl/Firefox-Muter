@@ -30,7 +30,7 @@ AudioVolume::~AudioVolume(void)
 // ----------------------------------------------------------------------
 HRESULT AudioVolume::Initialize()
 {
-  TRACE("AudioVolume::Initialize Enters\n");
+	TRACE("AudioVolume::Initialize Enters\n");
 	HRESULT hr;
 
 	// create enumerator
@@ -55,7 +55,7 @@ HRESULT AudioVolume::Initialize()
 // ----------------------------------------------------------------------
 void AudioVolume::Dispose()
 {
-  TRACE("AudioVolume::Dispose Enters\n");
+	TRACE("AudioVolume::Dispose Enters\n");
 	DetachFromEndpoint();
 
 	if (m_bRegisteredForEndpointNotifications)
@@ -74,7 +74,7 @@ void AudioVolume::Dispose()
 // ----------------------------------------------------------------------
 HRESULT AudioVolume::AttachToDefaultEndpoint()
 {
-  TRACE("AudioVolume::AttachToDefaultEndpoint Enters\n");
+	TRACE("AudioVolume::AttachToDefaultEndpoint Enters\n");
 	m_csEndpoint.Enter();
 
 	// get the default music & movies playback device
@@ -93,7 +93,7 @@ HRESULT AudioVolume::AttachToDefaultEndpoint()
 
 	m_csEndpoint.Leave();
 
-  TRACE("AudioVolume::AttachToDefaultEndpoint Leaves\n");
+	TRACE("AudioVolume::AttachToDefaultEndpoint Leaves\n");
 	return hr;
 }
 
@@ -103,7 +103,7 @@ HRESULT AudioVolume::AttachToDefaultEndpoint()
 // ----------------------------------------------------------------------
 void AudioVolume::DetachFromEndpoint()
 {
-  TRACE("AudioVolume::DetachFromEndpoint Enters\n");
+	TRACE("AudioVolume::DetachFromEndpoint Enters\n");
 
 	m_csEndpoint.Enter();
 
@@ -123,15 +123,15 @@ void AudioVolume::DetachFromEndpoint()
 
 	m_csEndpoint.Leave();
 
-  TRACE("AudioVolume::DetachFromEndpoint Leaves\n");
+	TRACE("AudioVolume::DetachFromEndpoint Leaves\n");
 }
 
 void AudioVolume::UpdateAudioSessionControlList()
 {
 	HRESULT hr = S_OK;
 
-  if (m_spAudioSessionManager2 == NULL)
-    return;
+	if (m_spAudioSessionManager2 == NULL)
+		return;
 
 	CComQIPtr<IAudioSessionEnumerator> spAudioSessionEnumerator;
 	try
@@ -178,7 +178,6 @@ void AudioVolume::UpdateAudioSessionControlList()
 				}
 
 				AddSessionIfNew(map, spAudioSessionControl);
-				SAFE_RELEASE(spAudioSessionControl);
 			}
 			catch (LPCSTR szError)
 			{
@@ -229,7 +228,10 @@ void AudioVolume::AddSessionIfNew(const std::map<DWORD, BOOL> &map, CComQIPtr<IA
 				m_mapSpAudioSessionControl2[CStringW(pswInstanceId)] = spAudioSessionControl2;
 
 				CComQIPtr<ISimpleAudioVolume> spSimpleAudioVolume = spAudioSessionControl2;
-				spSimpleAudioVolume->SetMute(::IsMuteEnabled(), &AudioVolumnCtx);
+				if (spSimpleAudioVolume != NULL)
+				{
+					spSimpleAudioVolume->SetMute(::IsMuteEnabled(), &AudioVolumnCtx);
+				}
 				SAFE_RELEASE(spSimpleAudioVolume);
 			}
 			CoTaskMemFree(pswInstanceId);
@@ -241,8 +243,8 @@ void AudioVolume::AddSessionIfNew(const std::map<DWORD, BOOL> &map, CComQIPtr<IA
 	{
 		TRACE("[MuterWin7] AudioVolume::AddSessionIfNew: %s\n", szError);
 	}
-	SAFE_RELEASE(spAudioSessionControl);
 	SAFE_RELEASE(spAudioSessionControl2);
+	SAFE_RELEASE(spAudioSessionControl);
 }
 
 void AudioVolume::DisposeAudioSessionControlList()
@@ -283,33 +285,37 @@ HRESULT AudioVolume::OnSessionCreated(IAudioSessionControl *NewSession)
 	m_csEndpoint.Enter();
 
 	CComQIPtr<IAudioSessionControl> spIAudioSessionControl = NewSession;
-
-	try
+	if (spIAudioSessionControl != NULL)
 	{
-		// Map indicating whether a process belongs to firefox
-		std::map<DWORD, BOOL> map;
-		if (!GetSubProcesseMap(g_dwThisModuleProcessId, map))
+		try
 		{
-			throw "AudioVolume::GetSubProcesseMap failed!";
-		}
-		std::map<DWORD, BOOL>::iterator iter = map.find(g_dwThisModuleProcessId);
-		if (iter != map.end())
-		{
-			iter->second = TRUE;
-		}
+			// Map indicating whether a process belongs to firefox
+			std::map<DWORD, BOOL> map;
+			if (!GetSubProcesseMap(g_dwThisModuleProcessId, map))
+			{
+				throw "AudioVolume::GetSubProcesseMap failed!";
+			}
+			std::map<DWORD, BOOL>::iterator iter = map.find(g_dwThisModuleProcessId);
+			if (iter != map.end())
+			{
+				iter->second = TRUE;
+			}
 
-		AddSessionIfNew(map, spIAudioSessionControl);
-	}
-	catch (LPCSTR szError)
-	{
-		TRACE("[MuterWin7] AudioVolume::OnSessionCreated: %s\n", szError);
+			AddSessionIfNew(map, spIAudioSessionControl);
+		}
+		catch (LPCSTR szError)
+		{
+			TRACE("[MuterWin7] AudioVolume::OnSessionCreated: %s\n", szError);
+		}
 	}
 
 	SAFE_RELEASE(spIAudioSessionControl);
 
+	UpdateAudioSessionControlList();
+
 	m_csEndpoint.Leave();
 
-  TRACE("AudioVolume::OnSessionCreated Leaves\n");
+	TRACE("AudioVolume::OnSessionCreated Leaves\n");
 	return S_OK;
 }
 
@@ -319,7 +325,7 @@ HRESULT AudioVolume::OnSessionCreated(IAudioSessionControl *NewSession)
 HRESULT AudioVolume::QueryInterface(REFIID iid, void** ppUnk)
 {
 	if ((iid == __uuidof(IUnknown)) ||
-		(iid == __uuidof(IAudioSessionNotification)))
+		(iid == __uuidof(IMMNotificationClient)))
 	{
 		*ppUnk = static_cast<IMMNotificationClient*>(this);
 	}
@@ -363,7 +369,7 @@ BOOL AudioVolume::GetSubProcesseMap(DWORD dwParentProcessId, std::map<DWORD, BOO
 
 	PROCESSENTRY32 procentry  = { sizeof(PROCESSENTRY32) };
 	BOOL bContinue = Process32First(hSnapShot, &procentry);
-	while( bContinue )
+	while(bContinue)
 	{
 		DWORD dwProcessId = procentry.th32ProcessID;
 		BOOL bIsSubProcess = dwParentProcessId == procentry.th32ParentProcessID;

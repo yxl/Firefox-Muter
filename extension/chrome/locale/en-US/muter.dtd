@@ -31,7 +31,7 @@
 <!ENTITY muter.feedback.other.label "Other problem">
 <!ENTITY muter.feedback.other.description "Suggestions or other problems.">
 <!ENTITY muter.feedback.commentPage.heading "Enter comment">
-<!ENTITY muter.feedback.commentPage.description "The text field below allows you to enter a comment to help us understand the problem.　This step is optional but recommended if the problem isn't obvious.　You can review the report data before it is sent.">
+<!ENTITY muter.feedback.commentPage.description "The text field below allows you to enter a comment to help us understand the problem. This step is optional but recommended if the problem isn't obvious. You can review the report data before it is sent.">
 <!ENTITY muter.feedback.comment.label "Comment (optional):">
 <!ENTITY muter.feedback.url.label "Related URL (optional):">
 <!ENTITY muter.feedback.email.label "Email (optional. We will send you an Email when the problem is resolved.):">
