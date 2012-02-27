@@ -12,7 +12,7 @@
 var muterFeedback = (function() {
   let jsm = {};
   Components.utils.import("resource://muter/muterUtils.jsm", jsm);
-  Components.utils.import("resource://muter/Services.jsm", jsm);
+  Components.utils.import("resource://gre/modules/Services.jsm", jsm);
   Components.utils.import("resource://gre/modules/AddonManager.jsm", jsm);
   let {
     muterUtils, Services, AddonManager

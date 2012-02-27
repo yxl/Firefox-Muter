@@ -2,7 +2,7 @@ let EXPORTED_SYMBOLS = ['muterHook'];
 
 Components.utils.import("resource://muter/muterUtils.jsm");
 Components.utils.import("resource://gre/modules/ctypes.jsm");
-Components.utils.import("resource://muter/Services.jsm");
+Components.utils.import("resource://gre/modules/Services.jsm");
 
 let isWin7OrLater = muterUtils.platform.isWin7OrLater();
 

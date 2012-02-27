@@ -35,7 +35,7 @@
 var muterSettings = (function() {
   let jsm = {};
   Components.utils.import("resource://muter/muterUtils.jsm", jsm);
-  Components.utils.import("resource://muter/Services.jsm", jsm);
+  Components.utils.import("resource://gre/modules/Services.jsm", jsm);
   let {
     muterUtils, Services
   } = jsm;
