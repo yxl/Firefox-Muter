@@ -25,7 +25,7 @@ private:
 	CComQIPtr<IAudioSessionManager2>   m_spAudioSessionManager2;
 
 	// Audio Session Control list
-	CAtlMap<CStringW, CComQIPtr<IAudioSessionControl2> , CElementTraits<CStringW> > m_mapSpAudioSessionControl2;
+	CAtlMap<CStringW, CComQIPtr<IAudioSessionControl> , CElementTraits<CStringW> > m_mapSpAudioSessionControl2;
 
 	CCriticalSection                m_csEndpoint;
 
@@ -57,6 +57,7 @@ private:
 
 	void UpdateAudioSessionControlList();
 	void DisposeAudioSessionControlList();
+	void UpdateAudioSessionControlMuteStatus();
 
 	void AddSessionIfNew(const std::map<DWORD, BOOL> &map, CComQIPtr<IAudioSessionControl> spAudioSessionControl);
 public:

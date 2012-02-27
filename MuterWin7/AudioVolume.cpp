@@ -126,6 +126,23 @@ void AudioVolume::DetachFromEndpoint()
 	TRACE("AudioVolume::DetachFromEndpoint Leaves\n");
 }
 
+void AudioVolume::UpdateAudioSessionControlMuteStatus()
+{
+	int n = m_mapSpAudioSessionControl2.GetCount();
+	POSITION pos = m_mapSpAudioSessionControl2.GetStartPosition();
+	while (pos != NULL)
+	{
+		CComQIPtr<IAudioSessionControl> spAudioSessionControl = m_mapSpAudioSessionControl2.GetNextValue(pos);
+		CComQIPtr<ISimpleAudioVolume> spSimpleAudioVolume = spAudioSessionControl;
+		if (spSimpleAudioVolume != NULL)
+		{
+			spSimpleAudioVolume->SetMute(::IsMuteEnabled(), &AudioVolumnCtx);
+		}
+		SAFE_RELEASE(spSimpleAudioVolume);
+		SAFE_RELEASE(spAudioSessionControl);
+	}
+}
+
 void AudioVolume::UpdateAudioSessionControlList()
 {
 	HRESULT hr = S_OK;
@@ -170,7 +187,6 @@ void AudioVolume::UpdateAudioSessionControlList()
 			try
 			{
 				// Get AudioSessionControl
-				CComQIPtr<IAudioSessionControl> spAudioSessionControl;
 				HRESULT hr = spAudioSessionEnumerator->GetSession(i, &spAudioSessionControl);
 				if (FAILED(hr))
 				{
@@ -225,9 +241,9 @@ void AudioVolume::AddSessionIfNew(const std::map<DWORD, BOOL> &map, CComQIPtr<IA
 			LPWSTR pswInstanceId = NULL;
 			if (SUCCEEDED(spAudioSessionControl2->GetSessionInstanceIdentifier(&pswInstanceId)))
 			{
-				m_mapSpAudioSessionControl2[CStringW(pswInstanceId)] = spAudioSessionControl2;
+				m_mapSpAudioSessionControl2[CStringW(pswInstanceId)] = spAudioSessionControl;
 
-				CComQIPtr<ISimpleAudioVolume> spSimpleAudioVolume = spAudioSessionControl2;
+				CComQIPtr<ISimpleAudioVolume> spSimpleAudioVolume = spAudioSessionControl;
 				if (spSimpleAudioVolume != NULL)
 				{
 					spSimpleAudioVolume->SetMute(::IsMuteEnabled(), &AudioVolumnCtx);
@@ -266,9 +282,11 @@ HRESULT AudioVolume::OnDefaultDeviceChanged
 	LPCWSTR     pwstrDefaultDeviceId
 	)
 {
+	TRACE("AudioVolume::OnDefaultDeviceChanged Enters\n");
 	m_csEndpoint.Enter();
-	UpdateAudioSessionControlList();
+	UpdateAudioSessionControlMuteStatus();
 	m_csEndpoint.Leave();
+	TRACE("AudioVolume::OnDefaultDeviceChanged Leaves\n");
 	return S_OK;
 }
 
@@ -311,10 +329,7 @@ HRESULT AudioVolume::OnSessionCreated(IAudioSessionControl *NewSession)
 
 	SAFE_RELEASE(spIAudioSessionControl);
 
-	UpdateAudioSessionControlList();
-
 	m_csEndpoint.Leave();
-
 	TRACE("AudioVolume::OnSessionCreated Leaves\n");
 	return S_OK;
 }
@@ -384,11 +399,11 @@ BOOL AudioVolume::GetSubProcesseMap(DWORD dwParentProcessId, std::map<DWORD, BOO
 // Change mute status of all audio session
 void AudioVolume::UpdateMuteStatus()
 {
-	TRACE("[MuterWin7] AudioVolume::UpdateMuteStatus Enter\n");
-	m_csEndpoint.Enter();	
-
+	TRACE("[MuterWin7] AudioVolume::UpdateMuteStatus Enters\n");
+	
+	m_csEndpoint.Enter();
 	UpdateAudioSessionControlList();
-
 	m_csEndpoint.Leave();
-	TRACE("[MuterWin7] AudioVolume::UpdateMuteStatus Leave\n");
+	
+	TRACE("[MuterWin7] AudioVolume::UpdateMuteStatus Leaves\n");
 }

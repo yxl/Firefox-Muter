@@ -45,7 +45,7 @@ extern "C"
 		EnableMute(FALSE);
 		g_pAudioVolume->Dispose();
 		g_pAudioVolume->Release();
-		 CoUninitialize();
+		CoUninitialize();
 	}
 
 	MUTERWIN7_API void EnableMute(BOOL bEnabled)
