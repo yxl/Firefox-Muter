@@ -6,9 +6,10 @@
 let jsm = {};
 Components.utils.import("resource://muter/muterUtils.jsm", jsm);
 Components.utils.import("resource://muter/muterHook.jsm", jsm);
+Components.utils.import("resource://muter/Services.jsm", jsm);
 
 let {
-  muterUtils, muterHook
+  muterUtils, muterHook, Services
 } = jsm;
 
 /**
@@ -71,8 +72,8 @@ muterSkin.ui = {
     }
     
     // Setup the default menu item
-    let defaultDisabledIcon = muterUtils.Services.prefs.getCharPref('extensions.firefox-muter.disabledIcon.default');
-    let defaultEnabledIcon = muterUtils.Services.prefs.getCharPref('extensions.firefox-muter.enabledIcon.default');
+    let defaultDisabledIcon = Services.prefs.getCharPref('extensions.firefox-muter.disabledIcon.default');
+    let defaultEnabledIcon = Services.prefs.getCharPref('extensions.firefox-muter.enabledIcon.default');
     defaultItem.setAttribute('image', defaultDisabledIcon);
     defaultItem.setAttribute('image-disabled-url', defaultDisabledIcon);
     defaultItem.setAttribute('image-disabled', defaultDisabledIcon);
@@ -183,8 +184,8 @@ muterSkin.ui = {
     // Here we just change the preference. The preference observer defined in overly.js
     // will notify the switch button to change its icon.
     if (disabledIcon && enabledIcon) {
-      muterUtils.Services.prefs.setCharPref('extensions.firefox-muter.disabledIcon', disabledIcon);
-      muterUtils.Services.prefs.setCharPref('extensions.firefox-muter.enabledIcon', enabledIcon);
+      Services.prefs.setCharPref('extensions.firefox-muter.disabledIcon', disabledIcon);
+      Services.prefs.setCharPref('extensions.firefox-muter.enabledIcon', enabledIcon);
     }
     event.stopPropagation();
   },
@@ -209,7 +210,7 @@ muterSkin.ui = {
       return;
     }
     this._isSkinUpdating = true;
-    let url = muterUtils.Services.prefs.getCharPref("extensions.firefox-muter.skin.updateurl");
+    let url = Services.prefs.getCharPref("extensions.firefox-muter.skin.updateurl");
     if (!url) {
       url = 'http://yxl.github.com/Firefox-Muter/update/skin.json'
     }
@@ -334,7 +335,7 @@ muterSkin.db = {
    */
   _getJSONPref: function(name) {
     try {
-      let jsonItems = decodeURIComponent(muterUtils.Services.prefs.getCharPref(name));
+      let jsonItems = decodeURIComponent(Services.prefs.getCharPref(name));
       let json = JSON.parse(jsonItems);
       return json;
     } catch (ex) {
@@ -347,7 +348,7 @@ muterSkin.db = {
    *  and save to user preferences.
    */
   _setJSONPref: function(name, value) {
-    muterUtils.Services.prefs.setCharPref(name, encodeURIComponent(JSON.stringify(value)));
+    Services.prefs.setCharPref(name, encodeURIComponent(JSON.stringify(value)));
   }
 }
 

@@ -37,16 +37,12 @@ var muter = (function() {
   let jsm = {};
   Components.utils.import("resource://muter/muterUtils.jsm", jsm);
   Components.utils.import("resource://muter/muterHook.jsm", jsm);
+  Components.utils.import("resource://muter/Services.jsm", jsm);
+  Components.utils.import("resource://gre/modules/AddonManager.jsm", jsm);
   let {
-    muterUtils, muterHook
+    muterUtils, muterHook, Services, AddonManager
   } = jsm;
-  let AddonManager = null;
-  if (!muterUtils.isVersionLessThan("4.0") || muterUtils.Services.appinfo.name != 'Firefox') {
-    Components.utils.import("resource://gre/modules/AddonManager.jsm", jsm);
-    AddonManager = jsm.AddonManager;
-  }
-  let Services = muterUtils.Services;
-
+  
   var muter = {
     // Monitors the mute status and updates the UI
     _muterObserver: null,
@@ -66,7 +62,7 @@ var muter = (function() {
       }
 
       muter.setupAddonBar();
-      muter.setupStatusBar(); // For firefox 3.6 only      
+      muter.setupStatusBar(); // For SeaMonkey only      
       muter.setupSwitchButton();
       muter.setupShortcut();
       muter._setupPopups();
@@ -101,8 +97,8 @@ var muter = (function() {
      * It only need to call once.
      */
     _firstRun: function() {
-      // For firefox 3.6 and SeaMonkey
-      if (muterUtils.isVersionLessThan("4.0") || muterUtils.Services.appinfo.name === 'SeaMonkey') {
+      // For SeaMonkey
+      if (Services.appinfo.name === 'SeaMonkey') {
         // Show status bar button
         Services.prefs.setBoolPref('extensions.firefox-muter.showInStatusBar', true);
       }
@@ -179,7 +175,7 @@ var muter = (function() {
         btn.setAttribute("image", icon);
       }
 
-      // For firefox 3.6 only
+      // For SeaMonkey only
       let statusbarBtn = document.getElementById("muter-statusbar-button");
       if (statusbarBtn) {
         let icon = statusbarBtn.getAttribute(isMuted ? 'image-enabled' : 'image-disabled');
@@ -204,7 +200,7 @@ var muter = (function() {
         }
       }
 
-      // For firefox 3.6 only
+      // For SeaMonkey only
       let statusbarBtn = document.getElementById("muter-statusbar-button");
       if (statusbarBtn) {
         statusbarBtn.setAttribute('image-disabled', disabledIcon);
@@ -216,8 +212,8 @@ var muter = (function() {
 
     /** Add the muter button to the addon bar or remove it */
     setupAddonBar: function() {
-      // Firefox 3.6 and SeaMonkey have no addon bar.
-      if (muterUtils.isVersionLessThan("4.0") || muterUtils.Services.appinfo.name === 'SeaMonkey') {
+      // SeaMonkey has no addon bar.
+      if (Services.appinfo.name === 'SeaMonkey') {
         return;
       }
 
@@ -273,7 +269,7 @@ var muter = (function() {
       }, 3000);
     },
 
-    /** For firefox 3.6 only! Setup the muter button in the status bar**/
+    /** For SeaMonkey only! Setup the muter button in the status bar**/
     setupStatusBar: function() {
       let showInStatusBar = Services.prefs.getBoolPref("extensions.firefox-muter.showInStatusBar");
       let statusbarBtn = document.getElementById("muter-statusbar-button");
@@ -370,12 +366,6 @@ var muter = (function() {
           muter.useDefaultSkin();
           muterSkin.ui.rebuildSkinMenu();
         }
-      } else if (topic === "em-action-requested") {
-        // For firefox 3.6 only
-        subject.QueryInterface(Components.interfaces.nsIUpdateItem);
-        if (subject.id === "muter@yxl.name" && (data === "item-disabled" || data === "item-uninstalled")) {
-          muter.uninstall();
-        }
       }
     },
 
@@ -391,20 +381,11 @@ var muter = (function() {
       }
       
       // Listen for extension disable/uninstall
-      if (muterUtils.isVersionLessThan("4.0") && muterUtils.Services.appinfo.name === 'Firefox') {
-        // For firefox 3.6 only!
-        Services.obs.addObserver(this, "em-action-requested", false);
-      } else {
-        AddonManager.addAddonListener(this._addonListener);     
-      }      
+      AddonManager.addAddonListener(this._addonListener);     
     },
 
     unregister: function() {     
-      if (muterUtils.isVersionLessThan("4.0") && muterUtils.Services.appinfo.name === 'Firefox') {
-        Services.obs.removeObserver(this, "em-action-requested");
-      } else {
-        AddonManager.removeAddonListener(this._addonListener);
-      }
+      AddonManager.removeAddonListener(this._addonListener);
 
       Services.obs.removeObserver(this, "muter-status-changed");
 

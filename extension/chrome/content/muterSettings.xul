@@ -58,7 +58,7 @@ ondialogextra2="muterSettings.openFeedback();">
                 <image class="muter-shadow-image"
                 src="chrome://muter/skin/show-in-addon-bar.png" />
               </vbox>
-              <!-- Status bar setting. For firefox 3.6 only -->
+              <!-- Status bar setting. For SeaMonkey only -->
               <vbox id="muter-settings-show-in-status-bar">
                 <checkbox preference="showInStatusBar"
                 label="&muter.settings.showInStatusBar;" />

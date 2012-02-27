@@ -2,6 +2,7 @@ let EXPORTED_SYMBOLS = ['muterHook'];
 
 Components.utils.import("resource://muter/muterUtils.jsm");
 Components.utils.import("resource://gre/modules/ctypes.jsm");
+Components.utils.import("resource://muter/Services.jsm");
 
 let isWin7OrLater = muterUtils.platform.isWin7OrLater();
 
@@ -30,7 +31,7 @@ let muterHook = {
        libFile = 'libMuterPulseAudio';
        libFile += suffix + '.so';
     }
-    let uri = muterUtils.Services.io.newURI('resource://muter-binary/' + libFile, null, null);    
+    let uri = Services.io.newURI('resource://muter-binary/' + libFile, null, null);    
     if (uri instanceof Components.interfaces.nsIFileURL) {
       this._lib = ctypes.open(uri.file.path);
     } else {
@@ -40,9 +41,6 @@ let muterHook = {
     let abiType = ctypes.default_abi;
     if (muterUtils.platform.win) {
       abiType = ctypes.winapi_abi;
-      if (muterUtils.Services.appinfo.name === 'Firefox' && muterUtils.isVersionLessThan("4.0")) {
-        abiType =  ctypes.stdcall_abi;
-      }
     }
 
     // void EnableMute(BOOL bEnabeled)
@@ -96,7 +94,7 @@ let muterHook = {
     }
     let enableParam = isEnabled ? 1 : 0;
     this._EnableMute(enableParam);
-    muterUtils.Services.obs.notifyObservers(null, "muter-status-changed", null);
+    Services.obs.notifyObservers(null, "muter-status-changed", null);
   },
   
   isMuteEnabled: function() {

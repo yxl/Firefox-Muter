@@ -28,7 +28,7 @@ image.muter-shadow-image {
   margin-bottom: 20px;
 }
 
-/** For Firfox 3.6 only! **/
+/** For SeaMonkey only! **/
 #muter-statusbar-button > image{
   background-color:transparent;
   height: 16px;

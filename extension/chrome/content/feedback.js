@@ -12,18 +12,13 @@
 var muterFeedback = (function() {
   let jsm = {};
   Components.utils.import("resource://muter/muterUtils.jsm", jsm);
+  Components.utils.import("resource://muter/Services.jsm", jsm);
+  Components.utils.import("resource://gre/modules/AddonManager.jsm", jsm);
   let {
-    muterUtils
+    muterUtils, Services, AddonManager
   } = jsm;
-  
-  let AddonManager = null;
-  try{
-    let namespace = {};
-    Components.utils.import("resource://gre/modules/AddonManager.jsm", namespace);
-    AddonManager = namespace.AddonManager;
-  } catch (e) {}
-  
-  let prefs = muterUtils.Services.prefs;
+    
+  let prefs = Services.prefs;
 
   //
   // Report data template, more data will be added during data collection
@@ -34,7 +29,7 @@ var muterFeedback = (function() {
                 <email />
                 <url />
     <muter version="9.1" locale={muterUtils.getLocaleString()}/>
-    <application name={muterUtils.Services.appinfo.name} vendor={muterUtils.Services.appinfo.vendor} version={muterUtils.Services.appinfo.version} />
+    <application name={Services.appinfo.name} vendor={Services.appinfo.vendor} version={Services.appinfo.version} />
     <platform name={muterUtils.platform.name} version={muterUtils.platform.version} is64={muterUtils.platform.is64}/>
     <prefs>
                     <pref key="extensions.firefox-muter.firstRun" value={prefs.getBoolPref("extensions.firefox-muter.firstRun")} />
@@ -50,18 +45,9 @@ var muterFeedback = (function() {
   
   
   // Get the extension's version
-  if (AddonManager) {
-    // Firefox 4 and later; Mozilla 2 and later  
-    AddonManager.getAddonByID("muter@yxl.name", function(addon) {
-      reportData.muter.@version = addon.version;
-    });  
-  } else {  
-    // Firefox 3.6 and before; Mozilla 1.9.2 and before  
-    let em = Components.classes["@mozilla.org/extensions/manager;1"]  
-             .getService(Components.interfaces.nsIExtensionManager);  
-    let addon = em.getItemForID("muter@yxl.name");
+  AddonManager.getAddonByID("muter@yxl.name", function(addon) {
     reportData.muter.@version = addon.version;
-  }  
+  }); 
 
   let muterFeedback = {
    
@@ -228,67 +214,16 @@ var muterFeedback = (function() {
     _data: <addons />,
 
     collectData: function() {
-      let AddonManager = null;
-      try{
-        let namespace = {};
-        Components.utils.import("resource://gre/modules/AddonManager.jsm", namespace);
-        AddonManager = namespace.AddonManager;
-      } catch (e) {}
-
-      if (AddonManager) {
-        // Gecko 2.0, Firfox 4+
-        let me = this;
-        AddonManager.getAddonsByTypes(["extension", "plugin"], function(items){
-          for (let i = 0; i < items.length; i++){
-            let item = items[i];
-            if (!item.isActive)
-              continue;
-            me._data.appendChild(<addon id={item.id} name={item.name} type={item.type} version={item.version}/>);
-          }
-        });
-      }
-      else if ("@mozilla.org/extensions/manager;1" in Components.classes) {
-        // Gecko 1.9.x, Firefox 3
-        let extensionManager = Components.classes["@mozilla.org/extensions/manager;1"].getService(Components.interfaces.nsIExtensionManager);
-        let ds = extensionManager.datasource;
-        let rdfService = Components.classes["@mozilla.org/rdf/rdf-service;1"].getService(Components.interfaces.nsIRDFService);
-        let list = {};
-        let items = extensionManager.getItemList(Components.interfaces.nsIUpdateItem.TYPE_EXTENSION, {});
-        for (let i = 0; i < items.length; i++) {
+      // Gecko 2.0, Firfox 4+
+      let me = this;
+      AddonManager.getAddonsByTypes(["extension", "plugin"], function(items){
+        for (let i = 0; i < items.length; i++){
           let item = items[i];
-
-          // Check whether extension is disabled - yuk...
-          let source = rdfService.GetResource("urn:mozilla:item:" + item.id);
-          let link = rdfService.GetResource("http://www.mozilla.org/2004/em-rdf#isDisabled");
-          let target = ds.GetTarget(source, link, true);
-          if (target instanceof Components.interfaces.nsIRDFLiteral && target.Value == "true")
+          if (!item.isActive)
             continue;
-
-          this._data.appendChild(<addon id={item.id} name={item.name} type="extension" version={item.version}/>);
+          me._data.appendChild(<addon id={item.id} name={item.name} type={item.type} version={item.version}/>);
         }
-        
-        function isPluginEnabled(plugin) {
-            for (let i=0; i<plugin.length; i++) {
-                if (plugin.item(i).enabledPlugin) {
-                    return true;
-                }
-            }
-            return false;
-        }
-        let plugins = navigator.plugins;
-        for (let i = 0; i < plugins.length; i++) {
-            let plugin = plugins.item(i);
-            if (!isPluginEnabled(plugin)) {
-                continue;
-            }
-            this._data.appendChild(<addon id={plugin.filename} name={plugin.name} type="plugin" version={plugin.version}/>);
-        }
-        
-      }
-      else {
-        // No add-on manager, no extension manager - we must be running in K-Meleon.
-        // Skip this step.
-      }
+      });
     },
 
     exportData: function(doExport) {

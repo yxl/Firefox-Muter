@@ -57,7 +57,7 @@ xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
       oncommand="muter.openFeedback(event);" />
     </menupopup>
   </popupset>
-  <!-- statusbar, only for firefox 3.6 and SeaMonkey-->
+  <!-- statusbar, only for SeaMonkey-->
   <statusbar id="status-bar">
     <statusbarpanel id="muter-statusbar-button"
     class="statusbarpanel-menu-iconic" command="cmd_muterToggle"

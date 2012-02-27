@@ -1,19 +1,12 @@
 let EXPORTED_SYMBOLS = ['muterUtils'];
 
 Components.utils.import("resource://gre/modules/XPCOMUtils.jsm");
+Components.utils.import("resource://muter/Services.jsm");
 
 let muterUtils = {};
 
-try {
-  // Firefox 4+
-  Components.utils.import("resource://gre/modules/Services.jsm", muterUtils);
-} catch(ex) {
-  // Firefox 3.6
-  Components.utils.import("resource://muter/Services.jsm", muterUtils);
-}
-
 muterUtils.isVersionLessThan = function(v) {
-  return (muterUtils.Services.vc.compare(muterUtils.Services.appinfo.version, v) < 0);
+  return (Services.vc.compare(Services.appinfo.version, v) < 0);
 }
 
 let platform = {
@@ -36,7 +29,7 @@ let platform = {
 
 (function checkOSVersion() {  
   // For how to get OS version, refers to https://developer.mozilla.org/en/Code_snippets/Miscellaneous
-  let runtime = muterUtils.Services.appinfo;
+  let runtime = Services.appinfo;
   
   // OS Name
   let osName = runtime.OS.trim().toLowerCase();
