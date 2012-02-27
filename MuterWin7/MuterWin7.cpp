@@ -14,14 +14,6 @@ extern "C"
 
 	AudioVolume* g_pAudioVolume = NULL;
 
-	/**
-	* Shared by all processes variables.
-	*/
-#pragma data_seg(".HKT")
-	BOOL g_bMute = FALSE;
-#pragma data_seg()
-#pragma comment(linker, "/Section:.HKT,rws")  
-
 	MUTERWIN7_API BOOL Initialize(void)
 	{
 		HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_MULTITHREADED);
@@ -42,23 +34,40 @@ extern "C"
 
 	MUTERWIN7_API void Dispose(void)
 	{
-		EnableMute(FALSE);
-		g_pAudioVolume->Dispose();
-		g_pAudioVolume->Release();
+		if (g_pAudioVolume != NULL)
+		{
+			EnableMute(FALSE);
+			g_pAudioVolume->Dispose();
+			g_pAudioVolume->Release();
+		}
 		CoUninitialize();
 	}
 
 	MUTERWIN7_API void EnableMute(BOOL bEnabled)
 	{
-		g_bMute = bEnabled;
-		g_pAudioVolume->UpdateMuteStatus();
+		if (g_pAudioVolume != NULL)
+		{
+			g_pAudioVolume->SetMuteStatus(bEnabled);
+		}
 	}
 
 	MUTERWIN7_API BOOL IsMuteEnabled()
 	{
-		return g_bMute;
+		if (g_pAudioVolume != NULL)
+		{
+			return g_pAudioVolume->IsMuted();
+		}
+		return FALSE;
 	}
 
+	MUTERWIN7_API BOOL IsDefaultDeviceChanged()
+	{
+		if (g_pAudioVolume != NULL)
+		{
+			return g_pAudioVolume->IsDefaultDeviceChanged();
+		}
+		return FALSE;
+	}
 #ifdef __cplusplus
 }
 #endif				/* __cplusplus */

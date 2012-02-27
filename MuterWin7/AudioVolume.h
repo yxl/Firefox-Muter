@@ -18,18 +18,18 @@ static const GUID AudioVolumnCtx = { 0xf432fad2, 0x59f3, 0x41d6, { 0xad, 0xbf, 0
 class AudioVolume: public IMMNotificationClient, IAudioSessionNotification
 {
 private:
-	BOOL                            m_bRegisteredForEndpointNotifications;
-	BOOL                            m_bRegisteredForAudioSessionNotifications;
+	BOOL                              m_bRegisteredForEndpointNotifications;
+	BOOL                              m_bRegisteredForAudioSessionNotifications;
 	CComQIPtr<IMMDeviceEnumerator>    m_spEnumerator;
 	CComQIPtr<IMMDevice>              m_spAudioEndpoint;
-	CComQIPtr<IAudioSessionManager2>   m_spAudioSessionManager2;
-
+	CComQIPtr<IAudioSessionManager2>  m_spAudioSessionManager2;
 	// Audio Session Control list
 	CAtlMap<CStringW, CComQIPtr<IAudioSessionControl> , CElementTraits<CStringW> > m_mapSpAudioSessionControl2;
+	CCriticalSection                  m_csEndpoint;
+	BOOL                              m_bMuted;
+	BOOL                              m_bDefaultDeviceChanged;
 
-	CCriticalSection                m_csEndpoint;
-
-	long                            m_cRef;
+	long                              m_cRef;
 
 	~AudioVolume();       // refcounted object... make the destructor private
 
@@ -67,7 +67,11 @@ public:
 	void    Dispose();
 
 	// Change mute status of all audio session
-	void UpdateMuteStatus();
+	void SetMuteStatus(BOOL bMuted);
+
+	BOOL IsMuted() const { return m_bMuted; }
+
+	BOOL IsDefaultDeviceChanged() const { return m_bDefaultDeviceChanged; }
 
 	// IUnknown
 	IFACEMETHODIMP_(ULONG) AddRef();

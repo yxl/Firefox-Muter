@@ -81,6 +81,10 @@ var muter = (function() {
         let needMute = Services.prefs.getBoolPref('extensions.firefox-muter.muteStatus');
         muterHook.enableMute(needMute);
       }
+      
+      if (muterUtils.platform.isWin7OrLater()) {
+        window.setInterval(muterHook.checkAudioDevice, 500);
+      }
     },
 
     destroy: function(event) {

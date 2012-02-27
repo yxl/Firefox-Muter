@@ -9,8 +9,9 @@ let isWin7OrLater = muterUtils.platform.isWin7OrLater();
 let muterHook = {
   _EnableMute:    null,
   _IsMuteEnabled:  null,
-  _Initialize: null,  // win7 only
-  _Dispose: null,  // win7 only
+  _Initialize: null,  // win7 & linux
+  _IsDefaultDeviceChanged: null, // win7 only
+  _Dispose: null,  // win7 & linux
   _refCount: 0,
  
   _lib:          null,
@@ -71,6 +72,14 @@ let muterHook = {
       
       this._Initialize();
     }
+    
+    if (isWin7OrLater) {
+      // void RegisterCallback(OnDefaultDeviceChangedCallback_t pCallback)
+      this._IsDefaultDeviceChanged = this._lib.declare("IsDefaultDeviceChanged",
+        abiType,
+        ctypes.int32_t
+        );
+    }
   },
   
   close: function() {
@@ -102,5 +111,14 @@ let muterHook = {
       return false;
     }
     return this._IsMuteEnabled();
+  },
+  
+  checkAudioDevice: function() {
+    if (!this._lib) {
+      return;
+    }
+    if (this._IsDefaultDeviceChanged()) {
+      this._EnableMute(this._IsMuteEnabled());
+    }
   }
 };

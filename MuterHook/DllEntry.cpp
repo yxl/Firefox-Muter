@@ -17,14 +17,14 @@ extern "C"
 	* Shared by all processes variables.
 	*/
 #pragma data_seg(".HKT")
-	BOOL g_bMute = FALSE;
+	BOOL g_bMuted = FALSE;
 #pragma data_seg()
 #pragma comment(linker, "/Section:.HKT,rws")  
 
 
 	/*DLLIMPORT*/ void EnableMute(BOOL bEnabled)
 	{
-		g_bMute = bEnabled;
+		g_bMuted = bEnabled;
 		if (bEnabled)
 		{
 			InstallMuterHooks();
@@ -34,7 +34,7 @@ extern "C"
 
 	/*DLLIMPORT*/ BOOL IsMuteEnabled()
 	{
-		return g_bMute;
+		return g_bMuted;
 	}
 
 	BOOL APIENTRY DllMain (HINSTANCE hInst     /* Library instance handle. */ ,

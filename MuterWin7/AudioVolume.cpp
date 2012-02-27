@@ -1,12 +1,9 @@
 #include "stdafx.h"
 #include "AudioVolume.h"
-#include "MuterWin7.h"
 #include "SDKTrace.h"
+#include "MuterWin7.h"
 
 #include <tlhelp32.h>
-
-#define EXIT_ON_ERROR(hr) \
-	if (FAILED(hr)) { goto Exit; }
 
 #define SAFE_RELEASE(sp) \
 	if ((sp) != NULL) \
@@ -15,6 +12,8 @@
 AudioVolume::AudioVolume(void)
 	: m_bRegisteredForEndpointNotifications(FALSE)
 	, m_bRegisteredForAudioSessionNotifications(FALSE)
+	, m_bDefaultDeviceChanged(TRUE)
+	, m_bMuted(FALSE)
 	, m_cRef(1)
 {
 	m_mapSpAudioSessionControl2.InitHashTable(257);
@@ -56,6 +55,7 @@ HRESULT AudioVolume::Initialize()
 void AudioVolume::Dispose()
 {
 	TRACE("AudioVolume::Dispose Enters\n");
+
 	DetachFromEndpoint();
 
 	if (m_bRegisteredForEndpointNotifications)
@@ -136,7 +136,7 @@ void AudioVolume::UpdateAudioSessionControlMuteStatus()
 		CComQIPtr<ISimpleAudioVolume> spSimpleAudioVolume = spAudioSessionControl;
 		if (spSimpleAudioVolume != NULL)
 		{
-			spSimpleAudioVolume->SetMute(::IsMuteEnabled(), &AudioVolumnCtx);
+			spSimpleAudioVolume->SetMute(m_bMuted, &AudioVolumnCtx);
 		}
 		SAFE_RELEASE(spSimpleAudioVolume);
 		SAFE_RELEASE(spAudioSessionControl);
@@ -246,7 +246,7 @@ void AudioVolume::AddSessionIfNew(const std::map<DWORD, BOOL> &map, CComQIPtr<IA
 				CComQIPtr<ISimpleAudioVolume> spSimpleAudioVolume = spAudioSessionControl;
 				if (spSimpleAudioVolume != NULL)
 				{
-					spSimpleAudioVolume->SetMute(::IsMuteEnabled(), &AudioVolumnCtx);
+					spSimpleAudioVolume->SetMute(m_bMuted, &AudioVolumnCtx);
 				}
 				SAFE_RELEASE(spSimpleAudioVolume);
 			}
@@ -283,9 +283,9 @@ HRESULT AudioVolume::OnDefaultDeviceChanged
 	)
 {
 	TRACE("AudioVolume::OnDefaultDeviceChanged Enters\n");
-	m_csEndpoint.Enter();
-	UpdateAudioSessionControlMuteStatus();
-	m_csEndpoint.Leave();
+	//m_csEndpoint.Enter();
+	m_bDefaultDeviceChanged = TRUE;
+	//m_csEndpoint.Leave();
 	TRACE("AudioVolume::OnDefaultDeviceChanged Leaves\n");
 	return S_OK;
 }
@@ -299,7 +299,6 @@ HRESULT AudioVolume::OnDefaultDeviceChanged
 HRESULT AudioVolume::OnSessionCreated(IAudioSessionControl *NewSession)
 {
 	TRACE("AudioVolume::OnSessionCreated Enters\n");
-
 	m_csEndpoint.Enter();
 
 	CComQIPtr<IAudioSessionControl> spIAudioSessionControl = NewSession;
@@ -397,11 +396,13 @@ BOOL AudioVolume::GetSubProcesseMap(DWORD dwParentProcessId, std::map<DWORD, BOO
 }
 
 // Change mute status of all audio session
-void AudioVolume::UpdateMuteStatus()
+void AudioVolume::SetMuteStatus(BOOL bMuted)
 {
 	TRACE("[MuterWin7] AudioVolume::UpdateMuteStatus Enters\n");
 	
 	m_csEndpoint.Enter();
+	m_bMuted = bMuted;
+	m_bDefaultDeviceChanged = FALSE;
 	UpdateAudioSessionControlList();
 	m_csEndpoint.Leave();
 	

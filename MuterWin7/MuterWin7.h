@@ -23,6 +23,8 @@ extern "C"
 
 	MUTERWIN7_API BOOL IsMuteEnabled();
 
+	MUTERWIN7_API BOOL IsDefaultDeviceChanged();
+
 	extern DWORD g_dwThisModuleProcessId;
 
 #ifdef __cplusplus

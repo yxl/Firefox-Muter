@@ -5,10 +5,6 @@ Components.utils.import("resource://gre/modules/Services.jsm");
 
 let muterUtils = {};
 
-muterUtils.isVersionLessThan = function(v) {
-  return (Services.vc.compare(Services.appinfo.version, v) < 0);
-}
-
 let platform = {
   name: null,
   version: 0.0,
