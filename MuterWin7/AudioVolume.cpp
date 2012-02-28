@@ -12,7 +12,6 @@
 AudioVolume::AudioVolume(void)
 	: m_bRegisteredForEndpointNotifications(FALSE)
 	, m_bRegisteredForAudioSessionNotifications(FALSE)
-	, m_bDefaultDeviceChanged(TRUE)
 	, m_bMuted(FALSE)
 	, m_cRef(1)
 {
@@ -128,7 +127,6 @@ void AudioVolume::DetachFromEndpoint()
 
 void AudioVolume::UpdateAudioSessionControlMuteStatus()
 {
-	int n = m_mapSpAudioSessionControl2.GetCount();
 	POSITION pos = m_mapSpAudioSessionControl2.GetStartPosition();
 	while (pos != NULL)
 	{
@@ -284,7 +282,10 @@ HRESULT AudioVolume::OnDefaultDeviceChanged
 {
 	TRACE("AudioVolume::OnDefaultDeviceChanged Enters\n");
 	//m_csEndpoint.Enter();
-	m_bDefaultDeviceChanged = TRUE;
+	if (g_uThread)
+	{
+		::PostThreadMessage(g_uThread, MSG_USER_DEFAULT_DEVICE_CHANGE, 0, 0);
+	}
 	//m_csEndpoint.Leave();
 	TRACE("AudioVolume::OnDefaultDeviceChanged Leaves\n");
 	return S_OK;
@@ -402,7 +403,6 @@ void AudioVolume::SetMuteStatus(BOOL bMuted)
 	
 	m_csEndpoint.Enter();
 	m_bMuted = bMuted;
-	m_bDefaultDeviceChanged = FALSE;
 	UpdateAudioSessionControlList();
 	m_csEndpoint.Leave();
 	

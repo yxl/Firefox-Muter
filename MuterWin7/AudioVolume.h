@@ -27,7 +27,6 @@ private:
 	CAtlMap<CStringW, CComQIPtr<IAudioSessionControl> , CElementTraits<CStringW> > m_mapSpAudioSessionControl2;
 	CCriticalSection                  m_csEndpoint;
 	BOOL                              m_bMuted;
-	BOOL                              m_bDefaultDeviceChanged;
 
 	long                              m_cRef;
 
@@ -71,7 +70,13 @@ public:
 
 	BOOL IsMuted() const { return m_bMuted; }
 
-	BOOL IsDefaultDeviceChanged() const { return m_bDefaultDeviceChanged; }
+	void UpdateDevice() 
+	{
+		m_csEndpoint.Enter();
+		DetachFromEndpoint();
+		AttachToDefaultEndpoint();
+		m_csEndpoint.Leave();
+	}
 
 	// IUnknown
 	IFACEMETHODIMP_(ULONG) AddRef();

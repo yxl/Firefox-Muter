@@ -15,6 +15,11 @@ extern "C"
 #define MUTERWIN7_API __declspec(dllimport)
 #endif
 
+	// Custom thread message ID
+#define MSG_USER_DEFAULT_DEVICE_CHANGE (WM_USER + 200)
+#define MSG_USER_ENABLE_MUTE (WM_USER + 201)
+
+
 	MUTERWIN7_API BOOL Initialize(void);
 
 	MUTERWIN7_API void Dispose(void);
@@ -23,8 +28,8 @@ extern "C"
 
 	MUTERWIN7_API BOOL IsMuteEnabled();
 
-	MUTERWIN7_API BOOL IsDefaultDeviceChanged();
-
+	extern unsigned g_uThread;
+	
 	extern DWORD g_dwThisModuleProcessId;
 
 #ifdef __cplusplus
