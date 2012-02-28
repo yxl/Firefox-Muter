@@ -1,0 +1,43 @@
+<!ENTITY muter-button.label "Пригуши">
+<!ENTITY muter-button.tooltip "Промени стање тона">
+<!ENTITY muter-popup.init "Брзо утишај">
+<!ENTITY muter.feedback "Повратна информација">
+<!ENTITY muter.skin.label "Маске">
+<!ENTITY muter.skin.default.lable "подразумевана">
+<!ENTITY muter.settings.title "Поставке">
+<!ENTITY muter.settings.ui.label "Корисничко сучење">
+<!ENTITY muter.settings.custom.label "прилагођена">
+<!ENTITY muter.settings.miscellaneous.label "Разно">
+<!ENTITY muter.settings.shorcut.title "Пречице">
+<!ENTITY muter.settings.restore "Врати на подразумеване вредности">
+<!ENTITY muter.settings.showInAddonBar "Прикажи дугме у траци са алаткама">
+<!ENTITY muter.settings.showInStatusBar "Прикажи дугме у статусној траци">
+<!ENTITY muter.settings.restart.descr "Промене ће бити примењене када поново покренете &brandShortName;">
+<!ENTITY muter.settings.switchButtonStyle "Стил дугмета">
+<!ENTITY muter.settings.switchButtonWithMenu "са менијем">
+<!ENTITY muter.settings.switchButtonWithoutMenu "без менија">
+<!ENTITY muter.settings.saveStatus "Врати на подразумевану вредност тона након што се &brandShortName; поново покрене.">
+<!ENTITY muter.settings.defaultIcons.label "подразумеване иконе">
+<!ENTITY muter.settings.defaultDisabledIcon.label "Икона нормалног тона">
+<!ENTITY muter.settings.defaultEnabledIcon.label "Икона пригушеног тона">
+<!ENTITY muter.settings.changeIcon "Промени икону…">
+<!ENTITY muter.settings.resetIcon "Врати подразумевану икону">
+<!ENTITY muter.feedback.typeSelector.heading "Изаберите тип проблема">
+<!ENTITY muter.feedback.typeSelector.description "Овај чаробњак ће вас водити кроз процес пријављивања проблема са пригушивачем. Прво изаберите тип вашег проблема.">
+<!ENTITY muter.feedback.notWorking.label "Не ради.">
+<!ENTITY muter.feedback.notWorking.description "Не могу да утишам прегледач.">
+<!ENTITY muter.feedback.sideEffect.label "Додатак ствара проблеме.">
+<!ENTITY muter.feedback.sideEffect.description "Додатак смета другим додацима или слично.">
+<!ENTITY muter.feedback.other.label "Други проблем.">
+<!ENTITY muter.feedback.other.description "Предлози или други проблеми">
+<!ENTITY muter.feedback.commentPage.heading "Унесите коментар">
+<!ENTITY muter.feedback.commentPage.description "У поље испод можете унети коментар, како бисмо разумели о чему се ради. Писање је произвољно, али је препоручено ако проблем није очигледан. Пре слања можете прегледати податке.">
+<!ENTITY muter.feedback.comment.label "Коментар (произвољно)">
+<!ENTITY muter.feedback.url.label "URL на који се односи (произвољно):">
+<!ENTITY muter.feedback.email.label "Е-адреса (произвољно). На њу ћемо послати поруку када решимо проблем.">
+<!ENTITY muter.feedback.comment.lengthWarning "Дужина вашег коментара је преко 500 знакова. Само првих 500 знакова ће бити послато.">
+<!ENTITY muter.feedback.attachAddons.label "Приложи списак активних додатака у извештај, ако је овај додатак у сукобу са неким од њих.">
+<!ENTITY muter.feedback.sendPage.heading "Пошаљи извештај">
+<!ENTITY muter.feedback.reportData.label "Подаци извештаја:">
+<!ENTITY muter.feedback.sendPage.errorMessage "Слање извештаја није успело. Проверите да ли сте повезани на интернет, па пробајте поново.">
+<!ENTITY muter.feedback.sendPage.retry.label "Пошаљи поново">

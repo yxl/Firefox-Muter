@@ -2,7 +2,7 @@
 <!ENTITY muter-button.tooltip "Basculer le statut muet">
 <!ENTITY muter-popup.init "Passer rapidement à l'état muet">
 <!ENTITY muter.feedback "Retour d'information">
-<!ENTITY muter.skin.label "Skins">
+<!ENTITY muter.skin.label "Apparences">
 <!ENTITY muter.skin.default.lable "Par Défaut">
 <!ENTITY muter.settings.title "Paramètres Muter">
 <!ENTITY muter.settings.ui.label "Interface Utilisateur">
@@ -18,7 +18,7 @@
 <!ENTITY muter.settings.switchButtonWithoutMenu "Sans menu">
 <!ENTITY muter.settings.saveStatus "Restaurer le statut muet après que &brandShortName; redémarre.">
 <!ENTITY muter.settings.defaultIcons.label "Icônes par défaut">
-<!ENTITY muter.settings.defaultDisabledIcon.label "Icône de l'état normale">
+<!ENTITY muter.settings.defaultDisabledIcon.label "Icône de l'état normal">
 <!ENTITY muter.settings.defaultEnabledIcon.label "Icône de l'état muet">
 <!ENTITY muter.settings.changeIcon "Changer l'icône...">
 <!ENTITY muter.settings.resetIcon "Réinitialiser l'icône">
@@ -34,7 +34,7 @@
 <!ENTITY muter.feedback.commentPage.description "Le champ de texte ci-dessous vous permet d'entrer un commentaire pour nous aider à comprendre le problème. Cette étape est facultative mais recommandée si le problème n'est pas évident. Vous pouvez consulter les données du rapport avant qu'il ne soit envoyé.">
 <!ENTITY muter.feedback.comment.label "Commentaire (facultatif):">
 <!ENTITY muter.feedback.url.label "URL associée (facultatif):">
-<!ENTITY muter.feedback.email.label "Email (facultatif. Nous vous enverrons un email lorsque le problème sera résolu.):">
+<!ENTITY muter.feedback.email.label "E-mail (facultatif. Nous vous enverrons un e-mail lorsque le problème sera résolu.):">
 <!ENTITY muter.feedback.comment.lengthWarning "La longueur de votre commentaire dépasse 500 caractères. Seuls les 500 premiers caractères seront envoyés.">
 <!ENTITY muter.feedback.attachAddons.label "Joignez une liste des modules actifs au rapport en cas qu'un conflit de modules soit la cause du problème.">
 <!ENTITY muter.feedback.sendPage.heading "Envoyer le rapport">

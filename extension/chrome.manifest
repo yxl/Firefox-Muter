@@ -8,11 +8,15 @@ overlay chrome://navigator/content/navigator.xul chrome://muter/content/overlay.
 style	chrome://global/content/customizeToolbar.xul	chrome://muter/skin/muter.css
 
 locale	muter	en-US	chrome/locale/en-US/
-locale	muter	zh-CN	chrome/locale/zh-CN/
-locale	muter	zh-TW	chrome/locale/zh-TW/
-locale	muter	ja-JP	chrome/locale/ja-JP/
+locale	muter	es-ES	chrome/locale/es-ES/
+locale	muter	fr	chrome/locale/fr/
 locale	muter	he	chrome/locale/he/
+locale	muter	ja-JP	chrome/locale/ja-JP/
+locale	muter	lt	chrome/locale/lt/
 locale	muter	nl	chrome/locale/nl/
 locale	muter	pl	chrome/locale/pl/
-locale	muter	fr	chrome/locale/fr/
+locale	muter	sr	chrome/locale/sr/
+locale	muter	sv-SE	chrome/locale/sv-SE/
+locale	muter	zh-CN	chrome/locale/zh-CN/
+locale	muter	zh-TW	chrome/locale/zh-TW/
 

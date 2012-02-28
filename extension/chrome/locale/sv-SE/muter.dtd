@@ -1,0 +1,48 @@
+<!ENTITY muter-button.label "Ljud av">
+<!ENTITY muter-button.tooltip "Växla ljudstatus">
+<!ENTITY muter-popup.init "Snabb växling av ljudstatus">
+<!ENTITY muter.feedback "Felsökning">
+<!ENTITY muter.skin.label "Skal">
+<!ENTITY muter.skin.default.lable "Standard">
+<!ENTITY muter.settings.title "Inställningar för Muter">
+<!ENTITY muter.settings.ui.label "Användargränssnitt">
+<!ENTITY muter.settings.custom.label "Ikoner">
+<!ENTITY muter.settings.miscellaneous.label "Övrigt">
+<!ENTITY muter.settings.shorcut.title "Kortkommandon">
+<!ENTITY muter.settings.restore "Återställ standard">
+<!ENTITY muter.settings.showInAddonBar "Visa växlingsknapp i tilläggsfältet.">
+<!ENTITY muter.settings.showInStatusBar "Visa växlingsknapp i statusfältet.">
+<!ENTITY muter.settings.restart.descr "Ändring verkställs efter omstart av &brandShortName;.">
+<!ENTITY muter.settings.switchButtonStyle "Byt knapputseende:">
+<!ENTITY muter.settings.switchButtonWithMenu "Med meny">
+<!ENTITY muter.settings.switchButtonWithoutMenu "Utan meny">
+<!ENTITY muter.settings.saveStatus "Återställ ljudstatus efter omstart av &brandShortName;.">
+<!ENTITY muter.settings.defaultIcons.label "Standardikoner">
+<!ENTITY muter.settings.defaultDisabledIcon.label "Statusikon vid ljud på">
+<!ENTITY muter.settings.defaultEnabledIcon.label "Statusikon vid ljud av">
+<!ENTITY muter.settings.changeIcon "Byt ikon…">
+<!ENTITY muter.settings.resetIcon "Återställ ikon">
+<!ENTITY muter.feedback.typeSelector.heading "Välj problemtyp">
+<!ENTITY muter.feedback.typeSelector.description "Denna guide kommer att leda dig
+
+
+  igenom de steg som krävs för att skicka in en problemrapport för Muter.
+
+  Först behöver du ange den typ av problem som du upplever med Muter.">
+<!ENTITY muter.feedback.notWorking.label "Det fungerar inte!">
+<!ENTITY muter.feedback.notWorking.description "Tillägget kan inte stänga av webbläsarens ljud.">
+<!ENTITY muter.feedback.sideEffect.label "Det är en problemmakare">
+<!ENTITY muter.feedback.sideEffect.description "Tillägget orsakar programkrascher eller andra problem.">
+<!ENTITY muter.feedback.other.label "Annat problem">
+<!ENTITY muter.feedback.other.description "Förslag eller andra problem.">
+<!ENTITY muter.feedback.commentPage.heading "Skriv en kommentar">
+<!ENTITY muter.feedback.commentPage.description "I textfältet nedan kan du skriva en kommentar för att hjälpa oss att förstå problemet.　Detta steg är valfritt, med rekommenderas om problemet inte är uppenbart.　Du kan granska rapportdatan innan den skickas.">
+<!ENTITY muter.feedback.comment.label "Kommentar (valfritt):">
+<!ENTITY muter.feedback.url.label "Relaterad URL (valfritt):">
+<!ENTITY muter.feedback.email.label "E-postadress (valfritt):">
+<!ENTITY muter.feedback.comment.lengthWarning "Längden på din kommentar överskrider 500 tecken. Endast de första 500 tecknen kommer att skickas.">
+<!ENTITY muter.feedback.attachAddons.label "Bifoga en lista över aktiva tillägg till rapporten ifall en tilläggskonflikt är orsak till problemet.">
+<!ENTITY muter.feedback.sendPage.heading "Skicka rapport">
+<!ENTITY muter.feedback.reportData.label "Rapportdata:">
+<!ENTITY muter.feedback.sendPage.errorMessage "Ett försök att skicka rapporten misslyckades. Säkerställ att du är ansluten till Internet och försök igen.">
+<!ENTITY muter.feedback.sendPage.retry.label "Skicka igen">

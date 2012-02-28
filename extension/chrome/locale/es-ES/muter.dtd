@@ -1,0 +1,43 @@
+<!ENTITY muter-button.label "Silencio">
+<!ENTITY muter-button.tooltip "Cambiar estado">
+<!ENTITY muter-popup.init "Silencio">
+<!ENTITY muter.feedback "Comentarios">
+<!ENTITY muter.skin.label "Icono">
+<!ENTITY muter.skin.default.lable "Predeterminado">
+<!ENTITY muter.settings.title "Opciones">
+<!ENTITY muter.settings.ui.label "Interfaz">
+<!ENTITY muter.settings.custom.label "Personalizar">
+<!ENTITY muter.settings.miscellaneous.label "Otras">
+<!ENTITY muter.settings.shorcut.title "Teclas de acceso directo">
+<!ENTITY muter.settings.restore "Restaurar predeterminadas">
+<!ENTITY muter.settings.showInAddonBar "Mostrar comando en barra de complementos">
+<!ENTITY muter.settings.showInStatusBar "Mostrar comando en barra de estado">
+<!ENTITY muter.settings.restart.descr "Efectivo al reiniciar &brandShortName;">
+<!ENTITY muter.settings.switchButtonStyle "Estilo de comando:">
+<!ENTITY muter.settings.switchButtonWithMenu "Con menu">
+<!ENTITY muter.settings.switchButtonWithoutMenu "Sin menu">
+<!ENTITY muter.settings.saveStatus "Restaurar silencio al reiniciar &brandShortName;">
+<!ENTITY muter.settings.defaultIcons.label "Iconos predeterminados">
+<!ENTITY muter.settings.defaultDisabledIcon.label "Normal">
+<!ENTITY muter.settings.defaultEnabledIcon.label "Silencio">
+<!ENTITY muter.settings.changeIcon "Cambiar">
+<!ENTITY muter.settings.resetIcon "Restaurar">
+<!ENTITY muter.feedback.typeSelector.heading "Problema">
+<!ENTITY muter.feedback.typeSelector.description "Pasos necesarios para informar de problemas con el complemento - Primero seleccionar problema">
+<!ENTITY muter.feedback.notWorking.label "No funciona">
+<!ENTITY muter.feedback.notWorking.description "No puede silenciar">
+<!ENTITY muter.feedback.sideEffect.label "Causa conflictos">
+<!ENTITY muter.feedback.sideEffect.description "Inhabilita el navegador u otros problemas">
+<!ENTITY muter.feedback.other.label "Otros">
+<!ENTITY muter.feedback.other.description "Sugerencias u otros problemas">
+<!ENTITY muter.feedback.commentPage.heading "Comentar">
+<!ENTITY muter.feedback.commentPage.description "Este campo de texto permite hacer comentarios para ayudarnos a entender el problema. Este paso es recomendable si el problema no es obvio. Es posible revisar el informe antes de enviarlo.">
+<!ENTITY muter.feedback.comment.label "Comentario (opcional):">
+<!ENTITY muter.feedback.url.label "Enlace relacionado (opcional):">
+<!ENTITY muter.feedback.email.label "Email (opcional. Enviaremos un mensaje al resolver el problema):">
+<!ENTITY muter.feedback.comment.lengthWarning "El comentario excede de 500 caracteres y solamente se consideran los primeros 500">
+<!ENTITY muter.feedback.attachAddons.label "Agregar al informe lista de complementos activos en caso de que la causa del problema sea un conflicto entre ellos">
+<!ENTITY muter.feedback.sendPage.heading "Enviar informe">
+<!ENTITY muter.feedback.reportData.label "Datos:">
+<!ENTITY muter.feedback.sendPage.errorMessage "Error al enviar informe - Asegurarse de estar conectado a Internet y re-intentar">
+<!ENTITY muter.feedback.sendPage.retry.label "Reenviar">

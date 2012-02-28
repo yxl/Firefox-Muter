@@ -1,0 +1,43 @@
+<!ENTITY muter-button.label "Nutildyti">
+<!ENTITY muter-button.tooltip "Perjungti nutildymo būseną">
+<!ENTITY muter-popup.init "Greitai perjungti į nutildymo būsenas">
+<!ENTITY muter.feedback "Atsiliepimai">
+<!ENTITY muter.skin.label "Apvalkalai">
+<!ENTITY muter.skin.default.lable "Numatytasis">
+<!ENTITY muter.settings.title "Nutildymo nustatymai">
+<!ENTITY muter.settings.ui.label "Naudotojo sąsaja">
+<!ENTITY muter.settings.custom.label "Naudotojo pasirinktieji">
+<!ENTITY muter.settings.miscellaneous.label "Kita">
+<!ENTITY muter.settings.shorcut.title "Spartieji klavišai">
+<!ENTITY muter.settings.restore "Atstatyti numatytus">
+<!ENTITY muter.settings.showInAddonBar "Papildinių juostoje rodyti perjungimo mygtuką">
+<!ENTITY muter.settings.showInStatusBar "Būsenos juostoje rodyti perjungimo mygtuką.">
+<!ENTITY muter.settings.restart.descr "Pakeitimai įsigalios iš naujo paleidus &brandShortName;.">
+<!ENTITY muter.settings.switchButtonStyle "Perjungimo mygtuko stilius:">
+<!ENTITY muter.settings.switchButtonWithMenu "Su meniu">
+<!ENTITY muter.settings.switchButtonWithoutMenu "Be meniu">
+<!ENTITY muter.settings.saveStatus "Paleidus &brandShortName; iš naujo atstatyti nutildymo būseną.">
+<!ENTITY muter.settings.defaultIcons.label "Numatytosios piktogramos">
+<!ENTITY muter.settings.defaultDisabledIcon.label "Įprastos būsenos piktograma">
+<!ENTITY muter.settings.defaultEnabledIcon.label "Nutildymo būsenos piktograma">
+<!ENTITY muter.settings.changeIcon "Keisti piktogramą...">
+<!ENTITY muter.settings.resetIcon "Atkurti piktogramą">
+<!ENTITY muter.feedback.typeSelector.heading "Pasirinkite problemos tipą">
+<!ENTITY muter.feedback.typeSelector.description "Šis langas padės jums pereiti žingsnius reikalingus norint pranešti apie „muter“ problemą. Pirmiausia, pasirinkite jums iškilusios problemos tipą.">
+<!ENTITY muter.feedback.notWorking.label "Neveikia!">
+<!ENTITY muter.feedback.notWorking.description "Nenutildo naršyklės.">
+<!ENTITY muter.feedback.sideEffect.label "Sukelia bėdas.">
+<!ENTITY muter.feedback.sideEffect.description "Dėl šio papildinio įvyksta lūžiai ir kitos bėdos.">
+<!ENTITY muter.feedback.other.label "Kita problema">
+<!ENTITY muter.feedback.other.description "Pasiūlymai ir kitos bėdos.">
+<!ENTITY muter.feedback.commentPage.heading "Parašykite komentarą">
+<!ENTITY muter.feedback.commentPage.description "Žemiau esantis laukelis, leidžia jums parašyti komentarą ir taip paaiškinti mums jūsų problemą. Šis žingsnis yra nebūtinas, bet rekomenduotinas jei problema neakivaizdi. Prieš siųsdami pranešimą galite jį peržiūrėti.">
+<!ENTITY muter.feedback.comment.label "Komentaras (nebūtinas):">
+<!ENTITY muter.feedback.url.label "Susijusi URL (nebūtina):">
+<!ENTITY muter.feedback.email.label "El. paštas (nebūtina. Kai išspręsime bėdą, mes jums parašysime el. laišką.):">
+<!ENTITY muter.feedback.comment.lengthWarning "Jūsų komentaras viršija 500 simbolių ribą. Bus išsiųsti tik pirmi 500 simbolių.">
+<!ENTITY muter.feedback.attachAddons.label "Pridėti aktyvių papildinių sąrašą, gali būti jog šis papildinys nesuderinamas su kitu ir dėl to kilo bėda.">
+<!ENTITY muter.feedback.sendPage.heading "Siųsti pranešimą">
+<!ENTITY muter.feedback.reportData.label "Pranešimo turinys:">
+<!ENTITY muter.feedback.sendPage.errorMessage "Išsiųsti nepavyko. Įsitikinkite jog jūs prisijungę prie interneto ir bandykite dar kartą.">
+<!ENTITY muter.feedback.sendPage.retry.label "Siųsti dar kartą">
