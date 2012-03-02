@@ -1,0 +1,43 @@
+<!ENTITY muter-button.label "Mute">
+<!ENTITY muter-button.tooltip "Stumm schalten">
+<!ENTITY muter-popup.init "Schnell in den Stumm-Modus schalten">
+<!ENTITY muter.feedback "Feedback">
+<!ENTITY muter.skin.label "Skins">
+<!ENTITY muter.skin.default.lable "Standard">
+<!ENTITY muter.settings.title "Muter - Einstellungen">
+<!ENTITY muter.settings.ui.label "Benutzeroberfläche">
+<!ENTITY muter.settings.custom.label "Benutzerdefiniert">
+<!ENTITY muter.settings.miscellaneous.label "Verschiedenes">
+<!ENTITY muter.settings.shorcut.title "Tastenkürzel">
+<!ENTITY muter.settings.restore "Standardwerte wiederherstellen">
+<!ENTITY muter.settings.showInAddonBar "Umschalter-Schaltfläche in der Add-on-Leiste anzeigen.">
+<!ENTITY muter.settings.showInStatusBar "Umschalter-Schaltfläche in der Statusleiste anzeigen.">
+<!ENTITY muter.settings.restart.descr "It will take effect after &brandShortName; restarts.">
+<!ENTITY muter.settings.switchButtonStyle "Switch button style:">
+<!ENTITY muter.settings.switchButtonWithMenu "With menu">
+<!ENTITY muter.settings.switchButtonWithoutMenu "Without menu">
+<!ENTITY muter.settings.saveStatus "Restore mute status after &brandShortName; restarts.">
+<!ENTITY muter.settings.defaultIcons.label "Default icons">
+<!ENTITY muter.settings.defaultDisabledIcon.label "Normal status icon">
+<!ENTITY muter.settings.defaultEnabledIcon.label "Mute status icon">
+<!ENTITY muter.settings.changeIcon "Change icon...">
+<!ENTITY muter.settings.resetIcon "Reset icon">
+<!ENTITY muter.feedback.typeSelector.heading "Select problem type">
+<!ENTITY muter.feedback.typeSelector.description "This window will guide you through the steps required for the submission of a muter problem report. First, please select the type of problem that you are experiencing.">
+<!ENTITY muter.feedback.notWorking.label "It doesn't work!">
+<!ENTITY muter.feedback.notWorking.description "It cannot mute the browser.">
+<!ENTITY muter.feedback.sideEffect.label "It is a problem maker.">
+<!ENTITY muter.feedback.sideEffect.description "The addon results in crash or other problems.">
+<!ENTITY muter.feedback.other.label "Other problem">
+<!ENTITY muter.feedback.other.description "Suggestions or other problems.">
+<!ENTITY muter.feedback.commentPage.heading "Enter comment">
+<!ENTITY muter.feedback.commentPage.description "The text field below allows you to enter a comment to help us understand the problem. This step is optional but recommended if the problem isn't obvious. You can review the report data before it is sent.">
+<!ENTITY muter.feedback.comment.label "Comment (optional):">
+<!ENTITY muter.feedback.url.label "Related URL (optional):">
+<!ENTITY muter.feedback.email.label "Email (optional. We will send you an Email when the problem is resolved.):">
+<!ENTITY muter.feedback.comment.lengthWarning "The length of your comment exceeds 500 characters. Only the first 500 characters will be sent.">
+<!ENTITY muter.feedback.attachAddons.label "Attach a list of active add-ons to the report in case add-on conflict is the cause of the problem.">
+<!ENTITY muter.feedback.sendPage.heading "Send report">
+<!ENTITY muter.feedback.reportData.label "Report data:">
+<!ENTITY muter.feedback.sendPage.errorMessage "An attempt to send the report failed. Please ensure you are connected to the Internet and retry.">
+<!ENTITY muter.feedback.sendPage.retry.label "Send again">

@@ -1,0 +1,43 @@
+<!ENTITY muter-button.label "Vaimenna">
+<!ENTITY muter-button.tooltip "Muuta vaimennustilaa">
+<!ENTITY muter-popup.init "Nopeasti muuta vaimennustilaan">
+<!ENTITY muter.feedback "Palaute">
+<!ENTITY muter.skin.label "Teemat">
+<!ENTITY muter.skin.default.lable "Oletus">
+<!ENTITY muter.settings.title "Muter - Asetukset">
+<!ENTITY muter.settings.ui.label "Käyttöliittymä">
+<!ENTITY muter.settings.custom.label "Muokkaukset">
+<!ENTITY muter.settings.miscellaneous.label "Sekalaiset">
+<!ENTITY muter.settings.shorcut.title "Näppäinkomennot">
+<!ENTITY muter.settings.restore "Palauta oletusasetukset">
+<!ENTITY muter.settings.showInAddonBar "Näytä painike lisäosapalkilla.">
+<!ENTITY muter.settings.showInStatusBar "Näytä painike tilapalkilla.">
+<!ENTITY muter.settings.restart.descr "Muutokset tulevat voimaan käynnistettäessä &brandShortName; uudelleen.">
+<!ENTITY muter.settings.switchButtonStyle "Muuta painikkeen tyyliä:">
+<!ENTITY muter.settings.switchButtonWithMenu "Valikolla">
+<!ENTITY muter.settings.switchButtonWithoutMenu "Ilman valikkoa">
+<!ENTITY muter.settings.saveStatus "Palauta vaimennustila käynnistettäessä &brandShortName; on uudelleen.">
+<!ENTITY muter.settings.defaultIcons.label "Oletuskuvakkeet">
+<!ENTITY muter.settings.defaultDisabledIcon.label "Normaalitilan kuvake">
+<!ENTITY muter.settings.defaultEnabledIcon.label "Vaimennustilan kuvake">
+<!ENTITY muter.settings.changeIcon "Muuta kuvaketta">
+<!ENTITY muter.settings.resetIcon "Palauta kuvake">
+<!ENTITY muter.feedback.typeSelector.heading "Valitse ongelmatyyppi">
+<!ENTITY muter.feedback.typeSelector.description "Tämä ikkuna opastaa Muter-ongelmaraportin lähettämisessä vaiheittain. Aluksi valitse ongelmatyyppi, jonka havaitset.">
+<!ENTITY muter.feedback.notWorking.label "Se ei toimi!">
+<!ENTITY muter.feedback.notWorking.description "Se ei vaimenna selainta.">
+<!ENTITY muter.feedback.sideEffect.label "Se aiheuttaa ongelmia.">
+<!ENTITY muter.feedback.sideEffect.description "Lisäosa aiheuttaa kaatumisen tai muun ongelman.">
+<!ENTITY muter.feedback.other.label "Muu ongelma">
+<!ENTITY muter.feedback.other.description "Ehdotukset tai muut ongelmat.">
+<!ENTITY muter.feedback.commentPage.heading "Lisää kommentti">
+<!ENTITY muter.feedback.commentPage.description "Alapuolella olevaan tekstikenttään voit lisätä kommentin ongelmatilanteen kuvausta tai muuta kommentoitavaa varten (englanniksi). Tämä vaihe on vaihtoehtoinen mutta se on suositeltava, jos ongelma ei ole ilmeinen. Raportin voi käydä läpi ennen lähettämistä.">
+<!ENTITY muter.feedback.comment.label "Kommentti (vaihtoehtoinen):">
+<!ENTITY muter.feedback.url.label "Ongelmaan liittyvä osoite (vaihtoehtoinen):">
+<!ENTITY muter.feedback.email.label "Sähköpostiosoite (vaihtoehtoinen. Lähetämme sähköpostia, kun ongelma on ratkaistu):">
+<!ENTITY muter.feedback.comment.lengthWarning "Kommenttisi pituus ylittää 500 merkkiä. Vain ensimmäiset 500 merkkiä lähetetään.">
+<!ENTITY muter.feedback.attachAddons.label "Liitä raporttiin lista aktiivisista lisäosista siinä tapauksessa, että lisäosan aiheuttama ristiriita on ongelman syy.">
+<!ENTITY muter.feedback.sendPage.heading "Lähetä raportti">
+<!ENTITY muter.feedback.reportData.label "Raportin tiedot:">
+<!ENTITY muter.feedback.sendPage.errorMessage "Raportin lähettäminen epäonnistui. Varmista, että olet yhteydessä Internetiin ja yritä uudelleen.">
+<!ENTITY muter.feedback.sendPage.retry.label "Lähetä uudelleen">
