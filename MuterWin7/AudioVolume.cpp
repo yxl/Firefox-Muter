@@ -57,11 +57,13 @@ void AudioVolume::Dispose()
 
 	DetachFromEndpoint();
 
+	m_csEndpoint.Enter();
 	if (m_bRegisteredForEndpointNotifications)
 	{
 		m_spEnumerator->UnregisterEndpointNotificationCallback(this);
 		m_bRegisteredForEndpointNotifications = FALSE;
 	}
+	m_csEndpoint.Leave();
 
 	SAFE_RELEASE(m_spEnumerator);
 }
@@ -263,6 +265,12 @@ void AudioVolume::AddSessionIfNew(const std::map<DWORD, BOOL> &map, CComQIPtr<IA
 
 void AudioVolume::DisposeAudioSessionControlList()
 {
+	POSITION pos = m_mapSpAudioSessionControl2.GetStartPosition();
+	while (pos != NULL)
+	{
+		CComQIPtr<IAudioSessionControl> spAudioSessionControl = m_mapSpAudioSessionControl2.GetNextValue(pos);
+		SAFE_RELEASE(spAudioSessionControl);
+	}
 	m_mapSpAudioSessionControl2.RemoveAll();
 }
 
@@ -281,12 +289,12 @@ HRESULT AudioVolume::OnDefaultDeviceChanged
 	)
 {
 	TRACE("AudioVolume::OnDefaultDeviceChanged Enters\n");
-	//m_csEndpoint.Enter();
+	m_csEndpoint.Enter();
 	if (g_uThread)
 	{
 		::PostThreadMessage(g_uThread, MSG_USER_DEFAULT_DEVICE_CHANGE, 0, 0);
 	}
-	//m_csEndpoint.Leave();
+	m_csEndpoint.Leave();
 	TRACE("AudioVolume::OnDefaultDeviceChanged Leaves\n");
 	return S_OK;
 }
@@ -400,11 +408,11 @@ BOOL AudioVolume::GetSubProcesseMap(DWORD dwParentProcessId, std::map<DWORD, BOO
 void AudioVolume::SetMuteStatus(BOOL bMuted)
 {
 	TRACE("[MuterWin7] AudioVolume::UpdateMuteStatus Enters\n");
-	
+
 	m_csEndpoint.Enter();
 	m_bMuted = bMuted;
 	UpdateAudioSessionControlList();
 	m_csEndpoint.Leave();
-	
+
 	TRACE("[MuterWin7] AudioVolume::UpdateMuteStatus Leaves\n");
 }

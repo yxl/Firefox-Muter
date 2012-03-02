@@ -7,8 +7,10 @@ overlay	chrome://browser/content/browser.xul	chrome://muter/content/overlay.xul
 overlay chrome://navigator/content/navigator.xul chrome://muter/content/overlay.xul
 style	chrome://global/content/customizeToolbar.xul	chrome://muter/skin/muter.css
 
+locale	muter	de	chrome/locale/de/
 locale	muter	en-US	chrome/locale/en-US/
 locale	muter	es-ES	chrome/locale/es-ES/
+locale	muter	fi	chrome/locale/fi/
 locale	muter	fr	chrome/locale/fr/
 locale	muter	he	chrome/locale/he/
 locale	muter	ja-JP	chrome/locale/ja-JP/

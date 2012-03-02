@@ -19,6 +19,8 @@ extern "C"
 	unsigned g_uThread = 0;
 	// Thread handle
 	HANDLE g_hThread;
+	// Whether we enable muting
+	BOOL g_bEnableMute = FALSE;
 
 	unsigned __stdcall ThreadProc(void* lParam);
 
@@ -57,16 +59,13 @@ extern "C"
 		{
 			return;
 		}
+		g_bEnableMute = bEnabled;
 		PostThreadMessage(g_uThread, MSG_USER_ENABLE_MUTE, (WPARAM )bEnabled, 0);
 	}
 
 	MUTERWIN7_API BOOL IsMuteEnabled()
 	{
-		if (g_pAudioVolume != NULL)
-		{
-			return g_pAudioVolume->IsMuted();
-		}
-		return FALSE;
+		return g_bEnableMute;
 	}
 
 	unsigned __stdcall ThreadProc(void* lParam)
@@ -100,6 +99,7 @@ extern "C"
 			{
 			case MSG_USER_DEFAULT_DEVICE_CHANGE:
 				{
+					Sleep(200);
 					g_pAudioVolume->UpdateDevice();
 				}
 				break;
