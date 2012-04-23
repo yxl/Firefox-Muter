@@ -54,11 +54,11 @@ private:
 	// Get a map that its keys contains all process IDs and the value for each key is a boolean value indicating whehter the process with key is a subprocess.
 	BOOL GetSubProcesseMap(DWORD dwParentProcessId, std::map<DWORD, BOOL> &map);
 
-	void UpdateAudioSessionControlList();
+	void InitAudioSessionControlList();
 	void DisposeAudioSessionControlList();
 	void UpdateAudioSessionControlMuteStatus();
 
-	void AddSessionIfNew(const std::map<DWORD, BOOL> &map, CComQIPtr<IAudioSessionControl> spAudioSessionControl);
+	void AddSession(const std::map<DWORD, BOOL> &map, CComQIPtr<IAudioSessionControl> spAudioSessionControl);
 public:
 	AudioVolume();
 
@@ -68,8 +68,15 @@ public:
 	// Change mute status of all audio session
 	void SetMuteStatus(BOOL bMuted);
 
+	// Update mute status of all audio session
+	void UpdateMuteStatus();
+
 	BOOL IsMuted() const { return m_bMuted; }
 
+	// ----------------------------------------------------------------------
+	//  Call this from the main thread when the default device changes
+	//
+	// ----------------------------------------------------------------------
 	void UpdateDevice() 
 	{
 		m_csEndpoint.Enter();

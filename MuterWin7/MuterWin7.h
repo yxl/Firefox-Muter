@@ -17,7 +17,8 @@ extern "C"
 
 	// Custom thread message ID
 #define MSG_USER_DEFAULT_DEVICE_CHANGE (WM_USER + 200)
-#define MSG_USER_ENABLE_MUTE (WM_USER + 201)
+#define MSG_USER_SESSION_CREATED (WM_USER + 201)
+#define MSG_USER_ENABLE_MUTE (WM_USER + 202)
 
 
 	MUTERWIN7_API BOOL Initialize(void);

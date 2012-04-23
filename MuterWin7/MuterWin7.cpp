@@ -109,6 +109,11 @@ extern "C"
 					g_pAudioVolume->SetMuteStatus(bEnabled);
 				}
 				break;
+			case MSG_USER_SESSION_CREATED:
+				{
+
+				}
+				break;
 			}
 			DispatchMessage(&msg);
 		}
