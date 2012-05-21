@@ -1,14 +1,14 @@
 <!ENTITY muter-button.label "השתק">
 <!ENTITY muter-button.tooltip "שנה מצב השתקה">
-<!ENTITY muter-popup.init "מעבר מהיר למצב השתקה">
+<!ENTITY muter-popup.init "עבור במהירות למצב השתקה">
 <!ENTITY muter.feedback "משוב">
-<!ENTITY muter.skin.label "סקינים (מעטפות)">
+<!ENTITY muter.skin.label "מעטפת">
 <!ENTITY muter.skin.default.lable "ברירת מחדל">
-<!ENTITY muter.settings.title "הגדרות של Muter">
+<!ENTITY muter.settings.title "הגדרות">
 <!ENTITY muter.settings.ui.label "ממשק משתמש">
 <!ENTITY muter.settings.custom.label "התאמה אישית">
 <!ENTITY muter.settings.miscellaneous.label "שונות">
-<!ENTITY muter.settings.shorcut.title "מקשי קיצור במקלדת">
+<!ENTITY muter.settings.shorcut.title "מקשי קיצור">
 <!ENTITY muter.settings.restore "שחזר לברירת מחדל">
 <!ENTITY muter.settings.showInAddonBar "הצג סמל בשורת ההרחבות">
 <!ENTITY muter.settings.showInStatusBar "הצג סמל בשורת מצב">
@@ -25,12 +25,12 @@
 <!ENTITY muter.feedback.typeSelector.heading "בחר את סוג הבעיה">
 <!ENTITY muter.feedback.typeSelector.description "חלון זה ינחה אותך לאורך השלבים הדרושים עבור הגשת דו&quot;ח הבעיה של muter. ראשית, נא בחר את סוג הבעיה שבה נתקלת.">
 <!ENTITY muter.feedback.notWorking.label "לא עובד!">
-<!ENTITY muter.feedback.notWorking.description "לא יתן להשתיק הדפדפן">
+<!ENTITY muter.feedback.notWorking.description "לא ניתן להשתיק בדפדפן">
 <!ENTITY muter.feedback.sideEffect.label "גורם לבעיות">
 <!ENTITY muter.feedback.sideEffect.description "ההרחבה גורמת לקריסה או לבעיות אחרות">
 <!ENTITY muter.feedback.other.label "בעיה אחרת">
 <!ENTITY muter.feedback.other.description "הצעות או בעיות אחרות">
-<!ENTITY muter.feedback.commentPage.heading "הזן הערה">
+<!ENTITY muter.feedback.commentPage.heading "כתוב הערות">
 <!ENTITY muter.feedback.commentPage.description "שדה הטקסט שלהלן מאפשר לך להזין הערה על מנת לעזור לנו להבין את הבעיה. שלב זה אינו חובה אך מומלץ אם הבעיה אינה ברורה. באפשרותך לסקור את הנתונים בדו&quot;ח לפני שליחתו.">
 <!ENTITY muter.feedback.comment.label "הערות (לא חובה):">
 <!ENTITY muter.feedback.url.label "כתובת אתר אינטרנט שנוגעת לבעיה (לא חובה):">

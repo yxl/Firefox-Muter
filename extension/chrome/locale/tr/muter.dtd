@@ -1,0 +1,43 @@
+<!ENTITY muter-button.label "Sessizleştir">
+<!ENTITY muter-button.tooltip "Ses durumunu değiştir">
+<!ENTITY muter-popup.init "Hızlıca ses durumunu değiştir">
+<!ENTITY muter.feedback "Geri Bildirim">
+<!ENTITY muter.skin.label "Arayüzler">
+<!ENTITY muter.skin.default.lable "Varsayılan">
+<!ENTITY muter.settings.title "Sessizleştir Ayarları">
+<!ENTITY muter.settings.ui.label "Kullanıcı Arabirimi">
+<!ENTITY muter.settings.custom.label "Özel">
+<!ENTITY muter.settings.miscellaneous.label "Çeşitli">
+<!ENTITY muter.settings.shorcut.title "Kısayol Tuşları">
+<!ENTITY muter.settings.restore "Varsayılana döndür">
+<!ENTITY muter.settings.showInAddonBar "Değiştir tuşunu eklentilerde göster.">
+<!ENTITY muter.settings.showInStatusBar "Değiştir tuşunu durum çubuğunda göster.">
+<!ENTITY muter.settings.restart.descr "&brandShortName; yeniden başlatıldıktan sonra etkili olacak.">
+<!ENTITY muter.settings.switchButtonStyle "Tuş tarzını değiştir:">
+<!ENTITY muter.settings.switchButtonWithMenu "Menülü">
+<!ENTITY muter.settings.switchButtonWithoutMenu "Menüsüz">
+<!ENTITY muter.settings.saveStatus "&brandShortName; yeniden başlayınca en son durumu geri yükle.">
+<!ENTITY muter.settings.defaultIcons.label "Varsayılan simgeler">
+<!ENTITY muter.settings.defaultDisabledIcon.label "Normal durum simgesi">
+<!ENTITY muter.settings.defaultEnabledIcon.label "Sessiz durum simgesi">
+<!ENTITY muter.settings.changeIcon "Simgeyi değiştir">
+<!ENTITY muter.settings.resetIcon "Simgeyi ilk haline döndür">
+<!ENTITY muter.feedback.typeSelector.heading "Sorun türünü seç">
+<!ENTITY muter.feedback.typeSelector.description "Bu pencere sessizleştirin sorunun bildirmeniz için gereken adımlarla size rehberlik edecek.Önce, lütfen ne tür sorunla karşılaştığını seç">
+<!ENTITY muter.feedback.notWorking.label "Çalışmıyor!">
+<!ENTITY muter.feedback.notWorking.description "Tarayıcıyı sessizleştiremedi.">
+<!ENTITY muter.feedback.sideEffect.label "Sorun yaratıcı.">
+<!ENTITY muter.feedback.sideEffect.description "Eklenti sonucu çökme ve diğer sorunlr.">
+<!ENTITY muter.feedback.other.label "Diğer Sorun">
+<!ENTITY muter.feedback.other.description "Öneriler ve diğer sorunlar.">
+<!ENTITY muter.feedback.commentPage.heading "Yorum gir">
+<!ENTITY muter.feedback.commentPage.description "Bu yazı ekranı yorum girmenize izin vererek sorunu anlamamıza yardımcı oluyor. Bu adım isteğe bağlı ama sorun tam belli değilse öneririz.Göndermeden önce verileri inceleyebilirsin">
+<!ENTITY muter.feedback.comment.label "Yorum (isteğe bağlı):">
+<!ENTITY muter.feedback.url.label "İlgili URL (isteğe bağlı):">
+<!ENTITY muter.feedback.email.label "Eposta (isteğe bağlı. Sorun çözülünce sana eposta yollayacağız):">
+<!ENTITY muter.feedback.comment.lengthWarning "Yorumun 500 karekteri aşıyor.İlk 500 karekter yollanacak.">
+<!ENTITY muter.feedback.attachAddons.label "Eklenti çakışması olup olmadığı anlaşılması için etkin eklentilerin listesini ekle.">
+<!ENTITY muter.feedback.sendPage.heading "Raporu gönder">
+<!ENTITY muter.feedback.reportData.label "Raporlanan veri:">
+<!ENTITY muter.feedback.sendPage.errorMessage "Rapor yollanamadı.Lütfen İnternete bağlı olduğunuzdan emin ol ve tekrar dene">
+<!ENTITY muter.feedback.sendPage.retry.label "Tekrar yolla">

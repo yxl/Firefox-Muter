@@ -1,0 +1,43 @@
+<!ENTITY muter-button.label "Silenci">
+<!ENTITY muter-button.tooltip "Canvia d'estat">
+<!ENTITY muter-popup.init "Silenci">
+<!ENTITY muter.feedback "Comentaris">
+<!ENTITY muter.skin.label "Estil de la interfície">
+<!ENTITY muter.skin.default.lable "Per defecte">
+<!ENTITY muter.settings.title "Configuració">
+<!ENTITY muter.settings.ui.label "Interfície de l'usuari">
+<!ENTITY muter.settings.custom.label "Personalitza">
+<!ENTITY muter.settings.miscellaneous.label "Misceŀlània">
+<!ENTITY muter.settings.shorcut.title "Tecles d'accés ràpid">
+<!ENTITY muter.settings.restore "Restaura els valors per defecte">
+<!ENTITY muter.settings.showInAddonBar "Mostrar el comandament a la barra de complements">
+<!ENTITY muter.settings.showInStatusBar "Mostra el comandament a la barra d'estat">
+<!ENTITY muter.settings.restart.descr "Aquests canvis tindran efecte després de reiniciar &brandShortName;">
+<!ENTITY muter.settings.switchButtonStyle "Canviar estil del comandament:">
+<!ENTITY muter.settings.switchButtonWithMenu "Amb menú">
+<!ENTITY muter.settings.switchButtonWithoutMenu "Sense menú">
+<!ENTITY muter.settings.saveStatus "Restaura el silenci després de reiniciar &brandShortName;">
+<!ENTITY muter.settings.defaultIcons.label "Icones predeterminades">
+<!ENTITY muter.settings.defaultDisabledIcon.label "Normal">
+<!ENTITY muter.settings.defaultEnabledIcon.label "Silenci">
+<!ENTITY muter.settings.changeIcon "Canvia">
+<!ENTITY muter.settings.resetIcon "Restaura">
+<!ENTITY muter.feedback.typeSelector.heading "Problema">
+<!ENTITY muter.feedback.typeSelector.description "Passos necessaris per a informar de problemes amb l'extensió. Primer, selecciona el tipus de problema que experimentes.">
+<!ENTITY muter.feedback.notWorking.label "No funciona!">
+<!ENTITY muter.feedback.notWorking.description "No s'hi pot silenciar el navegador.">
+<!ENTITY muter.feedback.sideEffect.label "Causa conflictes.">
+<!ENTITY muter.feedback.sideEffect.description "L'extensió inhabilita el navegador o altres problemes.">
+<!ENTITY muter.feedback.other.label "Altres problemes">
+<!ENTITY muter.feedback.other.description "Suggerències o altres problemes">
+<!ENTITY muter.feedback.commentPage.heading "Introduïsca el seu comentari">
+<!ENTITY muter.feedback.commentPage.description "Aquest espai per a text permet fer comentaris per ajudar-nos a entendre el problema. aquest pas és opcional, però recomanat si el problema no és obvi. És possible revisat l'informe abans d'enviar-lo.">
+<!ENTITY muter.feedback.comment.label "Comentari (opcional):">
+<!ENTITY muter.feedback.url.label "URL relacionada (opcional):">
+<!ENTITY muter.feedback.email.label "Correu electrònic (opcional. T'enviarem un correu electrònic qual el problema estiga solucionat):">
+<!ENTITY muter.feedback.comment.lengthWarning "La llargària del teu comentari excedeix els 500 caràcters. Només s'enviaran els primers 500 caràcters.">
+<!ENTITY muter.feedback.attachAddons.label "Afegeix a l'informe una llista de les extensions actives en cas de què el causant del problema siga un conflicte entre extensions.">
+<!ENTITY muter.feedback.sendPage.heading "Envia l'informe.">
+<!ENTITY muter.feedback.reportData.label "Dades de l'informe:">
+<!ENTITY muter.feedback.sendPage.errorMessage "Ha hagut un error en l'enviament de l'informe. Assegureu-vos que esteu connectats a Internet i torna-ho a provar.">
+<!ENTITY muter.feedback.sendPage.retry.label "Envia una altra vegada">

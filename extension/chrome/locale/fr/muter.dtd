@@ -36,7 +36,7 @@
 <!ENTITY muter.feedback.url.label "URL associée (facultatif):">
 <!ENTITY muter.feedback.email.label "E-mail (facultatif. Nous vous enverrons un e-mail lorsque le problème sera résolu.):">
 <!ENTITY muter.feedback.comment.lengthWarning "La longueur de votre commentaire dépasse 500 caractères. Seuls les 500 premiers caractères seront envoyés.">
-<!ENTITY muter.feedback.attachAddons.label "Joignez une liste des modules actifs au rapport en cas qu'un conflit de modules soit la cause du problème.">
+<!ENTITY muter.feedback.attachAddons.label "Joignez une liste des modules actifs au rapport au cas où un conflit de modules soit la cause du problème.">
 <!ENTITY muter.feedback.sendPage.heading "Envoyer le rapport">
 <!ENTITY muter.feedback.reportData.label "Données du rapport:">
 <!ENTITY muter.feedback.sendPage.errorMessage "Une tentative d'envoyer le rapport a échoué. S'il vous plaît vous assurer que vous êtes connecté à Internet et réessayez.">

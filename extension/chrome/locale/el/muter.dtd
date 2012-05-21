@@ -1,0 +1,43 @@
+<!ENTITY muter-button.label "Σίγαση">
+<!ENTITY muter-button.tooltip "Εναλλαγή κατάστασης σίγασης">
+<!ENTITY muter-popup.init "Γρήγορη εναλλαγή σε κατάσταση σίγασης">
+<!ENTITY muter.feedback "Σχόλια">
+<!ENTITY muter.skin.label "Εμφάνιση">
+<!ENTITY muter.skin.default.lable "Αρχικό">
+<!ENTITY muter.settings.title "Ρυθμίσεις Muter">
+<!ENTITY muter.settings.ui.label "Διεπαφή χρήστη">
+<!ENTITY muter.settings.custom.label "Προσαρμογή">
+<!ENTITY muter.settings.miscellaneous.label "Διάφορα">
+<!ENTITY muter.settings.shorcut.title "Συντομεύσεις πληκτρολογίου">
+<!ENTITY muter.settings.restore "Επαναφορά αρχικών ρυθμίσεων">
+<!ENTITY muter.settings.showInAddonBar "Εμφάνιση εικονιδίου εναλλαγής κατάστασης στην εργαλειοθήκη πρόσθετων.">
+<!ENTITY muter.settings.showInStatusBar "Εμφάνιση εικονιδίου εναλλαγής κατάστασης στην γραμμή κατάστασης.">
+<!ENTITY muter.settings.restart.descr "Θα ενεργοποιηθεί μετά την επανεκκίνηση του &brandShortName;.">
+<!ENTITY muter.settings.switchButtonStyle "Στύλ εικονιδίου:">
+<!ENTITY muter.settings.switchButtonWithMenu "Με μενού επιλογών">
+<!ENTITY muter.settings.switchButtonWithoutMenu "Χωρίς μενού επιλογών">
+<!ENTITY muter.settings.saveStatus "Επαναφορά της κατάστασης σίγασης μετά την επανεκίνηση του &brandShortName;.">
+<!ENTITY muter.settings.defaultIcons.label "Αρχικά εικονίδια">
+<!ENTITY muter.settings.defaultDisabledIcon.label "Εικονίδιο κανονικής κατάστασης">
+<!ENTITY muter.settings.defaultEnabledIcon.label "Εικονίδιο κατάστασης σίγασης">
+<!ENTITY muter.settings.changeIcon "Αλλαγή εικονιδίου...">
+<!ENTITY muter.settings.resetIcon "Επαναφορά εικονιδίου">
+<!ENTITY muter.feedback.typeSelector.heading "Επιλογή τύπου προβλήματος">
+<!ENTITY muter.feedback.typeSelector.description "Αυτό το παράθυρο θα σας καθοδηγήσει με τα απαιτούμενα βήματα για την αποστολή αναφοράς προβλήματος. Επιλέξτε πρώτα τον τύπο του προβλήματος που σας παρουσιάστηκε.">
+<!ENTITY muter.feedback.notWorking.label "Δεν λειτουργεί!">
+<!ENTITY muter.feedback.notWorking.description "Αδυναμία σίγασης του περιηγητή.">
+<!ENTITY muter.feedback.sideEffect.label "Δημιουργεί προβλήματα.">
+<!ENTITY muter.feedback.sideEffect.description "Το πρόσθετο προκαλεί καταρρεύσεις ή άλλα προβλήματα.">
+<!ENTITY muter.feedback.other.label "Άλλο πρόβλημα">
+<!ENTITY muter.feedback.other.description "Προτάσεις ή άλλα προβλήματα.">
+<!ENTITY muter.feedback.commentPage.heading "Εισαγωγή σχολίου">
+<!ENTITY muter.feedback.commentPage.description "Παρακάτω μπορείτε να κάνετε σχόλια ώστε να καταλάβουμε καλύτερα το πρόβλημα. Είναι προαιρετικό αλλά συνιστώμενο βήμα όταν το πρόβλημα δεν είναι προφανές. Μπορείτε να ελέγξετε τα δεδομένα της αναφοράς πριν την αποστολή.">
+<!ENTITY muter.feedback.comment.label "Σχόλια (προαιρετικό):">
+<!ENTITY muter.feedback.url.label "Διεύθυνση σχετιζόμενης ιστοσελίδας (προαιρετικό):">
+<!ENTITY muter.feedback.email.label "Email (προαιρετικό - Θα σας αποσταλεί μήνυμα όταν το πρόβλημα αναλυθεί):">
+<!ENTITY muter.feedback.comment.lengthWarning "Το σχόλιο ξεπερνά τους 500 χαρακτήρες. Μόνο οι πρώτοι 500 χαρακτήρες θα αποσταλούν.">
+<!ENTITY muter.feedback.attachAddons.label "Επισύναψη λίστας ενεργοποιημένων πρόσθετων για τη διερεύνηση συγκρούσεων μεταξύ τους που μπορεί να δημιουργούν πρόβλημα.">
+<!ENTITY muter.feedback.sendPage.heading "Αποστολή αναφοράς">
+<!ENTITY muter.feedback.reportData.label "Δεδομένα αναφοράς:">
+<!ENTITY muter.feedback.sendPage.errorMessage "Αποτυχία αποστολής αναφοράς. Ελέγξτε τη σύνδεση σας με το διαδίκτυο και προσπαθήστε ξανά.">
+<!ENTITY muter.feedback.sendPage.retry.label "Επανάληψη αποστολής">

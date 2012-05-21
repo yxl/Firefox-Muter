@@ -1,7 +1,7 @@
 <!ENTITY muter-button.label "Mute">
 <!ENTITY muter-button.tooltip "Stumm schalten">
-<!ENTITY muter-popup.init "Schnell in den Stumm-Modus schalten">
-<!ENTITY muter.feedback "Feedback">
+<!ENTITY muter-popup.init "Schnell in den Stumm-Modus umschalten">
+<!ENTITY muter.feedback "Feedback…">
 <!ENTITY muter.skin.label "Skins">
 <!ENTITY muter.skin.default.lable "Standard">
 <!ENTITY muter.settings.title "Muter - Einstellungen">
@@ -10,34 +10,34 @@
 <!ENTITY muter.settings.miscellaneous.label "Verschiedenes">
 <!ENTITY muter.settings.shorcut.title "Tastenkürzel">
 <!ENTITY muter.settings.restore "Standardwerte wiederherstellen">
-<!ENTITY muter.settings.showInAddonBar "Umschalter-Schaltfläche in der Add-on-Leiste anzeigen.">
-<!ENTITY muter.settings.showInStatusBar "Umschalter-Schaltfläche in der Statusleiste anzeigen.">
-<!ENTITY muter.settings.restart.descr "It will take effect after &brandShortName; restarts.">
-<!ENTITY muter.settings.switchButtonStyle "Switch button style:">
-<!ENTITY muter.settings.switchButtonWithMenu "With menu">
-<!ENTITY muter.settings.switchButtonWithoutMenu "Without menu">
-<!ENTITY muter.settings.saveStatus "Restore mute status after &brandShortName; restarts.">
-<!ENTITY muter.settings.defaultIcons.label "Default icons">
-<!ENTITY muter.settings.defaultDisabledIcon.label "Normal status icon">
-<!ENTITY muter.settings.defaultEnabledIcon.label "Mute status icon">
-<!ENTITY muter.settings.changeIcon "Change icon...">
-<!ENTITY muter.settings.resetIcon "Reset icon">
-<!ENTITY muter.feedback.typeSelector.heading "Select problem type">
-<!ENTITY muter.feedback.typeSelector.description "This window will guide you through the steps required for the submission of a muter problem report. First, please select the type of problem that you are experiencing.">
-<!ENTITY muter.feedback.notWorking.label "It doesn't work!">
-<!ENTITY muter.feedback.notWorking.description "It cannot mute the browser.">
-<!ENTITY muter.feedback.sideEffect.label "It is a problem maker.">
-<!ENTITY muter.feedback.sideEffect.description "The addon results in crash or other problems.">
-<!ENTITY muter.feedback.other.label "Other problem">
-<!ENTITY muter.feedback.other.description "Suggestions or other problems.">
-<!ENTITY muter.feedback.commentPage.heading "Enter comment">
-<!ENTITY muter.feedback.commentPage.description "The text field below allows you to enter a comment to help us understand the problem. This step is optional but recommended if the problem isn't obvious. You can review the report data before it is sent.">
-<!ENTITY muter.feedback.comment.label "Comment (optional):">
-<!ENTITY muter.feedback.url.label "Related URL (optional):">
-<!ENTITY muter.feedback.email.label "Email (optional. We will send you an Email when the problem is resolved.):">
-<!ENTITY muter.feedback.comment.lengthWarning "The length of your comment exceeds 500 characters. Only the first 500 characters will be sent.">
-<!ENTITY muter.feedback.attachAddons.label "Attach a list of active add-ons to the report in case add-on conflict is the cause of the problem.">
-<!ENTITY muter.feedback.sendPage.heading "Send report">
-<!ENTITY muter.feedback.reportData.label "Report data:">
-<!ENTITY muter.feedback.sendPage.errorMessage "An attempt to send the report failed. Please ensure you are connected to the Internet and retry.">
-<!ENTITY muter.feedback.sendPage.retry.label "Send again">
+<!ENTITY muter.settings.showInAddonBar "Schaltfläche in der Add-on-Leiste anzeigen">
+<!ENTITY muter.settings.showInStatusBar "Schaltfläche in der Statusleiste anzeigen">
+<!ENTITY muter.settings.restart.descr "Änderungen werden wirksam, sobald Sie &brandShortName; neu starten.">
+<!ENTITY muter.settings.switchButtonStyle "Schaltflächen-Typ:">
+<!ENTITY muter.settings.switchButtonWithMenu "Mit Menü">
+<!ENTITY muter.settings.switchButtonWithoutMenu "Ohne Menü">
+<!ENTITY muter.settings.saveStatus "Stumm-Modus nach dem Neustart wiederherstellen">
+<!ENTITY muter.settings.defaultIcons.label "Standardsymbole">
+<!ENTITY muter.settings.defaultDisabledIcon.label "Symbol für den normalen Modus">
+<!ENTITY muter.settings.defaultEnabledIcon.label "Symbol für den Stumm-Modus">
+<!ENTITY muter.settings.changeIcon "Symbol ändern…">
+<!ENTITY muter.settings.resetIcon "Symbol zurücksetzen">
+<!ENTITY muter.feedback.typeSelector.heading "Fehlertyp angeben">
+<!ENTITY muter.feedback.typeSelector.description "Dieser Dialog führt Sie durch die einzelnen Schritte, welche erforderlich sind, um einen Fehlerbericht zu senden. Bitte wählen Sie zunächst den Fehlertyp aus.">
+<!ENTITY muter.feedback.notWorking.label "Es funktioniert nicht!">
+<!ENTITY muter.feedback.notWorking.description "Der Browser wird nicht stumm geschaltet.">
+<!ENTITY muter.feedback.sideEffect.label "Es macht nur Ärger.">
+<!ENTITY muter.feedback.sideEffect.description "Das Add-on stürzt ab, oder verursacht Fehler.">
+<!ENTITY muter.feedback.other.label "Sonstiger Fehler">
+<!ENTITY muter.feedback.other.description "Den Fehler beschreiben, oder Vorschläge abgeben.">
+<!ENTITY muter.feedback.commentPage.heading "Kommentar eingeben">
+<!ENTITY muter.feedback.commentPage.description "Das untere Textfeld ist für Kommentare vorgesehen, mit denen Sie uns den Fehler schildern. Dieser Schritt ist optional, wird aber bei unkonventionellen Fehlern empfohlen. Die Angaben des Berichts können vor dem Senden noch einmal überprüft werden.">
+<!ENTITY muter.feedback.comment.label "Kommentar (optional):">
+<!ENTITY muter.feedback.url.label "Bezugs-URL (optional):">
+<!ENTITY muter.feedback.email.label "E-Mail (optional. Wir benachrichtigen Sie, sobald der Fehler behoben wurde.):">
+<!ENTITY muter.feedback.comment.lengthWarning "Der Kommentar ist länger als 500 Zeichen. Nur die ersten 500 Zeichen werden gesendet.">
+<!ENTITY muter.feedback.attachAddons.label "Bei Add-on-Konflikten eine Liste der aktiven Add-ons dem Bericht anhängen.">
+<!ENTITY muter.feedback.sendPage.heading "Bericht senden">
+<!ENTITY muter.feedback.reportData.label "Fehlerbericht:">
+<!ENTITY muter.feedback.sendPage.errorMessage "Beim Senden ist ein Fehler aufgetreten. Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.">
+<!ENTITY muter.feedback.sendPage.retry.label "Erneut senden">
