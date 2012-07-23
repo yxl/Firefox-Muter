@@ -167,15 +167,10 @@ void AudioVolume::InitAudioSessionControlList()
 		}
 
 		// Map indicating whether a process belongs to firefox
-		std::map<DWORD, BOOL> map;
-		if (!GetSubProcesseMap(g_dwThisModuleProcessId, map))
+		std::map<DWORD, DWORD> map;
+		if (!BuildProcesseTree(map))
 		{
 			throw "AudioVolume::GetSubProcesseMap failed!";
-		}
-		std::map<DWORD, BOOL>::iterator iter = map.find(g_dwThisModuleProcessId);
-		if (iter != map.end())
-		{
-			iter->second = TRUE;
 		}
 
 		// Enumerate audio sessions
@@ -206,7 +201,7 @@ void AudioVolume::InitAudioSessionControlList()
 	SAFE_RELEASE(spAudioSessionEnumerator);
 }
 
-void AudioVolume::AddSession(const std::map<DWORD, BOOL> &map, CComQIPtr<IAudioSessionControl> spAudioSessionControl)
+void AudioVolume::AddSession(std::map<DWORD, DWORD> &map, CComQIPtr<IAudioSessionControl> spAudioSessionControl)
 {
 	HRESULT hr = S_OK;
 	CComQIPtr<IAudioSessionControl2> spAudioSessionControl2;
@@ -231,9 +226,8 @@ void AudioVolume::AddSession(const std::map<DWORD, BOOL> &map, CComQIPtr<IAudioS
 		if (FAILED(hr))
 		{
 			throw "spAudioSessionControl->GetDisplayName failed!";
-		}
-		std::map<DWORD, BOOL>::const_iterator iter = map.find(dwProcessId);				
-		if ((iter != map.end() && iter->second == TRUE) || (pswSessionName != NULL && wcsstr(pswSessionName, L"Firefox") != NULL))
+		}				
+		if (IsDescendantProcess(map, dwProcessId))
 		{
 			LPWSTR pswInstanceId = NULL;
 			if (SUCCEEDED(spAudioSessionControl2->GetSessionInstanceIdentifier(&pswInstanceId)))
@@ -307,19 +301,13 @@ HRESULT AudioVolume::OnSessionCreated(IAudioSessionControl *NewSession)
 		try
 		{
 			// Map indicating whether a process belongs to firefox
-			std::map<DWORD, BOOL> map;
-			if (!GetSubProcesseMap(g_dwThisModuleProcessId, map))
+			std::map<DWORD, DWORD> map;
+			if (!BuildProcesseTree(map))
 			{
 				throw "AudioVolume::GetSubProcesseMap failed!";
 			}
-			std::map<DWORD, BOOL>::iterator iter = map.find(g_dwThisModuleProcessId);
-			if (iter != map.end())
-			{
-				iter->second = TRUE;
-			}
 
 			AddSession(map, spIAudioSessionControl);
-
 
 			if (g_uThread)
 			{
@@ -376,8 +364,8 @@ ULONG AudioVolume::Release()
 	return lRef;
 }
 
-// Get a map that its keys contains all process IDs and the value for each key is a boolean value indicating whehter the process with the key is a subprocess.
-BOOL AudioVolume::GetSubProcesseMap(DWORD dwParentProcessId, std::map<DWORD, BOOL> &map)
+// Get a map that its keys contains all process IDs and the value for each key is the subprocess ID.
+BOOL AudioVolume::BuildProcesseTree(std::map<DWORD, DWORD> &map)
 {
 	HANDLE hSnapShot = ::CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 	if (hSnapShot == INVALID_HANDLE_VALUE)
@@ -390,13 +378,35 @@ BOOL AudioVolume::GetSubProcesseMap(DWORD dwParentProcessId, std::map<DWORD, BOO
 	while(bContinue)
 	{
 		DWORD dwProcessId = procentry.th32ProcessID;
-		BOOL bIsSubProcess = dwParentProcessId == procentry.th32ParentProcessID;
-		map.insert(std::make_pair(dwProcessId, bIsSubProcess));
+		map.insert(std::make_pair(dwProcessId, procentry.th32ParentProcessID));
 		bContinue = Process32Next( hSnapShot, &procentry );
 	}
 
 	CloseHandle(hSnapShot);
 	return TRUE;
+}
+
+BOOL AudioVolume::IsDescendantProcess(std::map<DWORD, DWORD> &map, DWORD processId) 
+{
+	if (g_dwThisModuleProcessId == processId)
+	{
+		return TRUE;
+	}
+	DWORD parent = 0;
+	auto iter = map.find(processId);
+	if (iter != map.end() && iter->second != 0 && IsDescendantProcess(map, iter->second))
+	{
+		iter->second = g_dwThisModuleProcessId;
+		return TRUE;
+	} 
+	else 
+	{
+		if (iter != map.end())
+		{
+			iter->second = 0;
+		}
+		return FALSE;
+	}
 }
 
 // Change mute status of all audio session

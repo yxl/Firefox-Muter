@@ -51,14 +51,16 @@ private:
 	// IUnknown
 	IFACEMETHODIMP QueryInterface(const IID& iid, void** ppUnk);
 
-	// Get a map that its keys contains all process IDs and the value for each key is a boolean value indicating whehter the process with key is a subprocess.
-	BOOL GetSubProcesseMap(DWORD dwParentProcessId, std::map<DWORD, BOOL> &map);
+	// Get a map that its keys contains all process IDs and the value for each key is the subprocess ID.
+	BOOL BuildProcesseTree(std::map<DWORD, DWORD> &map);
+
+	BOOL IsDescendantProcess(std::map<DWORD, DWORD> &map,  DWORD processId);
 
 	void InitAudioSessionControlList();
 	void DisposeAudioSessionControlList();
 	void UpdateAudioSessionControlMuteStatus();
 
-	void AddSession(const std::map<DWORD, BOOL> &map, CComQIPtr<IAudioSessionControl> spAudioSessionControl);
+	void AddSession(std::map<DWORD, DWORD> &map, CComQIPtr<IAudioSessionControl> spAudioSessionControl);
 public:
 	AudioVolume();
 
