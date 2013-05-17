@@ -47,6 +47,10 @@ extern "C"
 		{
 			return;
 		}
+		if (g_uThread == NULL)
+		{
+			return;
+		}
 		PostThreadMessage(g_uThread, WM_QUIT, 0, 0);
 		WaitForSingleObject(g_hThread, INFINITE);
 		CloseHandle(g_hThread);
@@ -57,6 +61,10 @@ extern "C"
 	MUTERWIN7_API void EnableMute(BOOL bEnabled)
 	{
 		if (g_hThread == NULL)
+		{
+			return;
+		}
+		if (g_uThread == NULL)
 		{
 			return;
 		}

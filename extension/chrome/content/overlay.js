@@ -47,9 +47,6 @@ var muter = (function() {
     // Monitors the mute status and updates the UI
     _muterObserver: null,
 
-    // Timer to hide the button popup
-    _autoHideTimeoutId: null,
-
     init: function(event) {
       window.removeEventListener("load", muter.init, false);
 
@@ -57,16 +54,13 @@ var muter = (function() {
 
       let firstRun = Services.prefs.getBoolPref('extensions.firefox-muter.firstRun');
       if (firstRun) {
-        muter._firstRun();
+        muter.showButton();
         Services.prefs.setBoolPref('extensions.firefox-muter.firstRun', false);
       }
 
-      muter.setupAddonBar();
-      muter.setupSwitchButton();
-      muter.setupShortcut();
-      muter._setupPopups();
-
       muter.updateUI();
+      muter.setupShortcut();
+
 
       window.addEventListener("aftercustomization", muter._onToolBarChanged, false);
       muter._onToolBarChanged();
@@ -83,20 +77,8 @@ var muter = (function() {
     },
 
     destroy: function(event) {
-      window.removeEventListener("unload", muter.destroy, false);
-
       window.removeEventListener("aftercustomization", muter._onAddonBarChanged, false);
-      muter._muterObserver.unregister();
-
       muterHook.close();
-    },
-
-    /**
-     * Initilization after installation
-     * It only needs to call once.
-     */
-    _firstRun: function() {
-      muterSkin.ui.updateFromWeb();
     },
 
     uninstall: function() {
@@ -113,7 +95,9 @@ var muter = (function() {
     clickSwitchButton: function(event) {
       if (event.button == 0) {
         // Left button click
-        muterSkin.ui.updateFromWeb();
+        if (event.currentTarget.id === 'muter-statusbar-button') {
+          muter.switchStatus();
+        }
       } else if (event.button == 2) {
         // Right click to show the popup menu
         let btn = event.currentTarget;
@@ -126,16 +110,6 @@ var muter = (function() {
       }
     },
 
-    showPopuMenu: function(event) {
-      muterSkin.ui.updateFromWeb();
-      let btn = document.getElementById("muter-toolbar-palette-button");
-      let menu = document.getElementById("muter-switch-button-popup-menu");
-      if (btn && menu) {
-        menu.openPopup(btn, "after_start", -1, 0, true, false);
-      }
-        event.preventDefault();
-        event.stopPropagation();
-    },
 
     /** Open Settings dialog */
     openSettingsDialog: function(event) {
@@ -147,92 +121,51 @@ var muter = (function() {
       window.showModalDialog(url);
     },
 
-    openFeedback: function(event) {
-      // For the usage of window.openDialog, refer to
-      // https://developer.mozilla.org/en/DOM/window.openDialog
-      let url = 'chrome://muter/content/feedback.xul';
-      let name = 'muterFeedback';
-      let features = 'chrome,centerscreen';
-      window.openDialog(url, name, features, gBrowser.currentURI.spec);
-    },
-
     updateUI: function() {
       let isMuted = muterHook.isMuteEnabled();
 
       // Changes the button status icon
+      var image_disabled="chrome://muter/skin/mute-disabled.png";
+      var image_enabled="chrome://muter/skin/mute-enabled.png";
+
       let btn = document.getElementById("muter-toolbar-palette-button");
       if (btn) {
-        let icon = btn.getAttribute(isMuted ? 'image-enabled' : 'image-disabled');
+        let icon = isMuted ? image_enabled : image_disabled;
         btn.setAttribute("image", icon);
       }
-    },
 
-    /** Setup the icon of the switch button*/
-    setupSwitchButton: function() {
-      let disabledIcon = Services.prefs.getCharPref('extensions.firefox-muter.disabledIcon');
-      let enabledIcon = Services.prefs.getCharPref('extensions.firefox-muter.enabledIcon');
-      let switchButtonType = Services.prefs.getCharPref('extensions.firefox-muter.switchButtonType');
-
-      let btn = document.getElementById("muter-toolbar-palette-button");
-      if (btn) {
-        btn.setAttribute('image-disabled', disabledIcon);
-        btn.setAttribute('image-enabled', enabledIcon);
-        if (switchButtonType !== 'none') {
-          btn.setAttribute('type', switchButtonType);
-        } else {
-          btn.removeAttribute('type');
-        }
+      // For SeaMonkey only
+      let statusbarBtn = document.getElementById("muter-statusbar-button");
+      if (statusbarBtn) {
+        let icon = statusbarBtn.getAttribute(isMuted ? 'image-enabled' : 'image-disabled');
+        statusbarBtn.setAttribute("image", icon);
       }
-
-      this.updateUI();
     },
 
     /** Add the muter button to the addon bar or remove it */
-    setupAddonBar: function() {
-      let showInAddonBar = Services.prefs.getBoolPref('extensions.firefox-muter.showInAddonBar');
+    showButton: function() {
       let addonbar = document.getElementById("addon-bar");
-      if (!addonbar) return;
+      if (!addonbar)
+        return;
 
       let curSet = addonbar.currentSet.replace(/\s/g, '').split(',');
-      let isChanged = false;
       let index = curSet.indexOf("muter-toolbar-palette-button");
-      if (showInAddonBar && -1 == index) {
+      if (-1 == index) {
         curSet.push("muter-toolbar-palette-button");
-        isChanged = true;
-      } else if (!showInAddonBar && -1 != index) {
-        curSet.splice(index, 1);
-        isChanged = true;
       }
-      if (isChanged) {
-        let newSetString = curSet.join();
+      let newSetString = curSet.join();
 
-        addonbar.currentSet = newSetString;
-        addonbar.setAttribute("currentset", newSetString);
+      addonbar.currentSet = newSetString;
+      addonbar.setAttribute("currentset", newSetString);
 
-        document.persist(addonbar.id, "currentset");
-        try {
-          BrowserToolboxCustomizeDone(true);
-        } catch (e) {}
-        if (addonbar.getAttribute("collapsed") == "true") {
-          addonbar.setAttribute("collapsed", "false");
-        }
-        document.persist(addonbar.id, "collapsed");
-
-        if (showInAddonBar) {
-          this._showIntroPopup();
-        }
+      document.persist(addonbar.id, "currentset");
+      try {
+        BrowserToolboxCustomizeDone(true);
+      } catch (e) {}
+      if (addonbar.getAttribute("collapsed") == "true") {
+        addonbar.setAttribute("collapsed", "false");
       }
-    },
-
-    /** popup an introduction message */
-    _showIntroPopup: function() {
-      window.setTimeout(function() {
-        let initpanel = document.getElementById("muter-popup-init");
-        let btn = document.getElementById("muter-toolbar-palette-button");
-        if (initpanel && btn) {
-          initpanel.openPopup(btn, "topcenter bottomright");
-        }
-      }, 3000);
+      document.persist(addonbar.id, "collapsed");
     },
 
     setupShortcut: function() {
@@ -247,35 +180,8 @@ var muter = (function() {
       } catch (e) {}
     },
 
-    useDefaultSkin: function() {
-      let defaultDisabledIcon = Services.prefs.getCharPref('extensions.firefox-muter.disabledIcon.default');
-      let defaultEnabledIcon = Services.prefs.getCharPref('extensions.firefox-muter.enabledIcon.default');
-      if (defaultDisabledIcon && defaultEnabledIcon) {
-        Services.prefs.setCharPref('extensions.firefox-muter.disabledIcon', defaultDisabledIcon);
-        Services.prefs.setCharPref('extensions.firefox-muter.enabledIcon', defaultEnabledIcon);
-      }
-    },
-
     _onToolBarChanged: function(event) {
       Services.prefs.setBoolPref('extensions.firefox-muter.showInAddonBar', muter._isButtonShowInAddonBar());
-    },
-
-    _setupPopups: function() {
-      // introduction popup
-      this._setAutoHide(document.getElementById('muter-popup-init'), 3000);
-    },
-
-    _setAutoHide: function(panel, timeout) {
-      let self = this;
-      panel.addEventListener('popupshown', function() {
-        self._autoHideTimeoutId = window.setTimeout(function() {
-          panel.hidePopup();
-        }, timeout);
-      }, false);
-
-      panel.addEventListener('popuphidden', function() {
-        window.clearTimeout(self._autoHideTimeoutId);
-      }, false);
     },
 
     _isButtonShowInAddonBar: function() {
@@ -302,56 +208,33 @@ var muter = (function() {
       if (topic === "muter-status-changed") {
         muter.updateUI();
       } else if (topic === "nsPref:changed") {
-        let prefName = PREF_BRANCH + data;
         if (prefName.indexOf("shortcut.") != -1) {
           muter.setupShortcut();
-        } else if (prefName === "extensions.firefox-muter.showInAddonBar") {
-          muter.setupAddonBar();
-        } else if (prefName == "extensions.firefox-muter.disabledIcon" || prefName == "extensions.firefox-muter.enabledIcon" || prefName == "extensions.firefox-muter.switchButtonType") {
-          muter.setupSwitchButton();
-        } else if (prefName == "extensions.firefox-muter.disabledIcon.default" ||
-                   prefName == "extensions.firefox-muter.enabledIcon.default") {
-          muter.useDefaultSkin();
-          muterSkin.ui.rebuildSkinMenu();
         }
       }
     },
 
     register: function() {
       Services.obs.addObserver(this, "muter-status-changed", false);
-
       this._branch = Services.prefs.getBranch(PREF_BRANCH);
       if (this._branch) {
+        // nsIPrefBranch2 has been merged into nsIPrefBranch in Gecko 13. Once we drop support for old versions of Gecko, we should stop using nsIPrefBranch2.
+        try {
+          this._branch.QueryInterface(Components.interfaces.nsIPrefBranch2);
+        } catch (ex) {
+        }
         this._branch.addObserver("", this, false);
       }
 
-      // Listen for extension disable/uninstall
-      AddonManager.addAddonListener(this._addonListener);
     },
 
     unregister: function() {
-      AddonManager.removeAddonListener(this._addonListener);
-
       Services.obs.removeObserver(this, "muter-status-changed");
-
       if (this._branch) {
         this._branch.removeObserver("", this);
       }
     },
 
-    _addonListener: {
-      onUninstalling: function(addon) {
-        if (addon.id == "muter@yxl.name") {
-          muter.uninstall();
-        }
-      },
-
-      onDisabling: function(addon, needsRestart) {
-        if (addon.id == "muter@yxl.name") {
-          muter.uninstall();
-        }
-      }
-    }
   };
 
   window.addEventListener("load", muter.init, false);
