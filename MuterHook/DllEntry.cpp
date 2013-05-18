@@ -49,6 +49,7 @@ extern "C"
 
 			GetModuleFileNameA(hInst, g_szThisModulePath, sizeof(g_szThisModulePath) / sizeof(CHAR));
 			InstallMuterHooks();
+			InjectIntoSubProcesses();
 			break;
 
 		case DLL_PROCESS_DETACH:

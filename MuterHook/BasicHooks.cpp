@@ -18,14 +18,37 @@ LPCWSTR IGNORE_PLUGIN_LIST_WIDE[] =
   L"npqqcert.dll",
 };
 
+LPCSTR HOOK_PROCESS_LIST[] = 
+{
+  "plugin-container.exe"
+};
+
+LPCWSTR HOOK_PROCESS_LIST_WIDE[] = 
+{
+  L"plugin-container.exe"
+};
+
 BOOL IsIgnored(LPCSTR lpCommandLine)
 {
-  if (lpCommandLine == NULL || strstr(lpCommandLine, "plugin-container.exe") == NULL)
+  if (lpCommandLine == NULL)
   {
     return TRUE;
   }
-  int n = sizeof(IGNORE_PLUGIN_LIST)/sizeof(LPCSTR);
-  for (int i = 0; i<n; i++)
+  int n = sizeof(HOOK_PROCESS_LIST)/sizeof(LPCSTR);
+  int i = 0;
+  for (i = 0; i<n; i++)
+  {
+    if (strstr(lpCommandLine, HOOK_PROCESS_LIST[i]) != NULL)
+    {
+      break;
+    }
+  }
+  if (i == n)
+  {
+	  return TRUE;
+  }
+  n = sizeof(IGNORE_PLUGIN_LIST)/sizeof(LPCSTR);
+  for (i = 0; i<n; i++)
   {
     if (strstr(lpCommandLine, IGNORE_PLUGIN_LIST[i]) != NULL)
     {
@@ -37,12 +60,25 @@ BOOL IsIgnored(LPCSTR lpCommandLine)
 
 BOOL IsIgnored(LPCWSTR lpCommandLine)
 {
-  if (lpCommandLine == NULL || wcsstr(lpCommandLine, L"plugin-container.exe") == NULL)
+  if (lpCommandLine == NULL)
   {
     return TRUE;
   }
-  int n = sizeof(IGNORE_PLUGIN_LIST_WIDE)/sizeof(LPCWSTR);
-  for (int i = 0; i<n; i++)
+  int n = sizeof(HOOK_PROCESS_LIST)/sizeof(LPCWSTR);
+  int i = 0;
+  for (i = 0; i<n; i++)
+  {
+    if (wcsstr(lpCommandLine, HOOK_PROCESS_LIST_WIDE[i]) != NULL)
+    {
+      break;
+    }
+  }
+  if (i == n)
+  {
+	  return TRUE;
+  }
+  n = sizeof(IGNORE_PLUGIN_LIST_WIDE)/sizeof(LPCWSTR);
+  for (i = 0; i<n; i++)
   {
     if (wcsstr(lpCommandLine, IGNORE_PLUGIN_LIST_WIDE[i]) != NULL)
     {
