@@ -1,8 +1,18 @@
 #include <windows.h>
 #include <tlhelp32.h>
 
-#include "external\detours.h"
-#pragma comment(lib, "external\\lib\\detours.lib")
+#include "external\MinHook.h"
+
+#if defined(_DEBUG)
+	#define MIN_HOOK_LIB_SURFFIX "d.lib"
+#else
+	#define MIN_HOOK_LIB_SURFFIX ".lib"
+#endif
+#ifndef _M_X64
+#pragma comment(lib, "external\\lib\\libMinHook32" MIN_HOOK_LIB_SURFFIX)
+#else
+#pragma comment(lib, "external\\lib\\libMinHook64" MIN_HOOK_LIB_SURFFIX)
+#endif
 
 #include "ApiHooks.h"
 #include "DllEntry.h"
@@ -11,21 +21,21 @@
 #include "ComHooks.h"
 #include "SDKTrace.h"
 
-
 struct FunctionInfo
 {
 	LPCSTR  szFunctionModule;
 	LPCSTR  szFunctionName;
+	PVOID   pTargetFunction;
 	PVOID*  ppOriginalFunction;
 	PVOID   pHookFunction;
 	BOOL    bSucceeded;
 };
 
-#define DEFINE_FUNCTION_INFO(module, func) {module, #func, (PVOID *)&func##_original, (PVOID)func##_hook, FALSE}
+#define DEFINE_FUNCTION_INFO(module, func) {module, #func, NULL, reinterpret_cast<PVOID *>(&func##_original), reinterpret_cast<PVOID>(func##_hook), FALSE}
+
 
 FunctionInfo s_Functions[] = 
 {
-	//DEFINE_FUNCTION_INFO("Kernel32.dll", CreateProcessA),
 	DEFINE_FUNCTION_INFO("Kernel32.dll", CreateProcessW),
 
 	DEFINE_FUNCTION_INFO("ole32.dll", CoCreateInstance),
@@ -38,7 +48,7 @@ FunctionInfo s_Functions[] =
 
 const size_t s_FunctionsCount = sizeof(s_Functions)/sizeof(FunctionInfo);
 
-BOOL InjectIntoProcessByForce(HANDLE hProcess) 
+BOOL InjectIntoProcess(HANDLE hProcess) 
 {
 	BOOL bOK = FALSE;
 
@@ -89,21 +99,6 @@ BOOL InjectIntoProcessByForce(HANDLE hProcess)
 	return bOK;
 }
 
-BOOL InjectIntoProcess(HANDLE hProcess) 
-{
-
-	TRACE("[MuterHook] InjectIntoProcess\n");
-	LPCSTR rlpDlls[2];
-	DWORD nDlls = 0;
-	rlpDlls[nDlls++] = g_szThisModulePath;
-	BOOL bRet = DetourUpdateProcessWithDll(hProcess, rlpDlls, nDlls);
-	if (!bRet) 
-	{
-		TRACE("[MuterHook] InjectIntoProcess failed!\n");
-	}
-	return bRet;
-}
-
 void InjectIntoSubProcesses()
 {
 	DWORD dwCurrentProcessId = GetCurrentProcessId();
@@ -151,10 +146,10 @@ BOOL IsInThisModuleProcess()
 
 void InstallMuterHooks()
 {
-	DetourRestoreAfterWith();
-	DetourTransactionBegin();
-	DetourUpdateThread(GetCurrentThread());
-
+	if (MH_Initialize() != MH_OK)
+	{
+		return;
+	}
 	for(int i = 0; i < s_FunctionsCount; ++i)
 	{
 		FunctionInfo& info = s_Functions[i];
@@ -172,37 +167,39 @@ void InstallMuterHooks()
 			continue;
 		}
 
-		*(info.ppOriginalFunction) = GetProcAddress(hModule, info.szFunctionName);
-		if (*(info.ppOriginalFunction) == NULL)
+		info.pTargetFunction = ::GetProcAddress(hModule, info.szFunctionName);
+		if (info.pTargetFunction == NULL)
 		{
 			TRACE("[MuterHook] Cannot GetProcAddress of %s", info.szFunctionName);
 			continue;
 		}
 
-		if (NO_ERROR != DetourAttach(info.ppOriginalFunction, info.pHookFunction))
+		if (::MH_CreateHook(info.pTargetFunction, info.pHookFunction, info.ppOriginalFunction) != MH_OK)
 		{
-			TRACE("[MuterHook] DetourAttach failed! Module: %s  Function: %s", info.szFunctionModule, info.szFunctionName);
+			TRACE("[MuterHook] MH_CreateHook failed! Module: %s  Function: %s", info.szFunctionModule, info.szFunctionName);
+			continue;
+		}
+
+		// Enable the hook
+		if (::MH_EnableHook(info.pTargetFunction) != MH_OK)
+		{
+			TRACE("[fireie] MH_EnableHook failed! Module: %s  Function: %s", info.szFunctionModule, info.szFunctionName);
 			continue;
 		}
 		info.bSucceeded = TRUE;
 	}
-
-	DetourTransactionCommit();
 }
 
 void UnInstallMuterHooks()
 {
-	DetourTransactionBegin();
-	DetourUpdateThread(GetCurrentThread());
-
+	::MH_DisableAllHooks();
 	for(int i = 0; i < s_FunctionsCount; ++i)
 	{
 		FunctionInfo& info = s_Functions[i];
 		if (*info.ppOriginalFunction != NULL)
 		{
-			DetourDetach(info.ppOriginalFunction, info.pHookFunction);
+			::MH_RemoveHook(info.pTargetFunction);
 		}
 	}
-
-	DetourTransactionCommit();
+	MH_Uninitialize();
 }
