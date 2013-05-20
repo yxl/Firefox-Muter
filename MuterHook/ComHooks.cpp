@@ -9,10 +9,7 @@ HRESULT WINAPI CoCreateInstance_hook(REFCLSID rclsid, LPUNKNOWN pUnkOuter, DWORD
 {
   TRACE("[MuterHook] CoCreateInstance_hook\n");
   HRESULT hret =  CoCreateInstance_original(rclsid, pUnkOuter, dwClsContext, riid, ppv);
-  if (IsInThisModuleProcess())
-  {
-	  InstallMuterHooks();
-	  InjectIntoSubProcesses();
-  }
+  InstallMuterHooks();
+  InjectIntoSubProcesses();
   return hret;
 }

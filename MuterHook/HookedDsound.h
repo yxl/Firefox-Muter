@@ -73,16 +73,12 @@ class HookedDirectSoundBuffer : public IDirectSoundBuffer {
 	}
 	STDMETHOD(Unlock)               (THIS_ __in_bcount(dwAudioBytes1) LPVOID pvAudioPtr1, DWORD dwAudioBytes1,
 		__in_bcount_opt(dwAudioBytes2) LPVOID pvAudioPtr2, DWORD dwAudioBytes2) {
-			if (IsInThisModuleProcess())
-			{
-				if (IsMuteEnabled())
-				{
-					if (pvAudioPtr1) {
-						memset(pvAudioPtr1, 0, dwAudioBytes1);
-					}
-					if (pvAudioPtr2) {
-						memset(pvAudioPtr2, 0 ,dwAudioBytes2);
-					}
+			if (IsMuteEnabled()) {
+				if (pvAudioPtr1) {
+					memset(pvAudioPtr1, 0, dwAudioBytes1);
+				}
+				if (pvAudioPtr2) {
+					memset(pvAudioPtr2, 0 ,dwAudioBytes2);
 				}
 			}
 			return directsound_buffer_->Unlock(pvAudioPtr1, dwAudioBytes1, pvAudioPtr2, dwAudioBytes2);

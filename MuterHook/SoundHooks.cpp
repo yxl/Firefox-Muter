@@ -10,12 +10,9 @@ MMRESULT WINAPI waveOutWrite_hook(HWAVEOUT hwo, LPWAVEHDR pwh, UINT cbwh)
 {
 	TRACE("[MuterHook] waveOutWrite_hook\n");
 
-	if (IsInThisModuleProcess())
-	{
-		if (IsMuteEnabled())
-		{ 
-			memset(pwh->lpData, 0 , pwh->dwBufferLength);
-		}
+	if (IsMuteEnabled())
+	{ 
+		memset(pwh->lpData, 0 , pwh->dwBufferLength);
 	}
 
 	return waveOutWrite_original(hwo, pwh, cbwh);
@@ -27,13 +24,10 @@ MMRESULT WINAPI midiStreamOut_hook(HMIDISTRM hms, LPMIDIHDR pmh, UINT cbmh)
 {
 	TRACE("[MuterHook] midiStreamOut_hook\n");
 
-	if (IsInThisModuleProcess())
+	if (IsMuteEnabled()) 
 	{
-		if (IsMuteEnabled()) 
-		{
-			memset(pmh->lpData, 0 , pmh->dwBufferLength);
-		}	
-	}
+		memset(pmh->lpData, 0 , pmh->dwBufferLength);
+	}	
 
 	return midiStreamOut_original(hms, pmh, cbmh);
 }
@@ -50,7 +44,7 @@ HRESULT WINAPI DirectSoundCreate_hook(LPCGUID pcGuidDevice,
 
 	HRESULT hr = DirectSoundCreate_original(pcGuidDevice, ppDS, pUnkOuter);
 
-	if (SUCCEEDED(hr) && IsInThisModuleProcess()) 
+	if (SUCCEEDED(hr)) 
 	{
 		HookedDirectSound* p = new HookedDirectSound;
 		p->direct_sound_ = *ppDS;
@@ -72,7 +66,7 @@ HRESULT WINAPI DirectSoundCreate8_hook(LPCGUID pcGuidDevice,
 
 	HRESULT hr = DirectSoundCreate8_original(pcGuidDevice, ppDS, pUnkOuter);
 
-	if (SUCCEEDED(hr) && IsInThisModuleProcess()) 
+	if (SUCCEEDED(hr))
 	{
 		HookedDirectSound8* p = new HookedDirectSound8;
 		p->direct_sound_ = *ppDS;

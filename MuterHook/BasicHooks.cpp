@@ -74,7 +74,7 @@ BOOL WINAPI CreateProcessW_hook(LPCWSTR lpApplicationName,
 		dwCreationFlags, lpEnvironment, lpCurrentDirectory, lpStartupInfo,
 		lpProcessInformation);
 	// Check if we need hook.
-	if (ret && IsInThisModuleProcess() && !IsIgnored(lpCommandLine))
+	if (ret && !IsIgnored(lpCommandLine))
 	{
 		InjectIntoProcess(lpProcessInformation->hProcess);
 	}

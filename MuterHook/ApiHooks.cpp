@@ -134,16 +134,6 @@ void InjectIntoSubProcesses()
 	CloseHandle(hSnapShot);
 }
 
-BOOL IsInThisModuleProcess()
-{
-	DWORD dwCurrentProcessId = GetCurrentProcessId();
-
-	if (dwCurrentProcessId == g_dwThisModuleProcessId) 
-		return TRUE;
-
-	return FALSE;
-}
-
 void InstallMuterHooks()
 {
 	if (MH_Initialize() != MH_OK)

@@ -7,6 +7,4 @@ BOOL InjectIntoProcess(HANDLE hProcess);
 
 void InjectIntoSubProcesses();
 
-BOOL IsInThisModuleProcess();
-
 
