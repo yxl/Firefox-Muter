@@ -57,12 +57,4 @@ xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
       oncommand="muter.openFeedback(event);" />
     </menupopup>
   </popupset>
-  <!-- statusbar, only for SeaMonkey-->
-  <statusbar id="status-bar">
-    <statusbarpanel id="muter-statusbar-button"
-    class="statusbarpanel-menu-iconic" command="cmd_muterToggle"
-    popup="muter-popup" onclick="muter.clickSwitchButton(event);"
-    tooltiptext="&muter-button.tooltip;" hidden="true"
-    image='chrome://muter/skin/mute-enabled.png' />
-  </statusbar>
 </overlay>

@@ -1,21 +1,21 @@
 <?xml version="1.0"?>
 <RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 <Description about="urn:mozilla:install-manifest">
-  
+
   <em:id>muter@yxl.name</em:id>
   <em:name>Muter</em:name>
   <em:type>2</em:type>
-  <em:version>0.9.9</em:version>
-  <em:description>Let you mute the Firefox browser.</em:description> 
+  <em:version>1.0.0</em:version>
+  <em:description>Let you mute the Firefox browser.</em:description>
   <em:creator>Yuan Xulei</em:creator>
   <em:contributor>Zhao Botong</em:contributor>
+  <em:contributor>Feng Jiao</em:contributor>
   <em:homepageURL>http://yxl.github.com/Firefox-Muter</em:homepageURL>
   <em:optionsURL>chrome://muter/content/muterSettings.xul</em:optionsURL>
   <em:iconURL>chrome://muter/skin/icon.png</em:iconURL>
   <em:unpack>true</em:unpack>
   <em:targetPlatform>WINNT</em:targetPlatform>
-  <em:targetPlatform>Linux</em:targetPlatform>
-  
+
   <!-- Firefox -->
   <em:targetApplication>
     <Description>
@@ -24,16 +24,7 @@
       <em:maxVersion>15.0a1</em:maxVersion>
     </Description>
   </em:targetApplication>
-  
-  <!-- SeaMonkey -->
-  <em:targetApplication>
-    <Description>
-      <em:id>{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}</em:id>
-      <em:minVersion>2.1</em:minVersion>
-      <em:maxVersion>2.10a1</em:maxVersion>
-    </Description>
-  </em:targetApplication>
-  
+
   <em:localized>
     <Description>
       <em:locale>ca</em:locale>
@@ -58,8 +49,8 @@
       <em:translator>Sam</em:translator>
       <em:contributor>Hector Zhao</em:contributor>
     </Description>
-  </em:localized>  
-    
+  </em:localized>
+
   <em:localized>
     <Description>
       <em:locale>de</em:locale>
@@ -72,7 +63,7 @@
       <em:contributor>Hector Zhao</em:contributor>
     </Description>
   </em:localized>
-  
+
   <em:localized>
     <Description>
       <em:locale>el</em:locale>
@@ -84,8 +75,8 @@
       <em:translator>Sonickydon,ilias@Greece</em:translator>
       <em:contributor>Hector Zhao</em:contributor>
     </Description>
-  </em:localized>  
-  
+  </em:localized>
+
   <em:localized>
     <Description>
       <em:locale>en-US</em:locale>
@@ -111,7 +102,7 @@
       <em:contributor>Hector Zhao</em:contributor>
     </Description>
   </em:localized>
-  
+
   <em:localized>
     <Description>
       <em:locale>fi</em:locale>
@@ -123,8 +114,8 @@
       <em:translator>Akilles</em:translator>
       <em:contributor>Hector Zhao</em:contributor>
     </Description>
-  </em:localized>  
-  
+  </em:localized>
+
   <em:localized>
     <Description>
       <em:locale>fr</em:locale>
@@ -137,7 +128,7 @@
       <em:contributor>Hector Zhao</em:contributor>
     </Description>
   </em:localized>
-  
+
   <em:localized>
     <Description>
       <em:locale>he</em:locale>
@@ -148,7 +139,7 @@
       <em:contributor>Hector Zhao</em:contributor>
     </Description>
   </em:localized>
-  
+
   <em:localized>
     <Description>
       <em:locale>ja-JP</em:locale>
@@ -170,11 +161,11 @@
       <em:creator>Yuan Xulei</em:creator>
       <em:homepageURL>http://yxl.github.com/Firefox-Muter/</em:homepageURL>
       <em:developer>Hector Zhao</em:developer>
-      <em:translator>Algimantas Margevičius</em:translator>        
+      <em:translator>Algimantas Margevičius</em:translator>
       <em:contributor>Hector Zhao</em:contributor>
     </Description>
   </em:localized>
-  
+
   <em:localized>
     <Description>
       <em:locale>nl</em:locale>
@@ -223,8 +214,8 @@
       <em:translator>Mikael Hiort af Ornäs</em:translator>
       <em:contributor>Hector Zhao</em:contributor>
     </Description>
-  </em:localized>    
-  
+  </em:localized>
+
   <em:localized>
     <Description>
       <em:locale>tr</em:locale>
@@ -237,7 +228,7 @@
       <em:contributor>Hector Zhao</em:contributor>
     </Description>
   </em:localized>
-  
+
   <em:localized>
     <Description>
       <em:locale>zh-CN</em:locale>
@@ -250,7 +241,7 @@
       <em:contributor>赵博通</em:contributor>
     </Description>
   </em:localized>
-  
+
   <em:localized>
     <Description>
       <em:locale>zh-TW</em:locale>
@@ -264,4 +255,4 @@
     </Description>
   </em:localized>
 </Description>
-</RDF> 
+</RDF>

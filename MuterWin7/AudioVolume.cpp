@@ -1,9 +1,6 @@
 #include "stdafx.h"
 #include "AudioVolume.h"
-#include "SDKTrace.h"
 #include "MuterWin7.h"
-
-#include <tlhelp32.h>
 
 #define SAFE_RELEASE(sp) \
 	if ((sp) != NULL) \
@@ -89,6 +86,7 @@ HRESULT AudioVolume::AttachToDefaultEndpoint()
 			hr = m_spAudioSessionManager2->RegisterSessionNotification(this);
 			m_bRegisteredForAudioSessionNotifications = SUCCEEDED(hr);
 			InitAudioSessionControlList();
+			UpdateAudioSessionControlMuteStatus();
 		}
 	}
 
@@ -227,7 +225,7 @@ void AudioVolume::AddSession(std::map<DWORD, DWORD> &map, CComQIPtr<IAudioSessio
 		{
 			throw "spAudioSessionControl->GetDisplayName failed!";
 		}				
-		if (IsDescendantProcess(map, dwProcessId))
+		if (IsDescendantProcess(map, dwProcessId) || IsQzoneMusicProcess(dwProcessId))
 		{
 			LPWSTR pswInstanceId = NULL;
 			if (SUCCEEDED(spAudioSessionControl2->GetSessionInstanceIdentifier(&pswInstanceId)))
@@ -308,6 +306,7 @@ HRESULT AudioVolume::OnSessionCreated(IAudioSessionControl *NewSession)
 			}
 
 			AddSession(map, spIAudioSessionControl);
+			UpdateAudioSessionControlMuteStatus();
 
 			if (g_uThread)
 			{
@@ -384,6 +383,16 @@ BOOL AudioVolume::BuildProcesseTree(std::map<DWORD, DWORD> &map)
 
 	CloseHandle(hSnapShot);
 	return TRUE;
+}
+
+BOOL AudioVolume::IsQzoneMusicProcess(DWORD processId) 
+{
+	HANDLE hrocess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ , FALSE, processId);
+	WCHAR fileName[MAX_PATH];
+	GetModuleFileNameExW(hrocess, NULL, fileName, MAX_PATH);
+	BOOL bFind = (wcsstr(fileName, L"QzoneMusic.exe") != NULL);
+
+	return bFind;
 }
 
 BOOL AudioVolume::IsDescendantProcess(std::map<DWORD, DWORD> &map, DWORD processId) 

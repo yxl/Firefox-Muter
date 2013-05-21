@@ -4,7 +4,6 @@
 #include "stdafx.h"
 #include "MuterWin7.h"
 #include "AudioVolume.h"
-#include "SDKTrace.h"
 
 #include <iostream>
 #include <process.h>
@@ -51,6 +50,8 @@ extern "C"
 		PostThreadMessage(g_uThread, WM_QUIT, 0, 0);
 		WaitForSingleObject(g_hThread, INFINITE);
 		CloseHandle(g_hThread);
+		g_hThread = NULL;
+		g_uThread = 0;
 	}
 
 	MUTERWIN7_API void EnableMute(BOOL bEnabled)

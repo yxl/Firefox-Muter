@@ -23,4 +23,13 @@
 #include <shlwapi.h>
 #pragma comment(lib, "Shlwapi.lib")
 
-// TODO: reference additional headers your program requires here
+// Enumerate processes
+#include <tlhelp32.h>
+
+// GetModuleFileNameExW
+#include <psapi.h>
+#pragma comment(lib, "Psapi.lib")
+
+#include <map>
+
+#include "SDKTrace.h"

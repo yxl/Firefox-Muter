@@ -42,7 +42,7 @@ var muter = (function() {
   let {
     muterUtils, muterHook, Services, AddonManager
   } = jsm;
-  
+
   var muter = {
     // Monitors the mute status and updates the UI
     _muterObserver: null,
@@ -54,7 +54,7 @@ var muter = (function() {
       window.removeEventListener("load", muter.init, false);
 
       muterHook.open();
-      
+
       let firstRun = Services.prefs.getBoolPref('extensions.firefox-muter.firstRun');
       if (firstRun) {
         muter._firstRun();
@@ -62,7 +62,6 @@ var muter = (function() {
       }
 
       muter.setupAddonBar();
-      muter.setupStatusBar(); // For SeaMonkey only      
       muter.setupSwitchButton();
       muter.setupShortcut();
       muter._setupPopups();
@@ -94,14 +93,9 @@ var muter = (function() {
 
     /**
      * Initilization after installation
-     * It only need to call once.
+     * It only needs to call once.
      */
     _firstRun: function() {
-      // For SeaMonkey
-      if (Services.appinfo.name === 'SeaMonkey') {
-        // Show status bar button
-        Services.prefs.setBoolPref('extensions.firefox-muter.showInStatusBar', true);
-      }
       muterSkin.ui.updateFromWeb();
     },
 
@@ -174,13 +168,6 @@ var muter = (function() {
         let icon = btn.getAttribute(isMuted ? 'image-enabled' : 'image-disabled');
         btn.setAttribute("image", icon);
       }
-
-      // For SeaMonkey only
-      let statusbarBtn = document.getElementById("muter-statusbar-button");
-      if (statusbarBtn) {
-        let icon = statusbarBtn.getAttribute(isMuted ? 'image-enabled' : 'image-disabled');
-        statusbarBtn.setAttribute("image", icon);
-      }
     },
 
     /** Setup the icon of the switch button*/
@@ -200,23 +187,11 @@ var muter = (function() {
         }
       }
 
-      // For SeaMonkey only
-      let statusbarBtn = document.getElementById("muter-statusbar-button");
-      if (statusbarBtn) {
-        statusbarBtn.setAttribute('image-disabled', disabledIcon);
-        statusbarBtn.setAttribute('image-enabled', enabledIcon);
-      }
-
       this.updateUI();
     },
 
     /** Add the muter button to the addon bar or remove it */
     setupAddonBar: function() {
-      // SeaMonkey has no addon bar.
-      if (Services.appinfo.name === 'SeaMonkey') {
-        return;
-      }
-
       let showInAddonBar = Services.prefs.getBoolPref('extensions.firefox-muter.showInAddonBar');
       let addonbar = document.getElementById("addon-bar");
       if (!addonbar) return;
@@ -267,22 +242,6 @@ var muter = (function() {
           initpanel.openPopup(btn, "topcenter bottomright");
         }
       }, 3000);
-    },
-
-    /** For SeaMonkey only! Setup the muter button in the status bar**/
-    setupStatusBar: function() {
-      let showInStatusBar = Services.prefs.getBoolPref("extensions.firefox-muter.showInStatusBar");
-      let statusbarBtn = document.getElementById("muter-statusbar-button");
-      if (statusbarBtn) {
-        statusbarBtn.hidden = !showInStatusBar;
-      }
-
-      // prevent showing two switch buttons
-      let showInAddonBar = Services.prefs.getBoolPref("extensions.firefox-muter.showInAddonBar");
-      if (showInStatusBar) {
-        Services.prefs.setBoolPref("extensions.firefox-muter.showInAddonBar", false);
-      }
-
     },
 
     setupShortcut: function() {
@@ -357,8 +316,6 @@ var muter = (function() {
           muter.setupShortcut();
         } else if (prefName === "extensions.firefox-muter.showInAddonBar") {
           muter.setupAddonBar();
-        } else if (prefName == "extensions.firefox-muter.showInStatusBar") {
-          muter.setupStatusBar();
         } else if (prefName == "extensions.firefox-muter.disabledIcon" || prefName == "extensions.firefox-muter.enabledIcon" || prefName == "extensions.firefox-muter.switchButtonType") {
           muter.setupSwitchButton();
         } else if (prefName == "extensions.firefox-muter.disabledIcon.default" ||
@@ -371,7 +328,7 @@ var muter = (function() {
 
     register: function() {
       Services.obs.addObserver(this, "muter-status-changed", false);
-      
+
       this._branch = Services.prefs.getBranch(PREF_BRANCH);
       if (this._branch) {
         // nsIPrefBranch2 has been merged into nsIPrefBranch in Gecko 13. Once we drop support for old versions of Gecko, we should stop using nsIPrefBranch2. 

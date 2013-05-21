@@ -2,6 +2,9 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MuterWin7", "MuterWin7\MuterWin7.vcxproj", "{6A50FDA6-76EE-4611-9A3D-B0958CD2BB9B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{24B42955-E414-4551-B68C-5E05938CDC7C} = {24B42955-E414-4551-B68C-5E05938CDC7C}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MuterHook", "MuterHook\MuterHook.vcxproj", "{24B42955-E414-4551-B68C-5E05938CDC7C}"
 EndProject

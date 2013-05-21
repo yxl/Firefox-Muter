@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include "SDKTrace.h"
 
 void TRACE(const CHAR* format,...)
 {
