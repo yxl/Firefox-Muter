@@ -53,7 +53,8 @@ private:
 
 	// Get a map that its keys contains all process IDs and the value for each key is the subprocess ID.
 	BOOL BuildProcesseTree(std::map<DWORD, DWORD> &map);
-
+	
+	BOOL IsQzoneMusicProcess(DWORD processId);
 	BOOL IsDescendantProcess(std::map<DWORD, DWORD> &map,  DWORD processId);
 
 	void InitAudioSessionControlList();
