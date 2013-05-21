@@ -22,6 +22,7 @@
 
 #include <shlwapi.h>
 #pragma comment(lib, "Shlwapi.lib")
+#pragma comment(lib, "Psapi.lib")
 
 // Enumerate processes
 #include <tlhelp32.h>

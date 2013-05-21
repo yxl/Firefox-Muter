@@ -1,5 +1,7 @@
 #pragma once
 
+#include <map>
+
 // {F432FAD2-59F3-41d6-ADBF-478D6E12F6B7}
 static const GUID AudioVolumnCtx = { 0xf432fad2, 0x59f3, 0x41d6, { 0xad, 0xbf, 0x47, 0x8d, 0x6e, 0x12, 0xf6, 0xb7 } };
 
@@ -51,7 +53,7 @@ private:
 
 	// Get a map that its keys contains all process IDs and the value for each key is the subprocess ID.
 	BOOL BuildProcesseTree(std::map<DWORD, DWORD> &map);
-
+	
 	BOOL IsQzoneMusicProcess(DWORD processId);
 	BOOL IsDescendantProcess(std::map<DWORD, DWORD> &map,  DWORD processId, int depth = 8);
 

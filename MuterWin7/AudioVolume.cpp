@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "AudioVolume.h"
+#include "SDKTrace.h"
 #include "MuterWin7.h"
+#include <tlhelp32.h>
+#include "Psapi.h"
 
 #define SAFE_RELEASE(sp) \
 	if ((sp) != NULL) \
@@ -87,6 +90,7 @@ HRESULT AudioVolume::AttachToDefaultEndpoint()
 			m_bRegisteredForAudioSessionNotifications = SUCCEEDED(hr);
 			InitAudioSessionControlList();
 			UpdateAudioSessionControlMuteStatus();
+
 		}
 	}
 
@@ -377,11 +381,7 @@ BOOL AudioVolume::BuildProcesseTree(std::map<DWORD, DWORD> &map)
 	while(bContinue)
 	{
 		DWORD dwProcessId = procentry.th32ProcessID;
-		if (dwProcessId > 0)
-		{
-			map.insert(std::make_pair(dwProcessId, procentry.th32ParentProcessID));
-			_ASSERT(procentry.th32ProcessID != procentry.th32ParentProcessID);
-		}
+		map.insert(std::make_pair(dwProcessId, procentry.th32ParentProcessID));
 		bContinue = Process32Next( hSnapShot, &procentry );
 	}
 
@@ -393,45 +393,23 @@ BOOL AudioVolume::IsQzoneMusicProcess(DWORD processId)
 {
 	HANDLE hrocess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ , FALSE, processId);
 	WCHAR fileName[MAX_PATH];
-	DWORD ret = GetModuleFileNameExW(hrocess, NULL, fileName, MAX_PATH);
-	BOOL bFind = (ret > 0 && wcsstr(fileName, L"QzoneMusic.exe") != NULL);
-	CloseHandle(hrocess);
+	GetModuleFileNameExW(hrocess, NULL, fileName, MAX_PATH);
+	BOOL bFind = (wcsstr(fileName, L"QzoneMusic.exe") != NULL);
+
 	return bFind;
 }
-
-BOOL AudioVolume::IsDescendantProcess(std::map<DWORD, DWORD> &map, DWORD processId, int depth /*= 8*/) 
+BOOL AudioVolume::IsDescendantProcess(std::map<DWORD, DWORD> &map, DWORD processId) 
 {
-	if (depth < 1)
-	{
-		return FALSE;
-	}
 	if (g_dwThisModuleProcessId == processId)
 	{
 		return TRUE;
 	}
-	if (processId == 0)
-	{
-		return FALSE;
-	}
 	DWORD parent = 0;
 	auto iter = map.find(processId);
-	if (iter != map.end() &&
-		iter->second != 0 &&
-		iter->second != processId)
+	if (iter != map.end() && iter->second != 0 && IsDescendantProcess(map, iter->second))
 	{
-		if (iter->second == g_dwThisModuleProcessId)
-		{
-			return TRUE;
-		}
-		DWORD parentID = iter->second;
-		// Set its parent to 0 to avoid reiterate the node 
-		iter->second = 0;
-		if (IsDescendantProcess(map, parentID, depth - 1))
-		{
-			iter->second = g_dwThisModuleProcessId;
-			return TRUE;
-		}
-		return FALSE;
+		iter->second = g_dwThisModuleProcessId;
+		return TRUE;
 	} 
 	else 
 	{
