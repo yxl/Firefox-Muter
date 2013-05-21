@@ -22,5 +22,6 @@
 
 #include <shlwapi.h>
 #pragma comment(lib, "Shlwapi.lib")
+#pragma comment(lib, "Psapi.lib")
 
 // TODO: reference additional headers your program requires here
