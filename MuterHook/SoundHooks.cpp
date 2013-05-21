@@ -46,10 +46,7 @@ HRESULT WINAPI DirectSoundCreate_hook(LPCGUID pcGuidDevice,
 
 	if (SUCCEEDED(hr)) 
 	{
-		HookedDirectSound* p = new HookedDirectSound;
-		p->direct_sound_ = *ppDS;
-		*ppDS = p;
-
+		*ppDS = new HookedDirectSound8(*ppDS);
 	}
 	return hr;
 }
@@ -68,9 +65,7 @@ HRESULT WINAPI DirectSoundCreate8_hook(LPCGUID pcGuidDevice,
 
 	if (SUCCEEDED(hr))
 	{
-		HookedDirectSound8* p = new HookedDirectSound8;
-		p->direct_sound_ = *ppDS;
-		*ppDS = p;
+		*ppDS = new HookedDirectSound8(*ppDS);
 	}
 	return hr;
 }

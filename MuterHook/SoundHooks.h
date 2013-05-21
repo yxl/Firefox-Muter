@@ -1,4 +1,5 @@
 #pragma once
+#define INITGUID
 #include "external\dsound.h"
 
 extern MMRESULT (WINAPI *waveOutWrite_original)(HWAVEOUT hwo, LPWAVEHDR pwh, UINT cbwh);

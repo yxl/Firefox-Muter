@@ -21,6 +21,7 @@ class HookedDirectSoundBuffer : public IDirectSoundBuffer {
 		if (cnt == 0) {
 			delete this;
 		}
+		return cnt;
 	}
 
 	// IDirectSoundBuffer methods
@@ -34,7 +35,7 @@ class HookedDirectSoundBuffer : public IDirectSoundBuffer {
 		return directsound_buffer_->GetFormat(pwfxFormat, dwSizeAllocated, pdwSizeWritten);
 	}
 	STDMETHOD(GetVolume)            (THIS_ __out LPLONG plVolume) {
-		return directsound_buffer_->GetVolume(plVolume);
+		return mVolume;
 	}
 	STDMETHOD(GetPan)               (THIS_ __out LPLONG plPan) {
 		return directsound_buffer_->GetPan(plPan);
@@ -51,7 +52,7 @@ class HookedDirectSoundBuffer : public IDirectSoundBuffer {
 	STDMETHOD(Lock)                 (THIS_ DWORD dwOffset, DWORD dwBytes,
 		__deref_out_bcount(*pdwAudioBytes1) LPVOID *ppvAudioPtr1, __out LPDWORD pdwAudioBytes1,
 		__deref_opt_out_bcount(*pdwAudioBytes2) LPVOID *ppvAudioPtr2, __out_opt LPDWORD pdwAudioBytes2, DWORD dwFlags) {
-			return directsound_buffer_->Lock(dwOffset, dwBytes, ppvAudioPtr1, pdwAudioBytes1, ppvAudioPtr2, pdwAudioBytes2, dwFlags);
+		return directsound_buffer_->Lock(dwOffset, dwBytes, ppvAudioPtr1, pdwAudioBytes1, ppvAudioPtr2, pdwAudioBytes2, dwFlags);
 	}
 	STDMETHOD(Play)                 (THIS_ DWORD dwReserved1, DWORD dwPriority, DWORD dwFlags) {
 		return directsound_buffer_->Play(dwReserved1, dwPriority, dwFlags);
@@ -63,7 +64,8 @@ class HookedDirectSoundBuffer : public IDirectSoundBuffer {
 		return directsound_buffer_->SetFormat(pcfxFormat);
 	}
 	STDMETHOD(SetVolume)            (THIS_ LONG lVolume) {
-		return directsound_buffer_->SetVolume(lVolume);
+		mVolume = lVolume;
+		return directsound_buffer_->SetVolume(GetTargetVolume());
 	}
 	STDMETHOD(SetPan)               (THIS_ LONG lPan) {
 		return directsound_buffer_->SetPan(lPan);
@@ -76,14 +78,8 @@ class HookedDirectSoundBuffer : public IDirectSoundBuffer {
 	}
 	STDMETHOD(Unlock)               (THIS_ __in_bcount(dwAudioBytes1) LPVOID pvAudioPtr1, DWORD dwAudioBytes1,
 		__in_bcount_opt(dwAudioBytes2) LPVOID pvAudioPtr2, DWORD dwAudioBytes2) {
-		if (IsMuteEnabled()) {
-			if (pvAudioPtr1) {
-				memset(pvAudioPtr1, 0, dwAudioBytes1);
-			}
-			if (pvAudioPtr2) {
-				memset(pvAudioPtr2, 0 ,dwAudioBytes2);
-			}
-		}
+		UpdateVolume();
+
 		return directsound_buffer_->Unlock(pvAudioPtr1, dwAudioBytes1, pvAudioPtr2, dwAudioBytes2);
 	}
 	STDMETHOD(Restore)              (THIS) {
@@ -91,71 +87,35 @@ class HookedDirectSoundBuffer : public IDirectSoundBuffer {
 	}
 
 public:
+	HookedDirectSoundBuffer(IDirectSoundBuffer* pBuffer) {
+		directsound_buffer_ = pBuffer;
+		mVolume = 0;
+		pBuffer->GetVolume(&mVolume);
+	}
+private:
+	void UpdateVolume() {
+		LONG actualVolume = 0;
+		directsound_buffer_->GetVolume(&actualVolume);
+		LONG targetVolume = GetTargetVolume();
+		if (actualVolume != targetVolume) {
+			directsound_buffer_->SetVolume(targetVolume);
+		}
+	}
+
+	LONG GetTargetVolume() {
+		return IsMuteEnabled() ? DSBVOLUME_MIN : mVolume;
+	}
+
 	IDirectSoundBuffer* directsound_buffer_;
-};
-
-// it's a wapper of IDirectSound interface for mute some audio
-// played by dsound
-class HookedDirectSound : public IDirectSound {
-
-	// IUnknown methods
-	STDMETHOD(QueryInterface)       (THIS_ __in REFIID iid, __deref_out LPVOID* lpout) {
-		return direct_sound_->QueryInterface(iid, lpout);
-	}
-	STDMETHOD_(ULONG,AddRef)        (THIS) {
-		return direct_sound_->AddRef();
-	}
-	STDMETHOD_(ULONG,Release)       (THIS) {
-		ULONG cnt = direct_sound_->Release();
-		if (cnt == 0) {
-			delete this;
-		}
-	}
-
-	// IDirectSound methods
-	STDMETHOD(CreateSoundBuffer)    (THIS_ __in LPCDSBUFFERDESC pcDSBufferDesc, __deref_out LPDIRECTSOUNDBUFFER *ppDSBuffer, __null LPUNKNOWN pUnkOuter) {
-		HRESULT hr = direct_sound_->CreateSoundBuffer(pcDSBufferDesc, ppDSBuffer, pUnkOuter);
-		if (SUCCEEDED(hr)) {
-			HookedDirectSoundBuffer* p = new HookedDirectSoundBuffer;
-			p->directsound_buffer_ = *ppDSBuffer;
-			*ppDSBuffer = p;
-		}
-		return hr;
-	}
-	STDMETHOD(GetCaps)              (THIS_ __out LPDSCAPS pDSCaps) {
-		return direct_sound_->GetCaps(pDSCaps);
-	}
-	STDMETHOD(DuplicateSoundBuffer) (THIS_ __in LPDIRECTSOUNDBUFFER pDSBufferOriginal, __deref_out LPDIRECTSOUNDBUFFER *ppDSBufferDuplicate) {
-		return direct_sound_->DuplicateSoundBuffer(pDSBufferOriginal, ppDSBufferDuplicate);
-	}
-	STDMETHOD(SetCooperativeLevel)  (THIS_ HWND hwnd, DWORD dwLevel) {
-		return direct_sound_->SetCooperativeLevel(hwnd, dwLevel);
-	}
-	STDMETHOD(Compact)              (THIS) {
-		return direct_sound_->Compact();
-	}
-	STDMETHOD(GetSpeakerConfig)     (THIS_ __out LPDWORD pdwSpeakerConfig) {
-		return direct_sound_->GetSpeakerConfig(pdwSpeakerConfig);
-	}
-	STDMETHOD(SetSpeakerConfig)     (THIS_ DWORD dwSpeakerConfig) {
-		return direct_sound_->SetSpeakerConfig(dwSpeakerConfig);
-	}
-	STDMETHOD(Initialize)           (THIS_ __in_opt LPCGUID pcGuidDevice) {
-		return direct_sound_->Initialize(pcGuidDevice);
-	}
-
-public:
-	IDirectSound* direct_sound_;
+	LONG mVolume;
 };
 
 class HookedDirectSound8 : public IDirectSound8 {
 	// IUnknown methods
 	STDMETHOD(QueryInterface)       (THIS_ __in REFIID iid, __deref_out LPVOID* lpout) {
 		HRESULT hr = direct_sound_->QueryInterface(iid, lpout);
-		if (IsEqualIID(iid, IID_IDirectSound)) {
-			HookedDirectSound* p = new HookedDirectSound;
-			p->direct_sound_ = static_cast<IDirectSound *>(*lpout);
-			*lpout = static_cast<LPVOID>(p);
+		if (IsEqualIID(iid, IID_IDirectSound) || IsEqualIID(iid, IID_IDirectSound8)) {
+			*lpout = static_cast<LPVOID>(this);
 		}
 		return hr;
 	}
@@ -167,14 +127,14 @@ class HookedDirectSound8 : public IDirectSound8 {
 		if (cnt == 0) {
 			delete this;
 		}
+		return cnt;
 	}
 
 	// IDirectSound methods
 	STDMETHOD(CreateSoundBuffer)    (THIS_ __in LPCDSBUFFERDESC pcDSBufferDesc, __deref_out LPDIRECTSOUNDBUFFER *ppDSBuffer, __null LPUNKNOWN pUnkOuter) {
 		HRESULT hr = direct_sound_->CreateSoundBuffer(pcDSBufferDesc, ppDSBuffer, pUnkOuter);
 		if (SUCCEEDED(hr)) {
-			HookedDirectSoundBuffer* p = new HookedDirectSoundBuffer;
-			p->directsound_buffer_ = *ppDSBuffer;
+			HookedDirectSoundBuffer* p = new HookedDirectSoundBuffer(*ppDSBuffer);
 			*ppDSBuffer = p;
 		}
 		return hr;
@@ -207,6 +167,12 @@ class HookedDirectSound8 : public IDirectSound8 {
 	}
 
 public:
+	HookedDirectSound8(IDirectSound8* pSound) {
+		direct_sound_ = pSound;
+	}
+	HookedDirectSound8(IDirectSound* pSound) {
+		direct_sound_ = static_cast<IDirectSound8*>(pSound);
+	}
+private:
 	IDirectSound8* direct_sound_;
-
 };

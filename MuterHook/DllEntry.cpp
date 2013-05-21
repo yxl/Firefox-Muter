@@ -54,6 +54,8 @@ extern "C"
 			return TRUE;
 		}
 
+		g_bMuted = FALSE;
+
 		// Start thread
 		g_hThread = reinterpret_cast<HANDLE>(_beginthreadex( NULL, 0, &ThreadProc, NULL, 0, &g_uThread));
 		if(g_hThread == NULL)
@@ -66,13 +68,18 @@ extern "C"
 
 	DLLIMPORT void Dispose(void)
 	{
-		if (g_hThread == NULL)
+		if (g_uThread == 0)
 		{
 			return;
 		}
+
+		g_bMuted = FALSE;
+
 		PostThreadMessage(g_uThread, WM_QUIT, 0, 0);
 		WaitForSingleObject(g_hThread, INFINITE);
 		CloseHandle(g_hThread);
+		g_hThread = NULL;
+		g_uThread = 0;
 	}
 
 	unsigned __stdcall ThreadProc(void* lParam)
