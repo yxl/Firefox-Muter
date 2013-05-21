@@ -91,7 +91,7 @@ extern "C"
 			{
 			case WM_USER_HOOK_PROCESSES:
 				{
-					InjectIntoSubProcesses();
+					InjectIntoDescendantProcesses();
 					InjectIntoQQMusic();
 				}
 				break;

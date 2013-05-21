@@ -5,6 +5,6 @@ void UnInstallMuterHooks();
 
 BOOL InjectIntoProcess(HANDLE hProcess);
 
-void InjectIntoSubProcesses();
+void InjectIntoDescendantProcesses();
 
 

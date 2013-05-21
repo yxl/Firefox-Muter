@@ -1,6 +1,6 @@
 #include <windows.h>
 #include <tlhelp32.h>
-
+#include <map>
 #include "external\MinHook.h"
 
 #if defined(_DEBUG)
@@ -32,7 +32,6 @@ struct FunctionInfo
 };
 
 #define DEFINE_FUNCTION_INFO(module, func) {module, #func, NULL, reinterpret_cast<PVOID *>(&func##_original), reinterpret_cast<PVOID>(func##_hook), FALSE}
-
 
 FunctionInfo s_Functions[] = 
 {
@@ -99,9 +98,61 @@ BOOL InjectIntoProcess(HANDLE hProcess)
 	return bOK;
 }
 
-void InjectIntoSubProcesses()
+// Get a map that its keys contains all process IDs and the value for each key is the subprocess ID.
+BOOL BuildProcesseTree(std::map<DWORD, DWORD> &map)
 {
-	DWORD dwCurrentProcessId = GetCurrentProcessId();
+	HANDLE hSnapShot = ::CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+	if (hSnapShot == INVALID_HANDLE_VALUE)
+	{
+		return FALSE;
+	}
+
+	PROCESSENTRY32 procentry  = { sizeof(PROCESSENTRY32) };
+	BOOL bContinue = Process32First(hSnapShot, &procentry);
+	while(bContinue)
+	{
+		DWORD dwProcessId = procentry.th32ProcessID;
+		map.insert(std::make_pair(dwProcessId, procentry.th32ParentProcessID));
+		bContinue = Process32Next( hSnapShot, &procentry );
+	}
+
+	CloseHandle(hSnapShot);
+	return TRUE;
+}
+
+BOOL IsDescendantProcess(std::map<DWORD, DWORD> &map, DWORD processId) 
+{
+	static DWORD s_dwThisModuleProcessId = GetCurrentProcessId();
+	if (s_dwThisModuleProcessId == processId)
+	{
+		return TRUE;
+	}
+	DWORD parent = 0;
+	auto iter = map.find(processId);
+	if (iter != map.end() && iter->second != 0 && IsDescendantProcess(map, iter->second))
+	{
+		iter->second = s_dwThisModuleProcessId;
+		return TRUE;
+	} 
+	else 
+	{
+		if (iter != map.end())
+		{
+			iter->second = 0;
+		}
+		return FALSE;
+	}
+}
+
+void InjectIntoDescendantProcesses()
+{
+	// Map indicating whether a process belongs to firefox
+	std::map<DWORD, DWORD> map;
+	if (!BuildProcesseTree(map))
+	{
+		return;
+	}
+
 	HANDLE hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 	if (hSnapShot == INVALID_HANDLE_VALUE)
 	{
@@ -112,7 +163,7 @@ void InjectIntoSubProcesses()
 	BOOL bContinue = Process32First(hSnapShot, &procentry);
 	while( bContinue )
 	{
-		if(dwCurrentProcessId == procentry.th32ParentProcessID)
+		if(IsDescendantProcess(map, procentry.th32ParentProcessID))
 		{
 			HANDLE hProcess = OpenProcess(
 				PROCESS_CREATE_THREAD | PROCESS_QUERY_INFORMATION | 
@@ -125,7 +176,7 @@ void InjectIntoSubProcesses()
 			}
 			else
 			{
-				TRACE("[MuterHook] InjectIntoSubProcesses failed!, ProcessId=%ld\n", procentry.th32ProcessID);
+				TRACE("[MuterHook] InjectIntoDescendantProcesses failed!, ProcessId=%ld\n", procentry.th32ProcessID);
 			}
 		}
 		bContinue = Process32Next( hSnapShot, &procentry );
@@ -138,7 +189,7 @@ void InstallMuterHooks()
 {
 	if (MH_Initialize() != MH_OK)
 	{
-		return;
+		TRACE("InstallMuterHooks already initialized.\n");
 	}
 	for(int i = 0; i < s_FunctionsCount; ++i)
 	{
