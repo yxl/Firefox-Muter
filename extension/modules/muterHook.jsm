@@ -56,21 +56,19 @@ let muterHook = {
       ctypes.int32_t
       );
 
-    if (isWin7OrLater || muterUtils.platform.linux) {
-      // BOOL Initialize()
-      this._Initialize = this._lib.declare("Initialize",
-        abiType,
-        ctypes.int32_t
-        );
+    // BOOL Initialize()
+    this._Initialize = this._lib.declare("Initialize",
+      abiType,
+      ctypes.int32_t
+      );
+
+	// void Dispose()
+    this._Dispose = this._lib.declare("Dispose",
+      abiType,
+      ctypes.void_t
+      );
       
-      // void Dispose()
-      this._Dispose = this._lib.declare("Dispose",
-        abiType,
-        ctypes.void_t
-        );
-      
-      this._Initialize();
-    }
+    this._Initialize();
   },
   
   close: function() {
@@ -80,9 +78,9 @@ let muterHook = {
     if (!this._lib) {
       return;
     }
-    if (isWin7OrLater || muterUtils.platform.linux) {
-      this._Dispose();
-    }
+
+    this._Dispose();
+
     this._lib.close();
     
     this._lib = null;

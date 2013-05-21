@@ -12,13 +12,20 @@ extern "C"
 # define DLLIMPORT __declspec (dllimport)
 #endif /* Not BUILDING_DLL */
 
+	DLLIMPORT BOOL Initialize(void);
+
+	DLLIMPORT void Dispose(void);
+
 	DLLIMPORT void EnableMute(BOOL bEnabled);
 
 	DLLIMPORT BOOL IsMuteEnabled();
 
+	// Custom thread message ID
+	extern const UINT WM_USER_HOOK_PROCESSES;
+
 	extern CHAR g_szThisModulePath[MAX_PATH];
 
-	extern DWORD g_dwThisModuleProcessId;
+	extern unsigned g_uThread;
 
 #ifdef __cplusplus
 }

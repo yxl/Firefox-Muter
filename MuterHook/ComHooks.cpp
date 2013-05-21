@@ -1,6 +1,8 @@
 #include "ComHooks.h"
 #include "ApiHooks.h"
 #include "SDKTrace.h"
+#include "QQMusicHook.h"
+#include "DllEntry.h"
 
 HRESULT (WINAPI *CoCreateInstance_original)(REFCLSID rclsid, LPUNKNOWN pUnkOuter, DWORD dwClsContext, REFIID riid, LPVOID* ppv) = NULL;
 
@@ -10,6 +12,6 @@ HRESULT WINAPI CoCreateInstance_hook(REFCLSID rclsid, LPUNKNOWN pUnkOuter, DWORD
   TRACE("[MuterHook] CoCreateInstance_hook\n");
   HRESULT hret =  CoCreateInstance_original(rclsid, pUnkOuter, dwClsContext, riid, ppv);
   InstallMuterHooks();
-  InjectIntoSubProcesses();
+  PostThreadMessage(g_uThread, WM_USER_HOOK_PROCESSES, 0, 0);
   return hret;
 }

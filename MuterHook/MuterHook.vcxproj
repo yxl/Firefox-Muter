@@ -282,6 +282,7 @@
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <ClCompile Include="QQMusicHook.cpp" />
     <ClCompile Include="SDKTrace.cpp" />
     <ClCompile Include="SoundHooks.cpp" />
   </ItemGroup>
@@ -291,6 +292,7 @@
     <ClInclude Include="ComHooks.h" />
     <ClInclude Include="DllEntry.h" />
     <ClInclude Include="HookedDsound.h" />
+    <ClInclude Include="QQMusicHook.h" />
     <ClInclude Include="SDKTrace.h" />
     <ClInclude Include="SoundHooks.h" />
   </ItemGroup>

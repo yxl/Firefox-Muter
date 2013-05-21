@@ -17,7 +17,10 @@ class HookedDirectSoundBuffer : public IDirectSoundBuffer {
 		return directsound_buffer_->AddRef();
 	}
 	STDMETHOD_(ULONG,Release)       (THIS) {
-		return directsound_buffer_->Release();
+		ULONG cnt = directsound_buffer_->Release();
+		if (cnt == 0) {
+			delete this;
+		}
 	}
 
 	// IDirectSoundBuffer methods
@@ -103,7 +106,10 @@ class HookedDirectSound : public IDirectSound {
 		return direct_sound_->AddRef();
 	}
 	STDMETHOD_(ULONG,Release)       (THIS) {
-		return direct_sound_->Release();
+		ULONG cnt = direct_sound_->Release();
+		if (cnt == 0) {
+			delete this;
+		}
 	}
 
 	// IDirectSound methods
@@ -145,13 +151,22 @@ public:
 class HookedDirectSound8 : public IDirectSound8 {
 	// IUnknown methods
 	STDMETHOD(QueryInterface)       (THIS_ __in REFIID iid, __deref_out LPVOID* lpout) {
-		return direct_sound_->QueryInterface(iid, lpout);
+		HRESULT hr = direct_sound_->QueryInterface(iid, lpout);
+		if (IsEqualIID(iid, IID_IDirectSound)) {
+			HookedDirectSound* p = new HookedDirectSound;
+			p->direct_sound_ = static_cast<IDirectSound *>(*lpout);
+			*lpout = static_cast<LPVOID>(p);
+		}
+		return hr;
 	}
 	STDMETHOD_(ULONG,AddRef)        (THIS) {
 		return direct_sound_->AddRef();
 	}
 	STDMETHOD_(ULONG,Release)       (THIS) {
-		return direct_sound_->Release();
+		ULONG cnt = direct_sound_->Release();
+		if (cnt == 0) {
+			delete this;
+		}
 	}
 
 	// IDirectSound methods
