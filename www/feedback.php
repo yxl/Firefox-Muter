@@ -11,7 +11,7 @@
     // Compose an email with the feedback content
     $to = "xyuan@mozilla.com";  
     $subject = "[muter feedback]";
-    $from = $email;
+    $from = "admin@yxl.name";
     $headers = "";
     $headers .= "MIME-Version: 1.0\r\n";
     $headers .= "Content-type: text/xml; charset=utf-8"."\r\n";
