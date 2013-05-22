@@ -36,7 +36,7 @@ ondialogextra2="muterSettings.openFeedback();">
       <preference id="defaultDisabledIcon"
       name="extensions.firefox-muter.disabledIcon.default" type="string" />
       <preference id="defaultEnabledIcon"
-      name="extensions.firefox-muter.enabledIcon.default" type="string" />       
+      name="extensions.firefox-muter.enabledIcon.default" type="string" />
     </preferences>
     <tabbox>
       <tabs>
