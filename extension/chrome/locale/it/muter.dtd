@@ -1,0 +1,42 @@
+<!ENTITY muter-button.label "Silenzioso">
+<!ENTITY muter-button.tooltip "Passa allo stato silenzioso">
+<!ENTITY muter-popup.init "Passa velocemente allo stato silenzioso">
+<!ENTITY muter.feedback "Feedback">
+<!ENTITY muter.skin.label "Icona pulsante">
+<!ENTITY muter.skin.default.lable "Predefinita">
+<!ENTITY muter.settings.title "Impostazioni Muter">
+<!ENTITY muter.settings.ui.label "Interfaccia utente">
+<!ENTITY muter.settings.custom.label "Personalizza">
+<!ENTITY muter.settings.miscellaneous.label "Varie">
+<!ENTITY muter.settings.shorcut.title "Tasti rapidi">
+<!ENTITY muter.settings.restore "Ripristina predefiniti">
+<!ENTITY muter.settings.showInAddonBar "Mostra il pulsante nella barra degli addon.">
+<!ENTITY muter.settings.restart.descr "Avrà effetto dopo il riavvio di &brandShortName;.">
+<!ENTITY muter.settings.switchButtonStyle "Scegli lo stile del bottone:">
+<!ENTITY muter.settings.switchButtonWithMenu "Con menù">
+<!ENTITY muter.settings.switchButtonWithoutMenu "Senza menù">
+<!ENTITY muter.settings.saveStatus "Ripristina lo stato silenzioso dopo il riavvio di &brandShortName;.">
+<!ENTITY muter.settings.defaultIcons.label "Icone predefinite">
+<!ENTITY muter.settings.defaultDisabledIcon.label "Icona di stato normale">
+<!ENTITY muter.settings.defaultEnabledIcon.label "Icona di stato silenzioso">
+<!ENTITY muter.settings.changeIcon "Cambia icona...">
+<!ENTITY muter.settings.resetIcon "Resetta icona">
+<!ENTITY muter.feedback.typeSelector.heading "Seleziona il tipo di problema">
+<!ENTITY muter.feedback.typeSelector.description "La finestra ti guiderà attraverso i passaggi richiesti per inoltrare il report del problema di Muter. Prima di tutto, seleziona il tipo di problema che hai riscontrato.">
+<!ENTITY muter.feedback.notWorking.label "Non funziona!">
+<!ENTITY muter.feedback.notWorking.description "Non riesce a rendere il browser silenzioso.">
+<!ENTITY muter.feedback.sideEffect.label "Crea problemi.">
+<!ENTITY muter.feedback.sideEffect.description "L'addon va in crash o crea altri problemi.">
+<!ENTITY muter.feedback.other.label "Altro problema.">
+<!ENTITY muter.feedback.other.description "Suggerimenti o altri problemi.">
+<!ENTITY muter.feedback.commentPage.heading "Inserisci commento">
+<!ENTITY muter.feedback.commentPage.description "Lo spazio qua sotto ti permette di inserire un commento per aiutarci a capire il problema. Questo passaggio è opzionale ma necessario se il problema non è così ovvio. Puoi ricontrollare il report prima di inviarlo.">
+<!ENTITY muter.feedback.comment.label "Commento (pzionale):">
+<!ENTITY muter.feedback.url.label "URL relativo (opzionale):">
+<!ENTITY muter.feedback.email.label "Email (opzionale. Ti manderemo una email quando il problema sarà risolto.):">
+<!ENTITY muter.feedback.comment.lengthWarning "La lunghezza del tuo commento eccede i 500 caratteri. Solo i primi 500 caratteri saranno inviati.">
+<!ENTITY muter.feedback.attachAddons.label "Allega al report la lista degli add-on attivi, nel caso il problema sia un conflitto tra add-on.">
+<!ENTITY muter.feedback.sendPage.heading "Invia report">
+<!ENTITY muter.feedback.reportData.label "Dati del report:">
+<!ENTITY muter.feedback.sendPage.errorMessage "Il tentativo di inviare il report è fallito. Per favore, assicurati di essere connesso ad internet e riprova.">
+<!ENTITY muter.feedback.sendPage.retry.label "Invia di nuovo">

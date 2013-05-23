@@ -92,6 +92,18 @@
 
   <em:localized>
     <Description>
+      <em:locale>es-AR</em:locale>
+      <em:name>Muter</em:name>
+      <em:description>Silenciá tu navegador web.</em:description>
+      <em:creator>Yuan Xulei</em:creator>
+      <em:homepageURL>http://yxl.github.com/Firefox-Muter/</em:homepageURL>
+      <em:developer>Hector Zhao</em:developer>
+      <em:translator>KNTRO</em:translator>
+    </Description>
+  </em:localized>
+
+  <em:localized>
+    <Description>
       <em:locale>es-ES</em:locale>
       <em:name>Muter</em:name>
       <em:description>Permite silenciar Firefox</em:description>
@@ -136,6 +148,18 @@
       <em:homepageURL>http://yxl.github.com/Firefox-Muter/</em:homepageURL>
       <em:developer>Hector Zhao</em:developer>
       <em:translator>baryoni</em:translator>
+      <em:contributor>Hector Zhao</em:contributor>
+    </Description>
+  </em:localized>
+
+  <em:localized>
+    <Description>
+      <em:locale>it</em:locale>
+      <em:name>Muter</em:name>
+      <em:creator>Yuan Xulei</em:creator>
+      <em:homepageURL>http://yxl.github.com/Firefox-Muter/</em:homepageURL>
+      <em:developer>Hector Zhao</em:developer>
+      <em:translator>salmo69</em:translator>
       <em:contributor>Hector Zhao</em:contributor>
     </Description>
   </em:localized>
@@ -212,6 +236,18 @@
       <em:homepageURL>http://yxl.github.com/Firefox-Muter/</em:homepageURL>
       <em:developer>Hector Zhao</em:developer>
       <em:translator>Mikael Hiort af Ornäs</em:translator>
+      <em:contributor>Hector Zhao</em:contributor>
+    </Description>
+  </em:localized>
+
+  <em:localized>
+    <Description>
+      <em:locale>th</em:locale>
+      <em:name>Muter</em:name>
+      <em:creator>Yuan Xulei</em:creator>
+      <em:homepageURL>http://yxl.github.com/Firefox-Muter/</em:homepageURL>
+      <em:developer>Hector Zhao</em:developer>
+      <em:translator>Warofdefeat http://www.xgn.in.th</em:translator>
       <em:contributor>Hector Zhao</em:contributor>
     </Description>
   </em:localized>
