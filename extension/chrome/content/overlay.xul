@@ -28,7 +28,7 @@ xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
     class="toolbarbutton-1 chromeclass-toolbar-additional" popup="muter-popup"
     onclick="muter.clickSwitchButton(event);" label="&muter-button.label;"
     tooltiptext="&muter-button.tooltip;" command='cmd_muterToggle'
-    image='chrome://muter/skin/mute-enabled.png'
+    image="chrome://muter/skin/mute-enabled.png"
     menupopup="muter-toolbar-palette-button-popup"
     menu="muter-toolbar-palette-button-popup">
       <menupopup id="muter-toolbar-palette-button-popup"

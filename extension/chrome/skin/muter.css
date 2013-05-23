@@ -1,15 +1,19 @@
 @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
 
-toolbar[iconsize="small"] #muter-toolbar-palette-button > toolbarbutton > image, toolbar[iconsize="small"] #muter-toolbar-palette-button  > image{
-  background-color:transparent;
+/* Addon bar switch button icon */
+toolbar[id="addon-bar"] #muter-toolbar-palette-button image[class="toolbarbutton-icon"]{
   height: 16px;
-  width: 16px;
 }
 
-toolbar #muter-toolbar-palette-button > toolbarbutton > image{
+/* Navigation bar switch button with small icon */
+#muter-toolbar-palette-button image[class="toolbarbutton-icon"] {
   background-color:transparent;
-  height: 29px;
-  width: 29px;
+  height: 18px;
+}
+
+/* Navigation bar switch button with large icon */
+toolbox[iconsize="large"] #muter-toolbar-palette-button image[class="toolbarbutton-icon"]{
+  height: 24px;
 }
 
 image.muter-shadow-image {
