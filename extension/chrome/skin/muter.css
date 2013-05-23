@@ -27,10 +27,3 @@ image.muter-shadow-image {
   margin-top: 10px;
   margin-bottom: 20px;
 }
-
-/** For SeaMonkey only! **/
-#muter-statusbar-button > image{
-  background-color:transparent;
-  height: 16px;
-  width: 16px;
-}

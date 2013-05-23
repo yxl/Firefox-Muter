@@ -11,7 +11,6 @@
 <!ENTITY muter.settings.shorcut.title "Skróty klawiszowe">
 <!ENTITY muter.settings.restore "Przywróć domyślne">
 <!ENTITY muter.settings.showInAddonBar "Wyświetlaj przycisk przełączający na pasku dodatków.">
-<!ENTITY muter.settings.showInStatusBar "Wyświetlaj przycisk przełączający na pasku stanu.">
 <!ENTITY muter.settings.restart.descr "Zmiany wymagają ponownego uruchomienia programu &brandShortName;.">
 <!ENTITY muter.settings.switchButtonStyle "Styl przycisku">
 <!ENTITY muter.settings.switchButtonWithMenu "Z menu">

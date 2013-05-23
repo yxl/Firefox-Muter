@@ -11,7 +11,6 @@
 <!ENTITY muter.settings.shorcut.title "Teclas de acceso directo">
 <!ENTITY muter.settings.restore "Restaurar predeterminadas">
 <!ENTITY muter.settings.showInAddonBar "Mostrar comando en barra de complementos">
-<!ENTITY muter.settings.showInStatusBar "Mostrar comando en barra de estado">
 <!ENTITY muter.settings.restart.descr "Efectivo al reiniciar &brandShortName;">
 <!ENTITY muter.settings.switchButtonStyle "Estilo de comando:">
 <!ENTITY muter.settings.switchButtonWithMenu "Con menu">

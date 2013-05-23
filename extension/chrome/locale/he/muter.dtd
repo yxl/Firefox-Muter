@@ -11,7 +11,6 @@
 <!ENTITY muter.settings.shorcut.title "מקשי קיצור">
 <!ENTITY muter.settings.restore "שחזר לברירת מחדל">
 <!ENTITY muter.settings.showInAddonBar "הצג סמל בשורת ההרחבות">
-<!ENTITY muter.settings.showInStatusBar "הצג סמל בשורת מצב">
 <!ENTITY muter.settings.restart.descr "השינוי יכנס לתוקף לאחר הפעלה מחדש של Firefox">
 <!ENTITY muter.settings.switchButtonStyle "מראה סמל:">
 <!ENTITY muter.settings.switchButtonWithMenu "עם תפריט">

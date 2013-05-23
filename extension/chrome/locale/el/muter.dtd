@@ -11,7 +11,6 @@
 <!ENTITY muter.settings.shorcut.title "Συντομεύσεις πληκτρολογίου">
 <!ENTITY muter.settings.restore "Επαναφορά αρχικών ρυθμίσεων">
 <!ENTITY muter.settings.showInAddonBar "Εμφάνιση εικονιδίου εναλλαγής κατάστασης στην εργαλειοθήκη πρόσθετων.">
-<!ENTITY muter.settings.showInStatusBar "Εμφάνιση εικονιδίου εναλλαγής κατάστασης στην γραμμή κατάστασης.">
 <!ENTITY muter.settings.restart.descr "Θα ενεργοποιηθεί μετά την επανεκκίνηση του &brandShortName;.">
 <!ENTITY muter.settings.switchButtonStyle "Στύλ εικονιδίου:">
 <!ENTITY muter.settings.switchButtonWithMenu "Με μενού επιλογών">

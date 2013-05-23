@@ -11,7 +11,6 @@
 <!ENTITY muter.settings.shorcut.title "Tastenkürzel">
 <!ENTITY muter.settings.restore "Standardwerte wiederherstellen">
 <!ENTITY muter.settings.showInAddonBar "Schaltfläche in der Add-on-Leiste anzeigen">
-<!ENTITY muter.settings.showInStatusBar "Schaltfläche in der Statusleiste anzeigen">
 <!ENTITY muter.settings.restart.descr "Änderungen werden wirksam, sobald Sie &brandShortName; neu starten.">
 <!ENTITY muter.settings.switchButtonStyle "Schaltflächen-Typ:">
 <!ENTITY muter.settings.switchButtonWithMenu "Mit Menü">

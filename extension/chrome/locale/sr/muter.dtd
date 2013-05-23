@@ -11,7 +11,6 @@
 <!ENTITY muter.settings.shorcut.title "Пречице">
 <!ENTITY muter.settings.restore "Врати на подразумеване вредности">
 <!ENTITY muter.settings.showInAddonBar "Прикажи дугме у траци са алаткама">
-<!ENTITY muter.settings.showInStatusBar "Прикажи дугме у статусној траци">
 <!ENTITY muter.settings.restart.descr "Промене ће бити примењене када поново покренете &brandShortName;">
 <!ENTITY muter.settings.switchButtonStyle "Стил дугмета">
 <!ENTITY muter.settings.switchButtonWithMenu "са менијем">

@@ -11,7 +11,6 @@
 <!ENTITY muter.settings.shorcut.title "Spartieji klavišai">
 <!ENTITY muter.settings.restore "Atstatyti numatytus">
 <!ENTITY muter.settings.showInAddonBar "Papildinių juostoje rodyti perjungimo mygtuką">
-<!ENTITY muter.settings.showInStatusBar "Būsenos juostoje rodyti perjungimo mygtuką.">
 <!ENTITY muter.settings.restart.descr "Pakeitimai įsigalios iš naujo paleidus &brandShortName;.">
 <!ENTITY muter.settings.switchButtonStyle "Perjungimo mygtuko stilius:">
 <!ENTITY muter.settings.switchButtonWithMenu "Su meniu">

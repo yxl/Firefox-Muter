@@ -11,7 +11,6 @@
 <!ENTITY muter.settings.shorcut.title "Touches de raccourci">
 <!ENTITY muter.settings.restore "Restaurer les paramètres par défaut">
 <!ENTITY muter.settings.showInAddonBar "Afficher le bouton basculer dans la barre des modules.">
-<!ENTITY muter.settings.showInStatusBar "Afficher le bouton basculer dans la barre d'état.">
 <!ENTITY muter.settings.restart.descr "Ça prendra effet après que &brandShortName; redémarre.">
 <!ENTITY muter.settings.switchButtonStyle "Basculer le style du bouton:">
 <!ENTITY muter.settings.switchButtonWithMenu "Avec menu">

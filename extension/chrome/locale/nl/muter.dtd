@@ -11,7 +11,6 @@
 <!ENTITY muter.settings.shorcut.title "Sneltoetsen">
 <!ENTITY muter.settings.restore "Standaardwaarden terugzetten">
 <!ENTITY muter.settings.showInAddonBar "Wisselknop in de add-onbalk weergeven.">
-<!ENTITY muter.settings.showInStatusBar "Wisselknop in de statusbalk weergeven.">
 <!ENTITY muter.settings.restart.descr "Dit wordt doorgevoerd na herstarten van &brandShortName;.">
 <!ENTITY muter.settings.switchButtonStyle "Stijl wisselknop:">
 <!ENTITY muter.settings.switchButtonWithMenu "Met menu">

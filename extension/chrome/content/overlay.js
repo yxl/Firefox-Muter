@@ -111,12 +111,9 @@ var muter = (function() {
     },
 
     clickSwitchButton: function(event) {
-      muterSkin.ui.updateFromWeb();
       if (event.button == 0) {
         // Left button click
-        if (event.currentTarget.id === 'muter-statusbar-button') {
-          muter.switchStatus();
-        }
+        muterSkin.ui.updateFromWeb();
       } else if (event.button == 2) {
         // Right click to show the popup menu
         let btn = event.currentTarget;
@@ -224,12 +221,6 @@ var muter = (function() {
         if (showInAddonBar) {
           this._showIntroPopup();
         }
-      }
-
-      // prevent showing two switch buttons
-      let showInStatusBar = Services.prefs.getBoolPref("extensions.firefox-muter.showInStatusBar");
-      if (showInAddonBar) {
-        Services.prefs.setBoolPref("extensions.firefox-muter.showInStatusBar", false);
       }
     },
 

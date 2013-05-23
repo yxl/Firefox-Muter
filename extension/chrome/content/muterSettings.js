@@ -43,16 +43,6 @@ var muterSettings = (function() {
   let muterSettings = {
 
     init: function(event) {
-      // For SeaMonkey
-      if (Services.appinfo.name === 'SeaMonkey') {
-        let showInAddonBar = document.getElementById("muter-settings-show-in-addon-bar");
-        showInAddonBar.hidden = true;
-        let switchButtonStype = document.getElementById("muter-settings-switch-button-style");
-        switchButtonStype.hidden = true;
-      } else {
-        let showInStatusBar = document.getElementById("muter-settings-show-in-status-bar");
-        showInStatusBar.hidden = true;
-      }
       this._updateDefaultIcons();
     },
 
@@ -64,11 +54,6 @@ var muterSettings = (function() {
       let preferences = document.getElementsByTagName("preference");
       for (let i = 0; i < preferences.length; i++) {
         preferences[i].value = preferences[i].defaultValue;
-      }
-      // For SeaMonkey
-      if (Services.appinfo.name === 'SeaMonkey') {
-        let showInStatusBarPref = document.getElementById("showInStatusBar");
-        showInStatusBarPref.value = true;
       }
       this._updateDefaultIcons();
     },

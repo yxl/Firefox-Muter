@@ -29,8 +29,6 @@ ondialogextra2="muterSettings.openFeedback();">
       name="extensions.firefox-muter.shortcut.modifiers" type="string" />
       <preference id="showInAddonBar"
       name="extensions.firefox-muter.showInAddonBar" type="bool" />
-      <preference id="showInStatusBar"
-      name="extensions.firefox-muter.showInStatusBar" type="bool" />
       <preference id="switchButtonType"
       name="extensions.firefox-muter.switchButtonType" type="string" />
       <preference id="saveStatus" name="extensions.firefox-muter.saveStatus"
@@ -57,13 +55,6 @@ ondialogextra2="muterSettings.openFeedback();">
                 label="&muter.settings.showInAddonBar;" />
                 <image class="muter-shadow-image"
                 src="chrome://muter/skin/show-in-addon-bar.png" />
-              </vbox>
-              <!-- Status bar setting. For SeaMonkey only -->
-              <vbox id="muter-settings-show-in-status-bar">
-                <checkbox preference="showInStatusBar"
-                label="&muter.settings.showInStatusBar;" />
-                <image class="muter-shadow-image"
-                src="chrome://muter/skin/show-in-status-bar.png" />
               </vbox>
             </hbox>
             <!-- Switch button style -->

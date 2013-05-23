@@ -11,7 +11,6 @@
 <!ENTITY muter.settings.shorcut.title "Shortcut Keys">
 <!ENTITY muter.settings.restore "Restore Defaults">
 <!ENTITY muter.settings.showInAddonBar "Show switch button in the addon bar.">
-<!ENTITY muter.settings.showInStatusBar "Show switch button in the status bar.">
 <!ENTITY muter.settings.restart.descr "It will take effect after &brandShortName; restarts.">
 <!ENTITY muter.settings.switchButtonStyle "Switch button style:">
 <!ENTITY muter.settings.switchButtonWithMenu "With menu">

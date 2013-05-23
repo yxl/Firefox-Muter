@@ -157,11 +157,6 @@ if (typeof(muterSkin) == "undefined") {
       if (btn) {
         btn.setAttribute('image', img);
       }
-
-      let btnStatusBar = document.getElementById("muter-statusbar-button");
-      if (btnStatusBar) {
-        btnStatusBar.setAttribute('src', img);
-      }
     },
 
     _onResetSkin: function(event) {
@@ -170,13 +165,6 @@ if (typeof(muterSkin) == "undefined") {
         let img = btn.getAttribute(muterHook.isMuteEnabled() ? 'image-enabled' : 'image-disabled');
         btn.setAttribute('image', img);
       }
-
-      let btnStatusBar = document.getElementById("muter-statusbar-button");
-      if (btnStatusBar) {
-        let img = btnStatusBar.getAttribute(muterHook.isMuteEnabled() ? 'image-enabled' : 'image-disabled');
-        btnStatusBar.setAttribute('src', img);
-      }
-
     },
 
     _onSelectSkin: function(event) {

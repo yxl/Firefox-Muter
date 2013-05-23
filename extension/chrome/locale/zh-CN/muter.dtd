@@ -11,7 +11,6 @@
 <!ENTITY muter.settings.shorcut.title "快捷键">
 <!ENTITY muter.settings.restore "还原默认值">
 <!ENTITY muter.settings.showInAddonBar "在附加组件栏显示切换按钮">
-<!ENTITY muter.settings.showInStatusBar "在状态栏显示切换按钮">
 <!ENTITY muter.settings.restart.descr "重新启动 &brandShortName; 之后生效。">
 <!ENTITY muter.settings.switchButtonStyle "切换按钮风格:">
 <!ENTITY muter.settings.switchButtonWithMenu "带菜单">

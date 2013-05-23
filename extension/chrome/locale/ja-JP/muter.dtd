@@ -11,7 +11,6 @@
 <!ENTITY muter.settings.shorcut.title "ショートカットキー">
 <!ENTITY muter.settings.restore "デフォルトリセット">
 <!ENTITY muter.settings.showInAddonBar "アドオンバーボタンを表示する。">
-<!ENTITY muter.settings.showInStatusBar "ステータスバーボタンを表示する。">
 <!ENTITY muter.settings.restart.descr "&brandShortName;再起動後、有効になります。">
 <!ENTITY muter.settings.switchButtonStyle "ボタンスタイル:">
 <!ENTITY muter.settings.switchButtonWithMenu "メニューを表示">
