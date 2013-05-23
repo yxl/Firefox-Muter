@@ -12,7 +12,7 @@ let muterHook = {
   _Initialize: null,  // win7 & linux
   _Dispose: null,  // win7 & linux
   _refCount: 0,
- 
+
   _lib:          null,
 
   open: function() {
@@ -21,23 +21,23 @@ let muterHook = {
     if (this._lib) {
       return;
     }
-    
+
     let libFile = '';
     let suffix = muterUtils.platform.is64 ? '-64' : '-32';
     if (muterUtils.platform.win) {
        libFile = isWin7OrLater ? 'MuterWin7' : 'MuterHook';
-       libFile += suffix + '.dll';       
+       libFile += suffix + '.dll';
     } else if (muterUtils.platform.linux) {
        libFile = 'libMuterPulseAudio';
        libFile += suffix + '.so';
     }
-    let uri = Services.io.newURI('resource://muter-binary/' + libFile, null, null);    
+    let uri = Services.io.newURI('resource://muter-binary/' + libFile, null, null);
     if (uri instanceof Components.interfaces.nsIFileURL) {
       this._lib = ctypes.open(uri.file.path);
     } else {
       return;
     }
-    
+
     let abiType = ctypes.default_abi;
     if (muterUtils.platform.win) {
       abiType = ctypes.winapi_abi;
@@ -48,8 +48,8 @@ let muterHook = {
       abiType,
       ctypes.void_t, // void
       ctypes.int32_t  //BOOL
-      );  
-      
+      );
+
     // BOOL IsMuteEnabled()
     this._IsMuteEnabled = this._lib.declare("IsMuteEnabled",
       abiType,
@@ -67,14 +67,14 @@ let muterHook = {
       abiType,
       ctypes.void_t
       );
-      
+
     this._Initialize();
   },
-  
+
   close: function() {
     if (--this._refCount > 0)
       return;
-    
+
     if (!this._lib) {
       return;
     }
@@ -82,10 +82,10 @@ let muterHook = {
     this._Dispose();
 
     this._lib.close();
-    
+
     this._lib = null;
   },
-   
+
   enableMute: function(isEnabled) {
     if (!this._lib) {
       return;
@@ -94,7 +94,7 @@ let muterHook = {
     this._EnableMute(enableParam);
     Services.obs.notifyObservers(null, "muter-status-changed", null);
   },
-  
+
   isMuteEnabled: function() {
     if (!this._lib) {
       return false;

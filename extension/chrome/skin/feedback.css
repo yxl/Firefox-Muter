@@ -1,7 +1,6 @@
 @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
 
 .wizard-header {
-  /*-moz-binding: url(chrome://muter/content/feedback.xul#headerBinding);*/
   -moz-binding: url(chrome://muter/content/navigationWizard.xml#navigationWizardHeader);
   padding: 10px 5px;
 }

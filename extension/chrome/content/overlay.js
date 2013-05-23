@@ -87,7 +87,7 @@ var muter = (function() {
 
       window.removeEventListener("aftercustomization", muter._onAddonBarChanged, false);
       muter._muterObserver.unregister();
-      
+
       muterHook.close();
     },
 
@@ -137,21 +137,21 @@ var muter = (function() {
         menu.openPopup(btn, "after_start", -1, 0, true, false);
       }
         event.preventDefault();
-        event.stopPropagation();      
+        event.stopPropagation();
     },
 
     /** Open Settings dialog */
     openSettingsDialog: function(event) {
       event.stopPropagation();
 
-      // For the usage of window.showModalDialog, refer to 
+      // For the usage of window.showModalDialog, refer to
       // https://developer.mozilla.org/en/DOM/window.showModalDialog
       let url = 'chrome://muter/content/muterSettings.xul';
       window.showModalDialog(url);
     },
 
     openFeedback: function(event) {
-      // For the usage of window.openDialog, refer to 
+      // For the usage of window.openDialog, refer to
       // https://developer.mozilla.org/en/DOM/window.openDialog
       let url = 'chrome://muter/content/feedback.xul';
       let name = 'muterFeedback';
@@ -255,7 +255,7 @@ var muter = (function() {
         }
       } catch (e) {}
     },
-    
+
     useDefaultSkin: function() {
       let defaultDisabledIcon = Services.prefs.getCharPref('extensions.firefox-muter.disabledIcon.default');
       let defaultEnabledIcon = Services.prefs.getCharPref('extensions.firefox-muter.enabledIcon.default');
@@ -331,19 +331,19 @@ var muter = (function() {
 
       this._branch = Services.prefs.getBranch(PREF_BRANCH);
       if (this._branch) {
-        // nsIPrefBranch2 has been merged into nsIPrefBranch in Gecko 13. Once we drop support for old versions of Gecko, we should stop using nsIPrefBranch2. 
+        // nsIPrefBranch2 has been merged into nsIPrefBranch in Gecko 13. Once we drop support for old versions of Gecko, we should stop using nsIPrefBranch2.
         try {
           this._branch.QueryInterface(Components.interfaces.nsIPrefBranch2);
         } catch (ex) {
         }
         this._branch.addObserver("", this, false);
       }
-      
+
       // Listen for extension disable/uninstall
-      AddonManager.addAddonListener(this._addonListener);     
+      AddonManager.addAddonListener(this._addonListener);
     },
 
-    unregister: function() {     
+    unregister: function() {
       AddonManager.removeAddonListener(this._addonListener);
 
       Services.obs.removeObserver(this, "muter-status-changed");
@@ -365,7 +365,7 @@ var muter = (function() {
           muter.uninstall();
         }
       }
-    }    
+    }
   };
 
   window.addEventListener("load", muter.init, false);

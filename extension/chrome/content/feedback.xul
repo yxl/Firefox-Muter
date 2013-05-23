@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!-- This Source Code is subject to the terms of the Mozilla Public License
          - version 2.0 (the "License"). You can obtain a copy of the License at
          - http://mozilla.org/MPL/2.0/. -->
@@ -69,8 +69,7 @@ xmlns:html="http://www.w3.org/1999/xhtml" onload="muterFeedback.initWizard();">
   onpageadvanced="return muterFeedback.sendPage.send();">
     <vbox flex="1">
       <label control="data" value="&muter.feedback.reportData.label;" />
-      <textbox id="muter-feedback-report-data" readonly="true" multiline="true"
-      wrap="off" flex="1" />
+      <iframe id="muter-feedback-report-data" src="about:blank" flex="1"/>
     </vbox>
     <progressmeter id="muter-feedback-sendReportProgress"
     mode="undetermined" />

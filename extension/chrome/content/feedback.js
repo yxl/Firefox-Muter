@@ -3,7 +3,7 @@
  * version 2.0 (the "License"). You can obtain a copy of the License at
  * http://mozilla.org/MPL/2.0/.
  *
- * The orginal codes of  feedback.js and feedback.xul are from the project 
+ * The orginal codes of  feedback.js and feedback.xul are from the project
  * of adblock plus(https://adblockplus.org/). If you have installed adblock
  * plus extension on firefox. View related codes with the following URL:
  * chrome://adblockplus/content/ui/sendReport.js.
@@ -14,50 +14,81 @@ var muterFeedback = (function() {
   Components.utils.import("resource://muter/muterUtils.jsm", jsm);
   Components.utils.import("resource://gre/modules/Services.jsm", jsm);
   Components.utils.import("resource://gre/modules/AddonManager.jsm", jsm);
+  Components.utils.import("resource://gre/modules/NetUtil.jsm", jsm);
   let {
-    muterUtils, Services, AddonManager
+    muterUtils, Services, AddonManager, NetUtil
   } = jsm;
-    
+
   let prefs = Services.prefs;
 
   //
   // Report data template, more data will be added during data collection
   //
-  let reportData =
-  <report>
-                <comment />
-                <email />
-                <url />
-    <muter version="9.1" locale={muterUtils.getLocaleString()}/>
-    <application name={Services.appinfo.name} vendor={Services.appinfo.vendor} version={Services.appinfo.version} />
-    <platform name={muterUtils.platform.name} version={muterUtils.platform.version} is64={muterUtils.platform.is64}/>
-    <prefs>
-                    <pref key="extensions.firefox-muter.firstRun" value={prefs.getBoolPref("extensions.firefox-muter.firstRun")} />
-                    <pref key="extensions.firefox-muter.showInAddonBar" value={prefs.getBoolPref("extensions.firefox-muter.showInAddonBar")} />
-                    <pref key="extensions.firefox-muter.showInStatusBar" value={prefs.getBoolPref("extensions.firefox-muter.showInStatusBar")} />
-                    <pref key="extensions.firefox-muter.switchButtonType" value={prefs.getCharPref("extensions.firefox-muter.switchButtonType")} />
-                    <pref key="extensions.firefox-muter.saveStatus" value={prefs.getBoolPref("extensions.firefox-muter.saveStatus")} />
-                    <pref key="extensions.firefox-muter.muteStatus" value={prefs.getBoolPref("extensions.firefox-muter.muteStatus")} />
-                    <pref key="dom.ipc.plugins.enabled" value={prefs.getBoolPref("dom.ipc.plugins.enabled")} />
-                </prefs>
-    <addons />
-  </report>;
-  
-  
+  let reportData = {
+    type: 'other',
+    comment: '',
+    email: '',
+    url: '',
+    muter: {
+        version: '1.0.0',
+        locale: muterUtils.getLocaleString()
+    },
+    application: {
+        name: Services.appinfo.name,
+        vendor: Services.appinfo.vendor,
+        version: Services.appinfo.version
+    },
+    platform: {
+        name: muterUtils.platform.name,
+        version: muterUtils.platform.version,
+        is64: muterUtils.platform.is64
+    },
+    prefs: {
+        'extensions.firefox-muter.firstRun': prefs.getBoolPref('extensions.firefox-muter.firstRun'),
+        'extensions.firefox-muter.showInAddonBar': prefs.getBoolPref('extensions.firefox-muter.showInAddonBar'),
+        'extensions.firefox-muter.switchButtonType': prefs.getCharPref('extensions.firefox-muter.switchButtonType'),
+        'extensions.firefox-muter.saveStatus': prefs.getBoolPref('extensions.firefox-muter.saveStatus'),
+        'extensions.firefox-muter.muteStatus': prefs.getBoolPref('extensions.firefox-muter.muteStatus')
+    },
+    addons: {
+    }
+  };
+
   // Get the extension's version
   AddonManager.getAddonByID("muter@yxl.name", function(addon) {
-    reportData.muter.@version = addon.version;
-  }); 
+    reportData.muter.version = addon.version;
+  });
+
+  // Get report templates
+
+  let reportTemplate = 'BODY_DATA';
+  let reportPreviewTemplate = '"REPORT_DATA"';
+
+  NetUtil.asyncFetch('chrome://muter/content/reportTemplate.html', function(inputStream, status) {
+    if (!Components.isSuccessCode(status)) {
+      return;
+    }
+
+    reportTemplate = NetUtil.readInputStreamToString(inputStream, inputStream.available());
+  });
+
+  NetUtil.asyncFetch('chrome://muter/content/reportPreviewTemplate.html', function(inputStream, status) {
+    if (!Components.isSuccessCode(status)) {
+      return;
+    }
+
+    reportPreviewTemplate = NetUtil.readInputStreamToString(inputStream, inputStream.available());
+  });
 
   let muterFeedback = {
-   
+
     initWizard: function(event) {
         let windowUrl = "";
         if (window.arguments && window.arguments.length > 0) {
             windowUrl = window.arguments[0];
         }
         document.getElementById('muter-feedback-url').value = windowUrl;
-        
+
         addonsDataSource.collectData();
 
         // Change label of finish button to 'send'
@@ -69,7 +100,7 @@ var muterFeedback = (function() {
             }
         }
     },
-    
+
     setProgresBarActiveItem: function(id) {
       let progressBar = document.getElementById('progressBar');
       if (progressBar) {
@@ -89,7 +120,7 @@ var muterFeedback = (function() {
     typeSelectionUpdated: function() {
       let typeGroup = document.getElementById('muter-feedback-typeGroup');
       if (typeGroup && typeGroup.selectedItem) {
-        reportData.@type = typeGroup.selectedItem.value;
+        reportData.type = typeGroup.selectedItem.value;
       }
     }
 
@@ -98,7 +129,7 @@ var muterFeedback = (function() {
   muterFeedback.commentPage = {
     show: function(event) {
       muterFeedback.setProgresBarActiveItem('commentPageHeader');
-      
+
       this.updateExtensions();
       this.updateUrl();
       this.updateEmail();
@@ -113,7 +144,7 @@ var muterFeedback = (function() {
         warningItem.hidden = value.length < 500;
       }
     },
-    
+
     updateUrl: function() {
       let value = document.getElementById('muter-feedback-url').value;
       reportData.url = value;
@@ -132,16 +163,15 @@ var muterFeedback = (function() {
   };
 
   muterFeedback.sendPage = {
+
     show: function() {
         muterFeedback.setProgresBarActiveItem('sendPageHeader');
-  
         let dataField = document.getElementById('muter-feedback-report-data');
         if (dataField) {
-          let [selectionStart, selectionEnd] = [dataField.selectionStart, dataField.selectionEnd];
-          dataField.value = reportData.toXMLString();
-          dataField.setSelectionRange(selectionStart, selectionEnd);
+          dataField.contentDocument.open();
+          dataField.contentDocument.write(reportPreviewTemplate.replace('"REPORT_DATA"', JSON.stringify(reportData)));
+          dataField.contentDocument.close();
         }
-      
         let progress = document.getElementById('muter-feedback-sendReportProgress');
         if (progress) {
             progress.hidden = true;
@@ -152,8 +182,15 @@ var muterFeedback = (function() {
         }
         return true;
     },
-    
+
     send: function() {
+        let reportText = '';
+        let dataField = document.getElementById('muter-feedback-report-data');
+        if (dataField) {
+            reportText = reportTemplate.replace('BODY_DATA', dataField.contentDocument.body.innerHTML);
+        } else {
+            reportText = JSON.stringify(reportData);
+        }
         let progress = document.getElementById('muter-feedback-sendReportProgress');
         if (progress) {
             progress.hidden = false;
@@ -162,18 +199,18 @@ var muterFeedback = (function() {
         if (errorMsg) {
             errorMsg.hidden = true;
         }
-        
+
         let request = new XMLHttpRequest();
               let url = prefs.getCharPref("extensions.firefox-muter.feedbackUrl");
         request.open("POST", url);
-        request.setRequestHeader("Content-Type", "text/xml");
+        request.setRequestHeader("Content-Type", "text/html");
         request.addEventListener("load", muterFeedback.sendPage._reportSent, false);
         request.addEventListener("error", muterFeedback.sendPage._reportSent, false);
-        request.send(reportData.toXMLString());
-             
+        request.send(reportText);
+
         return false;
     },
-    
+
     _reportSent: function(event) {
         let request = event.target;
         let success = false;
@@ -183,12 +220,12 @@ var muterFeedback = (function() {
             success = (request.status == 200 || request.status == 0);
           }
         } catch (e) {}
-        
+
         // Close the wizard if the report is sent successfully.
         if (success) {
             window.close();
         }
-        
+
         let progress = document.getElementById('muter-feedback-sendReportProgress');
         if (progress) {
             progress.hidden = true;
@@ -197,7 +234,7 @@ var muterFeedback = (function() {
         if (errorMsg) {
             errorMsg.hidden = false;
         }
-        
+
         // Change label of finish button to 'retry'
         let wizard = document.getElementById('muter-feedback-wizard');
         if (wizard) {
@@ -208,20 +245,19 @@ var muterFeedback = (function() {
         }
     }
   };
-  
 
   let addonsDataSource =  {
-    _data: <addons />,
+    _data: {},
 
     collectData: function() {
       // Gecko 2.0, Firfox 4+
-      let me = this;
+      let self = this;
       AddonManager.getAddonsByTypes(["extension", "plugin"], function(items){
         for (let i = 0; i < items.length; i++){
           let item = items[i];
           if (!item.isActive)
             continue;
-          me._data.appendChild(<addon id={item.id} name={item.name} type={item.type} version={item.version}/>);
+          self._data[item.id] = {name: item.name, type: item.type, version: item.version};
         }
       });
     },
@@ -232,7 +268,7 @@ var muterFeedback = (function() {
       else
         delete reportData.addons;
     }
-  }; 
+  };
 
   return muterFeedback;
 })();
