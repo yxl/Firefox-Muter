@@ -322,11 +322,6 @@ var muter = (function() {
 
       this._branch = Services.prefs.getBranch(PREF_BRANCH);
       if (this._branch) {
-        // nsIPrefBranch2 has been merged into nsIPrefBranch in Gecko 13. Once we drop support for old versions of Gecko, we should stop using nsIPrefBranch2.
-        try {
-          this._branch.QueryInterface(Components.interfaces.nsIPrefBranch2);
-        } catch (ex) {
-        }
         this._branch.addObserver("", this, false);
       }
 
