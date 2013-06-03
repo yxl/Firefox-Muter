@@ -112,7 +112,11 @@ BOOL BuildProcesseTree(std::map<DWORD, DWORD> &map)
 	while(bContinue)
 	{
 		DWORD dwProcessId = procentry.th32ProcessID;
-		map.insert(std::make_pair(dwProcessId, procentry.th32ParentProcessID));
+		if (dwProcessId > 0)
+		{
+			map.insert(std::make_pair(dwProcessId, procentry.th32ParentProcessID));
+			_ASSERT(procentry.th32ProcessID != procentry.th32ParentProcessID);
+		}
 		bContinue = Process32Next( hSnapShot, &procentry );
 	}
 
@@ -120,19 +124,40 @@ BOOL BuildProcesseTree(std::map<DWORD, DWORD> &map)
 	return TRUE;
 }
 
-BOOL IsDescendantProcess(std::map<DWORD, DWORD> &map, DWORD processId) 
+BOOL IsDescendantProcess(std::map<DWORD, DWORD> &map, DWORD processId, int depth = 8) 
 {
 	static DWORD s_dwThisModuleProcessId = GetCurrentProcessId();
+	if (depth <= 1)
+	{
+		return FALSE;
+	}
 	if (s_dwThisModuleProcessId == processId)
 	{
 		return TRUE;
 	}
+	if (processId == 0)
+	{
+		return FALSE;
+	}
 	DWORD parent = 0;
 	auto iter = map.find(processId);
-	if (iter != map.end() && iter->second != 0 && IsDescendantProcess(map, iter->second))
+	if (iter != map.end() &&
+		iter->second != 0 &&
+		iter->second != processId)
 	{
-		iter->second = s_dwThisModuleProcessId;
-		return TRUE;
+		if (iter->second == s_dwThisModuleProcessId)
+		{
+			return TRUE;
+		}
+		DWORD parentID = iter->second;
+		// Set its parent to 0 to avoid reiterate the node 
+		iter->second = 0;
+		if (IsDescendantProcess(map, parentID, depth - 1))
+		{
+			iter->second = s_dwThisModuleProcessId;
+			return TRUE;
+		}
+		return FALSE;
 	} 
 	else 
 	{

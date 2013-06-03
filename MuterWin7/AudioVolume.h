@@ -53,7 +53,7 @@ private:
 	BOOL BuildProcesseTree(std::map<DWORD, DWORD> &map);
 
 	BOOL IsQzoneMusicProcess(DWORD processId);
-	BOOL IsDescendantProcess(std::map<DWORD, DWORD> &map,  DWORD processId);
+	BOOL IsDescendantProcess(std::map<DWORD, DWORD> &map,  DWORD processId, int depth = 8);
 
 	void InitAudioSessionControlList();
 	void DisposeAudioSessionControlList();
