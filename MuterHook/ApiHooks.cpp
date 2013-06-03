@@ -127,7 +127,7 @@ BOOL BuildProcesseTree(std::map<DWORD, DWORD> &map)
 BOOL IsDescendantProcess(std::map<DWORD, DWORD> &map, DWORD processId, int depth = 8) 
 {
 	static DWORD s_dwThisModuleProcessId = GetCurrentProcessId();
-	if (depth <= 1)
+	if (depth < 1)
 	{
 		return FALSE;
 	}

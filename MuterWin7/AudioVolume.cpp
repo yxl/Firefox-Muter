@@ -401,7 +401,7 @@ BOOL AudioVolume::IsQzoneMusicProcess(DWORD processId)
 
 BOOL AudioVolume::IsDescendantProcess(std::map<DWORD, DWORD> &map, DWORD processId, int depth /*= 8*/) 
 {
-	if (depth <= 1)
+	if (depth < 1)
 	{
 		return FALSE;
 	}
