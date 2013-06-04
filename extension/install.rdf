@@ -2,14 +2,14 @@
 <RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 <Description about="urn:mozilla:install-manifest">
 
-  <em:id>muter@mozillaonline.name</em:id>
-  <em:name>Muter</em:name>
+  <em:id>muter@mozillaonline.com</em:id>
+  <em:name>Firefox Muter</em:name>
   <em:type>2</em:type>
   <em:version>1.0.0</em:version>
-  <em:description>Let you mute the Firefox browser.</em:description>
+  <em:description>You can turn off all the sound from webpages by this add-on, such as audio, voices in the video,  background music, and so on.</em:description>
   <em:creator>Mozilla Online</em:creator>
   <em:homepageURL>http://www.firefox.com.cn/</em:homepageURL>
-  <em:iconURL>chrome://fxmuter/skin/icon.png</em:iconURL>
+  <em:iconURL>chrome://muter/skin/icon.png</em:iconURL>
   <em:unpack>true</em:unpack>
   <em:targetPlatform>WINNT</em:targetPlatform>
 
@@ -18,15 +18,17 @@
     <Description>
       <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
       <em:minVersion>4.0</em:minVersion>
-      <em:maxVersion>15.0a1</em:maxVersion>
+      <em:maxVersion>22.*</em:maxVersion>
     </Description>
   </em:targetApplication>
 
   <em:localized>
     <Description>
       <em:locale>zh-CN</em:locale>
-      <em:name>静音</em:name>
-      <em:description>浏览器静音功能</em:description>
+      <em:name>网页静音</em:name>
+      <em:description>让您方便的关闭网页中的声音，比如音频、视频中的声音、网页的背景音乐等。</em:description>
+      <em:creator>Mozilla Online</em:creator>
+      <em:homepageURL>http://www.firefox.com.cn/</em:homepageURL>
     </Description>
   </em:localized>
 </Description>

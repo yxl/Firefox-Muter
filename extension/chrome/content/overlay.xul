@@ -16,7 +16,6 @@
   <toolbarpalette id="BrowserToolbarPalette">
     <toolbarbutton id="muter-toolbar-palette-button"
                    type="button"
-                   class="toolbarbutton-1 chromeclass-toolbar-additional"
                    label="&muter-button.label;"
                    tooltiptext="&muter-button.tooltip;"
                    command='cmd_muterToggle'
