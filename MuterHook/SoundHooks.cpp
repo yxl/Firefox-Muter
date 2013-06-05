@@ -1,35 +1,147 @@
+#include "stdafx.h"
 #include "SoundHooks.h"
 #include "ApiHooks.h"
 #include "DllEntry.h"
 #include "HookedDsound.h"
-#include "SDKTrace.h"
 
-MMRESULT (WINAPI *waveOutWrite_original)(HWAVEOUT hwo, LPWAVEHDR pwh, UINT cbwh) = NULL;
+// Map saving the original wave volume
+std::map<HWAVEOUT, DWORD> s_waveMap;
+CCriticalSection s_csWaveMap;
+
+void UpdateWaveVolume(HWAVEOUT hwo);
+DWORD GetTargetWaveVolume(HWAVEOUT hwo);
+
+MMRESULT (WINAPI *waveOutWrite_original)(HWAVEOUT hwo, LPWAVEHDR pwh, UINT cbwh) = waveOutWrite;
 
 MMRESULT WINAPI waveOutWrite_hook(HWAVEOUT hwo, LPWAVEHDR pwh, UINT cbwh) 
 {
 	TRACE("[MuterHook] waveOutWrite_hook\n");
 
-	if (IsMuteEnabled())
-	{ 
-		memset(pwh->lpData, 0 , pwh->dwBufferLength);
-	}
+	UpdateWaveVolume(hwo);
 
 	return waveOutWrite_original(hwo, pwh, cbwh);
 }
 
-MMRESULT (WINAPI *midiStreamOut_original)(HMIDISTRM hms, LPMIDIHDR pmh, UINT cbmh) = NULL;
+MMRESULT (WINAPI *waveOutOpen_original)(LPHWAVEOUT phwo,
+							UINT uDeviceID,
+							LPCWAVEFORMATEX pwfx,
+							DWORD_PTR dwCallback,
+							DWORD_PTR dwInstance,
+							DWORD fdwOpen) = waveOutOpen;
 
-MMRESULT WINAPI midiStreamOut_hook(HMIDISTRM hms, LPMIDIHDR pmh, UINT cbmh) 
+MMRESULT WINAPI waveOutOpen_hook(LPHWAVEOUT phwo,
+							UINT uDeviceID,
+							LPCWAVEFORMATEX pwfx,
+							DWORD_PTR dwCallback,
+							DWORD_PTR dwInstance,
+							DWORD fdwOpen)
 {
-	TRACE("[MuterHook] midiStreamOut_hook\n");
-
-	if (IsMuteEnabled()) 
+	TRACE("[MuterHook] waveOutOpen_hook\n");
+	MMRESULT ret = waveOutOpen_original(phwo, uDeviceID, pwfx, dwCallback, dwInstance, fdwOpen);
+	if (ret == MMSYSERR_NOERROR && phwo)
 	{
-		memset(pmh->lpData, 0 , pmh->dwBufferLength);
-	}	
+		DWORD volume = 0xFFFF;
+		if (waveOutGetVolume_original(*phwo, &volume) == MMSYSERR_NOERROR)
+		{
+			s_csWaveMap.Enter();
+			s_waveMap.insert(std::make_pair(*phwo, volume));
+			s_csWaveMap.Leave();
+			TRACE("[MuterHook] %u\n", volume);
+		}
+	}
+	return ret;
+}
 
-	return midiStreamOut_original(hms, pmh, cbmh);
+MMRESULT (WINAPI *waveOutClose_original)(HWAVEOUT hwo) = waveOutClose;
+
+MMRESULT WINAPI waveOutClose_hook(HWAVEOUT hwo)
+{
+	MMRESULT ret = waveOutClose_original(hwo);
+	if (ret == MMSYSERR_NOERROR || ret == MMSYSERR_INVALHANDLE)
+	{
+		s_csWaveMap.Enter();
+		s_waveMap.erase(hwo);
+		s_csWaveMap.Leave();
+	}
+	return ret;
+}
+
+MMRESULT (WINAPI *waveOutGetVolume_original)(HWAVEOUT hwo, LPDWORD pdwVolume) = waveOutGetVolume;
+
+MMRESULT WINAPI waveOutGetVolume_hook(HWAVEOUT hwo, LPDWORD pdwVolume)
+{
+	MMRESULT ret = waveOutGetVolume_original(hwo, pdwVolume);
+	if (ret == MMSYSERR_NOERROR && pdwVolume)
+	{
+		s_csWaveMap.Enter();
+		auto iter = s_waveMap.find(hwo);
+		if (iter == s_waveMap.end())
+		{
+			s_waveMap.insert(std::make_pair(hwo, *pdwVolume));
+		}
+		else
+		{
+			 *pdwVolume = iter->second;
+		}
+		s_csWaveMap.Leave();
+	}
+	return ret;
+}
+
+MMRESULT (WINAPI *waveOutSetVolume_original)(HWAVEOUT hwo, DWORD dwVolume) = waveOutSetVolume;
+
+MMRESULT WINAPI waveOutSetVolume_hook(HWAVEOUT hwo, DWORD dwVolume)
+{
+	s_csWaveMap.Enter();
+	auto iter = s_waveMap.find(hwo);
+	if (iter == s_waveMap.end())
+	{
+		s_waveMap.insert(std::make_pair(hwo, dwVolume));
+	}
+	else
+	{
+		 iter->second = dwVolume;
+	}
+	s_csWaveMap.Leave();
+	return waveOutSetVolume_original(hwo, GetTargetWaveVolume(hwo));
+}
+
+DWORD GetTargetWaveVolume(HWAVEOUT hwo)
+{ 
+	if (IsMuteEnabled())
+	{
+		return 0x0000;
+	}
+	DWORD volume = 0xFFFF;
+	s_csWaveMap.Enter();
+	auto iter = s_waveMap.find(hwo);
+	if (iter == s_waveMap.end())
+	{
+		s_csWaveMap.Leave();
+		if (waveOutGetVolume_original(hwo, &volume) == MMSYSERR_NOERROR)
+		{
+			s_csWaveMap.Enter();
+			s_waveMap.insert(std::make_pair(hwo, volume));
+			s_csWaveMap.Leave();
+		}
+	}
+	else
+	{
+		volume = iter->second;
+		s_csWaveMap.Leave();
+	}
+	return volume;
+}
+
+void UpdateWaveVolume(HWAVEOUT hwo)
+{
+	DWORD actualVolume = 0xFFFF;
+	DWORD targetVolume = GetTargetWaveVolume(hwo);
+	if (MMSYSERR_NOERROR == waveOutGetVolume_original(hwo, &actualVolume) &&
+		actualVolume != targetVolume)
+	{
+		waveOutSetVolume_original(hwo, targetVolume);
+	}
 }
 
 HRESULT (WINAPI* DirectSoundCreate_original)(LPCGUID pcGuidDevice, 

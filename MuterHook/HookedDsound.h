@@ -1,6 +1,14 @@
 #pragma once
-#include "external\dsound.h"
+
 #include "ApiHooks.h"
+
+#define MY_DEFINE_GUID(name, l, w1, w2, b1, b2, b3, b4, b5, b6, b7, b8) \
+        EXTERN_C const GUID DECLSPEC_SELECTANY name \
+                = { l, w1, w2, { b1, b2,  b3,  b4,  b5,  b6,  b7,  b8 } }
+
+MY_DEFINE_GUID(IID_IDirectSound, 0x279AFA83, 0x4981, 0x11CE, 0xA5, 0x21, 0x00, 0x20, 0xAF, 0x0B, 0xE5, 0x60);
+
+MY_DEFINE_GUID(IID_IDirectSound8, 0xC50A7E93, 0xF395, 0x4834, 0x9E, 0xF6, 0x7F, 0xA9, 0x9D, 0xE5, 0x09, 0x66);
 
 /**
 * The original code comes from  Chrome Toolbox project(http://code.google.com/p/chrome-toolbox/)
@@ -35,7 +43,11 @@ class HookedDirectSoundBuffer : public IDirectSoundBuffer {
 		return directsound_buffer_->GetFormat(pwfxFormat, dwSizeAllocated, pdwSizeWritten);
 	}
 	STDMETHOD(GetVolume)            (THIS_ __out LPLONG plVolume) {
-		return mVolume;
+		HRESULT hr = directsound_buffer_->GetVolume(plVolume);
+		if (hr == S_OK && plVolume) {
+			*plVolume = mVolume;
+		}
+		return hr;
 	}
 	STDMETHOD(GetPan)               (THIS_ __out LPLONG plPan) {
 		return directsound_buffer_->GetPan(plPan);

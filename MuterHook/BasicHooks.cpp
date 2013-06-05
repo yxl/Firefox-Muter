@@ -1,7 +1,7 @@
+#include "stdafx.h"
 #include "BasicHooks.h"
 #include "ApiHooks.h"
 #include "DllEntry.h"
-#include "SDKTrace.h"
 
 LPCWSTR IGNORE_PLUGIN_LIST_WIDE[] = 
 {

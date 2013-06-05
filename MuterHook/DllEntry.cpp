@@ -1,9 +1,7 @@
+#include "stdafx.h"
 #include "DllEntry.h"
 #include "ApiHooks.h"
-#include "SDKTrace.h"
 #include "QQMusicHook.h"
-
-#include <process.h>
 
 #ifdef __cplusplus
 extern "C"

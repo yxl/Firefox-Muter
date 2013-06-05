@@ -1,7 +1,5 @@
 #pragma  once
 
-#include <Windows.h>
-
 // CreateProcess
 
 extern BOOL (WINAPI *CreateProcessA_original)(LPCSTR lpApplicationName, 

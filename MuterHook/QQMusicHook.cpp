@@ -1,11 +1,4 @@
-#include <Windows.h>
-
-// GetModuleFileNameEx
-#include <Psapi.h>
-#pragma comment(lib, "Psapi.lib")
-
-#include <tchar.h>
-
+#include "stdafx.h"
 #include "QQMusicHook.h"
 #include "ApiHooks.h"
 

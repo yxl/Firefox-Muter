@@ -1,25 +1,9 @@
-#include <windows.h>
-#include <tlhelp32.h>
-#include <map>
-#include "external\MinHook.h"
-
-#if defined(_DEBUG)
-	#define MIN_HOOK_LIB_SURFFIX "d.lib"
-#else
-	#define MIN_HOOK_LIB_SURFFIX ".lib"
-#endif
-#ifndef _M_X64
-#pragma comment(lib, "external\\lib\\libMinHook32" MIN_HOOK_LIB_SURFFIX)
-#else
-#pragma comment(lib, "external\\lib\\libMinHook64" MIN_HOOK_LIB_SURFFIX)
-#endif
-
+#include "stdafx.h"
 #include "ApiHooks.h"
 #include "DllEntry.h"
 #include "BasicHooks.h"
 #include "SoundHooks.h"
 #include "ComHooks.h"
-#include "SDKTrace.h"
 
 struct FunctionInfo
 {
@@ -40,7 +24,10 @@ FunctionInfo s_Functions[] =
 	DEFINE_FUNCTION_INFO("ole32.dll", CoCreateInstance),
 
 	DEFINE_FUNCTION_INFO("winmm.dll", waveOutWrite),
-	DEFINE_FUNCTION_INFO("winmm.dll", midiStreamOut),
+	DEFINE_FUNCTION_INFO("winmm.dll", waveOutOpen),
+	DEFINE_FUNCTION_INFO("winmm.dll", waveOutClose),
+	DEFINE_FUNCTION_INFO("winmm.dll", waveOutGetVolume),
+	DEFINE_FUNCTION_INFO("winmm.dll", waveOutSetVolume),
 	DEFINE_FUNCTION_INFO("dsound.dll", DirectSoundCreate),
 	DEFINE_FUNCTION_INFO("dsound.dll", DirectSoundCreate8),
 };

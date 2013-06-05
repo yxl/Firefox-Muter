@@ -11,7 +11,6 @@
 // Windows Header Files:
 #include <windows.h>
 
-#include <windows.h>
 #include <atlbase.h>
 #include <atlsync.h>
 #include <atlcoll.h>

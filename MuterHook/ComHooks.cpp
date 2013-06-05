@@ -1,6 +1,6 @@
+#include "stdafx.h"
 #include "ComHooks.h"
 #include "ApiHooks.h"
-#include "SDKTrace.h"
 #include "QQMusicHook.h"
 #include "DllEntry.h"
 

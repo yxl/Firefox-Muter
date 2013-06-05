@@ -1,14 +1,34 @@
 #pragma once
-#define INITGUID
-#include "external\dsound.h"
 
 extern MMRESULT (WINAPI *waveOutWrite_original)(HWAVEOUT hwo, LPWAVEHDR pwh, UINT cbwh);
 
 MMRESULT WINAPI waveOutWrite_hook(HWAVEOUT hwo, LPWAVEHDR pwh, UINT cbwh);
 
-extern MMRESULT (WINAPI *midiStreamOut_original)(HMIDISTRM hms, LPMIDIHDR pmh, UINT cbmh);
+extern MMRESULT (WINAPI *waveOutOpen_original)(LPHWAVEOUT phwo,
+							UINT uDeviceID,
+							LPCWAVEFORMATEX pwfx,
+							DWORD_PTR dwCallback,
+							DWORD_PTR dwInstance,
+							DWORD fdwOpen);
 
-MMRESULT WINAPI midiStreamOut_hook(HMIDISTRM hms, LPMIDIHDR pmh, UINT cbmh);
+MMRESULT WINAPI waveOutOpen_hook(LPHWAVEOUT phwo,
+							UINT uDeviceID,
+							LPCWAVEFORMATEX pwfx,
+							DWORD_PTR dwCallback,
+							DWORD_PTR dwInstance,
+							DWORD fdwOpen);
+
+extern MMRESULT (WINAPI *waveOutClose_original)(HWAVEOUT hwo);
+
+MMRESULT WINAPI waveOutClose_hook(HWAVEOUT hwo);
+
+extern MMRESULT (WINAPI *waveOutGetVolume_original)(HWAVEOUT hwo, LPDWORD pdwVolume);
+
+MMRESULT WINAPI waveOutGetVolume_hook(HWAVEOUT hwo, LPDWORD pdwVolume);
+
+extern MMRESULT (WINAPI *waveOutSetVolume_original)(HWAVEOUT hwo, DWORD dwVolume);
+
+MMRESULT WINAPI waveOutSetVolume_hook(HWAVEOUT hwo, DWORD dwVolume);
 
 
 extern HRESULT (WINAPI* DirectSoundCreate_original)(LPCGUID pcGuidDevice, 
