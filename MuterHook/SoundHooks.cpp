@@ -130,7 +130,7 @@ DWORD GetTargetWaveVolume(HWAVEOUT hwo)
 		volume = iter->second;
 		s_csWaveMap.Leave();
 	}
-	return volume;
+	return volume * ::GetVolume() / MAX_VOLUME;
 }
 
 void UpdateWaveVolume(HWAVEOUT hwo)

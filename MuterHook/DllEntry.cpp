@@ -8,6 +8,9 @@ extern "C"
 {
 #endif				/* __cplusplus */
 
+	const int MIN_VOLUME = 0;
+	const int MAX_VOLUME = 100;
+
 	// Custom thread message ID
 	const UINT WM_USER_HOOK_PROCESSES = WM_USER + 200;
 
@@ -21,6 +24,7 @@ extern "C"
 	*/
 #pragma data_seg(".HKT")
 	BOOL g_bMuted = FALSE;
+	int g_iVolume = MAX_VOLUME;
 	// Thread ID
 	unsigned g_uThread = 0;
 #pragma data_seg()
@@ -42,6 +46,18 @@ extern "C"
 		return g_bMuted;
 	}
 
+	/*DLLIMPORT*/ int GetVolume()
+	{
+		return g_iVolume;
+	}
+
+	/*DLLIMPORT*/ void SetVolume(int iVolume)
+	{
+		g_iVolume = iVolume;
+		InstallMuterHooks();
+		PostThreadMessage(g_uThread, WM_USER_HOOK_PROCESSES, 0, 0);
+	}
+
 	unsigned __stdcall ThreadProc(void* lParam);
 
 	DLLIMPORT BOOL Initialize(void)
@@ -53,6 +69,7 @@ extern "C"
 		}
 
 		g_bMuted = FALSE;
+		g_iVolume = MAX_VOLUME;
 
 		// Start thread
 		g_hThread = reinterpret_cast<HANDLE>(_beginthreadex( NULL, 0, &ThreadProc, NULL, 0, &g_uThread));
@@ -72,6 +89,7 @@ extern "C"
 		}
 
 		g_bMuted = FALSE;
+		g_iVolume = MAX_VOLUME;
 
 		PostThreadMessage(g_uThread, WM_QUIT, 0, 0);
 		WaitForSingleObject(g_hThread, INFINITE);

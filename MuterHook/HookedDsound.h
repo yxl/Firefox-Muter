@@ -106,16 +106,22 @@ public:
 	}
 private:
 	void UpdateVolume() {
-		LONG actualVolume = 0;
-		directsound_buffer_->GetVolume(&actualVolume);
-		LONG targetVolume = GetTargetVolume();
-		if (actualVolume != targetVolume) {
-			directsound_buffer_->SetVolume(targetVolume);
+		LONG actualVolume = DSBVOLUME_MAX;
+		if (directsound_buffer_->GetVolume(&actualVolume) == S_OK)
+		{
+			LONG targetVolume = GetTargetVolume();
+			if (actualVolume != targetVolume) {
+				directsound_buffer_->SetVolume(targetVolume);
+			}
 		}
 	}
 
 	LONG GetTargetVolume() {
-		return IsMuteEnabled() ? DSBVOLUME_MIN : mVolume;
+		if (IsMuteEnabled())
+		{
+			return DSBVOLUME_MIN;
+		}
+		return DSBVOLUME_MIN +  (mVolume - DSBVOLUME_MIN) * ::GetVolume() / MAX_VOLUME;
 	}
 
 	IDirectSoundBuffer* directsound_buffer_;
