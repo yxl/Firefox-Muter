@@ -21,10 +21,10 @@ private:
 	CComQIPtr<IMMDeviceEnumerator>    m_spEnumerator;
 	CComQIPtr<IMMDevice>              m_spAudioEndpoint;
 	CComQIPtr<IAudioSessionManager2>  m_spAudioSessionManager2;
+
 	// Audio Session Control list
 	CAtlMap<CStringW, CComQIPtr<IAudioSessionControl> , CElementTraits<CStringW> > m_mapSpAudioSessionControl2;
 	CCriticalSection                  m_csEndpoint;
-	BOOL                              m_bMuted;
 
 	long                              m_cRef;
 
@@ -66,13 +66,8 @@ public:
 	HRESULT Initialize();
 	void    Dispose();
 
-	// Change mute status of all audio session
-	void SetMuteStatus(BOOL bMuted);
-
-	// Update mute status of all audio session
+	// Update mute status of all the audio sessions
 	void UpdateMuteStatus();
-
-	BOOL IsMuted() const { return m_bMuted; }
 
 	// ----------------------------------------------------------------------
 	//  Call this from the main thread when the default device changes

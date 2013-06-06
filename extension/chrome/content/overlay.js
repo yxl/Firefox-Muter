@@ -141,7 +141,6 @@ var muter = (function() {
     },
 
     onMouseOutSwitchButton: function(event) {
-      Components.utils.reportError('onMouseOutSwitchButton');
       let btn = document.getElementById("muter-toolbar-palette-button");
       let rect = btn.getBoundingClientRect();
       let isMouseInControls = event.clientY > rect.top &&

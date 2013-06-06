@@ -21,6 +21,11 @@ extern "C"
 	// Whether we enable muting
 	BOOL g_bEnableMute = FALSE;
 
+	int g_iVolume = MAX_VOLUME;
+
+	const int MIN_VOLUME = 0;
+	const int MAX_VOLUME = 100;
+
 	unsigned __stdcall ThreadProc(void* lParam);
 
 	MUTERWIN7_API BOOL Initialize(void)
@@ -61,12 +66,35 @@ extern "C"
 			return;
 		}
 		g_bEnableMute = bEnabled;
-		PostThreadMessage(g_uThread, MSG_USER_ENABLE_MUTE, (WPARAM )bEnabled, 0);
+		PostThreadMessage(g_uThread, MSG_USER_UPDATE_MUTE_STATUS, 0, 0);
 	}
 
 	MUTERWIN7_API BOOL IsMuteEnabled()
 	{
 		return g_bEnableMute;
+	}
+
+	/**
+	 * Max volume - 100
+	 * Min volume - 0
+	 */
+	MUTERWIN7_API int GetVolume()
+	{
+		return g_iVolume;
+	}
+
+	MUTERWIN7_API void SetVolume(int iVolume)
+	{
+		if (iVolume < MIN_VOLUME)
+		{
+			iVolume = MIN_VOLUME;
+		}
+		if (iVolume > MAX_VOLUME)
+		{
+			iVolume = MAX_VOLUME;
+		}
+		g_iVolume = iVolume;
+		PostThreadMessage(g_uThread, MSG_USER_UPDATE_MUTE_STATUS, 0, 0);
 	}
 
 	unsigned __stdcall ThreadProc(void* lParam)
@@ -85,7 +113,8 @@ extern "C"
 				throw "new AudioVolume() failed!";
 			}
 			g_pAudioVolume->Initialize();
-			g_pAudioVolume->SetMuteStatus(FALSE);
+			g_bEnableMute = FALSE;
+			g_pAudioVolume->UpdateMuteStatus();
 		}
 		catch (LPCSTR szError)
 		{
@@ -104,22 +133,17 @@ extern "C"
 					g_pAudioVolume->UpdateDevice();
 				}
 				break;
-			case MSG_USER_ENABLE_MUTE:
+			case MSG_USER_UPDATE_MUTE_STATUS:
 				{
-					BOOL bEnabled = (BOOL)msg.wParam;
-					g_pAudioVolume->SetMuteStatus(bEnabled);
-				}
-				break;
-			case MSG_USER_SESSION_CREATED:
-				{
-
+					g_pAudioVolume->UpdateMuteStatus();
 				}
 				break;
 			}
 			DispatchMessage(&msg);
 		}
 
-		g_pAudioVolume->SetMuteStatus(FALSE);
+		g_bEnableMute = FALSE;
+		g_pAudioVolume->UpdateMuteStatus();
 		g_pAudioVolume->Dispose();
 		g_pAudioVolume->Release();
 		CoUninitialize();

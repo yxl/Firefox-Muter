@@ -17,9 +17,7 @@ extern "C"
 
 	// Custom thread message ID
 #define MSG_USER_DEFAULT_DEVICE_CHANGE (WM_USER + 200)
-#define MSG_USER_SESSION_CREATED (WM_USER + 201)
-#define MSG_USER_ENABLE_MUTE (WM_USER + 202)
-
+#define MSG_USER_UPDATE_MUTE_STATUS (WM_USER + 201)
 
 	MUTERWIN7_API BOOL Initialize(void);
 
@@ -29,10 +27,24 @@ extern "C"
 
 	MUTERWIN7_API BOOL IsMuteEnabled();
 
+	/**
+	 * Max volume - 100
+	 * Min volume - 0
+	 */
+	MUTERWIN7_API int GetVolume();
+
+	MUTERWIN7_API void SetVolume(int iVolume);
+
+	extern const int MIN_VOLUME /*= 0*/;
+	extern const int MAX_VOLUME /*= 100*/;
+
 	extern unsigned g_uThread;
 	
 	extern DWORD g_dwThisModuleProcessId;
 
+	extern int g_iVolume;
+
+	extern BOOL g_bEnableMute;
 #ifdef __cplusplus
 }
 #endif				/* __cplusplus */

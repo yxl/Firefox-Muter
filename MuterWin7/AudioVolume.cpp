@@ -9,7 +9,6 @@
 AudioVolume::AudioVolume(void)
 	: m_bRegisteredForEndpointNotifications(FALSE)
 	, m_bRegisteredForAudioSessionNotifications(FALSE)
-	, m_bMuted(FALSE)
 	, m_cRef(1)
 {
 	m_mapSpAudioSessionControl2.InitHashTable(257);
@@ -80,7 +79,7 @@ HRESULT AudioVolume::AttachToDefaultEndpoint()
 	if (SUCCEEDED(hr))
 	{
 		// Get the session manager for this device.
-		hr = m_spAudioEndpoint->Activate(__uuidof(IAudioSessionManager2), CLSCTX_INPROC_SERVER, NULL, (void**)&m_spAudioSessionManager2);
+		hr = m_spAudioEndpoint->Activate(__uuidof(IAudioSessionManager2), CLSCTX_INPROC_SERVER, NULL, reinterpret_cast<void **>(&m_spAudioSessionManager2));
 		if (SUCCEEDED(hr))
 		{
 			hr = m_spAudioSessionManager2->RegisterSessionNotification(this);
@@ -134,7 +133,8 @@ void AudioVolume::UpdateAudioSessionControlMuteStatus()
 		CComQIPtr<ISimpleAudioVolume> spSimpleAudioVolume = spAudioSessionControl;
 		if (spSimpleAudioVolume != NULL)
 		{
-			spSimpleAudioVolume->SetMute(m_bMuted, &AudioVolumnCtx);
+			spSimpleAudioVolume->SetMute(g_bEnableMute, &AudioVolumnCtx);
+			spSimpleAudioVolume->SetMasterVolume(static_cast<float>(g_iVolume / 100.0f), &AudioVolumnCtx);
 		}
 	}
 }
@@ -306,11 +306,10 @@ HRESULT AudioVolume::OnSessionCreated(IAudioSessionControl *NewSession)
 			}
 
 			AddSession(map, spIAudioSessionControl);
-			UpdateAudioSessionControlMuteStatus();
 
 			if (g_uThread)
 			{
-				::PostThreadMessage(g_uThread, MSG_USER_SESSION_CREATED, 0, 0);
+				::PostThreadMessage(g_uThread, MSG_USER_UPDATE_MUTE_STATUS, 0, 0);
 			}
 		}
 		catch (LPCSTR szError)
@@ -323,7 +322,6 @@ HRESULT AudioVolume::OnSessionCreated(IAudioSessionControl *NewSession)
 	TRACE("AudioVolume::OnSessionCreated Leaves\n");
 	return S_OK;
 }
-
 
 //  IUnknown methods
 
@@ -443,21 +441,8 @@ BOOL AudioVolume::IsDescendantProcess(std::map<DWORD, DWORD> &map, DWORD process
 	}
 }
 
-// Change mute status of all audio session
-void AudioVolume::SetMuteStatus(BOOL bMuted)
-{
-	TRACE("[MuterWin7] AudioVolume::SetMuteStatus Enters\n");
 
-	m_csEndpoint.Enter();
-	m_bMuted = bMuted;
-	UpdateAudioSessionControlMuteStatus();
-	m_csEndpoint.Leave();
-
-	TRACE("[MuterWin7] AudioVolume::SetMuteStatus Leaves\n");
-}
-
-
-// Update mute status of all audio session
+// Update mute status of all the audio sessions
 void AudioVolume::UpdateMuteStatus()
 {
 	TRACE("[MuterWin7] AudioVolume::UpdateMuteStatus Enters\n");
