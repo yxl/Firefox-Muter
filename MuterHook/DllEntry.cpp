@@ -53,6 +53,14 @@ extern "C"
 
 	/*DLLIMPORT*/ void SetVolume(int iVolume)
 	{
+		if (iVolume < MIN_VOLUME)
+		{
+			iVolume = MIN_VOLUME;
+		}
+		if (iVolume > MAX_VOLUME)
+		{
+			iVolume = MAX_VOLUME;
+		}
 		g_iVolume = iVolume;
 		InstallMuterHooks();
 		PostThreadMessage(g_uThread, WM_USER_HOOK_PROCESSES, 0, 0);

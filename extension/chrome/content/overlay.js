@@ -48,7 +48,11 @@ var muter = (function() {
     _muterObserver: null,
 
     // Timer to hide the button popup
-    _autoHideTimeoutId: null,
+    _autoHideTimeoutId: 0,
+    
+    _isVolumeControlShown: false,
+    
+    _hideVolumeControlTimeoutId: 0,
 
     init: function(event) {
       window.removeEventListener("load", muter.init, false);
@@ -111,18 +115,85 @@ var muter = (function() {
     },
 
     clickSwitchButton: function(event) {
+      this._isVolumeControlShown = false;
       if (event.button == 0) {
         // Left button click
         muterSkin.ui.updateFromWeb();
+        this._showVolumeControl();
       } else if (event.button == 2) {
         // Right click to show the popup menu
         let btn = event.currentTarget;
         let menu = document.getElementById("muter-switch-button-popup-menu");
         if (btn && menu) {
-          menu.openPopup(btn, "after_start", -1, 0, true, false);
+          menu.openPopup(btn, "after_start", -1, 0, false, false);
         }
         event.preventDefault();
         event.stopPropagation();
+      }
+    },
+
+    onMouseOverSwitchButton: function(event) {
+      if (this._hideVolumeControlTimeoutId) {
+        clearTimeout(this._hideVolumeControlTimeoutId);
+        this._hideVolumeControlTimeoutId = 0;
+      }
+      this._showVolumeControl();
+    },
+
+    onMouseOutSwitchButton: function(event) {
+      Components.utils.reportError('onMouseOutSwitchButton');
+      let btn = document.getElementById("muter-toolbar-palette-button");
+      let rect = btn.getBoundingClientRect();
+      let isMouseInControls = event.clientY > rect.top &&
+                              event.clientY < rect.bottom &&
+                              event.clientX > rect.left &&
+                              event.clientX < rect.right;
+      
+      if (!isMouseInControls) {
+        let panel = document.getElementById("muter-popup-volume");
+        panel = btn.getBoundingClientRect();
+        isMouseInControls = event.clientY > rect.top &&
+                                event.clientY < rect.bottom &&
+                                event.clientX > rect.left &&
+                                event.clientX < rect.right;
+      }
+
+      if (this._hideVolumeControlTimeoutId) {
+        clearTimeout(this._hideVolumeControlTimeoutId);
+      }
+      if (!isMouseInControls) {
+        this._hideVolumeControlTimeoutId = setTimeout(this._hideVolumeControl.bind(this), 200);
+      }
+    },
+
+    onMouseOutVolumeControl: function(event) {
+      let panel = document.getElementById("muter-popup-volume");
+      let rect = panel.getBoundingClientRect();
+      let isMouseInControls = event.clientY > rect.top &&
+                              event.clientY < rect.bottom &&
+                              event.clientX > rect.left &&
+                              event.clientX < rect.right;
+
+      if (this._hideVolumeControlTimeoutId) {
+        clearTimeout(this._hideVolumeControlTimeoutId);
+      }
+      if (!isMouseInControls) {
+        this._hideVolumeControlTimeoutId = setTimeout(this._hideVolumeControl.bind(this), 100);
+      }
+    },
+    
+    onVolumeControlChange: function() {
+      let scale = document.getElementById("muter-volume-control");
+      let volume = parseInt(scale.value);
+      let isMuted = muterHook.isMuteEnabled();
+      if (isMuted && volume == 0) {
+        return;
+      }
+      if (muterHook.getVolume() != volume) {
+        muterHook.setVolume(volume);
+      }
+      if (isMuted) {
+        muterHook.enableMute(false);
       }
     },
 
@@ -164,6 +235,11 @@ var muter = (function() {
       if (btn) {
         let icon = btn.getAttribute(isMuted ? 'image-enabled' : 'image-disabled');
         btn.setAttribute("image", icon);
+      }
+      
+      let scale = document.getElementById("muter-volume-control");
+      if (scale) {
+        scale.value = isMuted ? 0 : muterHook.getVolume();
       }
     },
 
@@ -233,6 +309,37 @@ var muter = (function() {
           initpanel.openPopup(btn, "topcenter bottomright");
         }
       }, 3000);
+    },
+
+    /** popup volume control */
+    _showVolumeControl: function() {
+      if (this._isVolumeControlShown) {
+        return;
+      }
+      this._isVolumeControlShown = true;
+      let stack = document.getElementById("muter-volume-stack");
+      stack.setAttribute("fadeout", true);
+      let panel = document.getElementById("muter-popup-volume");
+      let btn = document.getElementById("muter-toolbar-palette-button");
+      if (panel && btn) {
+        panel.openPopup(btn, "before_start", 0, 0, true, false);
+      }
+      window.setTimeout(function() {
+        stack.removeAttribute("fadeout");
+      }, 100);
+    },
+    
+    _hideVolumeControl: function() {
+      if (!this._isVolumeControlShown) {
+        return;
+      }
+      this._isVolumeControlShown = false;
+      let panel = document.getElementById("muter-popup-volume");
+      if (panel) {
+        panel.hidePopup();
+      }
+      let stack = document.getElementById("muter-volume-stack");
+      stack.setAttribute("fadeout", true);
     },
 
     setupShortcut: function() {

@@ -7,10 +7,12 @@ Components.utils.import("resource://gre/modules/Services.jsm");
 let isWin7OrLater = muterUtils.platform.isWin7OrLater();
 
 let muterHook = {
-  _EnableMute:    null,
-  _IsMuteEnabled:  null,
-  _Initialize: null,  // win7 & linux
-  _Dispose: null,  // win7 & linux
+  _EnableMute: null,
+  _IsMuteEnabled: null,
+  _SetVolume: null,
+  _GetVolume: null,
+  _Initialize: null,
+  _Dispose: null,
   _refCount: 0,
 
   _lib:          null,
@@ -54,6 +56,19 @@ let muterHook = {
     this._IsMuteEnabled = this._lib.declare("IsMuteEnabled",
       abiType,
       ctypes.int32_t
+      );
+
+    // void SetVolume(int iVolume)
+    this._SetVolume = this._lib.declare("SetVolume",
+      abiType,
+      ctypes.void_t, // void
+      ctypes.int32_t  // int
+      );
+
+    // int GetVolume()
+    this._GetVolume = this._lib.declare("GetVolume",
+      abiType,
+      ctypes.int32_t // int
       );
 
     // BOOL Initialize()
@@ -100,5 +115,20 @@ let muterHook = {
       return false;
     }
     return this._IsMuteEnabled();
+  },
+
+  setVolume: function(volume) {
+    if (!this._lib) {
+      return;
+    }
+    this._SetVolume(volume);
+    Services.obs.notifyObservers(null, "muter-status-changed", null);
+  },
+
+  getVolume: function() {
+    if (!this._lib) {
+      return 100;
+    }
+    return this._GetVolume();
   }
 };

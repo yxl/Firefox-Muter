@@ -1,4 +1,5 @@
 @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+@namespace html url("http://www.w3.org/1999/xhtml");
 
 /* Addon bar switch button icon */
 toolbar[id="addon-bar"] #muter-toolbar-palette-button image[class="toolbarbutton-icon"]{
@@ -30,4 +31,58 @@ image.muter-shadow-image {
 .muter-settings-default-icon-vbox {
   margin-top: 10px;
   margin-bottom: 20px;
+}
+
+#muter-popup-volume {
+  border: 0;
+  background-color: transparent;
+  overflow: hidden;
+}
+
+.volumeStack {
+  width: 24px;
+  height: 70px;
+  background-color: rgba(35,31,32,.74);
+  border-radius: 2.5px;
+  overflow: hidden; /* crop it when sliding down, don't grow the control bar */
+  position: relative; /* Trick to work around negative margin interfering with dragging the thumb. */
+  padding-top: 0px;
+  margin-bottom: 0px;
+}
+
+.volumeStack:not([fadeout]) {
+  transition-property: opacity, margin-bottom;
+  transition-duration: 200ms, 200ms;
+}
+
+.volumeStack[fadeout] {
+  opacity: 0;
+  margin-bottom: -70px;
+}
+
+.volumeControl {
+  min-height: 64px;
+}
+
+/* .scale-thumb is an element inside the <scale> implementation. */
+.volumeControl .scale-thumb {
+  /* Override the default thumb appearance with a custom image. */
+  -moz-appearance: none;
+  background: url(chrome://global/skin/media/volumeThumb.png) no-repeat center;
+  border: none;
+  min-width: 20px;
+  min-height: 10px;
+}
+/* .scale-slider is an element inside the <scale> implementation. */
+.volumeControl .scale-slider {
+  /* Hide the default horizontal bar. */
+  -moz-appearance: none;
+  background: none;
+}
+
+.volumeBackgroundBar {
+  /* margin left/right: make bar 8px wide (control width = 28, minus 2 * 10 margin) */
+  margin: 3px 8px;
+  background-color: rgba(255,255,255,.75);
+  border-radius: 2.5px;
 }
