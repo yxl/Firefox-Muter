@@ -1,11 +1,11 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 <Description about="urn:mozilla:install-manifest">
 
   <em:id>muter@mozillaonline.com</em:id>
   <em:name>Firefox Muter</em:name>
   <em:type>2</em:type>
-  <em:version>1.0.0</em:version>
+  <em:version>1.0.1</em:version>
   <em:description>You can turn off all the sound from webpages by this add-on, such as audio, voices in the video,  background music, and so on.</em:description>
   <em:creator>Mozilla Online</em:creator>
   <em:homepageURL>http://www.firefox.com.cn/</em:homepageURL>
@@ -21,6 +21,9 @@
       <em:maxVersion>22.*</em:maxVersion>
     </Description>
   </em:targetApplication>
+
+  <em:updateURL>http://g-fox.cn/chinaedition/addons/muter/update.rdf</em:updateURL>
+  <em:updateKey>MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC95CWZXOO2NkRCHvi7v/SZjU01bBYnTFmoNlW9frwazmq/J2pHva8RwtgncY9WR99Gll3JBjMzCNwoajAZwgWd9CpjvPl2s6w5PE0ybRjSXa6cqVeZ83k+yUD4x66HgFoilhCHWNuEiZmdQ/cXbeiv+sl2ghAPg+PK0BQgnHdn9wIDAQAB</em:updateKey>
 
   <em:localized>
     <Description>
